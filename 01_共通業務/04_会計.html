@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>いなだ医院｜会計</title>
+<style>
+:root {
+  --blue: #1558a0; --blue-mid: #1e74c8; --blue-light: #dbeafe; --blue-xlight: #eff6ff;
+  --teal: #0d9488; --teal-light: #ccfbf1;
+  --amber: #d97706; --amber-light: #fef3c7;
+  --red: #dc2626; --red-light: #fee2e2;
+  --green: #16a34a; --green-light: #dcfce7;
+  --gray: #64748b; --gray-light: #f1f5f9; --border: #e2e8f0;
+  --text: #0f172a; --bg: #f0f4f8; --white: #ffffff;
+  --radius-sm: 6px; --radius: 12px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08); --shadow: 0 4px 12px rgba(0,0,0,.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif; font-size: 15px; line-height: 1.75; color: var(--text); background: var(--bg); }
+.header { background: linear-gradient(135deg, #0f3d6e 0%, #1558a0 60%, #1e74c8 100%); padding: 20px 20px 16px; text-align: center; position: relative; overflow: hidden; }
+.header::after { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4z'/%3E%3C/g%3E%3C/svg%3E"); pointer-events: none; }
+.header-inner { position: relative; z-index: 1; }
+.header-tag { display: inline-block; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 20px; letter-spacing: .08em; margin-bottom: 8px; }
+.header h1 { color: #fff; font-size: 19px; font-weight: 800; letter-spacing: .03em; margin-bottom: 3px; }
+.header .sub { color: rgba(255,255,255,.7); font-size: 11px; }
+.back-link { display: inline-flex; align-items: center; gap: 4px; color: rgba(255,255,255,.8); font-size: 12px; text-decoration: none; margin-bottom: 10px; }
+.tab-bar { display: flex; overflow-x: auto; background: var(--white); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 50; scrollbar-width: none; }
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab-btn { flex-shrink: 0; padding: 13px 16px; font-size: 13px; font-weight: 600; color: var(--gray); background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; transition: all .15s; margin-bottom: -2px; }
+.tab-btn:hover { color: var(--blue-mid); }
+.tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+.tab-pane { display: none; padding: 16px 16px 60px; max-width: 700px; margin: 0 auto; }
+.tab-pane.active { display: block; }
+.card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); margin-bottom: 14px; overflow: hidden; }
+.card-head { display: flex; align-items: center; gap: 10px; padding: 13px 16px; background: var(--blue-xlight); border-bottom: 1px solid var(--blue-light); }
+.card-head.teal { background: var(--teal-light); border-bottom-color: rgba(13,148,136,.2); }
+.card-head.amber { background: var(--amber-light); border-bottom-color: rgba(217,119,6,.2); }
+.card-head.red { background: var(--red-light); border-bottom-color: rgba(220,38,38,.2); }
+.card-icon { font-size: 18px; }
+.card-title { font-size: 14px; font-weight: 700; }
+.card-body { padding: 14px 16px; }
+.tl { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.tl-item { display: flex; gap: 10px; position: relative; padding-bottom: 10px; }
+.tl-item:not(:last-child)::before { content: ''; position: absolute; left: 13px; top: 26px; bottom: 0; width: 2px; background: var(--border); }
+.tl-num { width: 28px; height: 28px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; z-index: 1; }
+.tl-body { padding-top: 4px; flex: 1; font-size: 14px; }
+.note { display: flex; gap: 8px; border-radius: var(--radius-sm); padding: 10px 12px; margin: 8px 0; font-size: 13px; }
+.note.tip { background: var(--green-light); border-left: 3px solid var(--green); }
+.note.info { background: var(--blue-xlight); border-left: 3px solid var(--blue-mid); }
+.note.warn { background: var(--amber-light); border-left: 3px solid var(--amber); }
+.note.gray { background: var(--gray-light); border-left: 3px solid var(--gray); }
+.note-icon { flex-shrink: 0; font-size: 16px; }
+.proc { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+.proc-item { display: flex; align-items: flex-start; gap: 8px; background: var(--gray-light); border-radius: var(--radius-sm); padding: 8px 12px; }
+.proc-num { width: 22px; height: 22px; border-radius: 50%; background: var(--blue-mid); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.proc-body { font-size: 13px; flex: 1; }
+.sub-title { font-size: 13px; font-weight: 700; color: var(--blue); margin: 14px 0 6px; border-left: 3px solid var(--blue-mid); padding-left: 8px; }
+.sub-title:first-child { margin-top: 0; }
+.tbl-wrap { overflow-x: auto; margin: 8px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: var(--blue-xlight); color: var(--blue); font-weight: 700; padding: 8px 10px; text-align: left; border-bottom: 2px solid var(--blue-light); }
+td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+.chk { list-style: none; display: flex; flex-direction: column; gap: 5px; margin: 6px 0; }
+.chk li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; }
+.chk li::before { content: '□'; color: var(--blue-mid); font-weight: 700; flex-shrink: 0; line-height: 1.6; }
+.pending-banner { background: var(--amber-light); border: 2px dashed var(--amber); border-radius: var(--radius); padding: 20px; text-align: center; margin: 20px 0; }
+.pending-banner .icon { font-size: 36px; margin-bottom: 8px; }
+.pending-banner h3 { color: var(--amber); font-size: 1rem; margin-bottom: 6px; }
+.pending-banner p { font-size: 13px; color: #92400e; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="../index.html" class="back-link">← マニュアル一覧</a>
+    <div class="header-tag">共通業務 ④</div>
+    <h1>💴 会計</h1>
+    <div class="sub">ヒアリング準拠版　最終更新：2026年5月</div>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="sw('t1',this)">💴 会計フロー</button>
+  <button class="tab-btn" onclick="sw('t2',this)">🧾 レジ締め</button>
+  <button class="tab-btn" onclick="sw('t3',this)">📅 月次業務</button>
+</div>
+
+
+<!-- TAB 1: 会計フロー -->
+<div id="t1" class="tab-pane active">
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🔄</div><div class="card-title">会計の基本フロー</div></div>
+    <div class="card-body">
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body"><strong>診察終了</strong>：看護師がファイルをカゴに入れる</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body"><strong>会計処理</strong>：会計スタッフがファイルを受け取り処理する</div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body"><strong>お薬準備完了</strong>：薬局からお薬が回ってくる</div></li>
+        <li class="tl-item"><div class="tl-num">4</div><div class="tl-body"><strong>患者を呼び出す</strong>：お名前でお呼びする<br><span style="font-size:12px;color:var(--gray)">「○○様、お会計の準備ができました。受付カウンターまでお越しください」</span></div></li>
+        <li class="tl-item"><div class="tl-num">5</div><div class="tl-body"><strong>お会計</strong>：現金またはキャッシュレス決済</div></li>
+      </ul>
+      <div class="note gray"><span class="note-icon">📌</span><div>聞こえていない場合は、そばに近づいて直接お声がけする。</div></div>
+    </div>
+  </div>
+
+  <div class="pending-banner">
+    <div class="icon">🎙️</div>
+    <h3>追加内容 録音待ち</h3>
+    <p>会計業務の詳細手順（キャッシュレス・仮払い・返金等）は録音後に追記予定</p>
+  </div>
+
+</div>
+
+
+<!-- TAB 2: レジ締め -->
+<div id="t2" class="tab-pane">
+
+  <div class="card">
+    <div class="card-head amber"><div class="card-icon">⏰</div><div class="card-title">レジ締めの実施タイミング</div></div>
+    <div class="card-body">
+      <div class="note info"><span class="note-icon">⏱</span><div>閉院後、全患者退出後に行います。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🧾</div><div class="card-title">ステップ1：点検レシートの発行</div></div>
+    <div class="card-body">
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">レシート発行モードに切り替える</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">鍵を「点検」のところに回す</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">「レシート発行」で3原型を出す</span></li>
+        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body">点検レシートが出力される</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal"><div class="card-icon">🖥️</div><div class="card-title">ステップ2：パソコンとの照合</div></div>
+    <div class="card-body">
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">パソコンで「その他の開始」→「閉じる」→「OK」を押す</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">右下に<strong>本日の売上金額</strong>が表示される</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">表示金額と点検レシートの<strong>総計（トータル）を照合</strong>する</span></li>
+      </ul>
+      <div class="note tip"><span class="note-icon">✅</span><div>一致していれば締め完了。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head red"><div class="card-icon">⚠️</div><div class="card-title">ステップ3：差異があった場合</div></div>
+    <div class="card-body">
+      <ul class="chk">
+        <li>個別レシート（レジ内に保管）を全部並べて一枚一枚確認する</li>
+        <li>仮払い・未払い・保険返金なども含めて突き合わせる</li>
+        <li>それでも合わない場合は管理者に報告する</li>
+      </ul>
+      <div class="note warn"><span class="note-icon">📝</span><div>レジには現金だけでなく、仮払い・返金・未払い分も記録されている。単純な合計ではなく、各項目を確認すること。</div></div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- TAB 3: 月次業務 -->
+<div id="t3" class="tab-pane">
+  <div class="pending-banner">
+    <div class="icon">🎙️</div>
+    <h3>月次業務 録音待ち</h3>
+    <p>月次の会計集計・請求書対応等は録音後に追記予定</p>
+  </div>
+</div>
+
+
+<script>
+function sw(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
