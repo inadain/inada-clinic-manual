@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>いなだ医院 医療事務マニュアル</title>
+<style>
+:root {
+  --blue: #1558a0;
+  --blue-mid: #1e74c8;
+  --blue-light: #dbeafe;
+  --blue-xlight: #eff6ff;
+  --teal: #0d9488;
+  --teal-light: #ccfbf1;
+  --amber: #d97706;
+  --amber-light: #fef3c7;
+  --red: #dc2626;
+  --red-light: #fee2e2;
+  --green: #16a34a;
+  --green-light: #dcfce7;
+  --gray: #6b7280;
+  --gray-light: #f3f4f6;
+  --gray-mid: #e5e7eb;
+  --text: #111827;
+  --text-sub: #4b5563;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 8px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+  background: #f0f4f8;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.site-header {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 60%, #2196f3 100%);
+  color: #fff;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(21,88,160,.35);
+}
+.header-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px 20px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.header-logo {
+  width: 48px;
+  height: 48px;
+  background: rgba(255,255,255,.18);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,.3);
+}
+.header-text h1 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+  line-height: 1.3;
+}
+.header-text p {
+  font-size: .75rem;
+  opacity: .78;
+  margin-top: 2px;
+}
+.header-badge {
+  margin-left: auto;
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: .7rem;
+  white-space: nowrap;
+}
+
+/* ── Hero band ── */
+.hero-band {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%);
+  color: #fff;
+  padding: 28px 20px 32px;
+  text-align: center;
+}
+.hero-band h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.hero-band p {
+  font-size: .85rem;
+  opacity: .82;
+  line-height: 1.6;
+}
+.hero-stats {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 10px;
+  padding: 10px 20px;
+  text-align: center;
+}
+.hero-stat .n { font-size: 1.6rem; font-weight: 800; }
+.hero-stat .l { font-size: .7rem; opacity: .8; margin-top: 2px; }
+
+/* ── Main layout ── */
+.main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+
+/* ── Section heading ── */
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 28px 0 14px;
+}
+.sec-head-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.sec-head-icon.blue { background: var(--blue-light); }
+.sec-head-icon.teal { background: var(--teal-light); }
+.sec-head h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--blue);
+}
+.sec-head .sec-sub {
+  font-size: .75rem;
+  color: var(--text-sub);
+  margin-top: 1px;
+}
+
+/* ── Card grid ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.manual-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: box-shadow .2s, transform .2s;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  border: 1.5px solid transparent;
+}
+.manual-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  border-color: var(--blue-light);
+}
+.manual-card.done:hover { border-color: var(--green); }
+.manual-card.in-progress:hover { border-color: var(--amber); }
+.manual-card.pending { pointer-events: none; }
+
+.card-top {
+  padding: 16px 16px 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.card-icon.blue { background: var(--blue-light); }
+.card-icon.teal { background: var(--teal-light); }
+.card-icon.amber { background: var(--amber-light); }
+.card-icon.gray { background: var(--gray-light); }
+
+.card-info { flex: 1; min-width: 0; }
+.card-title {
+  font-size: .95rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.card-sub {
+  font-size: .73rem;
+  color: var(--text-sub);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.card-status-bar {
+  padding: 10px 16px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid var(--gray-mid);
+}
+
+.status-badge {
+  font-size: .72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 3px 10px;
+  flex-shrink: 0;
+}
+.status-badge.done {
+  background: var(--green-light);
+  color: var(--green);
+}
+.status-badge.in-progress {
+  background: var(--amber-light);
+  color: var(--amber);
+}
+.status-badge.pending {
+  background: var(--gray-light);
+  color: var(--gray);
+}
+
+.card-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  justify-content: flex-end;
+}
+.tab-chip {
+  font-size: .65rem;
+  background: var(--blue-xlight);
+  color: var(--blue-mid);
+  border-radius: 999px;
+  padding: 2px 7px;
+}
+.tab-chip.gray {
+  background: var(--gray-light);
+  color: var(--gray);
+}
+
+/* ── Progress bar ── */
+.progress-wrap {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin-bottom: 4px;
+}
+.progress-wrap h3 {
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.prog-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.prog-label {
+  font-size: .8rem;
+  width: 100px;
+  flex-shrink: 0;
+  color: var(--text);
+}
+.prog-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--gray-mid);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.prog-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--blue-mid);
+  transition: width .6s ease;
+}
+.prog-bar.green { background: var(--green); }
+.prog-bar.amber { background: var(--amber); }
+.prog-pct {
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  width: 34px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── Info box ── */
+.info-box {
+  background: var(--blue-xlight);
+  border: 1px solid var(--blue-light);
+  border-left: 4px solid var(--blue-mid);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-size: .82rem;
+  color: var(--blue);
+  line-height: 1.7;
+  margin-top: 14px;
+}
+.info-box strong { font-weight: 700; }
+
+/* ── Staff section ── */
+.staff-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+.staff-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border: 1.5px solid var(--gray-mid);
+}
+.staff-card.done { border-color: var(--green); background: #f0fdf4; }
+.staff-card.in-progress { border-color: var(--amber); background: #fffbeb; }
+.staff-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  background: var(--gray-light);
+}
+.staff-avatar.done { background: var(--green-light); }
+.staff-avatar.in-progress { background: var(--amber-light); }
+.staff-name {
+  font-size: .9rem;
+  font-weight: 700;
+}
+.staff-role {
+  font-size: .72rem;
+  color: var(--text-sub);
+  line-height: 1.4;
+}
+.staff-tasks {
+  width: 100%;
+}
+.task-line {
+  font-size: .7rem;
+  color: var(--text-sub);
+  padding: 2px 0;
+  border-top: 1px solid var(--gray-mid);
+  text-align: left;
+}
+.task-line:first-child { border-top: none; }
+.task-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.task-dot.done { background: var(--green); }
+.task-dot.pending { background: var(--gray); }
+
+/* ── Footer ── */
+.site-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: .75rem;
+  color: var(--text-sub);
+  border-top: 1px solid var(--gray-mid);
+  background: #fff;
+}
+
+/* ── Notice bar ── */
+.notice-bar {
+  background: var(--amber-light);
+  border-bottom: 2px solid var(--amber);
+  padding: 10px 20px;
+  font-size: .8rem;
+  color: #92400e;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .header-badge { display: none; }
+  .hero-band h2 { font-size: 1.2rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .staff-grid { grid-template-columns: repeat(3, 1fr); }
+  .prog-label { width: 70px; font-size: .72rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- notice -->
+<div class="notice-bar">
+  ⚠️ 院内使用限定 — このマニュアルは「いなだ医院」スタッフ専用です
+</div>
+
+<!-- header -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-logo">🏥</div>
+    <div class="header-text">
+      <h1>いなだ医院 医療事務マニュアル</h1>
+      <p>スタッフ向け業務手順書ポータル</p>
+    </div>
+    <div class="header-badge">内部資料</div>
+  </div>
+</header>
+
+<!-- hero -->
+<div class="hero-band">
+  <h2>業務マニュアル 一覧</h2>
+  <p>ヒアリング録音 → 文字起こし → AI整理 で作成<br>随時更新中 · 不明点は担当者へ確認を</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="n">3</div>
+      <div class="l">公開中</div>
+    </div>
+    <div class="hero-stat">
+      <div class="n">5</div>
+      <div class="l">担当者</div>
+    </div>
+    <div class="hero-stat">
+      <div class="n">12</div>
+      <div class="l">業務カテゴリ</div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+
+  <!-- 進捗サマリー -->
+  <div class="progress-wrap">
+    <h3>作成進捗</h3>
+    <div class="prog-row">
+      <div class="prog-label">共通業務</div>
+      <div class="prog-bar-wrap"><div class="prog-bar green" style="width:60%"></div></div>
+      <div class="prog-pct">60%</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label">小幡 担当業務</div>
+      <div class="prog-bar-wrap"><div class="prog-bar amber" style="width:70%"></div></div>
+      <div class="prog-pct">70%</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label">吉田 担当業務</div>
+      <div class="prog-bar-wrap"><div class="prog-bar" style="width:0%"></div></div>
+      <div class="prog-pct">0%</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label">守屋 担当業務</div>
+      <div class="prog-bar-wrap"><div class="prog-bar" style="width:0%"></div></div>
+      <div class="prog-pct">0%</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label">松浦 担当業務</div>
+      <div class="prog-bar-wrap"><div class="prog-bar" style="width:0%"></div></div>
+      <div class="prog-pct">0%</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label">綾目 担当業務</div>
+      <div class="prog-bar-wrap"><div class="prog-bar" style="width:0%"></div></div>
+      <div class="prog-pct">0%</div>
+    </div>
+  </div>
+
+  <!-- 共通業務 -->
+  <div class="sec-head">
+    <div class="sec-head-icon blue">🏥</div>
+    <div>
+      <h2>共通業務マニュアル</h2>
+      <p class="sec-sub">全スタッフ対象 · 日常業務の基本手順</p>
+    </div>
+  </div>
+
+  <div class="card-grid">
+
+    <a class="manual-card done" href="01_共通業務/01_受付業務マニュアル_ヒアリング準拠①.html">
+      <div class="card-top">
+        <div class="card-icon blue">🏷️</div>
+        <div class="card-info">
+          <div class="card-title">受付業務マニュアル</div>
+          <div class="card-sub">保険証確認・会計・労災・発熱外来など受付全般の手順</div>
+        </div>
+      </div>
+      <div class="card-status-bar">
+        <span class="status-badge done">✅ 公開中</span>
+        <div class="card-tabs">
+          <span class="tab-chip">基本受付</span>
+          <span class="tab-chip">保険・資格</span>
+          <span class="tab-chip">公費</span>
+          <span class="tab-chip">発熱外来</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="manual-card in-progress" href="01_共通業務/01_クリニック業務マニュアル_ヒアリング準拠①.html">
+      <div class="card-top">
+        <div class="card-icon teal">📋</div>
+        <div class="card-info">
+          <div class="card-title">クリニック業務マニュアル</div>
+          <div class="card-sub">日次業務・開院準備・レジ・月末月初業務など</div>
+        </div>
+      </div>
+      <div class="card-status-bar">
+        <span class="status-badge in-progress">🔄 整備中</span>
+        <div class="card-tabs">
+          <span class="tab-chip">日次業務</span>
+          <span class="tab-chip gray">追加予定</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- 担当者別業務 -->
+  <div class="sec-head">
+    <div class="sec-head-icon teal">👥</div>
+    <div>
+      <h2>担当者別 業務マニュアル</h2>
+      <p class="sec-sub">各スタッフが担当する専門業務の手順書</p>
+    </div>
+  </div>
+
+  <div class="card-grid">
+
+    <a class="manual-card in-progress" href="05_小幡/01_小幡_業務マニュアル.html">
+      <div class="card-top">
+        <div class="card-icon teal">📝</div>
+        <div class="card-info">
+          <div class="card-title">小幡 担当業務</div>
+          <div class="card-sub">主治医意見書・生活保護・メディケア・レセプト詳記など</div>
+        </div>
+      </div>
+      <div class="card-status-bar">
+        <span class="status-badge in-progress">🔄 整備中</span>
+        <div class="card-tabs">
+          <span class="tab-chip">主治医意見書</span>
+          <span class="tab-chip">生活保護</span>
+          <span class="tab-chip">レセプト</span>
+        </div>
+      </div>
+    </a>
+
+    <div class="manual-card pending">
+      <div class="card-top">
+        <div class="card-icon gray">👤</div>
+        <div class="card-info">
+          <div class="card-title">吉田 担当業務</div>
+          <div class="card-sub">ヒアリング録音待ち</div>
+        </div>
+      </div>
+      <div class="card-status-bar">
+        <span class="status-badge pending">⬜ 準備中</span>
+        <div class="card-tabs">
+          <span class="tab-chip gray">録音待ち</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="manual-card pending">
+      <div class="card-top">
+        <div class="card-icon gray">👤</div>
+        <div class="card-info">
+          <div class="card-title">守屋 担当業務</div>
+          <div class="card-sub">ヒアリング録音待ち</div>
+        </div>
+      </div>
+      <div class="card-status-bar">
+        <span class="status-badge pending">⬜ 準備中</span>
+        <div class="card-tabs">
+          <span class="tab-chip gray">録音待ち</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="manual-card pending">
+      <div class="card-top">
+        <div class="card-icon gray">👤</div>
+        <div class="card-info">
+          <div class="card-title">松浦 担当業務</div>
+          <div class="card-sub">ヒアリング録音待ち</div>
+        </div>
+      </div>
+      <div class="card-status-bar">
+        <span class="status-badge pending">⬜ 準備中</span>
+        <div class="card-tabs">
+          <span class="tab-chip gray">録音待ち</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="manual-card pending">
+      <div class="card-top">
+        <div class="card-icon gray">👤</div>
+        <div class="card-info">
+          <div class="card-title">綾目 担当業務</div>
+          <div class="card-sub">ヒアリング録音待ち</div>
+        </div>
+      </div>
+      <div class="card-status-bar">
+        <span class="status-badge pending">⬜ 準備中</span>
+        <div class="card-tabs">
+          <span class="tab-chip gray">録音待ち</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- スタッフ担当タスク一覧 -->
+  <div class="sec-head">
+    <div class="sec-head-icon blue">📊</div>
+    <div>
+      <h2>担当業務タスク状況</h2>
+      <p class="sec-sub">各スタッフのマニュアル整備状況</p>
+    </div>
+  </div>
+
+  <div class="staff-grid">
+
+    <div class="staff-card in-progress">
+      <div class="staff-avatar in-progress">👩‍💼</div>
+      <div class="staff-name">小幡</div>
+      <div class="staff-role">書類・レセプト系<br>担当</div>
+      <div class="staff-tasks">
+        <div class="task-line"><span class="task-dot done"></span>主治医意見書</div>
+        <div class="task-line"><span class="task-dot done"></span>生活保護</div>
+        <div class="task-line"><span class="task-dot done"></span>メディケア</div>
+        <div class="task-line"><span class="task-dot pending"></span>月次業務</div>
+        <div class="task-line"><span class="task-dot pending"></span>レセプト詳記（続き）</div>
+      </div>
+    </div>
+
+    <div class="staff-card">
+      <div class="staff-avatar">👩</div>
+      <div class="staff-name">吉田</div>
+      <div class="staff-role">担当業務<br>録音待ち</div>
+      <div class="staff-tasks">
+        <div class="task-line"><span class="task-dot pending"></span>録音待ち</div>
+      </div>
+    </div>
+
+    <div class="staff-card">
+      <div class="staff-avatar">👩</div>
+      <div class="staff-name">守屋</div>
+      <div class="staff-role">担当業務<br>録音待ち</div>
+      <div class="staff-tasks">
+        <div class="task-line"><span class="task-dot pending"></span>録音待ち</div>
+      </div>
+    </div>
+
+    <div class="staff-card">
+      <div class="staff-avatar">👩</div>
+      <div class="staff-name">松浦</div>
+      <div class="staff-role">担当業務<br>録音待ち</div>
+      <div class="staff-tasks">
+        <div class="task-line"><span class="task-dot pending"></span>録音待ち</div>
+      </div>
+    </div>
+
+    <div class="staff-card">
+      <div class="staff-avatar">👩</div>
+      <div class="staff-name">綾目</div>
+      <div class="staff-role">担当業務<br>録音待ち</div>
+      <div class="staff-tasks">
+        <div class="task-line"><span class="task-dot pending"></span>録音待ち</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ワークフロー説明 -->
+  <div class="sec-head">
+    <div class="sec-head-icon teal">🔄</div>
+    <div>
+      <h2>マニュアル作成フロー</h2>
+      <p class="sec-sub">録音からマニュアル公開までの手順</p>
+    </div>
+  </div>
+
+  <div class="progress-wrap" style="padding:0; overflow:hidden;">
+    <div style="display:flex; flex-direction:column; gap:0;">
+
+      <div style="display:flex; align-items:center; gap:14px; padding:16px 20px; border-bottom:1px solid var(--gray-mid);">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">1</div>
+        <div>
+          <div style="font-weight:700;font-size:.88rem;">🎙️ 業務を実況しながら音声録音</div>
+          <div style="font-size:.75rem;color:var(--text-sub);margin-top:3px;">担当者が実際の作業をしながら口頭で手順を説明</div>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:14px; padding:16px 20px; border-bottom:1px solid var(--gray-mid);">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">2</div>
+        <div>
+          <div style="font-weight:700;font-size:.88rem;">📝 文字起こし（.txt ファイル）</div>
+          <div style="font-size:.75rem;color:var(--text-sub);margin-top:3px;">録音を文字起こしして txt で保存 → 10_ソースデータ フォルダへ</div>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:14px; padding:16px 20px; border-bottom:1px solid var(--gray-mid);">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">3</div>
+        <div>
+          <div style="font-weight:700;font-size:.88rem;">🤖 AI（Claude）でマニュアル化</div>
+          <div style="font-size:.75rem;color:var(--text-sub);margin-top:3px;">txt を読み込み → 手順書 HTML に自動整理・整形</div>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:14px; padding:16px 20px;">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">4</div>
+        <div>
+          <div style="font-weight:700;font-size:.88rem;">🌐 Web公開 → スマホで閲覧可能</div>
+          <div style="font-size:.75rem;color:var(--text-sub);margin-top:3px;">GitHub Pages にデプロイ → いつでもどこでも確認できる</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>📌 利用上の注意：</strong>
+    このマニュアルはヒアリング内容をAIが整理したものです。実際の業務では必ず担当者・上長に確認してください。
+    内容に誤りを見つけた場合は、担当者または管理者までご連絡をお願いします。
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <p>いなだ医院 医療事務マニュアルポータル · 院内使用限定</p>
+  <p style="margin-top:4px;">最終更新: 2026年5月</p>
+</footer>
+
+</body>
+</html>
