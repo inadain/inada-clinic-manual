@@ -217,6 +217,84 @@ hr.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
   .header h1 { font-size: 16px; }
   .tab-btn { padding: 11px 12px; font-size: 12px; }
 }
+
+/* ── FLOATING TOC (desktop) ── */
+.toc-float {
+  display: none;
+  position: fixed;
+  width: 196px;
+  max-height: 72vh;
+  overflow-y: auto;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(0,0,0,.12);
+  z-index: 40;
+  padding: 10px 0;
+  top: 50%;
+  transform: translateY(-50%);
+  left: calc((100vw - 700px) / 2 - 216px);
+}
+@media (min-width: 1160px) { .toc-float { display: block; } }
+.toc-head {
+  font-size: 11px; font-weight: 800; color: var(--gray);
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: 0 12px 8px; border-bottom: 1px solid var(--border); margin-bottom: 4px;
+}
+.toc-list { list-style: none; }
+.toc-list li a {
+  display: block; padding: 5px 12px;
+  font-size: 12px; color: var(--gray); text-decoration: none;
+  border-left: 2px solid transparent; line-height: 1.4; transition: all .15s;
+}
+.toc-list li a:hover { color: var(--blue); background: var(--blue-xlight); }
+.toc-list li a.toc-cur { color: var(--blue); border-left-color: var(--blue); background: var(--blue-xlight); font-weight: 700; }
+
+/* ── TOC TOGGLE (mobile) ── */
+.toc-btn {
+  display: none; position: fixed; left: 16px; bottom: 72px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--blue); color: #fff; border: none;
+  font-size: 17px; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(21,88,160,.4); z-index: 50;
+  align-items: center; justify-content: center;
+}
+@media (max-width: 1159px) { .toc-btn { display: flex; } }
+
+/* ── TOC OVERLAY (mobile) ── */
+.toc-ov { display: none; position: fixed; inset: 0; z-index: 60; }
+.toc-ov.open { display: block; }
+.toc-ov-bg { position: absolute; inset: 0; background: rgba(0,0,0,.45); }
+.toc-ov-panel {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 260px;
+  background: #fff; overflow-y: auto;
+}
+.toc-ov-hd {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px; border-bottom: 1px solid var(--border); margin-bottom: 6px;
+}
+.toc-ov-hd span { font-size: 14px; font-weight: 700; color: var(--blue); }
+.toc-ov-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--gray); line-height: 1; }
+.toc-ov-list { list-style: none; }
+.toc-ov-list li a {
+  display: block; padding: 11px 20px; font-size: 14px;
+  color: var(--text); text-decoration: none;
+  border-left: 3px solid transparent;
+}
+.toc-ov-list li a.toc-cur { color: var(--blue); border-left-color: var(--blue); background: var(--blue-xlight); font-weight: 700; }
+
+/* ── BACK TO TOP ── */
+.to-top {
+  position: fixed; right: 16px; bottom: 20px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--blue); color: #fff; border: none;
+  font-size: 20px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(21,88,160,.4); z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .25s, transform .25s; pointer-events: none;
+}
+.to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
 </style>
 </head>
 <body>
@@ -641,6 +719,30 @@ hr.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
 </div>
 
 
+<!-- Floating TOC (desktop) -->
+<nav class="toc-float" id="tocF">
+  <div class="toc-head">📋 目次</div>
+  <ul class="toc-list" id="tocL"></ul>
+</nav>
+
+<!-- TOC toggle (mobile) -->
+<button class="toc-btn" onclick="openToc()" title="目次を開く">☰</button>
+
+<!-- TOC overlay (mobile) -->
+<div class="toc-ov" id="tocOv">
+  <div class="toc-ov-bg" onclick="closeToc()"></div>
+  <div class="toc-ov-panel">
+    <div class="toc-ov-hd">
+      <span>📋 目次</span>
+      <button class="toc-ov-close" onclick="closeToc()">×</button>
+    </div>
+    <ul class="toc-ov-list" id="tocOvL"></ul>
+  </div>
+</div>
+
+<!-- Back to top -->
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="トップへ戻る">↑</button>
+
 <script>
 function sw(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
@@ -648,7 +750,40 @@ function sw(id, btn) {
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  buildToc();
 }
+function buildToc() {
+  const pane = document.querySelector('.tab-pane.active');
+  const items = [];
+  if (pane) pane.querySelectorAll('.card').forEach((c, i) => {
+    const t = c.querySelector('.card-title');
+    if (t) { c.id = 'tc' + i; items.push({ el: c, text: t.textContent.trim() }); }
+  });
+  window._toc = items;
+  ['tocL', 'tocOvL'].forEach(id => {
+    const ul = document.getElementById(id);
+    if (ul) ul.innerHTML = items.map((it, i) => `<li><a href="#" data-i="${i}">${it.text}</a></li>`).join('');
+  });
+  document.querySelectorAll('#tocL a, #tocOvL a').forEach(a => {
+    a.onclick = e => {
+      e.preventDefault();
+      const it = (window._toc || [])[+a.dataset.i];
+      if (it) window.scrollTo({ top: it.el.getBoundingClientRect().top + window.scrollY - 110, behavior: 'smooth' });
+      closeToc();
+    };
+  });
+}
+function openToc() { document.getElementById('tocOv').classList.add('open'); }
+function closeToc() { document.getElementById('tocOv').classList.remove('open'); }
+window.addEventListener('scroll', () => {
+  document.getElementById('toTop').classList.toggle('show', window.scrollY > 250);
+  const items = window._toc || [];
+  if (!items.length) return;
+  let cur = 0;
+  items.forEach((it, i) => { if (it.el.getBoundingClientRect().top <= 120) cur = i; });
+  document.querySelectorAll('#tocL a, #tocOvL a').forEach((a, i) => a.classList.toggle('toc-cur', i === cur));
+});
+document.addEventListener('DOMContentLoaded', buildToc);
 </script>
 </body>
 </html>
