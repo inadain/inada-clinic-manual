@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>いなだ医院｜シュライバー</title>
+<style>
+:root{--blue:#1558a0;--blue-mid:#1e74c8;--blue-light:#dbeafe;--blue-xlight:#eff6ff;--amber:#d97706;--amber-light:#fef3c7;--gray:#64748b;--gray-light:#f1f5f9;--border:#e2e8f0;--text:#0f172a;--bg:#f0f4f8;--white:#ffffff;--radius:12px;--shadow-sm:0 1px 3px rgba(0,0,0,.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;font-size:15px;line-height:1.75;color:var(--text);background:var(--bg);}
+.header{background:linear-gradient(135deg,#0f3d6e 0%,#1558a0 60%,#1e74c8 100%);padding:20px 20px 16px;text-align:center;position:relative;overflow:hidden;}
+.header-inner{position:relative;z-index:1;}
+.header-tag{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;letter-spacing:.08em;margin-bottom:8px;}
+.header h1{color:#fff;font-size:19px;font-weight:800;letter-spacing:.03em;margin-bottom:3px;}
+.header .sub{color:rgba(255,255,255,.7);font-size:11px;}
+.back-link{display:inline-flex;align-items:center;gap:4px;color:rgba(255,255,255,.8);font-size:12px;text-decoration:none;margin-bottom:10px;}
+.main{max-width:700px;margin:0 auto;padding:32px 16px 60px;}
+.pending{background:var(--amber-light);border:2px dashed var(--amber);border-radius:var(--radius);padding:32px 20px;text-align:center;margin-bottom:20px;}
+.pending .icon{font-size:48px;margin-bottom:12px;}
+.pending h2{color:var(--amber);font-size:1.1rem;margin-bottom:8px;}
+.pending p{font-size:13px;color:#92400e;line-height:1.7;}
+.flow-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:20px;margin-bottom:14px;}
+.flow-card h3{font-size:.9rem;font-weight:700;color:var(--blue);margin-bottom:10px;border-left:3px solid var(--blue-mid);padding-left:8px;}
+.flow-card p{font-size:13px;color:var(--gray);line-height:1.7;}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <a href="../index.html" class="back-link">← マニュアル一覧</a>
+    <div class="header-tag">共通業務 ⑤</div>
+    <h1>✏️ シュライバー</h1>
+    <div class="sub">ヒアリング準拠版　最終更新：2026年5月</div>
+  </div>
+</header>
+<div class="main">
+  <div class="pending">
+    <div class="icon">🎙️</div>
+    <h2>このセクションは録音待ちです</h2>
+    <p>診察補助（シュライバー）業務の手順を整備予定。<br>担当者のヒアリング録音が完了次第、マニュアルを作成します。</p>
+  </div>
+  <div class="flow-card">
+    <h3>📋 マニュアル作成の流れ</h3>
+    <p>① 担当者が業務を実況しながら音声録音<br>② 文字起こしして txt ファイルで保存<br>③ AI（Claude）でマニュアル化 → このページに追記</p>
+  </div>
+</div>
+</body>
+</html>
