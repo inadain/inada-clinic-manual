@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>いなだ医院｜受付</title>
+<style>
+:root {
+  --blue:        #1558a0;
+  --blue-mid:    #1e74c8;
+  --blue-light:  #dbeafe;
+  --teal:        #0d9488;
+  --teal-light:  #ccfbf1;
+  --amber:       #d97706;
+  --amber-light: #fef3c7;
+  --red:         #dc2626;
+  --red-light:   #fee2e2;
+  --gray:        #64748b;
+  --gray-light:  #f1f5f9;
+  --border:      #e2e8f0;
+  --text:        #0f172a;
+  --bg:          #f0f4f8;
+  --white:       #ffffff;
+  --radius-sm:   6px;
+  --radius:      12px;
+  --shadow-sm:   0 1px 3px rgba(0,0,0,.08);
+  --shadow:      0 4px 12px rgba(0,0,0,.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-size: 15px; line-height: 1.75;
+  color: var(--text); background: var(--bg);
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #0f3d6e 0%, #1558a0 60%, #1e74c8 100%);
+  padding: 24px 20px 20px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.header::after {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.header-inner { position: relative; z-index: 1; }
+.header-tag {
+  display: inline-block;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+  color: #fff; font-size: 11px; font-weight: 700;
+  padding: 3px 12px; border-radius: 20px; letter-spacing: .08em; margin-bottom: 10px;
+}
+.header h1 { color: #fff; font-size: 20px; font-weight: 800; letter-spacing: .03em; margin-bottom: 4px; }
+.header .sub { color: rgba(255,255,255,.7); font-size: 11px; }
+
+/* ── TAB BAR ── */
+.tab-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--white); border-bottom: 1px solid var(--border);
+  display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; box-shadow: 0 2px 10px rgba(0,0,0,.07);
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex-shrink: 0; padding: 13px 16px;
+  font-size: 12px; font-weight: 700; color: var(--gray);
+  background: none; border: none; border-bottom: 3px solid transparent;
+  white-space: nowrap; cursor: pointer; transition: color .15s, border-color .15s;
+}
+.tab-btn:hover { color: var(--blue-mid); }
+.tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+/* ── TAB CONTENT ── */
+.tab-pane { display: none; padding: 0 0 48px; }
+.tab-pane.active { display: block; }
+
+/* ── CARD ── */
+.card {
+  margin: 14px; background: var(--white);
+  border-radius: var(--radius); box-shadow: var(--shadow-sm);
+  overflow: hidden; border: 1px solid var(--border);
+}
+.card-head {
+  padding: 13px 16px;
+  background: linear-gradient(90deg, var(--blue) 0%, var(--blue-mid) 100%);
+  color: #fff; display: flex; align-items: center; gap: 10px;
+}
+.card-head.teal   { background: linear-gradient(90deg, #0f766e 0%, var(--teal) 100%); }
+.card-head.amber  { background: linear-gradient(90deg, #92400e 0%, var(--amber) 100%); }
+.card-head.red    { background: linear-gradient(90deg, #991b1b 0%, var(--red) 100%); }
+.card-icon {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: rgba(255,255,255,.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.card-title { font-size: 14px; font-weight: 800; }
+.card-body { padding: 16px; }
+
+/* ── SUB TITLE ── */
+.sub-title {
+  font-size: 12px; font-weight: 800; color: var(--blue);
+  padding-left: 10px; border-left: 3px solid var(--blue);
+  margin: 18px 0 10px;
+}
+.sub-title:first-child { margin-top: 0; }
+
+/* ── TIMELINE ── */
+.tl { list-style: none; position: relative; padding: 0; }
+.tl::before {
+  content: ''; position: absolute; left: 14px; top: 18px; bottom: 18px;
+  width: 2px; background: linear-gradient(to bottom, var(--blue-light), var(--border));
+}
+.tl-item { display: flex; gap: 12px; padding: 6px 0; position: relative; }
+.tl-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--blue); color: #fff;
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; position: relative; z-index: 1;
+  box-shadow: 0 0 0 3px var(--white), 0 0 0 4px var(--blue-light);
+}
+.tl-body { flex: 1; font-size: 13px; color: var(--text); padding: 4px 0; }
+.tl-body strong { color: var(--blue); }
+
+/* ── CALLOUTS ── */
+.note {
+  display: flex; gap: 8px; align-items: flex-start;
+  border-radius: var(--radius-sm); padding: 10px 12px; margin: 10px 0; font-size: 13px;
+}
+.note-icon { flex-shrink: 0; font-size: 15px; line-height: 1.7; }
+.note.tip    { background: var(--teal-light);  border-left: 3px solid var(--teal); }
+.note.warn   { background: var(--amber-light); border-left: 3px solid var(--amber); }
+.note.danger { background: var(--red-light);   border-left: 3px solid var(--red); }
+.note.info   { background: var(--blue-light);  border-left: 3px solid var(--blue-mid); }
+.note.gray   { background: var(--gray-light);  border-left: 3px solid #94a3b8; }
+
+/* ── DECISION ── */
+.decision { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; margin: 10px 0; font-size: 13px; }
+.decision-q { background: #f8fafc; padding: 10px 14px; font-weight: 700; border-bottom: 1px solid var(--border); }
+.decision-row { display: flex; align-items: flex-start; padding: 8px 14px; gap: 10px; border-bottom: 1px solid var(--border); }
+.decision-row:last-child { border-bottom: none; }
+.dtag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+.d-ok   { background: var(--teal-light);  color: #0f766e; }
+.d-ng   { background: var(--red-light);   color: var(--red); }
+.d-cond { background: var(--amber-light); color: var(--amber); }
+
+/* ── TABLE ── */
+.tbl-wrap { overflow-x: auto; margin: 10px 0; border-radius: var(--radius-sm); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: var(--blue-light); color: var(--blue); font-weight: 700; padding: 9px 12px; text-align: left; border-bottom: 2px solid var(--blue-mid); white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: #fafbfc; }
+
+/* ── STAT ROW ── */
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+.stat-box { background: var(--gray-light); border-radius: var(--radius-sm); padding: 12px; text-align: center; }
+.s-label { font-size: 11px; color: var(--gray); font-weight: 600; margin-bottom: 4px; }
+.s-val   { font-size: 22px; font-weight: 800; color: var(--blue); }
+.s-sub   { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+/* ── ACCORDION ── */
+.ac-item { border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 8px; overflow: hidden; }
+.ac-item:last-child { margin-bottom: 0; }
+.ac-head { padding: 11px 14px; background: #fafbfc; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; font-size: 13px; font-weight: 700; color: var(--blue); }
+.ac-arrow { font-size: 11px; transition: transform .2s; color: var(--blue); }
+.ac-body { display: none; padding: 14px; border-top: 1px solid var(--border); }
+.ac-body.open { display: block; }
+.ac-arrow.open { transform: rotate(90deg); }
+
+/* ── CALENDAR ── */
+.cal-list { list-style: none; }
+.cal-item { display: flex; gap: 12px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.cal-item:last-child { border-bottom: none; }
+.cal-month { width: 42px; height: 42px; border-radius: 10px; background: var(--blue); color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; text-align: center; line-height: 1.2; }
+.cal-body { flex: 1; padding-top: 3px; }
+
+.div { border: none; border-top: 1px dashed var(--border); margin: 16px 0; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="../index.html" style="display:inline-flex;align-items:center;gap:4px;color:rgba(255,255,255,.8);font-size:12px;text-decoration:none;margin-bottom:8px;">← マニュアル一覧</a>
+    <div class="header-tag">共通業務 ②</div>
+    <h1>🏷️ 受付</h1>
+    <div class="sub">ヒアリング準拠版　最終更新：2026年5月</div>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="sw('t1',this)">🏥 基本受付</button>
+  <button class="tab-btn" onclick="sw('t2',this)">📋 保険・資格</button>
+  <button class="tab-btn" onclick="sw('t3',this)">🏷️ 公費対応</button>
+  <button class="tab-btn" onclick="sw('t4',this)">🚑 労災・事故</button>
+  <button class="tab-btn" onclick="sw('t5',this)">🌡️ 発熱外来</button>
+  <button class="tab-btn" onclick="sw('t6',this)">📄 書類・その他</button>
+</div>
+
+
+<!-- TAB 1 -->
+<div id="t1" class="tab-pane active">
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🔄</div><div class="card-title">再診の受付フロー</div></div>
+    <div class="card-body">
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">診察券を受け取る</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">体温を測ってもらう<br><span style="font-size:12px;color:var(--gray)">「お熱を測らせてください」</span></div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">症状・目的を確認する<br><span style="font-size:12px;color:var(--gray)">「今日はいつものでよかったですか？」</span></div></li>
+        <li class="tl-item"><div class="tl-num">4</div><div class="tl-body"><strong>月初めのみ</strong>：保険証・マイナンバー・資格確認書のいずれかを確認する</div></li>
+        <li class="tl-item"><div class="tl-num">5</div><div class="tl-body">PC：診察券IDを入力 → 担当医・初/再診確認 → 「登録」</div></li>
+        <li class="tl-item"><div class="tl-num">6</div><div class="tl-body">患者一覧から開き、オンライン資格確認を行う</div></li>
+        <li class="tl-item"><div class="tl-num">7</div><div class="tl-body">血圧測定してもらう（紙を受付まで持参してもらう）</div></li>
+        <li class="tl-item"><div class="tl-num">8</div><div class="tl-body">ファイルに <strong>受付票・お薬手帳・血圧手帳・血圧紙</strong> を入れる</div></li>
+        <li class="tl-item"><div class="tl-num">9</div><div class="tl-body">診察室のカゴへ入れる（左から1〜2番目あたり）</div></li>
+      </ul>
+      <div class="note tip"><span class="note-icon">💡</span><div>患者検索は <strong>F4キー</strong> または「患者ID検索」ボタンから。ID・名前・生年月日で検索可。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal"><div class="card-icon">👤</div><div class="card-title">初診の受付フロー</div></div>
+    <div class="card-body">
+      <div class="sub-title">最初に渡す書類</div>
+      <div class="tbl-wrap"><table>
+        <tr><th>書類</th><th>対象</th><th>場所</th></tr>
+        <tr><td>問診票</td><td>全員</td><td>受付後ろの棚</td></tr>
+        <tr><td>個人情報取り扱い同意書</td><td>全員（初診のみ・更新なし）</td><td>問診票とワンセット</td></tr>
+        <tr><td>介護等の状況</td><td>65歳以上</td><td>問診票ボックス内（別紙）</td></tr>
+      </table></div>
+
+      <div class="sub-title">カルテ新規登録</div>
+      <div class="ac-item">
+        <div class="ac-head" onclick="ac(this)"><span>マイナンバーカードあり</span><span class="ac-arrow">▶</span></div>
+        <div class="ac-body">
+          <ul class="tl">
+            <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">窓口受付 → 「新規」を押す</div></li>
+            <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">マイナンバーカードを機械に通してもらう</div></li>
+            <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">名前が一覧に表示 → チェック → OK → 患者情報が自動入力される</div></li>
+            <li class="tl-item"><div class="tl-num">4</div><div class="tl-body">登録（<strong>電話番号は手入力</strong>で追記）</div></li>
+          </ul>
+          <div class="note tip"><span class="note-icon">💡</span><div>問診票が書き終わったら、患者一覧 → 患者選択 → 左上「患者」ボタンで編集画面を開き、電話番号を入力する。</div></div>
+        </div>
+      </div>
+      <div class="ac-item">
+        <div class="ac-head" onclick="ac(this)"><span>マイナンバーなし（資格確認書）</span><span class="ac-arrow">▶</span></div>
+        <div class="ac-body">
+          <ul class="tl">
+            <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">資格確認書を1枚コピーさせてもらう</div></li>
+            <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">コピーを見ながら <strong>保険者番号・名前・生年月日</strong> を手入力</div></li>
+            <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">オンライン問合せ → サーバーから情報を引き込む → 登録</div></li>
+            <li class="tl-item"><div class="tl-body"><strong>電話番号は手入力</strong>で追記する</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sub-title">検尿・血圧（初診全員）</div>
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">「少しおしっこが取れますか？」と確認する</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">取れる場合：名前を書いたカップを渡す<br><span style="font-size:12px;color:var(--gray)">「突き当たりの扉を開けて左手の小さい棚に置いてください」</span></div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">血圧測定 → 以降は再診と同じ流れ</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head amber"><div class="card-icon">🟠</div><div class="card-title">糖尿病患者（オレンジ丸）の対応</div></div>
+    <div class="card-body">
+      <div class="note info"><span class="note-icon">ℹ️</span><div>カルテ一覧「丸①」列にオレンジ色の丸 ＝ 糖尿病患者。毎回検尿をお願いしている。</div></div>
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">受付時にメモ欄を確認する（「検尿不可」の記載があれば対応しない）</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">血圧紙を持ってきたタイミングで「今日取れますか？」と声かけ</div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">取れる場合は名前を書いたカップを渡してトイレへ案内</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">💴</div><div class="card-title">会計・お呼び出し</div></div>
+    <div class="card-body">
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">看護師から診察終了のファイルがカゴに入る</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">パソコンで会計処理をする</div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">お薬の準備ができたら名前で呼ぶ（「〇〇様〜」）</div></li>
+        <li class="tl-item"><div class="tl-num">4</div><div class="tl-body">聞こえない場合は大きな声で呼ぶ、またはそばへ行く</div></li>
+      </ul>
+      <div class="note gray"><span class="note-icon">📌</span><div>番号札システムはない。看護師が診察呼び込みを担当し、会計呼び出しは受付スタッフが名前で行う。</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- TAB 2 -->
+<div id="t2" class="tab-pane">
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">💳</div><div class="card-title">オンライン資格確認の操作手順</div></div>
+    <div class="card-body">
+      <div class="sub-title">マイナンバーカードで確認</div>
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">患者一覧 → 該当患者を開く → 「現在入力しますか」</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">「マイナンバーカード」を選択 → 機械に通してもらう</div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">名前が一覧に表示 → チェック → OK → 登録</div></li>
+      </ul>
+      <div class="note info"><span class="note-icon">ℹ️</span><div>負担割合は登録画面の<strong>真ん中下あたり</strong>に表示。左：当院の登録内容 ／ 右：オンライン認証内容。差異がある場合 → 有効期限確認 → OK → 自動更新。</div></div>
+      <hr class="div">
+      <div class="sub-title">資格確認書で確認</div>
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">「現在入力しますか」→「資格確認書」を選択</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">有効期限を確認 → OK → 登録</div></li>
+      </ul>
+      <div class="note gray"><span class="note-icon">📌</span><div>資格確認書は<strong>月1回</strong>確認すればOK。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head amber"><div class="card-icon">🚫</div><div class="card-title">保険証を持参しなかった場合</div></div>
+    <div class="card-body">
+      <div class="decision">
+        <div class="decision-q">当院にカルテ（受診歴）があるか？</div>
+        <div class="decision-row"><span class="dtag d-ok">カルテあり</span><div>ID検索 → 保険の資格確認 → 有効期限内なら<strong>保険診療</strong>。次回持参をお願いする。</div></div>
+        <div class="decision-row"><span class="dtag d-ng">カルテなし</span><div><strong>自費（10割）</strong>でご案内する。</div></div>
+        <div class="decision-row"><span class="dtag d-cond">有効期限切れ</span><div>オンライン確認で「無効」の場合は<strong>自費診療</strong>。</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">👴</div><div class="card-title">後期高齢者・外国人患者</div></div>
+    <div class="card-body">
+      <div class="sub-title">後期高齢者（75歳以上）</div>
+      <div class="note info"><span class="note-icon">ℹ️</span><div>保険証確認時に<strong>負担割合</strong>を必ず確認する。収入によって変わるため、途中で変更になることもある。</div></div>
+      <div class="sub-title">外国人患者</div>
+      <div class="note gray"><span class="note-icon">📌</span><div>保険証またはマイナンバーカードで通常と同じ手順で確認する。言語対応は特に定まっていない。</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- TAB 3 -->
+<div id="t3" class="tab-pane">
+
+  <div class="card">
+    <div class="card-head red"><div class="card-icon">⚖️</div><div class="card-title">公費の優先順位</div></div>
+    <div class="card-body">
+      <div class="note warn"><span class="note-icon">⚠️</span><div><strong>保険証＋公費証明書の両方がそろって初めて公費が適用される。</strong>保険証がなければ公費証明書があっても自費になる。</div></div>
+      <div class="decision">
+        <div class="decision-q">保険証と公費証明書の持参状況</div>
+        <div class="decision-row"><span class="dtag d-ok">両方あり</span><div>公費適用（患者負担が最小になる）</div></div>
+        <div class="decision-row"><span class="dtag d-cond">保険証のみ</span><div>通常の保険診療（2〜3割等）</div></div>
+        <div class="decision-row"><span class="dtag d-ng">保険証なし</span><div>公費証明書があっても<strong>自費（10割）</strong></div></div>
+      </div>
+      <div class="note gray"><span class="note-icon">📌</span><div>公費情報の入力場所：患者情報登録 → <strong>公費①タブ</strong>（公費②は通常無視）</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">📄</div><div class="card-title">各種公費の入力方法</div></div>
+    <div class="card-body">
+      <div class="ac-item">
+        <div class="ac-head" onclick="ac(this)"><span>♿ 障害者手帳</span><span class="ac-arrow">▶</span></div>
+        <div class="ac-body">
+          <ul class="tl">
+            <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">患者情報登録 → 公費①タブ → 「公費」の黒いところをクリック</div></li>
+            <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">手帳から <strong>負担者番号・受給者番号・有効期限・負担額限度額</strong> を入力</div></li>
+            <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">登録する</div></li>
+          </ul>
+          <div class="note tip"><span class="note-icon">✅</span><div>確認方法：公費①をクリック → 手帳の番号と有効期限が一致しているか照合する。</div></div>
+        </div>
+      </div>
+      <div class="ac-item">
+        <div class="ac-head" onclick="ac(this)"><span>👶 乳幼児医療</span><span class="ac-arrow">▶</span></div>
+        <div class="ac-body">
+          <div class="note info"><span class="note-icon">ℹ️</span><div>公費①タブに同様に入力する。<strong>自己負担なし（0円）</strong>。</div></div>
+        </div>
+      </div>
+      <div class="ac-item">
+        <div class="ac-head" onclick="ac(this)"><span>🏛️ 生活保護</span><span class="ac-arrow">▶</span></div>
+        <div class="ac-body">
+          <ul class="tl">
+            <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">患者情報検索・修正 → <strong>法①</strong> に番号を入力</div></li>
+            <li class="tl-item"><div class="tl-num">2</div><div class="tl-body"><strong>初診時は証明書必須。</strong>証明書がない場合、後日郵送で医療券が届く（こちらでも電話確認する）。</div></li>
+            <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">初診時は福祉事務所へ「〇〇日にかかります」と連絡を入れる</div></li>
+          </ul>
+          <div class="note warn"><span class="note-icon">⚠️</span><div>医療券が届かない場合は福祉事務所に電話して負担者番号・受給者番号を確認する。有効期限は現在なし（継続中か都度確認する）。</div></div>
+        </div>
+      </div>
+      <div class="ac-item">
+        <div class="ac-head" onclick="ac(this)"><span>🔬 難病 / 肝炎</span><span class="ac-arrow">▶</span></div>
+        <div class="ac-body">
+          <div class="note info"><span class="note-icon">ℹ️</span><div>公費①タブに同様に入力する。既に登録済みの場合は番号と有効期限を照合して確認するのみ。</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- TAB 4 -->
+<div id="t4" class="tab-pane">
+
+  <div class="card">
+    <div class="card-head red"><div class="card-icon">🔨</div><div class="card-title">労災患者の対応</div></div>
+    <div class="card-body">
+      <div class="sub-title">来院時の確認</div>
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">仕事中の怪我かどうかを確認する</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">会社が労災申告を承認しているか確認する<br><span style="font-size:12px;color:var(--gray)">確認できていない場合 → 一旦会社に戻して確認してもらう</span></div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body"><strong>保険会社・会社・患者本人の連絡先</strong>を聞いて記録する</div></li>
+      </ul>
+      <div class="sub-title">システム登録</div>
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">患者情報登録 → 「労災」チェックを入れる</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">労災番号（14桁）を入力。番号不明の場合は <strong>0を14個</strong> 仮入力する</div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">受付ファイル（オレンジ線）を見ながらいつからの怪我かを入力する</div></li>
+        <li class="tl-item"><div class="tl-num">4</div><div class="tl-body">登録する</div></li>
+      </ul>
+      <div class="sub-title">会計対応</div>
+      <div class="decision">
+        <div class="decision-q">職場の人が同伴しているか？</div>
+        <div class="decision-row"><span class="dtag d-ok">同伴あり</span><div>労災確定として<strong>費用を受け取らず</strong>帰宅してもらう</div></div>
+        <div class="decision-row"><span class="dtag d-cond">不明・未確認</span><div>とりあえず<strong>自費10割</strong>を受け取る。書類が揃い次第返金する。</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">📬</div><div class="card-title">書類の流れ・返金手順</div></div>
+    <div class="card-body">
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">患者から労災書類が届いたら番号を更新してシステムに入力する</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">先生に書類を記入してもらう</div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">完成した書類を <strong>労働基準局</strong> に送付する</div></li>
+        <li class="tl-item"><div class="tl-num">4</div><div class="tl-body">労基が受理 → 振り込みを確認 → <strong>患者に返金する</strong></div></li>
+      </ul>
+      <div class="note warn"><span class="note-icon">⚠️</span><div>返金は「書類完成時」ではなく「労基受理後」。患者には事前にその旨を説明しておく。</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- TAB 5 -->
+<div id="t5" class="tab-pane">
+
+  <div class="card">
+    <div class="card-head red"><div class="card-icon">📞</div><div class="card-title">電話受付フロー</div></div>
+    <div class="card-body">
+      <div class="note warn"><span class="note-icon">🌡️</span><div>発熱外来の患者は院内に入れない。車内・専用入口ですべての対応を完結させる。</div></div>
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body"><strong>正面から来た場合：</strong>体温を測り37.0℃以上なら「車でお待ちください」と伝え、車内から電話をかけてもらう<br><strong>電話が来た場合：</strong>そのまま電話で受付する</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">診察券番号（または名前＋生年月日）で本人確認する</div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">受付操作へ進む</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🖥️</div><div class="card-title">受付操作（通常との違い）</div></div>
+    <div class="card-body">
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">IDを検索して受付登録する（通常と同じ）</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body"><strong>体重を入力する</strong>（通常受付との違い）</div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">診察待ちの状態を <strong>「中断」</strong> にして先生に回す</div></li>
+        <li class="tl-item"><div class="tl-num">4</div><div class="tl-body">オンライン資格確認は後回し（看護師がマイナンバー等を持ってきてから行う）</div></li>
+      </ul>
+      <div class="note gray"><span class="note-icon">📌</span><div>発熱外来専用の受付票が存在する（受付中央・電話横）。通常の受付票と使い分ける。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal"><div class="card-icon">💴</div><div class="card-title">発熱外来の会計フロー</div></div>
+    <div class="card-body">
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">看護師からファイルがカゴに入ったら会計処理する（先生は電話保留中）</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">お薬・領収書・お釣りを <strong>すべて揃えた状態</strong> にする</div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">揃えた状態で看護師のところへ持参する</div></li>
+        <li class="tl-item"><div class="tl-num">4</div><div class="tl-body">先生が電話で患者に伝える → 電話終了後、お釣りの金額を確認する</div></li>
+        <li class="tl-item"><div class="tl-num">5</div><div class="tl-body">お釣りをカゴに入れ看護師へ → 患者が発熱外来入口まで取りに来る</div></li>
+      </ul>
+      <div class="note tip"><span class="note-icon">💡</span><div>お薬・領収書・お釣りが<strong>すべて揃ってから</strong>先生に電話してもらうのがポイント。</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- TAB 6 -->
+<div id="t6" class="tab-pane">
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">📩</div><div class="card-title">紹介状の対応</div></div>
+    <div class="card-body">
+      <div class="sub-title">紹介状持参（患者が渡しに来た）</div>
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">少しお待ちいただき、封筒を開けてクリアファイルに入れる</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">先生に持参する（看護師が伝えてくれる）</div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">「わかりました」となったら患者を帰す<br><span style="font-size:12px;color:var(--gray)">院長が呼び止める場合もある → 診察室へ案内する</span></div></li>
+      </ul>
+      <div class="sub-title">紹介状発行（当院から外部へ）</div>
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">先生・看護師の指示に従う</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">看護師から「FAXして」と言われたらFAXする</div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">FAX後に宛先の病院名・住所を書いた封筒を作成して郵送する</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal"><div class="card-icon">📋</div><div class="card-title">各種証明書・診断書の依頼対応</div></div>
+    <div class="card-body">
+      <div class="stat-row">
+        <div class="stat-box"><div class="s-label">診療情報提供書</div><div class="s-val" style="font-size:16px">自費</div><div class="s-sub">加算取得可</div></div>
+        <div class="stat-box"><div class="s-label">診断書</div><div class="s-val">2,200円</div><div class="s-sub">受け渡し時徴収</div></div>
+      </div>
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">依頼書類を受け取り、少しお待ちいただいて先生に回す</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">書類が完成したら看護師から「〇〇さんに連絡して」と依頼が来る</div></li>
+        <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">患者に電話して受け取りに来てもらう</div></li>
+        <li class="tl-item"><div class="tl-num">4</div><div class="tl-body">受け渡し時に費用を徴収し、領収書を発行する</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">📅</div><div class="card-title">予約システムの運用</div></div>
+    <div class="card-body">
+      <div class="sub-title">予約変更</div>
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">お名前と現在の予約日時を確認する</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">予約一覧から該当患者をドラッグ&ドロップで希望日時へ移動<br>または 右上「編集」→ カレンダーから日付・時間を変更</div></li>
+      </ul>
+      <div class="sub-title">新規予約</div>
+      <ul class="tl">
+        <li class="tl-item"><div class="tl-num">1</div><div class="tl-body">予約一覧上部「検索」→ IDまたは名前で患者を選択</div></li>
+        <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">担当医師名を選択 → 日付・時間を選択 → 「追加」で完了</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head amber"><div class="card-icon">📆</div><div class="card-title">繁忙期・年次スケジュール</div></div>
+    <div class="card-body">
+      <ul class="cal-list">
+        <li class="cal-item">
+          <div class="cal-month" style="background:var(--red)">1月</div>
+          <div class="cal-body">年末年始明けで来院が集中。最も忙しい時期のひとつ。</div>
+        </li>
+        <li class="cal-item">
+          <div class="cal-month">5〜6月</div>
+          <div class="cal-body">企業健診・特定健診が始まる。倉敷市関連の手続きも発生。</div>
+        </li>
+        <li class="cal-item">
+          <div class="cal-month">10月</div>
+          <div class="cal-body">インフルエンザ予防接種の時期。受付件数が増える。</div>
+        </li>
+        <li class="cal-item">
+          <div class="cal-month" style="font-size:10px;line-height:1.3">2年<br>に1回</div>
+          <div class="cal-body">診療報酬改定（4〜6月）。点数・システム設定の確認が必要。</div>
+        </li>
+      </ul>
+      <div class="note tip"><span class="note-icon">💡</span><div>月初め・連休明け・11〜12時は特に混雑する。早めに声をかけ合ってヘルプ体制を取る。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🔧</div><div class="card-title">トラブル・連絡先</div></div>
+    <div class="card-body">
+      <div class="tbl-wrap"><table>
+        <tr><th>対象</th><th>連絡先・対応先</th></tr>
+        <tr><td>電話トラブル</td><td>NTT</td></tr>
+        <tr><td>電子カルテ（ゆうやま）</td><td>ゆうやまサポート</td></tr>
+        <tr><td>プリンター</td><td>ゆうやまサポートまたはメーカー</td></tr>
+        <tr><td>判断に迷う事項</td><td>事務内で相談 → 看護師 → ドクターの順でエスカレーション</td></tr>
+      </table></div>
+      <div class="note gray"><span class="note-icon">📌</span><div>連絡先リストは受付PCのショートカット一覧、または受付中央の電話帳ファイルを参照する。</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function sw(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function ac(head) {
+  const body = head.nextElementSibling;
+  const arr  = head.querySelector('.ac-arrow');
+  const open = body.classList.toggle('open');
+  arr.classList.toggle('open', open);
+}
+</script>
+</body>
+</html>
