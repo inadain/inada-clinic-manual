@@ -218,24 +218,25 @@ hr.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
   .tab-btn { padding: 11px 12px; font-size: 12px; }
 }
 
-/* ── FLOATING TOC (desktop) ── */
-.toc-float {
+/* ── PAGE LAYOUT (left sidebar + content) ── */
+.page-layout {
+  display: flex;
+  align-items: flex-start;
+}
+.toc-sidebar {
   display: none;
-  position: fixed;
-  width: 196px;
-  max-height: 72vh;
+  width: 176px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
   overflow-y: auto;
   background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: 0 4px 20px rgba(0,0,0,.12);
-  z-index: 40;
-  padding: 10px 0;
-  top: 50%;
-  transform: translateY(-50%);
-  left: calc((100vw - 700px) / 2 - 216px);
+  border-right: 1px solid var(--border);
+  padding: 16px 0;
 }
-@media (min-width: 1160px) { .toc-float { display: block; } }
+@media (min-width: 900px) { .toc-sidebar { display: block; } }
+.main-area { flex: 1; min-width: 0; }
 .toc-head {
   font-size: 11px; font-weight: 800; color: var(--gray);
   text-transform: uppercase; letter-spacing: .08em;
@@ -259,7 +260,7 @@ hr.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
   box-shadow: 0 4px 12px rgba(21,88,160,.4); z-index: 50;
   align-items: center; justify-content: center;
 }
-@media (max-width: 1159px) { .toc-btn { display: flex; } }
+@media (max-width: 899px) { .toc-btn { display: flex; } }
 
 /* ── TOC OVERLAY (mobile) ── */
 .toc-ov { display: none; position: fixed; inset: 0; z-index: 60; }
@@ -307,6 +308,12 @@ hr.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
     <div class="sub">全スタッフ共通 · ヒアリング準拠版　最終更新：2026年5月</div>
   </div>
 </header>
+<div class="page-layout">
+<nav class="toc-sidebar" id="tocF">
+  <div class="toc-head">📋 目次</div>
+  <ul class="toc-list" id="tocL"></ul>
+</nav>
+<div class="main-area">
 
 <div class="tab-bar">
   <button class="tab-btn active" onclick="sw('t1',this)">🌅 朝の開院</button>
@@ -717,13 +724,8 @@ hr.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
   </div>
 
 </div>
-
-
-<!-- Floating TOC (desktop) -->
-<nav class="toc-float" id="tocF">
-  <div class="toc-head">📋 目次</div>
-  <ul class="toc-list" id="tocL"></ul>
-</nav>
+</div><!-- /main-area -->
+</div><!-- /page-layout -->
 
 <!-- TOC toggle (mobile) -->
 <button class="toc-btn" onclick="openToc()" title="目次を開く">☰</button>
