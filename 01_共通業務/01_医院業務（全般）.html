@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>いなだ医院｜医院業務（全般）</title>
+<style>
+:root {
+  --blue:        #1558a0;
+  --blue-mid:    #1e74c8;
+  --blue-light:  #dbeafe;
+  --blue-xlight: #eff6ff;
+  --teal:        #0d9488;
+  --teal-light:  #ccfbf1;
+  --amber:       #d97706;
+  --amber-light: #fef3c7;
+  --red:         #dc2626;
+  --red-light:   #fee2e2;
+  --green:       #16a34a;
+  --green-light: #dcfce7;
+  --gray:        #64748b;
+  --gray-light:  #f1f5f9;
+  --border:      #e2e8f0;
+  --text:        #0f172a;
+  --bg:          #f0f4f8;
+  --white:       #ffffff;
+  --radius-sm:   6px;
+  --radius:      12px;
+  --shadow-sm:   0 1px 3px rgba(0,0,0,.08);
+  --shadow:      0 4px 12px rgba(0,0,0,.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-size: 15px; line-height: 1.75;
+  color: var(--text); background: var(--bg);
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #0f3d6e 0%, #1558a0 60%, #1e74c8 100%);
+  padding: 20px 20px 16px; text-align: center; position: relative; overflow: hidden;
+}
+.header::after {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.header-inner { position: relative; z-index: 1; }
+.header-tag {
+  display: inline-block;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+  color: #fff; font-size: 11px; font-weight: 700;
+  padding: 3px 12px; border-radius: 20px; letter-spacing: .08em; margin-bottom: 8px;
+}
+.header h1 { color: #fff; font-size: 19px; font-weight: 800; letter-spacing: .03em; margin-bottom: 3px; }
+.header .sub { color: rgba(255,255,255,.7); font-size: 11px; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  color: rgba(255,255,255,.8); font-size: 12px; text-decoration: none;
+  margin-bottom: 10px;
+}
+.back-link:hover { color: #fff; }
+
+/* ── TAB BAR ── */
+.tab-bar {
+  display: flex; overflow-x: auto; background: var(--white);
+  border-bottom: 2px solid var(--border);
+  position: sticky; top: 0; z-index: 50;
+  scrollbar-width: none;
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex-shrink: 0; padding: 13px 16px;
+  font-size: 13px; font-weight: 600; color: var(--gray);
+  background: none; border: none; border-bottom: 3px solid transparent;
+  cursor: pointer; white-space: nowrap; transition: all .15s;
+  margin-bottom: -2px;
+}
+.tab-btn:hover { color: var(--blue-mid); }
+.tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+/* ── TAB PANE ── */
+.tab-pane { display: none; padding: 16px 16px 60px; max-width: 700px; margin: 0 auto; }
+.tab-pane.active { display: block; }
+
+/* ── CARD ── */
+.card {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow-sm); margin-bottom: 14px; overflow: hidden;
+}
+.card-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 16px; background: var(--blue-xlight);
+  border-bottom: 1px solid var(--blue-light);
+}
+.card-head.teal { background: var(--teal-light); border-bottom-color: rgba(13,148,136,.2); }
+.card-head.amber { background: var(--amber-light); border-bottom-color: rgba(217,119,6,.2); }
+.card-head.red { background: var(--red-light); border-bottom-color: rgba(220,38,38,.2); }
+.card-head.green { background: var(--green-light); border-bottom-color: rgba(22,163,74,.2); }
+.card-icon { font-size: 18px; }
+.card-title { font-size: 14px; font-weight: 700; }
+.card-body { padding: 14px 16px; }
+
+/* ── TIMELINE ── */
+.tl { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.tl-item {
+  display: flex; gap: 10px; position: relative; padding-bottom: 10px;
+}
+.tl-item:not(:last-child)::before {
+  content: ''; position: absolute; left: 13px; top: 26px; bottom: 0;
+  width: 2px; background: var(--border);
+}
+.tl-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--blue); color: #fff;
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; position: relative; z-index: 1;
+}
+.tl-body { padding-top: 4px; flex: 1; font-size: 14px; }
+
+/* ── TABLE ── */
+.tbl-wrap { overflow-x: auto; margin: 8px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: var(--blue-xlight); color: var(--blue); font-weight: 700; padding: 8px 10px; text-align: left; border-bottom: 2px solid var(--blue-light); }
+td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+/* ── STEP LIST ── */
+.proc { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+.proc-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: var(--gray-light); border-radius: var(--radius-sm); padding: 8px 12px;
+}
+.proc-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--blue-mid); color: #fff;
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.proc-body { font-size: 13px; flex: 1; }
+kbd {
+  background: #334155; color: #f1f5f9;
+  border-radius: 4px; padding: 1px 6px; font-size: 12px;
+  font-family: monospace;
+}
+
+/* ── NOTE / CALLOUT ── */
+.note {
+  display: flex; gap: 8px; border-radius: var(--radius-sm);
+  padding: 10px 12px; margin: 8px 0; font-size: 13px;
+}
+.note.tip    { background: var(--green-light); border-left: 3px solid var(--green); }
+.note.info   { background: var(--blue-xlight); border-left: 3px solid var(--blue-mid); }
+.note.warn   { background: var(--amber-light); border-left: 3px solid var(--amber); }
+.note.danger { background: var(--red-light); border-left: 3px solid var(--red); }
+.note.gray   { background: var(--gray-light); border-left: 3px solid var(--gray); }
+.note-icon { flex-shrink: 0; font-size: 16px; }
+
+/* ── SECTION TITLE ── */
+.sub-title {
+  font-size: 13px; font-weight: 700; color: var(--blue);
+  margin: 14px 0 6px; border-left: 3px solid var(--blue-mid); padding-left: 8px;
+}
+.sub-title:first-child { margin-top: 0; }
+
+/* ── DIVIDER ── */
+hr.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+
+/* ── CHECK LIST ── */
+.chk { list-style: none; display: flex; flex-direction: column; gap: 5px; margin: 6px 0; }
+.chk li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; }
+.chk li::before { content: '□'; color: var(--blue-mid); font-weight: 700; flex-shrink: 0; line-height: 1.6; }
+
+/* ── BADGE ── */
+.badge {
+  display: inline-block; border-radius: 999px;
+  font-size: 11px; font-weight: 700; padding: 2px 8px;
+}
+.badge.ok { background: var(--green-light); color: var(--green); }
+.badge.ng { background: var(--red-light); color: var(--red); }
+.badge.cond { background: var(--amber-light); color: var(--amber); }
+
+/* ── POINT CARD ── */
+.point-card {
+  background: linear-gradient(135deg, var(--blue-xlight) 0%, var(--white) 100%);
+  border: 1px solid var(--blue-light); border-radius: var(--radius);
+  padding: 12px 14px; margin-bottom: 8px;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.point-num {
+  background: var(--blue); color: #fff;
+  font-size: 10px; font-weight: 800;
+  padding: 3px 7px; border-radius: 5px; flex-shrink: 0;
+  white-space: nowrap; margin-top: 2px;
+}
+.point-text { font-size: 14px; font-weight: 600; }
+
+/* ── EXAMPLE PHRASE ── */
+.phrase-box {
+  background: var(--gray-light); border-radius: var(--radius-sm);
+  padding: 10px 12px; margin: 8px 0;
+}
+.phrase-label { font-size: 11px; font-weight: 700; color: var(--gray); margin-bottom: 5px; }
+.phrase-text { font-size: 13px; line-height: 1.7; }
+
+/* ── DETAIL TABLE (部署別) ── */
+.dept-head {
+  font-size: 13px; font-weight: 700; color: var(--blue-mid);
+  margin: 12px 0 4px; padding-left: 6px; border-left: 3px solid var(--blue-mid);
+}
+
+@media (max-width: 480px) {
+  .header h1 { font-size: 16px; }
+  .tab-btn { padding: 11px 12px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="../index.html" class="back-link">← マニュアル一覧</a>
+    <div class="header-tag">共通業務 ① </div>
+    <h1>🏥 医院業務（全般）</h1>
+    <div class="sub">全スタッフ共通 · ヒアリング準拠版　最終更新：2026年5月</div>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="sw('t1',this)">🌅 朝の開院</button>
+  <button class="tab-btn" onclick="sw('t2',this)">☀️ 昼休憩</button>
+  <button class="tab-btn" onclick="sw('t3',this)">🌙 閉院作業</button>
+  <button class="tab-btn" onclick="sw('t4',this)">📞 電話操作</button>
+  <button class="tab-btn" onclick="sw('t5',this)">🤝 ヘルプ・連携</button>
+  <button class="tab-btn" onclick="sw('t6',this)">📌 重要ポイント</button>
+</div>
+
+
+<!-- TAB 1: 朝の開院 -->
+<div id="t1" class="tab-pane active">
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">💡</div><div class="card-title">開院準備の全体感</div></div>
+    <div class="card-body">
+      <div class="note info"><span class="note-icon">⏱</span><div>診療開始の <strong>30〜40分前</strong> に開始。<strong>6:55には自動ドアを開放</strong> すること。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🔌</div><div class="card-title">1. 電気・環境整備</div></div>
+    <div class="card-body">
+      <div class="tbl-wrap"><table>
+        <tr><th>順番</th><th>作業内容</th><th>場所</th></tr>
+        <tr><td>①</td><td>廊下の電気をつける</td><td>廊下</td></tr>
+        <tr><td>②</td><td>受付のブラインドを端っこだけ開ける</td><td>受付（水槽の向こう側）</td></tr>
+        <tr><td>③</td><td>右端の電源スイッチ3つをON</td><td>受付内 右端</td></tr>
+        <tr><td>④</td><td>畳の部屋の電気をつける</td><td>和室</td></tr>
+        <tr><td>⑤</td><td>障子と窓を開ける</td><td>和室</td></tr>
+      </table></div>
+      <div class="note tip"><span class="note-icon">💡</span><div>右端3つのスイッチは受付に入って右側の壁にある3連スイッチ。必ず<strong>電気をつけてからパソコンを起動</strong>する。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🖥️</div><div class="card-title">2. 機器の電源を入れる（順番どおり）</div></div>
+    <div class="card-body">
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">受付のパソコン（2台）</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">診察券ラミネーター（冷蔵庫の上）</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">診察室の先生のパソコン</span></li>
+        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body">棚の上のパソコン（受付内・レセコン裏）</span></li>
+        <li class="proc-item"><span class="proc-num">⑤</span><span class="proc-body">プリンター</span></li>
+        <li class="proc-item"><span class="proc-num">⑥</span><span class="proc-body">薬局の分包器</span></li>
+        <li class="proc-item"><span class="proc-num">⑦</span><span class="proc-body">秤（はかり）</span></li>
+      </ul>
+      <div class="note warn"><span class="note-icon">⚠️</span><div>パソコンは<strong>1台ずつ</strong>順番に電源を入れる。同時起動は避けること。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🔧</div><div class="card-title">3. 共有設備のON</div></div>
+    <div class="card-body">
+      <div class="tbl-wrap"><table>
+        <tr><th>機器</th><th>備考</th></tr>
+        <tr><td>血圧計</td><td>待合室に設置</td></tr>
+        <tr><td>テレビ</td><td>待合室</td></tr>
+        <tr><td>マイナンバー機器</td><td>受付カウンター</td></tr>
+        <tr><td>薬局の鍵を開ける</td><td>薬局スタッフ対応</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head amber"><div class="card-icon">💰</div><div class="card-title">4. 金庫確認（現金チェック）</div></div>
+    <div class="card-body">
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">椅子の上に置いてある金庫を開ける</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">中の現金を数える</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">金額を紙に記録する</span></li>
+        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body"><strong>目標額：15万円</strong>（合っていればOK）</span></li>
+        <li class="proc-item"><span class="proc-num">⑤</span><span class="proc-body">金庫を左端の棚の決まった場所に戻す</span></li>
+      </ul>
+      <div class="phrase-box">
+        <div class="phrase-label">📝 記録例</div>
+        <div class="phrase-text">4月22日 朝の確認<br>現金残高：150,000円 ✓<br>確認者：○○</div>
+      </div>
+      <div class="note warn"><span class="note-icon">⚠️</span><div>15万円でない場合は差異を記録し、担当者に報告する。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🚪</div><div class="card-title">5. 自動ドアOPEN（6:55〜）</div></div>
+    <div class="card-body">
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body"><strong>6:55</strong> になったら自動ドア内側の鍵を開ける</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">自動ドアの上にあるスイッチをON（内側）</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">発熱外来の札を持って玄関へ向かう</span></li>
+        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body">玄関を開け、発熱外来の札を所定位置に掛ける</span></li>
+      </ul>
+      <div class="note info"><span class="note-icon">📍</span><div>発熱外来の札の場所：受付スタッフの棚（受付内）にあります。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal"><div class="card-icon">📋</div><div class="card-title">6. 受付準備</div></div>
+    <div class="card-body">
+      <div class="tbl-wrap"><table>
+        <tr><th>作業</th><th>内容</th></tr>
+        <tr><td>受付票の補充</td><td>刷ったものがボックス内にあるので、テーブルに半分程度出す</td></tr>
+        <tr><td>カルテケース準備</td><td>番号が書いてあるカルテケースを受付テーブルに置く</td></tr>
+        <tr><td>問診票の確認</td><td>受付下棚に格納されていることを確認</td></tr>
+      </table></div>
+      <div class="note tip"><span class="note-icon">🌿</span><div><strong>院長からの特別指示：</strong> 鉢植えを出すよう指示がある場合は玄関の邪魔にならない場所に置く。<strong>指示がなければ動かさないこと。</strong></div></div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <div class="card">
+    <div class="card-head teal"><div class="card-icon">🔄</div><div class="card-title">午後診療の準備（午前切った機器を再起動）</div></div>
+    <div class="card-body">
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">発熱外来の札を元に戻す</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">血圧計 ON</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">テレビ ON</span></li>
+        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body">マイナンバー機器 ON</span></li>
+        <li class="proc-item"><span class="proc-num">⑤</span><span class="proc-body">分包器 ON</span></li>
+        <li class="proc-item"><span class="proc-num">⑥</span><span class="proc-body">自動ドアを開ける</span></li>
+      </ul>
+      <div class="note tip"><span class="note-icon">✅</span><div>これで「午後診療開始できる状態」になります。</div></div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- TAB 2: 昼休憩 -->
+<div id="t2" class="tab-pane">
+
+  <div class="card">
+    <div class="card-head amber"><div class="card-icon">⚠️</div><div class="card-title">昼休憩 開始前の確認</div></div>
+    <div class="card-body">
+      <div class="note warn"><span class="note-icon">⏱</span><div><strong>患者全員が退出したことを確認してから</strong>開始する。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🔌</div><div class="card-title">1. 診療終了後の処置</div></div>
+    <div class="card-body">
+      <div class="tbl-wrap"><table>
+        <tr><th>順番</th><th>作業</th><th>担当</th></tr>
+        <tr><td>①</td><td>発熱外来の札を「昼休み・午後はいつから」の札に掛け替える</td><td>受付</td></tr>
+        <tr><td>②</td><td>マイナンバー機器をOFF</td><td>受付</td></tr>
+        <tr><td>③</td><td>テレビをOFF</td><td>受付</td></tr>
+        <tr><td>④</td><td>血圧計をOFF</td><td>受付</td></tr>
+        <tr><td>⑤</td><td>分包器をOFF</td><td>薬局</td></tr>
+        <tr><td>⑥</td><td>畳の部屋の電気をOFF</td><td>—</td></tr>
+      </table></div>
+      <div class="note info"><span class="note-icon">ℹ️</span><div>受付内の電源3つは<strong>消しません。</strong></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head red"><div class="card-icon">🪟</div><div class="card-title">2. ブラインド操作（重要）</div></div>
+    <div class="card-body">
+      <div class="tbl-wrap"><table>
+        <tr><th>項目</th><th>内容</th></tr>
+        <tr><td>スイッチ位置</td><td>待合室・窓側の壁（植木の上）</td></tr>
+        <tr><td>スイッチの色</td><td>ベージュと黒のレバー</td></tr>
+      </table></div>
+      <div class="note danger"><span class="note-icon">🚨</span><div><strong>必ず守ること：ブラインドを上げても下げても、操作後は必ずレバーを真ん中に戻す</strong><br><br>真ん中に戻さないと電気を消費し続けます。院長から厳しく指導されるポイント。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal"><div class="card-icon">🧹</div><div class="card-title">3. 昼の清掃・タスク分担</div></div>
+    <div class="card-body">
+      <div class="tbl-wrap"><table>
+        <tr><th>担当</th><th>昼のタスク</th></tr>
+        <tr><td>会計スタッフ</td><td>現金確認・スキャン作業</td></tr>
+        <tr><td>受付・薬局スタッフ</td><td>清掃（手が空いた人）</td></tr>
+      </table></div>
+      <div class="sub-title">清掃内容</div>
+      <ul class="chk">
+        <li>スリップの片付け</li>
+        <li>雑誌の片付け・整頓</li>
+        <li>掃除機（床全体）※ 床の拭き掃除は不要</li>
+        <li>拭き掃除（椅子・テーブルなど人が触れる部分）</li>
+      </ul>
+      <div class="note info"><span class="note-icon">📍</span><div>モップ・掃除機は診察室の一番奥にあります。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🚽</div><div class="card-title">4. トイレ清掃（当番制）</div></div>
+    <div class="card-body">
+      <div class="tbl-wrap"><table>
+        <tr><th>項目</th><th>内容</th></tr>
+        <tr><td>方式</td><td>当番制（札を回す）</td></tr>
+        <tr><td>切り替え</td><td>毎日交代</td></tr>
+        <tr><td>実施時間</td><td>12:00〜14:30の間（昼休み中）</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head amber"><div class="card-icon">📞</div><div class="card-title">5. 昼休み中の電話・LINE対応</div></div>
+    <div class="card-body">
+      <div class="note warn"><span class="note-icon">📌</span><div><strong>ルール：昼休み中も必ず受付に1名以上常駐すること</strong><br>シフトに入っているスタッフが受付に残り、電話・LINEへの対応を行う。診療は止まっていても受付機能は維持する。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal"><div class="card-icon">🔄</div><div class="card-title">6. シフト引き継ぎ（13:00目安）</div></div>
+    <div class="card-body">
+      <div class="note info"><span class="note-icon">⏱</span><div>午後からのスタッフが出勤した時（目安：13:00）に口頭で伝達事項を共有。</div></div>
+      <ul class="chk">
+        <li>特別な書類等はなし（口頭で伝達）</li>
+        <li>午前中に起きた特記事項・患者情報を伝える</li>
+      </ul>
+      <div class="phrase-box">
+        <div class="phrase-label">📝 伝達例</div>
+        <div class="phrase-text">「○○さんが午後に再来院される予定です」<br>「今日は○○が一部切れていたので補充をお願いします」</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- TAB 3: 閉院作業 -->
+<div id="t3" class="tab-pane">
+
+  <div class="card">
+    <div class="card-head amber"><div class="card-icon">⏰</div><div class="card-title">閉院作業の開始条件</div></div>
+    <div class="card-body">
+      <div class="note warn"><span class="note-icon">🚗</span><div>全患者退出を確認してから開始。<strong>18:50に駐車場の車の有無を確認</strong>すること。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🏷️</div><div class="card-title">1. 各部署の担当作業</div></div>
+    <div class="card-body">
+      <div class="dept-head">受付担当</div>
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">「本日の診療は終了しました」の札に掛け替える</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">自動ドアをOFFにする</span></li>
+      </ul>
+
+      <div class="dept-head">薬局担当</div>
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">薬局内の清掃・片付け</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">分包器の電源をOFF</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">日付印を翌日の日付に進める（ハンコ）</span></li>
+      </ul>
+
+      <div class="dept-head">会計担当</div>
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">現金を数える</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">レジ締め作業（→ 会計マニュアル参照）</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal"><div class="card-icon">🧹</div><div class="card-title">2. 手が空いたスタッフの共通作業</div></div>
+    <div class="card-body">
+      <div class="tbl-wrap"><table>
+        <tr><th>順番</th><th>作業</th></tr>
+        <tr><td>①</td><td>待合室の雑誌を片付ける</td></tr>
+        <tr><td>②</td><td>ブラインドを締める（水槽横）</td></tr>
+        <tr><td>③</td><td>血圧計をOFF</td></tr>
+        <tr><td>④</td><td>テレビをOFF</td></tr>
+        <tr><td>⑤</td><td>マイナンバー機器をOFF</td></tr>
+        <tr><td>⑥</td><td>畳の部屋の電気をOFF</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head red"><div class="card-icon">🖥️</div><div class="card-title">3. パソコンの終了手順（順番が重要！）</div></div>
+    <div class="card-body">
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">受付のパソコン（2台）をシャットダウン</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">レセコン裏のパソコンをシャットダウン</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">②が完了したことを院長に知らせる</span></li>
+        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body">院長が診察室パソコンをシャットダウン</span></li>
+      </ul>
+      <div class="note warn"><span class="note-icon">💡</span><div>院長のパソコンがメインのため、<strong>レセコン側を先に切る必要</strong>があります。院長が確認しに来ることがあります。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🔒</div><div class="card-title">4. 戸締まり確認</div></div>
+    <div class="card-body">
+      <div class="tbl-wrap"><table>
+        <tr><th>チェック項目</th><th>タイミング</th></tr>
+        <tr><td>18:50に駐車場の車が全台出ているか確認</td><td>閉院前</td></tr>
+        <tr><td>全ブラインドを締める</td><td>確認後</td></tr>
+        <tr><td>正面玄関の施錠</td><td>最後</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- TAB 4: 電話操作 -->
+<div id="t4" class="tab-pane">
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🌅</div><div class="card-title">朝モードへの切り替え（開院時）</div></div>
+    <div class="card-body">
+      <div class="note info"><span class="note-icon">⏱</span><div>朝の開院準備時（パソコン起動と並行して）実施。</div></div>
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body"><kbd>外線1番</kbd> を押す</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body"><kbd>1</kbd>→<kbd>4</kbd>→<kbd>2</kbd>→<kbd>#</kbd> を順に押す</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body"><kbd>0</kbd> を押す</span></li>
+        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body">音声が流れ「停止」になるまで待つ</span></li>
+        <li class="proc-item"><span class="proc-num">⑤</span><span class="proc-body"><kbd>11番「昼モード」</kbd> を押す</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🌙</div><div class="card-title">夜間モードへの切り替え（閉院時）</div></div>
+    <div class="card-body">
+      <div class="note info"><span class="note-icon">⏱</span><div>19:00に先生に確認してから実施。</div></div>
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body"><kbd>外線1番</kbd> を押す</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body"><kbd>1</kbd>→<kbd>4</kbd>→<kbd>2</kbd>→<kbd>#</kbd> を順に押す</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body"><kbd>1</kbd>→<kbd>2</kbd> を押す</span></li>
+        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body"><kbd>12番「夜モード」</kbd> を押す</span></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- TAB 5: ヘルプ・連携 -->
+<div id="t5" class="tab-pane">
+
+  <div class="card">
+    <div class="card-head"><div class="card-icon">🤝</div><div class="card-title">スタッフ間ヘルプルール</div></div>
+    <div class="card-body">
+      <div class="tbl-wrap"><table>
+        <tr><th>組み合わせ</th><th>可否</th><th>理由</th></tr>
+        <tr><td>薬局 ⇔ 会計の掛け持ち</td><td><span class="badge ng">不可</span></td><td>薬の確認は必ず2名体制が必要</td></tr>
+        <tr><td>薬局 → 受付のヘルプ</td><td><span class="badge ok">可</span></td><td>—</td></tr>
+        <tr><td>会計 → 受付のヘルプ</td><td><span class="badge ok">可</span></td><td>—</td></tr>
+        <tr><td>受付 → 薬局・会計のヘルプ</td><td><span class="badge cond">状況による</span></td><td>スタッフに確認</td></tr>
+      </table></div>
+      <div class="note tip"><span class="note-icon">💡</span><div><strong>基本的な考え方：</strong> 足りていなさそうな場所へ自主的に向かう。薬局と会計の掛け持ちはできない。</div></div>
+      <div class="note info"><span class="note-icon">🚨</span><div><strong>急な欠勤の場合：</strong> シフトリーダーが当日の分担を調整。薬局・会計の2名体制を最優先にする。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal"><div class="card-icon">💬</div><div class="card-title">よく使う例文集</div></div>
+    <div class="card-body">
+      <div class="tbl-wrap"><table>
+        <tr><th>シーン</th><th>例文</th></tr>
+        <tr><td>初診の受け付け</td><td>「初めてのご来院ですね。こちらの問診票と同意書のご記入をお願いします」</td></tr>
+        <tr><td>65歳以上の初診</td><td>「もう1枚、介護等の状況についての用紙もご記入いただけますか」</td></tr>
+        <tr><td>保険証の確認</td><td>「保険証（またはマイナンバーカード）のご提示をお願いします」</td></tr>
+        <tr><td>保険証忘れ（既存患者）</td><td>「確認させていただきますので少々お待ちください」</td></tr>
+        <tr><td>保険証忘れ（初診）</td><td>「大変申し訳ございませんが、本日は自費でのご案内となります。次回はお忘れなくお持ちください」</td></tr>
+        <tr><td>検尿の案内</td><td>「少しおしっこを取れますか？取れそうであれば、こちらのカップにお名前を書いてお渡しします」</td></tr>
+        <tr><td>トイレの場所案内</td><td>「突き当たりの扉を開けていただきますと、左手に小さな棚がございます。採れましたらそちらにお置きください」</td></tr>
+        <tr><td>会計の呼び出し</td><td>「○○様、お会計の準備ができました。受付カウンターまでお越しください」</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- TAB 6: 重要ポイント -->
+<div id="t6" class="tab-pane">
+
+  <div class="note warn" style="margin-bottom:14px;"><span class="note-icon">📌</span><div>特に注意が必要な事項をまとめています。新人スタッフは必ず確認してください。</div></div>
+
+  <div class="point-card">
+    <div class="point-num">POINT 1</div>
+    <div class="point-text">ブラインドは上げても下げても、操作後は必ずレバーを<strong>真ん中</strong>に戻す</div>
+  </div>
+  <div class="point-card">
+    <div class="point-num">POINT 2</div>
+    <div class="point-text">閉院時のパソコン終了は「受付・レセコン → 院長PC」の順</div>
+  </div>
+  <div class="point-card">
+    <div class="point-num">POINT 3</div>
+    <div class="point-text">薬局と会計の掛け持ちは不可（2名体制必須）</div>
+  </div>
+  <div class="point-card">
+    <div class="point-num">POINT 4</div>
+    <div class="point-text">パソコンの電源は1台ずつ順番に入れる（同時起動禁止）</div>
+  </div>
+  <div class="point-card">
+    <div class="point-num">POINT 5</div>
+    <div class="point-text">昼休み中も受付に必ず1名以上常駐する</div>
+  </div>
+  <div class="point-card">
+    <div class="point-num">POINT 6</div>
+    <div class="point-text">朝の金庫確認は15万円が目安。差異があれば必ず記録・報告</div>
+  </div>
+  <div class="point-card">
+    <div class="point-num">POINT 7</div>
+    <div class="point-text">閉院前18:50に駐車場の車の有無を確認する</div>
+  </div>
+  <div class="point-card">
+    <div class="point-num">POINT 8</div>
+    <div class="point-text">夜間モード切替は19:00に先生に確認してから実施</div>
+  </div>
+
+</div>
+
+
+<script>
+function sw(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
