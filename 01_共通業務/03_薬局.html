@@ -85,7 +85,7 @@ body {
 .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
 
 /* ── TAB PANE ── */
-.tab-pane { display: none; padding: 16px 16px 60px; max-width: 700px; margin: 0 auto; }
+.tab-pane { display: none; padding: 16px 16px 60px; max-width: 960px; margin: 0 auto; }
 .tab-pane.active { display: block; }
 
 /* ── CARD ── */
@@ -288,6 +288,18 @@ tr:last-child td { border-bottom: none; }
   transition: opacity .25s, transform .25s; pointer-events: none;
 }
 .to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+/* ── ACCORDION ── */
+.card-head {
+  cursor: pointer; user-select: none;
+}
+.card-head::after {
+  content: '›'; font-size: 20px; font-weight: 300; color: var(--gray);
+  margin-left: auto; line-height: 1; transition: transform .2s; flex-shrink: 0;
+}
+.card.open .card-head::after { transform: rotate(90deg); }
+.card-body { display: none; }
+.card.open .card-body { display: block; }
 </style>
 </head>
 <body>
@@ -878,7 +890,7 @@ function buildToc() {
     a.onclick = e => {
       e.preventDefault();
       const it = (window._toc || [])[+a.dataset.i];
-      if (it) window.scrollTo({ top: it.el.getBoundingClientRect().top + window.scrollY - 110, behavior: 'smooth' });
+      if (it) { it.el.classList.add('open'); window.scrollTo({ top: it.el.getBoundingClientRect().top + window.scrollY - 110, behavior: 'smooth' }); }
       closeToc();
     };
   });
