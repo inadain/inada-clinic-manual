@@ -49,6 +49,18 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
 .chip { font-size: .65rem; background: var(--blue-xlight); color: var(--blue-mid); border-radius: 999px; padding: 2px 7px; }
 .chip.gray { background: var(--gray-light); color: var(--gray); }
 .chip.done { background: var(--green-light); color: var(--green); }
+
+/* ── ACCORDION ── */
+.card-head {
+  cursor: pointer; user-select: none;
+}
+.card-head::after {
+  content: '›'; font-size: 20px; font-weight: 300; color: var(--gray);
+  margin-left: auto; line-height: 1; transition: transform .2s; flex-shrink: 0;
+}
+.card.open .card-head::after { transform: rotate(90deg); }
+.card-body { display: none; }
+.card.open .card-body { display: block; }
 </style>
 </head>
 <body>
