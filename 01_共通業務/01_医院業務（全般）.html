@@ -218,71 +218,8 @@ hr.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
   .tab-btn { padding: 11px 12px; font-size: 12px; }
 }
 
-/* ── PAGE LAYOUT (left sidebar + content) ── */
-.page-layout {
-  display: flex;
-  align-items: flex-start;
-}
-.toc-sidebar {
-  display: none;
-  width: 176px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
-  background: var(--white);
-  border-right: 1px solid var(--border);
-  padding: 16px 0;
-}
-@media (min-width: 900px) { .toc-sidebar { display: block; } }
-.main-area { flex: 1; min-width: 0; }
-.toc-head {
-  font-size: 11px; font-weight: 800; color: var(--gray);
-  text-transform: uppercase; letter-spacing: .08em;
-  padding: 0 12px 8px; border-bottom: 1px solid var(--border); margin-bottom: 4px;
-}
-.toc-list { list-style: none; }
-.toc-list li a {
-  display: block; padding: 5px 12px;
-  font-size: 12px; color: var(--gray); text-decoration: none;
-  border-left: 2px solid transparent; line-height: 1.4; transition: all .15s;
-}
-.toc-list li a:hover { color: var(--blue); background: var(--blue-xlight); }
-.toc-list li a.toc-cur { color: var(--blue); border-left-color: var(--blue); background: var(--blue-xlight); font-weight: 700; }
 
-/* ── TOC TOGGLE (mobile) ── */
-.toc-btn {
-  display: none; position: fixed; left: 16px; bottom: 72px;
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--blue); color: #fff; border: none;
-  font-size: 17px; cursor: pointer;
-  box-shadow: 0 4px 12px rgba(21,88,160,.4); z-index: 50;
-  align-items: center; justify-content: center;
-}
-@media (max-width: 899px) { .toc-btn { display: flex; } }
 
-/* ── TOC OVERLAY (mobile) ── */
-.toc-ov { display: none; position: fixed; inset: 0; z-index: 60; }
-.toc-ov.open { display: block; }
-.toc-ov-bg { position: absolute; inset: 0; background: rgba(0,0,0,.45); }
-.toc-ov-panel {
-  position: absolute; left: 0; top: 0; bottom: 0; width: 260px;
-  background: #fff; overflow-y: auto;
-}
-.toc-ov-hd {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px; border-bottom: 1px solid var(--border); margin-bottom: 6px;
-}
-.toc-ov-hd span { font-size: 14px; font-weight: 700; color: var(--blue); }
-.toc-ov-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--gray); line-height: 1; }
-.toc-ov-list { list-style: none; }
-.toc-ov-list li a {
-  display: block; padding: 11px 20px; font-size: 14px;
-  color: var(--text); text-decoration: none;
-  border-left: 3px solid transparent;
-}
-.toc-ov-list li a.toc-cur { color: var(--blue); border-left-color: var(--blue); background: var(--blue-xlight); font-weight: 700; }
 
 /* ── BACK TO TOP ── */
 .to-top {
@@ -296,6 +233,63 @@ hr.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
   transition: opacity .25s, transform .25s; pointer-events: none;
 }
 .to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+/* ── PAGE LAYOUT ── */
+.page-layout { display: flex; align-items: flex-start; }
+.toc-sidebar {
+  display: none;
+  width: 176px; flex-shrink: 0;
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  background: var(--white); border-right: 1px solid var(--border);
+  padding: 16px 0;
+}
+@media (min-width: 900px) { .toc-sidebar { display: block; } }
+.main-area { flex: 1; min-width: 0; }
+/* ── TOC SIDEBAR INNER ── */
+.toc-head {
+  font-size: 11px; font-weight: 800; color: var(--gray);
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: 0 12px 8px; border-bottom: 1px solid var(--border); margin-bottom: 4px;
+}
+.toc-list { list-style: none; }
+.toc-list li a {
+  display: block; padding: 5px 12px;
+  font-size: 12px; color: var(--gray); text-decoration: none;
+  border-left: 2px solid transparent; line-height: 1.4; transition: all .15s;
+}
+.toc-list li a:hover { color: var(--blue); background: var(--blue-xlight); }
+.toc-list li a.toc-cur { color: var(--blue); border-left-color: var(--blue); background: var(--blue-xlight); font-weight: 700; }
+/* ── TOC MOBILE BUTTON ── */
+.toc-btn {
+  display: none; position: fixed; left: 16px; bottom: 72px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--blue); color: #fff; border: none; font-size: 17px;
+  cursor: pointer; box-shadow: 0 4px 12px rgba(21,88,160,.4);
+  z-index: 50; align-items: center; justify-content: center;
+}
+@media (max-width: 899px) { .toc-btn { display: flex; } }
+/* ── TOC OVERLAY (mobile) ── */
+.toc-ov { display: none; position: fixed; inset: 0; z-index: 60; }
+.toc-ov.open { display: block; }
+.toc-ov-bg { position: absolute; inset: 0; background: rgba(0,0,0,.45); }
+.toc-ov-panel {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 260px; background: #fff; overflow-y: auto;
+}
+.toc-ov-head {
+  font-size: 11px; font-weight: 800; color: var(--gray);
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: 12px 16px 8px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.toc-ov-head button { background: none; border: none; cursor: pointer; font-size: 20px; color: var(--gray); line-height: 1; }
+.toc-ov-panel ul, .toc-ov-list { list-style: none; padding: 6px 0; }
+.toc-ov-panel ul li a, .toc-ov-list li a {
+  display: block; padding: 6px 16px;
+  font-size: 13px; color: var(--gray); text-decoration: none;
+  border-left: 2px solid transparent; transition: all .15s;
+}
+.toc-ov-panel ul li a:hover, .toc-ov-list li a:hover { color: var(--blue); background: var(--blue-xlight); }
+.toc-ov-panel ul li a.toc-cur, .toc-ov-list li a.toc-cur { color: var(--blue); border-left-color: var(--blue); background: var(--blue-xlight); font-weight: 700; }
 </style>
 </head>
 <body>
@@ -775,7 +769,7 @@ function buildToc() {
     };
   });
 }
-function openToc() { document.getElementById('tocOv').classList.add('open'); }
+function openToc()  { document.getElementById('tocOv').classList.add('open'); }
 function closeToc() { document.getElementById('tocOv').classList.remove('open'); }
 window.addEventListener('scroll', () => {
   document.getElementById('toTop').classList.toggle('show', window.scrollY > 250);
