@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>いなだ医院｜採用薬リスト</title>
+<style>
+:root {
+  --blue:        #1558a0;
+  --blue-mid:    #1e74c8;
+  --blue-light:  #dbeafe;
+  --blue-xlight: #eff6ff;
+  --teal:        #0d9488;
+  --teal-light:  #ccfbf1;
+  --amber:       #d97706;
+  --amber-light: #fef3c7;
+  --red:         #dc2626;
+  --red-light:   #fee2e2;
+  --green:       #16a34a;
+  --green-light: #dcfce7;
+  --purple:      #7c3aed;
+  --purple-light:#ede9fe;
+  --pink:        #db2777;
+  --pink-light:  #fce7f3;
+  --orange:      #ea580c;
+  --orange-light:#ffedd5;
+  --gray:        #64748b;
+  --gray-light:  #f1f5f9;
+  --border:      #e2e8f0;
+  --text:        #0f172a;
+  --bg:          #f0f4f8;
+  --white:       #ffffff;
+  --radius-sm:   6px;
+  --radius:      12px;
+  --shadow-sm:   0 1px 3px rgba(0,0,0,.08);
+  --shadow:      0 4px 12px rgba(0,0,0,.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-size: 15px; line-height: 1.75;
+  color: var(--text); background: var(--bg);
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #0f3d6e 0%, #1558a0 60%, #1e74c8 100%);
+  padding: 20px 20px 16px; text-align: center; position: relative; overflow: hidden;
+}
+.header::after {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.header-inner { position: relative; z-index: 1; }
+.header-tag {
+  display: inline-block;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+  color: #fff; font-size: 11px; font-weight: 700;
+  padding: 3px 12px; border-radius: 20px; letter-spacing: .08em; margin-bottom: 8px;
+}
+.header h1 { color: #fff; font-size: 19px; font-weight: 800; letter-spacing: .03em; margin-bottom: 3px; }
+.header .sub { color: rgba(255,255,255,.7); font-size: 11px; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  color: rgba(255,255,255,.8); font-size: 12px; text-decoration: none; margin-bottom: 10px;
+}
+.back-link:hover { color: #fff; }
+
+/* ── SEARCH + FILTER BAR ── */
+.search-bar {
+  background: var(--white); border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 50; padding: 10px 16px;
+}
+.search-wrap {
+  max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px;
+}
+.search-input-row {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--gray-light); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0 12px;
+}
+.search-input-row .icon { color: var(--gray); font-size: 15px; flex-shrink: 0; }
+.search-input {
+  flex: 1; border: none; background: transparent;
+  font-size: 14px; padding: 9px 0; outline: none; color: var(--text);
+}
+.search-input::placeholder { color: #aaa; }
+.search-clear {
+  background: none; border: none; color: var(--gray);
+  font-size: 16px; cursor: pointer; padding: 0 2px; line-height: 1;
+  display: none;
+}
+.search-clear.show { display: block; }
+
+.cat-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.cat-chip {
+  padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  cursor: pointer; border: 1.5px solid var(--border); background: var(--white);
+  color: var(--gray); transition: all .15s;
+}
+.cat-chip.active {
+  background: var(--blue); color: #fff; border-color: var(--blue);
+}
+
+/* ── MAIN ── */
+.main { max-width: 700px; margin: 0 auto; padding: 16px 16px 60px; }
+
+.result-count {
+  font-size: 12px; color: var(--gray); margin-bottom: 12px;
+}
+.result-count strong { color: var(--blue); }
+
+/* ── DRUG CARD ── */
+.drug-card {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow-sm); margin-bottom: 10px; overflow: hidden;
+  border-left: 4px solid var(--blue-light);
+  transition: box-shadow .15s;
+}
+.drug-card:hover { box-shadow: var(--shadow); }
+.drug-card.special-管理 { border-left-color: var(--purple); }
+.drug-card.special-冷所 { border-left-color: var(--teal); }
+.drug-card.special-劇薬 { border-left-color: var(--amber); }
+
+.drug-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px 8px;
+}
+.drug-name { flex: 1; }
+.drug-name .main-name { font-size: 15px; font-weight: 700; }
+.drug-name .brand-name { font-size: 12px; color: var(--gray); margin-top: 1px; }
+.drug-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.badge {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 20px; line-height: 1.5; white-space: nowrap;
+}
+
+/* カテゴリバッジの色 */
+.badge-cat-高血圧       { background: #dbeafe; color: #1558a0; }
+.badge-cat-糖尿病       { background: #dcfce7; color: #16a34a; }
+.badge-cat-高脂血症     { background: #fce7f3; color: #db2777; }
+.badge-cat-胃腸・消化器 { background: #fef3c7; color: #d97706; }
+.badge-cat-痛み止め     { background: #ffedd5; color: #ea580c; }
+.badge-cat-アレルギー   { background: #ede9fe; color: #7c3aed; }
+.badge-cat-皮膚科       { background: #ccfbf1; color: #0d9488; }
+.badge-cat-抗生物質     { background: #fee2e2; color: #dc2626; }
+.badge-cat-泌尿器       { background: #e0f2fe; color: #0284c7; }
+.badge-cat-循環器       { background: #f0fdf4; color: #15803d; }
+.badge-cat-精神・神経   { background: #fdf4ff; color: #a21caf; }
+.badge-cat-その他       { background: #f1f5f9; color: #64748b; }
+.badge-special { background: var(--purple-light); color: var(--purple); }
+.badge-cold    { background: var(--teal-light);   color: var(--teal); }
+.badge-gekiyaku{ background: var(--amber-light);  color: var(--amber); }
+
+.drug-body { padding: 0 14px 12px; }
+.drug-desc {
+  font-size: 13px; color: var(--text); line-height: 1.6; margin-bottom: 6px;
+}
+.drug-note {
+  display: flex; gap: 6px; font-size: 12px;
+  background: var(--amber-light); border-left: 3px solid var(--amber);
+  border-radius: 4px; padding: 6px 10px; color: #92400e;
+}
+
+/* ── EMPTY STATE ── */
+.empty {
+  text-align: center; padding: 60px 20px; color: var(--gray);
+}
+.empty .icon { font-size: 48px; margin-bottom: 12px; }
+.empty p { font-size: 14px; }
+
+/* ── PENDING BANNER ── */
+.pending-banner {
+  background: var(--amber-light); border: 2px dashed var(--amber);
+  border-radius: var(--radius); padding: 16px 20px;
+  margin-bottom: 16px; font-size: 13px; color: #92400e;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.pending-banner .icon { font-size: 22px; flex-shrink: 0; }
+
+/* ── BACK TO TOP ── */
+.to-top {
+  position: fixed; right: 16px; bottom: 20px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--blue); color: #fff; border: none;
+  font-size: 20px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(21,88,160,.4); z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .25s, transform .25s; pointer-events: none;
+}
+.to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="03_薬局.html" class="back-link">← 薬局マニュアルへ戻る</a>
+    <div class="header-tag">薬局 参考資料</div>
+    <h1>💊 採用薬リスト</h1>
+    <div class="sub">薬の種類・説明・注意点　非専門家向け早見表</div>
+  </div>
+</header>
+
+<div class="search-bar">
+  <div class="search-wrap">
+    <div class="search-input-row">
+      <span class="icon">🔍</span>
+      <input class="search-input" id="searchInput" type="text"
+             placeholder="薬名・効果・注意点などで検索..." oninput="onSearch()">
+      <button class="search-clear" id="searchClear" onclick="clearSearch()">×</button>
+    </div>
+    <div class="cat-chips" id="catChips"></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="pending-banner" id="pendingBanner">
+    <span class="icon">📋</span>
+    <div>
+      <strong>採用薬リストを入手次第、下記に追加予定です。</strong><br>
+      現在はサンプルデータを掲載しています。実際の採用薬データを受領後に差し替えます。
+    </div>
+  </div>
+
+  <div class="result-count" id="resultCount"></div>
+  <div id="drugList"></div>
+  <div class="empty" id="emptyState" style="display:none;">
+    <div class="icon">🔍</div>
+    <p>「<strong id="emptyQuery"></strong>」に一致する薬が見つかりませんでした。</p>
+  </div>
+</div>
+
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="トップへ戻る">↑</button>
+
+<script>
+/* ================================================================
+   採用薬データ
+   ----------------------------------------------------------------
+   薬リストが届いたら、以下の DRUGS 配列に追加してください。
+   各項目の説明：
+     name    : 一般名（成分名）
+     brand   : 商品名（院内で使っている製品名）
+     category: カテゴリ（下記カテゴリ一覧から選ぶ）
+     desc    : 非専門家向けの説明（平易な言葉で）
+     note    : スタッフが知っておくべき注意点
+     special : 特別管理区分 → "管理"（麻薬等）/ "冷所"（冷所保存）/ "劇薬" / "" （なし）
+   ================================================================ */
+
+const DRUGS = [
+  /* ── サンプルデータ（実際の採用薬データに差し替えてください） ── */
+  {
+    name: "アムロジピン",
+    brand: "ノルバスク",
+    category: "高血圧",
+    desc: "血管を広げて血圧を下げる飲み薬。1日1回飲む。",
+    note: "急に立ち上がるとめまいが起きることがある（起立性低血圧）。むくみが出る場合も。",
+    special: ""
+  },
+  {
+    name: "エナラプリル",
+    brand: "レニベース",
+    category: "高血圧",
+    desc: "血圧を上げるホルモンを抑えて血圧を下げる薬。腎保護効果もある。",
+    note: "空咳が出ることがある（副作用として比較的多い）。妊婦は使用不可。",
+    special: ""
+  },
+  {
+    name: "メトホルミン",
+    brand: "グリコラン",
+    category: "糖尿病",
+    desc: "肝臓でのブドウ糖産生を抑え、血糖値を下げる飲み薬。食後に服用。",
+    note: "造影剤使用前後は服用中止が必要。胃腸症状が出やすいため食後服用を徹底。",
+    special: ""
+  },
+  {
+    name: "グリメピリド",
+    brand: "アマリール",
+    category: "糖尿病",
+    desc: "膵臓からインスリンを分泌させる薬。血糖値を下げる。",
+    note: "低血糖に注意。飲み忘れた場合は次の食事前に服用（2回分をまとめて飲まない）。",
+    special: ""
+  },
+  {
+    name: "ロスバスタチン",
+    brand: "クレストール",
+    category: "高脂血症",
+    desc: "コレステロールを肝臓で作るのを抑えて、血中コレステロールを下げる薬。",
+    note: "筋肉痛・筋力低下が出る場合は要報告（横紋筋融解症の初期症状）。",
+    special: ""
+  },
+  {
+    name: "オメプラゾール",
+    brand: "オメプラール",
+    category: "胃腸・消化器",
+    desc: "胃酸の分泌を強力に抑える薬。胃潰瘍・逆流性食道炎に使用。",
+    note: "食前（起床後すぐ）に服用すると効果が高い。長期使用でマグネシウム低下に注意。",
+    special: ""
+  },
+  {
+    name: "ファモチジン",
+    brand: "ガスター",
+    category: "胃腸・消化器",
+    desc: "胃酸分泌を抑える薬。胃炎・胃潰瘍の予防・治療に使う。",
+    note: "腎機能が低下している患者では用量調整が必要。",
+    special: ""
+  },
+  {
+    name: "ロキソプロフェン",
+    brand: "ロキソニン",
+    category: "痛み止め",
+    desc: "痛みや熱を抑える飲み薬（解熱鎮痛剤）。頭痛・生理痛・発熱に使用。",
+    note: "必ず食後服用（空腹時は胃を荒らす）。喘息持ちの患者は要注意。",
+    special: ""
+  },
+  {
+    name: "セレコキシブ",
+    brand: "セレコックス",
+    category: "痛み止め",
+    desc: "関節炎・術後の痛みに使うNSAIDs。胃への負担が比較的少ない。",
+    note: "スルホンアミド系薬物アレルギーの患者は使用不可。",
+    special: "劇薬"
+  },
+  {
+    name: "フェキソフェナジン",
+    brand: "アレグラ",
+    category: "アレルギー",
+    desc: "花粉症・じんましん・鼻炎などのアレルギー症状を抑える薬。眠くなりにくい。",
+    note: "果汁（グレープフルーツ等）と一緒に飲むと吸収が下がるため、水で服用。",
+    special: ""
+  },
+  {
+    name: "セチリジン",
+    brand: "ジルテック",
+    category: "アレルギー",
+    desc: "アレルギー症状（鼻水・かゆみ・じんましん）を抑える薬。",
+    note: "眠気が出ることがある。車の運転に注意が必要。",
+    special: ""
+  },
+  {
+    name: "レボフロキサシン",
+    brand: "クラビット",
+    category: "抗生物質",
+    desc: "細菌感染症に使う抗生物質。肺炎・膀胱炎・副鼻腔炎などに使用。",
+    note: "水分を多めに摂るよう指導。日光に当たると光線過敏症が出ることがある。",
+    special: "劇薬"
+  },
+  {
+    name: "アモキシシリン",
+    brand: "サワシリン",
+    category: "抗生物質",
+    desc: "ペニシリン系の抗生物質。食後でも食前でも飲める。",
+    note: "ペニシリンアレルギーのある患者には使用不可。下痢が出ることがある。",
+    special: ""
+  },
+  {
+    name: "タムスロシン",
+    brand: "ハルナール",
+    category: "泌尿器",
+    desc: "前立腺肥大による排尿困難を改善する薬。尿の出をよくする。",
+    note: "起立性低血圧（立ちくらみ）に注意。食後服用。",
+    special: ""
+  },
+  {
+    name: "ビソプロロール",
+    brand: "メインテート",
+    category: "循環器",
+    desc: "不整脈・心不全・高血圧に使う薬。心拍数を落ち着かせる。",
+    note: "急に服薬をやめると狭心症発作などが起きることがある。自己中断厳禁。",
+    special: ""
+  },
+  {
+    name: "インスリングラルギン",
+    brand: "ランタス",
+    category: "糖尿病",
+    desc: "1日1回注射する持効型インスリン製剤。血糖コントロールを安定させる。",
+    note: "開封後は室温保管（冷蔵庫不要）、28日以内に使用。未開封は冷所保存。",
+    special: "冷所"
+  },
+];
+
+/* ================================================================
+   カテゴリ一覧（採用薬に合わせて追加・削除してください）
+   ================================================================ */
+const CATEGORIES = ["すべて", "高血圧", "糖尿病", "高脂血症", "胃腸・消化器", "痛み止め",
+                    "アレルギー", "抗生物質", "泌尿器", "循環器", "皮膚科", "精神・神経", "その他"];
+
+/* ── 状態 ── */
+let currentCat = "すべて";
+let currentQ   = "";
+
+/* ── 初期化 ── */
+function init() {
+  // カテゴリチップ生成
+  const chips = document.getElementById("catChips");
+  CATEGORIES.forEach(cat => {
+    const btn = document.createElement("button");
+    btn.className = "cat-chip" + (cat === "すべて" ? " active" : "");
+    btn.textContent = cat;
+    btn.onclick = () => selectCat(cat);
+    chips.appendChild(btn);
+  });
+  render();
+}
+
+function selectCat(cat) {
+  currentCat = cat;
+  document.querySelectorAll(".cat-chip").forEach(c =>
+    c.classList.toggle("active", c.textContent === cat));
+  render();
+}
+
+function onSearch() {
+  currentQ = document.getElementById("searchInput").value.trim();
+  document.getElementById("searchClear").classList.toggle("show", currentQ.length > 0);
+  render();
+}
+
+function clearSearch() {
+  document.getElementById("searchInput").value = "";
+  currentQ = "";
+  document.getElementById("searchClear").classList.remove("show");
+  render();
+}
+
+function render() {
+  const q = currentQ.toLowerCase();
+  const filtered = DRUGS.filter(d => {
+    const catOk = currentCat === "すべて" || d.category === currentCat;
+    const qOk   = !q || [d.name, d.brand, d.category, d.desc, d.note]
+                         .some(s => s.toLowerCase().includes(q));
+    return catOk && qOk;
+  });
+
+  const list = document.getElementById("drugList");
+  const empty = document.getElementById("emptyState");
+  const count = document.getElementById("resultCount");
+
+  if (filtered.length === 0) {
+    list.innerHTML = "";
+    empty.style.display = "block";
+    document.getElementById("emptyQuery").textContent = currentQ || currentCat;
+    count.innerHTML = "";
+  } else {
+    empty.style.display = "none";
+    count.innerHTML = `<strong>${filtered.length}</strong> 件 表示中`;
+    list.innerHTML = filtered.map(d => drugCard(d)).join("");
+  }
+}
+
+function drugCard(d) {
+  const specialClass = d.special ? ` special-${d.special}` : "";
+  const specialBadge = d.special === "管理" ? `<span class="badge badge-special">⚠️ 管理薬</span>`
+                     : d.special === "冷所"  ? `<span class="badge badge-cold">❄️ 冷所保存</span>`
+                     : d.special === "劇薬" ? `<span class="badge badge-gekiyaku">⚠️ 劇薬</span>`
+                     : "";
+  const noteHtml = d.note
+    ? `<div class="drug-note"><span>⚠️</span><span>${escHtml(d.note)}</span></div>`
+    : "";
+  return `
+<div class="drug-card${specialClass}">
+  <div class="drug-head">
+    <div class="drug-name">
+      <div class="main-name">${highlight(d.name)}</div>
+      ${d.brand ? `<div class="brand-name">商品名：${highlight(d.brand)}</div>` : ""}
+    </div>
+    <div class="drug-badges">
+      <span class="badge badge-cat-${d.category}">${escHtml(d.category)}</span>
+      ${specialBadge}
+    </div>
+  </div>
+  <div class="drug-body">
+    <div class="drug-desc">${highlight(d.desc)}</div>
+    ${noteHtml}
+  </div>
+</div>`;
+}
+
+function highlight(text) {
+  if (!currentQ) return escHtml(text);
+  const escaped = escHtml(text);
+  const q = escHtml(currentQ);
+  return escaped.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"),
+    m => `<mark style="background:#fef08a;border-radius:2px;">${m}</mark>`);
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+window.addEventListener("scroll", () => {
+  document.getElementById("toTop").classList.toggle("show", window.scrollY > 250);
+});
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
