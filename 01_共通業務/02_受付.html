@@ -690,7 +690,7 @@ function buildToc() {
     a.onclick = e => {
       e.preventDefault();
       const it = (window._toc || [])[+a.dataset.i];
-      if (it) window.scrollTo({ top: it.el.getBoundingClientRect().top + window.scrollY - 110, behavior: 'smooth' });
+      if (it) { it.el.classList.add('open'); window.scrollTo({ top: it.el.getBoundingClientRect().top + window.scrollY - 110, behavior: 'smooth' }); }
       closeToc();
     };
   });
