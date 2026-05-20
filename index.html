@@ -244,6 +244,26 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
   .hero-stats { gap: 8px; }
   .hero-stat  { padding: 6px 14px; }
 }
+
+/* ── Password Change Panel ── */
+.pw-ov { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,.55); align-items: center; justify-content: center; padding: 20px; }
+.pw-ov.open { display: flex; }
+.pw-card { background: #fff; border-radius: 18px; padding: 28px 24px 20px; width: 100%; max-width: 300px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+.pw-head { text-align: center; margin-bottom: 4px; }
+.pw-head-label { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--gray); }
+.pw-head-title { font-size: 16px; font-weight: 800; color: var(--text); margin-top: 2px; }
+.pw-dots { display: flex; gap: 6px; justify-content: center; margin: 14px 0 4px; min-height: 18px; }
+.pw-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--gray-mid); transition: all .1s; }
+.pw-dot.filled { background: var(--blue); transform: scale(1.15); }
+.pw-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.pw-key { background: var(--gray-lt); border: none; border-radius: 10px; height: 46px; font-size: 19px; font-weight: 600; cursor: pointer; transition: background .1s; color: var(--text); }
+.pw-key:active, .pw-key:hover { background: var(--blue-light); color: var(--blue); }
+.pw-key.del { font-size: 15px; color: var(--gray); }
+.pw-key.cancel { font-size: 13px; color: var(--gray); font-weight: 400; }
+.pw-err { font-size: 12px; color: #dc2626; text-align: center; margin-top: 8px; min-height: 18px; }
+.pw-status { font-size: 14px; text-align: center; color: var(--text-sub); padding: 20px 0; }
+.pw-change-link { display: inline-block; font-size: 11px; color: var(--gray); cursor: pointer; opacity: .45; margin-left: 8px; }
+.pw-change-link:hover { opacity: .9; text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -475,8 +495,45 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
 
 <footer class="site-footer">
   <p>いなだ医院 医療事務マニュアルポータル · スタッフ専用</p>
-  <p style="margin-top:4px;">最終更新: 2026年5月</p>
+  <p style="margin-top:4px;">最終更新: 2026年5月<span class="pw-change-link" onclick="openPwPanel()">🔑 PW変更</span></p>
 </footer>
+
+<!-- ═══════════════ パスワード変更パネル ═══════════════ -->
+<div id="pwOv" class="pw-ov">
+  <div class="pw-card">
+    <div class="pw-head">
+      <div class="pw-head-label" id="pwLabel">管理者認証</div>
+      <div class="pw-head-title" id="pwTitle">管理者パスワードを入力</div>
+    </div>
+    <div class="pw-dots" id="pwDots"></div>
+    <div id="pwPad" class="pw-pad">
+      <button class="pw-key" onclick="pwKey('1')">1</button>
+      <button class="pw-key" onclick="pwKey('2')">2</button>
+      <button class="pw-key" onclick="pwKey('3')">3</button>
+      <button class="pw-key" onclick="pwKey('4')">4</button>
+      <button class="pw-key" onclick="pwKey('5')">5</button>
+      <button class="pw-key" onclick="pwKey('6')">6</button>
+      <button class="pw-key" onclick="pwKey('7')">7</button>
+      <button class="pw-key" onclick="pwKey('8')">8</button>
+      <button class="pw-key" onclick="pwKey('9')">9</button>
+      <button class="pw-key cancel" onclick="closePwPanel()">✕</button>
+      <button class="pw-key" onclick="pwKey('0')">0</button>
+      <button class="pw-key del" onclick="pwDel()">⌫</button>
+    </div>
+    <!-- Step3: GitHubトークン入力 -->
+    <div id="pwTokenStep" style="display:none">
+      <p style="font-size:12px;color:var(--text-sub);margin-bottom:8px;line-height:1.5;">GitHubトークンを貼り付けてください<br><span style="font-size:11px;color:var(--gray);">（repo権限付きPersonal Access Token）</span></p>
+      <input id="pwTokenInput" type="password" placeholder="ghp_xxxxxxxxxx"
+        style="width:100%;border:1px solid var(--gray-mid);border-radius:8px;padding:9px 12px;font-size:13px;outline:none;font-family:monospace;">
+      <button onclick="pwTokenSubmit()"
+        style="width:100%;margin-top:8px;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px;font-size:14px;font-weight:700;cursor:pointer;">
+        更新する
+      </button>
+    </div>
+    <div id="pwStatus" class="pw-status" style="display:none"></div>
+    <div class="pw-err" id="pwErr"></div>
+  </div>
+</div>
 
 </div><!-- /mainContent -->
 
@@ -561,6 +618,153 @@ document.addEventListener("keydown", e => {
   if (e.key >= "0" && e.key <= "9") padInput(e.key);
   if (e.key === "Backspace") padDel();
 });
+
+/* ════════════════════════════════════════
+   PASSWORD CHANGE PANEL
+═══════════════════════════════════════ */
+const ADMIN_HASH = "53e2aab4719be91464f9b47bd830dc6ed68c3102bd4b53acb34c80bd6202f46e"; // 06419008
+const GH_REPO   = "inadain/inada-clinic-manual";
+const GH_FILE   = "index.html";
+
+let pwStep = 0;   // 0=admin 1=newPin 2=confirm 3=token
+let pwBuf  = "";
+let pwNew  = "";
+const PW_LENGTHS = [8, 4, 4, 0];
+
+function openPwPanel() {
+  pwStep = 0; pwBuf = ""; pwNew = "";
+  renderPwStep();
+  document.getElementById("pwOv").classList.add("open");
+}
+function closePwPanel() {
+  document.getElementById("pwOv").classList.remove("open");
+  pwBuf = ""; pwNew = "";
+}
+
+function renderPwStep() {
+  const labels  = ["管理者認証", "パスワード変更", "確認入力"];
+  const titles  = ["管理者パスワードを入力", "新しい4桁を入力", "もう一度入力"];
+  document.getElementById("pwLabel").textContent        = labels[pwStep] || "";
+  document.getElementById("pwTitle").textContent        = titles[pwStep] || "";
+  document.getElementById("pwErr").textContent          = "";
+  document.getElementById("pwStatus").style.display     = "none";
+  document.getElementById("pwPad").style.display        = "grid";
+  document.getElementById("pwDots").style.display       = "flex";
+  document.getElementById("pwTokenStep").style.display  = "none";
+  renderPwDots();
+}
+
+function renderPwDots() {
+  const len  = PW_LENGTHS[pwStep] || 0;
+  const dots = document.getElementById("pwDots");
+  dots.innerHTML = Array.from({length: len}, (_, i) =>
+    `<div class="pw-dot${i < pwBuf.length ? " filled" : ""}"></div>`
+  ).join("");
+}
+
+function pwKey(d) {
+  const maxLen = PW_LENGTHS[pwStep];
+  if (pwBuf.length >= maxLen) return;
+  pwBuf += d;
+  renderPwDots();
+  if (pwBuf.length === maxLen) setTimeout(pwSubmit, 120);
+}
+
+function pwDel() {
+  if (!pwBuf.length) return;
+  pwBuf = pwBuf.slice(0, -1);
+  renderPwDots();
+  document.getElementById("pwErr").textContent = "";
+}
+
+async function pwHash(s) {
+  const enc = new TextEncoder().encode(s);
+  const buf = await crypto.subtle.digest("SHA-256", enc);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+}
+
+async function pwSubmit() {
+  if (pwStep === 0) {
+    const h = await pwHash(pwBuf);
+    if (h === ADMIN_HASH) {
+      pwStep = 1; pwBuf = ""; renderPwStep();
+    } else {
+      document.getElementById("pwErr").textContent = "管理者パスワードが違います";
+      pwBuf = ""; renderPwDots();
+    }
+  } else if (pwStep === 1) {
+    pwNew = pwBuf; pwStep = 2; pwBuf = ""; renderPwStep();
+  } else if (pwStep === 2) {
+    if (pwBuf !== pwNew) {
+      document.getElementById("pwErr").textContent = "入力が一致しません。最初からやり直してください";
+      pwStep = 1; pwBuf = ""; pwNew = ""; renderPwStep();
+    } else {
+      // Step3: トークン入力画面へ
+      pwStep = 3;
+      document.getElementById("pwPad").style.display        = "none";
+      document.getElementById("pwDots").style.display       = "none";
+      document.getElementById("pwLabel").textContent        = "GitHubトークン";
+      document.getElementById("pwTitle").textContent        = "トークンを貼り付け";
+      document.getElementById("pwErr").textContent          = "";
+      document.getElementById("pwTokenStep").style.display  = "block";
+      document.getElementById("pwTokenInput").value         = "";
+      setTimeout(() => document.getElementById("pwTokenInput").focus(), 50);
+    }
+  }
+}
+
+async function pwTokenSubmit() {
+  const token = document.getElementById("pwTokenInput").value.trim();
+  if (!token) { document.getElementById("pwErr").textContent = "トークンを入力してください"; return; }
+  await doChangePassword(pwNew, token);
+}
+
+async function doChangePassword(newPin, ghToken) {
+  const st  = document.getElementById("pwStatus");
+  document.getElementById("pwTokenStep").style.display = "none";
+  st.style.display = "block";
+  st.textContent = "🔄 GitHub を更新中...";
+
+  try {
+    const newHash = await pwHash(newPin);
+
+    // 現在のファイルSHAを取得
+    const apiBase = `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
+    const authHeader = { "Authorization": `token ${ghToken}`, "Accept": "application/vnd.github.v3+json" };
+
+    const meta = await fetch(apiBase, { headers: authHeader }).then(r => r.json());
+    if (!meta.sha) throw new Error(meta.message || "ファイル取得失敗");
+
+    // 現在のページソースを取得してハッシュ値を差し替え
+    const src = await fetch(window.location.href + "?nocache=" + Date.now()).then(r => r.text());
+    const newSrc = src.replace(
+      /const PASS_HASH = "[a-f0-9]{64}";/,
+      `const PASS_HASH = "${newHash}";`
+    );
+
+    // base64エンコード（UTF-8対応）
+    const bytes = new TextEncoder().encode(newSrc);
+    const binStr = Array.from(bytes).map(b => String.fromCodePoint(b)).join("");
+    const b64 = btoa(binStr);
+
+    const res = await fetch(apiBase, {
+      method: "PUT",
+      headers: { ...authHeader, "Content-Type": "application/json" },
+      body: JSON.stringify({ message: "update password", content: b64, sha: meta.sha })
+    });
+
+    if (res.ok) {
+      st.textContent = "✅ 変更完了！新しいパスワード: " + newPin;
+      sessionStorage.removeItem(AUTH_KEY);
+      setTimeout(() => { closePwPanel(); location.reload(); }, 2500);
+    } else {
+      const err = await res.json();
+      st.textContent = "❌ 失敗: " + (err.message || res.status);
+    }
+  } catch(e) {
+    st.textContent = "❌ エラー: " + e.message;
+  }
+}
 </script>
 </body>
 </html>
