@@ -37,10 +37,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
    LOCK SCREEN
 ═══════════════════════════════════════ */
 #lockScreen {
-  position: fixed; inset: 0; z-index: 999;
-  background: linear-gradient(160deg, #0a2a52 0%, #1558a0 50%, #1e74c8 100%);
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
+  display: none;
 }
 #lockScreen.hidden { display: none; }
 
@@ -111,8 +108,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
 /* ════════════════════════════════════════
    MAIN LAYOUT
 ═══════════════════════════════════════ */
-#mainContent { display: none; }
-#mainContent.visible { display: block; }
+#mainContent { display: block; }
 
 /* ── Header ── */
 .site-header {
