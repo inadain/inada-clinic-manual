@@ -83,7 +83,7 @@ body {
 .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
 
 /* ── TAB PANE ── */
-.tab-pane { display: none; padding: 16px 16px 60px; max-width: 700px; margin: 0 auto; }
+.tab-pane { display: none; padding: 16px 16px 60px; max-width: 960px; margin: 0 auto; }
 .tab-pane.active { display: block; }
 
 /* ── CARD ── */
@@ -290,6 +290,18 @@ hr.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
 }
 .toc-ov-panel ul li a:hover, .toc-ov-list li a:hover { color: var(--blue); background: var(--blue-xlight); }
 .toc-ov-panel ul li a.toc-cur, .toc-ov-list li a.toc-cur { color: var(--blue); border-left-color: var(--blue); background: var(--blue-xlight); font-weight: 700; }
+
+/* ── ACCORDION ── */
+.card-head {
+  cursor: pointer; user-select: none;
+}
+.card-head::after {
+  content: '›'; font-size: 20px; font-weight: 300; color: var(--gray);
+  margin-left: auto; line-height: 1; transition: transform .2s; flex-shrink: 0;
+}
+.card.open .card-head::after { transform: rotate(90deg); }
+.card-body { display: none; }
+.card.open .card-body { display: block; }
 </style>
 </head>
 <body>
@@ -764,7 +776,7 @@ function buildToc() {
     a.onclick = e => {
       e.preventDefault();
       const it = (window._toc || [])[+a.dataset.i];
-      if (it) window.scrollTo({ top: it.el.getBoundingClientRect().top + window.scrollY - 110, behavior: 'smooth' });
+      if (it) { it.el.classList.add('open'); window.scrollTo({ top: it.el.getBoundingClientRect().top + window.scrollY - 110, behavior: 'smooth' }); }
       closeToc();
     };
   });
