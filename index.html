@@ -3,125 +3,287 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>いなだ医院 医療事務マニュアル</title>
+<title>いなだ医院 スタッフマニュアル</title>
 <style>
 :root {
-  --blue: #1558a0; --blue-mid: #1e74c8; --blue-light: #dbeafe; --blue-xlight: #eff6ff;
-  --teal: #0d9488; --teal-light: #ccfbf1;
-  --amber: #d97706; --amber-light: #fef3c7;
-  --red: #dc2626; --red-light: #fee2e2;
-  --green: #16a34a; --green-light: #dcfce7;
-  --gray: #6b7280; --gray-light: #f3f4f6; --gray-mid: #e5e7eb;
-  --text: #111827; --text-sub: #4b5563;
-  --radius: 12px; --radius-sm: 8px;
-  --shadow: 0 2px 8px rgba(0,0,0,.08); --shadow-md: 0 4px 16px rgba(0,0,0,.12);
+  --blue:       #1558a0;
+  --blue-mid:   #1e74c8;
+  --blue-light: #dbeafe;
+  --blue-xl:    #eff6ff;
+  --teal:       #0d9488;
+  --teal-light: #ccfbf1;
+  --amber:      #d97706;
+  --amber-lt:   #fef3c7;
+  --green:      #16a34a;
+  --green-lt:   #dcfce7;
+  --gray:       #64748b;
+  --gray-lt:    #f1f5f9;
+  --gray-mid:   #e2e8f0;
+  --text:       #0f172a;
+  --text-sub:   #475569;
+  --bg:         #f0f4f8;
+  --white:      #ffffff;
+  --r:          12px;
+  --r-sm:       8px;
+  --sh:         0 1px 4px rgba(0,0,0,.08);
+  --sh-md:      0 4px 16px rgba(0,0,0,.12);
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif; background: #f0f4f8; color: var(--text); min-height: 100vh; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+       font-size: 15px; line-height: 1.6; color: var(--text); background: var(--bg); min-height: 100vh; }
+
+/* ════════════════════════════════════════
+   LOCK SCREEN
+═══════════════════════════════════════ */
+#lockScreen {
+  position: fixed; inset: 0; z-index: 999;
+  background: linear-gradient(160deg, #0a2a52 0%, #1558a0 50%, #1e74c8 100%);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+#lockScreen.hidden { display: none; }
+
+.lock-card {
+  background: var(--white); border-radius: 20px;
+  padding: 36px 32px 32px; width: 100%; max-width: 340px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.35);
+  text-align: center; animation: fadeUp .4s ease;
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+
+.lock-icon {
+  width: 64px; height: 64px; border-radius: 16px;
+  background: var(--blue-light); display: flex; align-items: center;
+  justify-content: center; font-size: 30px; margin: 0 auto 16px;
+}
+.lock-title { font-size: 18px; font-weight: 800; color: var(--blue); }
+.lock-sub   { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+
+.lock-label {
+  font-size: 12px; font-weight: 700; color: var(--gray);
+  text-transform: uppercase; letter-spacing: .06em;
+  margin: 24px 0 10px;
+}
+
+/* 4桁ドット表示 */
+.pin-dots {
+  display: flex; gap: 12px; justify-content: center; margin-bottom: 20px;
+}
+.pin-dot {
+  width: 48px; height: 48px; border-radius: 12px;
+  border: 2px solid var(--gray-mid); background: var(--gray-lt);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 800; color: var(--blue);
+  transition: border-color .15s, background .15s;
+}
+.pin-dot.filled { border-color: var(--blue-mid); background: var(--blue-xl); }
+.pin-dot.active { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(30,116,200,.2); }
+
+/* 数字パッド */
+.numpad {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  margin-bottom: 8px;
+}
+.num-btn {
+  height: 52px; border-radius: var(--r-sm); border: 1.5px solid var(--gray-mid);
+  background: var(--white); font-size: 18px; font-weight: 700; color: var(--text);
+  cursor: pointer; transition: background .1s, transform .1s;
+  display: flex; align-items: center; justify-content: center; gap: 2px;
+}
+.num-btn:active { background: var(--blue-xl); transform: scale(.95); }
+.num-btn.del { font-size: 16px; color: var(--gray); }
+.num-btn.zero { grid-column: 2; }
+
+.lock-err {
+  font-size: 12.5px; font-weight: 600; color: var(--amber);
+  min-height: 20px; margin-top: 10px;
+}
+@keyframes shake {
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-8px)}
+  40%{transform:translateX(8px)}
+  60%{transform:translateX(-6px)}
+  80%{transform:translateX(6px)}
+}
+.lock-card.shake { animation: shake .4s ease; }
+
+/* ════════════════════════════════════════
+   MAIN LAYOUT
+═══════════════════════════════════════ */
+#mainContent { display: none; }
+#mainContent.visible { display: block; }
 
 /* ── Header ── */
-.site-header { background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 60%, #2196f3 100%); color: #fff; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(21,88,160,.35); }
-.header-inner { max-width: 900px; margin: 0 auto; padding: 14px 20px 12px; display: flex; align-items: center; gap: 14px; }
-.header-logo { width: 44px; height: 44px; background: rgba(255,255,255,.18); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; border: 1px solid rgba(255,255,255,.3); }
-.header-text h1 { font-size: 1.1rem; font-weight: 800; letter-spacing: .02em; line-height: 1.3; }
-.header-text p { font-size: .72rem; opacity: .78; margin-top: 2px; }
-.header-badge { margin-left: auto; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); border-radius: 999px; padding: 4px 12px; font-size: .7rem; white-space: nowrap; }
-
-/* ── Notice ── */
-.notice-bar { background: var(--amber-light); border-bottom: 2px solid var(--amber); padding: 8px 20px; font-size: .78rem; color: #92400e; text-align: center; }
+.site-header {
+  background: linear-gradient(135deg, #0c3260 0%, var(--blue) 55%, var(--blue-mid) 100%);
+  padding: 14px 20px; position: sticky; top: 0; z-index: 50;
+  box-shadow: 0 2px 10px rgba(15,61,110,.4);
+}
+.header-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+.header-logo { font-size: 24px; }
+.header-text h1 { font-size: 15px; font-weight: 800; color: #fff; letter-spacing: .02em; }
+.header-text p  { font-size: 11px; color: rgba(255,255,255,.65); margin-top: 1px; }
+.header-lock { margin-left: auto; color: rgba(255,255,255,.7); font-size: 13px; display: flex; align-items: center; gap: 5px; }
 
 /* ── Hero ── */
-.hero { background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%); color: #fff; padding: 24px 20px 28px; text-align: center; }
-.hero h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
-.hero p { font-size: .82rem; opacity: .82; line-height: 1.6; }
-.hero-stats { display: flex; gap: 10px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
-.hero-stat { background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.28); border-radius: 10px; padding: 8px 18px; text-align: center; }
-.hero-stat .n { font-size: 1.5rem; font-weight: 800; }
-.hero-stat .l { font-size: .68rem; opacity: .8; margin-top: 1px; }
+.hero {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%);
+  padding: 22px 20px 26px; text-align: center; color: #fff;
+}
+.hero h2 { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
+.hero p  { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.7; }
+.hero-stats { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+.hero-stat  {
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+  border-radius: 10px; padding: 8px 20px; text-align: center;
+}
+.hero-stat .n { font-size: 22px; font-weight: 900; }
+.hero-stat .l { font-size: 10.5px; opacity: .8; margin-top: 1px; }
 
-/* ── Main ── */
-.main { max-width: 900px; margin: 0 auto; padding: 20px 16px 60px; }
+/* ── Main wrap ── */
+.main { max-width: 860px; margin: 0 auto; padding: 20px 16px 60px; }
 
 /* ── Section head ── */
 .sec-head { display: flex; align-items: center; gap: 10px; margin: 24px 0 12px; }
-.sec-head-icon { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
-.sec-head-icon.blue { background: var(--blue-light); }
-.sec-head-icon.teal { background: var(--teal-light); }
-.sec-head h2 { font-size: 1rem; font-weight: 700; color: var(--blue); }
-.sec-head .sec-sub { font-size: .72rem; color: var(--text-sub); margin-top: 1px; }
+.sec-icon  { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.sec-icon.blue  { background: var(--blue-light); }
+.sec-icon.teal  { background: var(--teal-light); }
+.sec-icon.green { background: var(--green-lt); }
+.sec-head h2 { font-size: 14px; font-weight: 800; color: var(--blue); }
+.sec-head p  { font-size: 11px; color: var(--text-sub); margin-top: 1px; }
 
-/* ── Common manual cards (7-grid) ── */
-.common-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
-.manual-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; text-decoration: none; color: inherit; border: 1.5px solid transparent; transition: box-shadow .2s, transform .2s; }
-.manual-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--blue-light); }
-.manual-card.done:hover { border-color: var(--green); }
-.manual-card.in-progress:hover { border-color: var(--amber); }
-.manual-card.pending { pointer-events: none; }
-.card-top { padding: 14px 14px 10px; display: flex; align-items: flex-start; gap: 12px; }
-.card-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-.card-icon.blue { background: var(--blue-light); }
-.card-icon.teal { background: var(--teal-light); }
-.card-icon.amber { background: var(--amber-light); }
-.card-icon.gray { background: var(--gray-light); }
-.card-icon.green { background: var(--green-light); }
+/* ── Manual cards ── */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+
+.manual-card {
+  background: var(--white); border-radius: var(--r);
+  box-shadow: var(--sh); overflow: hidden;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column;
+  border: 1.5px solid var(--gray-mid);
+  transition: box-shadow .18s, transform .18s, border-color .18s;
+}
+.manual-card:not(.pending):hover { box-shadow: var(--sh-md); transform: translateY(-2px); }
+.manual-card.done:hover          { border-color: var(--green); }
+.manual-card.in-progress:hover   { border-color: var(--amber); }
+.manual-card.pending             { pointer-events: none; opacity: .65; }
+
+.card-body { padding: 14px 14px 10px; display: flex; align-items: flex-start; gap: 12px; flex: 1; }
+.card-ic {
+  width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.card-ic.blue  { background: var(--blue-light); }
+.card-ic.amber { background: var(--amber-lt); }
+.card-ic.teal  { background: var(--teal-light); }
+.card-ic.gray  { background: var(--gray-lt); }
+.card-ic.green { background: var(--green-lt); }
+
 .card-info { flex: 1; min-width: 0; }
-.card-num { font-size: .68rem; font-weight: 700; color: var(--text-sub); letter-spacing: .06em; text-transform: uppercase; }
-.card-title { font-size: .92rem; font-weight: 700; line-height: 1.35; margin-top: 2px; }
-.card-sub { font-size: .7rem; color: var(--text-sub); margin-top: 3px; line-height: 1.5; }
-.card-status-bar { padding: 8px 14px 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--gray-mid); }
-.status-badge { font-size: .7rem; font-weight: 700; border-radius: 999px; padding: 3px 9px; flex-shrink: 0; }
-.status-badge.done { background: var(--green-light); color: var(--green); }
-.status-badge.in-progress { background: var(--amber-light); color: var(--amber); }
-.status-badge.pending { background: var(--gray-light); color: var(--gray); }
-.card-tabs { display: flex; flex-wrap: wrap; gap: 3px; flex: 1; min-width: 0; justify-content: flex-end; }
-.tab-chip { font-size: .62rem; background: var(--blue-xlight); color: var(--blue-mid); border-radius: 999px; padding: 2px 6px; }
-.tab-chip.gray { background: var(--gray-light); color: var(--gray); }
+.card-no    { font-size: 10px; font-weight: 700; color: var(--text-sub); letter-spacing: .06em; text-transform: uppercase; }
+.card-title { font-size: 14px; font-weight: 800; margin-top: 2px; line-height: 1.3; }
+.card-desc  { font-size: 11px; color: var(--text-sub); margin-top: 4px; line-height: 1.5; }
 
-/* ── Staff personal cards ── */
-.staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
-.staff-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; text-decoration: none; color: inherit; border: 1.5px solid var(--gray-mid); transition: box-shadow .2s, transform .2s; }
-.staff-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-.staff-card.active-card { border-color: var(--teal); }
-.staff-card.pending-card { pointer-events: none; opacity: .75; }
-.staff-top { padding: 14px 12px 8px; text-align: center; }
-.staff-avatar { width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; margin: 0 auto 8px; }
-.staff-avatar.active { background: var(--teal-light); }
-.staff-avatar.gray-av { background: var(--gray-light); }
-.staff-name { font-size: .9rem; font-weight: 800; }
-.staff-role { font-size: .68rem; color: var(--text-sub); margin-top: 3px; line-height: 1.4; }
-.staff-bottom { border-top: 1px solid var(--gray-mid); padding: 7px 12px; }
-.staff-status { font-size: .68rem; font-weight: 700; border-radius: 999px; padding: 2px 8px; text-align: center; display: inline-block; }
-.staff-status.active { background: var(--teal-light); color: var(--teal); }
-.staff-status.pending { background: var(--gray-light); color: var(--gray); }
+.card-foot {
+  border-top: 1px solid var(--gray-mid); padding: 8px 14px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.badge {
+  font-size: 10.5px; font-weight: 700; border-radius: 999px; padding: 3px 9px; white-space: nowrap;
+}
+.badge.done        { background: var(--green-lt);  color: var(--green); }
+.badge.in-progress { background: var(--amber-lt);  color: var(--amber); }
+.badge.pending     { background: var(--gray-lt);   color: var(--gray); }
+.tab-chips { display: flex; flex-wrap: wrap; gap: 3px; justify-content: flex-end; }
+.tab-chip  { font-size: 10px; background: var(--blue-xl); color: var(--blue-mid); border-radius: 999px; padding: 2px 6px; }
+.tab-chip.g { background: var(--gray-lt); color: var(--gray); }
 
-/* ── Progress ── */
-.progress-wrap { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 20px; margin-bottom: 4px; }
-.progress-wrap h3 { font-size: .78rem; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; text-transform: uppercase; letter-spacing: .05em; }
-.prog-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.prog-label { font-size: .78rem; width: 110px; flex-shrink: 0; }
-.prog-bar-wrap { flex: 1; height: 8px; background: var(--gray-mid); border-radius: 999px; overflow: hidden; }
-.prog-bar { height: 100%; border-radius: 999px; background: var(--blue-mid); }
-.prog-bar.green { background: var(--green); }
-.prog-bar.amber { background: var(--amber); }
-.prog-pct { font-size: .72rem; font-weight: 700; color: var(--text-sub); width: 32px; text-align: right; flex-shrink: 0; }
+/* ── Progress card ── */
+.prog-card { background: var(--white); border-radius: var(--r); box-shadow: var(--sh); padding: 16px 18px; }
+.prog-card h3 { font-size: 11px; font-weight: 800; color: var(--gray); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 14px; }
+.prog-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+.prog-row:last-child { margin-bottom: 0; }
+.prog-label { font-size: 12px; width: 120px; flex-shrink: 0; color: var(--text-sub); }
+.prog-track { flex: 1; height: 7px; background: var(--gray-mid); border-radius: 999px; overflow: hidden; }
+.prog-fill  { height: 100%; border-radius: 999px; transition: width .6s ease; }
+.prog-fill.blue  { background: var(--blue-mid); }
+.prog-fill.green { background: var(--green); }
+.prog-fill.amber { background: var(--amber); }
+.prog-fill.gray  { background: var(--gray); }
+.prog-pct { font-size: 11px; font-weight: 700; color: var(--text-sub); width: 30px; text-align: right; flex-shrink: 0; }
 
-/* ── Info box ── */
-.info-box { background: var(--blue-xlight); border: 1px solid var(--blue-light); border-left: 4px solid var(--blue-mid); border-radius: var(--radius-sm); padding: 12px 16px; font-size: .8rem; color: var(--blue); line-height: 1.7; margin-top: 14px; }
-.info-box strong { font-weight: 700; }
+/* ── Staff cards ── */
+.staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.staff-card {
+  background: var(--white); border-radius: var(--r); box-shadow: var(--sh);
+  text-decoration: none; color: inherit; overflow: hidden;
+  border: 1.5px solid var(--gray-mid);
+  transition: box-shadow .18s, transform .18s;
+}
+.staff-card.active:hover { box-shadow: var(--sh-md); transform: translateY(-2px); border-color: var(--teal); }
+.staff-card.pending      { pointer-events: none; opacity: .6; }
+.staff-top    { padding: 16px 12px 10px; text-align: center; }
+.staff-av     { width: 44px; height: 44px; border-radius: 50%; font-size: 22px; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+.staff-av.t   { background: var(--teal-light); }
+.staff-av.g   { background: var(--gray-lt); }
+.staff-name   { font-size: 13px; font-weight: 800; }
+.staff-role   { font-size: 10px; color: var(--text-sub); margin-top: 3px; line-height: 1.4; }
+.staff-foot   { border-top: 1px solid var(--gray-mid); padding: 6px 12px; text-align: center; }
+.staff-badge  { font-size: 10px; font-weight: 700; border-radius: 999px; padding: 2px 8px; display: inline-block; }
+.staff-badge.t { background: var(--teal-light); color: var(--teal); }
+.staff-badge.g { background: var(--gray-lt);    color: var(--gray); }
 
 /* ── Footer ── */
-.site-footer { text-align: center; padding: 18px; font-size: .72rem; color: var(--text-sub); border-top: 1px solid var(--gray-mid); background: #fff; }
+.site-footer { text-align: center; padding: 20px; font-size: 11px; color: var(--text-sub); border-top: 1px solid var(--gray-mid); background: var(--white); }
 
-@media (max-width: 480px) {
-  .header-badge { display: none; }
-  .common-grid { grid-template-columns: 1fr; }
+/* ── Responsive ── */
+@media (max-width: 500px) {
+  .card-grid  { grid-template-columns: 1fr; }
   .staff-grid { grid-template-columns: repeat(3, 1fr); }
+  .hero-stats { gap: 8px; }
+  .hero-stat  { padding: 6px 14px; }
 }
 </style>
 </head>
 <body>
 
-<div class="notice-bar">⚠️ 院内使用限定 — このマニュアルは「いなだ医院」スタッフ専用です</div>
+<!-- ═══════════════ LOCK SCREEN ═══════════════ -->
+<div id="lockScreen">
+  <div class="lock-card" id="lockCard">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-title">いなだ医院</div>
+    <div class="lock-sub">スタッフ専用マニュアル</div>
+
+    <div class="lock-label">暗証番号を入力</div>
+
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+
+    <div class="numpad">
+      <button class="num-btn" onclick="padInput('1')">1</button>
+      <button class="num-btn" onclick="padInput('2')">2</button>
+      <button class="num-btn" onclick="padInput('3')">3</button>
+      <button class="num-btn" onclick="padInput('4')">4</button>
+      <button class="num-btn" onclick="padInput('5')">5</button>
+      <button class="num-btn" onclick="padInput('6')">6</button>
+      <button class="num-btn" onclick="padInput('7')">7</button>
+      <button class="num-btn" onclick="padInput('8')">8</button>
+      <button class="num-btn" onclick="padInput('9')">9</button>
+      <button class="num-btn del" onclick="padDel()">⌫</button>
+      <button class="num-btn zero" onclick="padInput('0')">0</button>
+    </div>
+
+    <div class="lock-err" id="lockErr"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<div id="mainContent">
 
 <header class="site-header">
   <div class="header-inner">
@@ -130,7 +292,7 @@ body { font-family: -apple-system, 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-s
       <h1>いなだ医院 医療事務マニュアル</h1>
       <p>スタッフ向け業務手順書ポータル</p>
     </div>
-    <div class="header-badge">内部資料</div>
+    <div class="header-lock">🔒 認証済み</div>
   </div>
 </header>
 
@@ -138,7 +300,7 @@ body { font-family: -apple-system, 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-s
   <h2>業務マニュアル 一覧</h2>
   <p>ヒアリング録音 → 文字起こし → AI整理 で作成<br>随時更新中 · 不明点は担当者へ確認を</p>
   <div class="hero-stats">
-    <div class="hero-stat"><div class="n">7</div><div class="l">共通業務カテゴリ</div></div>
+    <div class="hero-stat"><div class="n">7</div><div class="l">共通業務</div></div>
     <div class="hero-stat"><div class="n">5</div><div class="l">担当者</div></div>
     <div class="hero-stat"><div class="n">4</div><div class="l">公開中</div></div>
   </div>
@@ -146,234 +308,259 @@ body { font-family: -apple-system, 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-s
 
 <main class="main">
 
-  <!-- 進捗 -->
-  <div class="progress-wrap">
-    <h3>作成進捗</h3>
-    <div class="prog-row"><div class="prog-label">医院業務（全般）</div><div class="prog-bar-wrap"><div class="prog-bar green" style="width:85%"></div></div><div class="prog-pct">85%</div></div>
-    <div class="prog-row"><div class="prog-label">受付</div><div class="prog-bar-wrap"><div class="prog-bar green" style="width:90%"></div></div><div class="prog-pct">90%</div></div>
-    <div class="prog-row"><div class="prog-label">薬局</div><div class="prog-bar-wrap"><div class="prog-bar" style="width:100%"></div></div><div class="prog-pct">100%</div></div>
-    <div class="prog-row"><div class="prog-label">会計</div><div class="prog-bar-wrap"><div class="prog-bar amber" style="width:40%"></div></div><div class="prog-pct">40%</div></div>
-    <div class="prog-row"><div class="prog-label">シュライバー</div><div class="prog-bar-wrap"><div class="prog-bar" style="width:0%"></div></div><div class="prog-pct">0%</div></div>
-    <div class="prog-row"><div class="prog-label">レセプト（共通）</div><div class="prog-bar-wrap"><div class="prog-bar" style="width:0%"></div></div><div class="prog-pct">0%</div></div>
-    <div class="prog-row"><div class="prog-label">個人タスク（小幡）</div><div class="prog-bar-wrap"><div class="prog-bar amber" style="width:70%"></div></div><div class="prog-pct">70%</div></div>
+  <!-- 作成進捗 -->
+  <div class="sec-head">
+    <div class="sec-icon green">📊</div>
+    <div><h2>作成進捗</h2></div>
+  </div>
+  <div class="prog-card">
+    <div class="prog-row"><div class="prog-label">医院業務（全般）</div><div class="prog-track"><div class="prog-fill green" style="width:85%"></div></div><div class="prog-pct">85%</div></div>
+    <div class="prog-row"><div class="prog-label">受付</div><div class="prog-track"><div class="prog-fill green" style="width:90%"></div></div><div class="prog-pct">90%</div></div>
+    <div class="prog-row"><div class="prog-label">薬局</div><div class="prog-track"><div class="prog-fill blue" style="width:100%"></div></div><div class="prog-pct">100%</div></div>
+    <div class="prog-row"><div class="prog-label">会計</div><div class="prog-track"><div class="prog-fill amber" style="width:40%"></div></div><div class="prog-pct">40%</div></div>
+    <div class="prog-row"><div class="prog-label">シュライバー</div><div class="prog-track"><div class="prog-fill gray" style="width:0%"></div></div><div class="prog-pct">0%</div></div>
+    <div class="prog-row"><div class="prog-label">レセプト（共通）</div><div class="prog-track"><div class="prog-fill gray" style="width:0%"></div></div><div class="prog-pct">0%</div></div>
+    <div class="prog-row"><div class="prog-label">個人タスク（小幡）</div><div class="prog-track"><div class="prog-fill amber" style="width:70%"></div></div><div class="prog-pct">70%</div></div>
   </div>
 
   <!-- 共通業務 -->
-  <div class="sec-head">
-    <div class="sec-head-icon blue">🏥</div>
-    <div>
-      <h2>共通業務マニュアル（7カテゴリ）</h2>
-      <p class="sec-sub">全スタッフ対象 · 担当業務ごとに参照</p>
-    </div>
+  <div class="sec-head" style="margin-top:28px;">
+    <div class="sec-icon blue">🏥</div>
+    <div><h2>共通業務マニュアル</h2><p>全スタッフ対象 · 担当業務ごとに参照</p></div>
   </div>
 
-  <div class="common-grid">
+  <div class="card-grid">
 
     <a class="manual-card done" href="01_共通業務/01_医院業務（全般）.html">
-      <div class="card-top">
-        <div class="card-icon blue">🏥</div>
+      <div class="card-body">
+        <div class="card-ic blue">🏥</div>
         <div class="card-info">
-          <div class="card-num">共通業務 ①</div>
+          <div class="card-no">共通業務 ①</div>
           <div class="card-title">医院業務（全般）</div>
-          <div class="card-sub">開院準備・昼休憩・閉院・電話切替・スタッフ連携</div>
+          <div class="card-desc">開院準備・昼休憩・閉院・電話切替・スタッフ連携</div>
         </div>
       </div>
-      <div class="card-status-bar">
-        <span class="status-badge done">✅ 公開中</span>
-        <div class="card-tabs"><span class="tab-chip">朝の開院</span><span class="tab-chip">昼休憩</span><span class="tab-chip">閉院</span></div>
+      <div class="card-foot">
+        <span class="badge done">✅ 公開中</span>
+        <div class="tab-chips"><span class="tab-chip">朝の開院</span><span class="tab-chip">昼休憩</span><span class="tab-chip">閉院</span></div>
       </div>
     </a>
 
     <a class="manual-card done" href="01_共通業務/02_受付.html">
-      <div class="card-top">
-        <div class="card-icon blue">🏷️</div>
+      <div class="card-body">
+        <div class="card-ic blue">🏷️</div>
         <div class="card-info">
-          <div class="card-num">共通業務 ②</div>
+          <div class="card-no">共通業務 ②</div>
           <div class="card-title">受付</div>
-          <div class="card-sub">保険確認・公費・労災・発熱外来・書類対応</div>
+          <div class="card-desc">保険確認・公費・労災・発熱外来・書類対応</div>
         </div>
       </div>
-      <div class="card-status-bar">
-        <span class="status-badge done">✅ 公開中</span>
-        <div class="card-tabs"><span class="tab-chip">基本受付</span><span class="tab-chip">保険</span><span class="tab-chip">公費</span><span class="tab-chip">労災</span></div>
+      <div class="card-foot">
+        <span class="badge done">✅ 公開中</span>
+        <div class="tab-chips"><span class="tab-chip">基本受付</span><span class="tab-chip">保険</span><span class="tab-chip">公費</span><span class="tab-chip">労災</span></div>
       </div>
     </a>
 
     <a class="manual-card done" href="01_共通業務/03_薬局.html">
-      <div class="card-top">
-        <div class="card-icon blue">💊</div>
+      <div class="card-body">
+        <div class="card-ic blue">💊</div>
         <div class="card-info">
-          <div class="card-num">共通業務 ③</div>
+          <div class="card-no">共通業務 ③</div>
           <div class="card-title">薬局</div>
-          <div class="card-sub">調剤・在庫管理・ダブルチェック</div>
+          <div class="card-desc">調剤・在庫管理・ダブルチェック・採用薬リスト</div>
         </div>
       </div>
-      <div class="card-status-bar">
-        <span class="status-badge done">✅ 完成</span>
-        <div class="card-tabs"><span class="tab-chip">調剤手順</span><span class="tab-chip">在庫・発注</span><span class="tab-chip">薬袋管理</span><span class="tab-chip">チェック</span></div>
+      <div class="card-foot">
+        <span class="badge done">✅ 完成</span>
+        <div class="tab-chips"><span class="tab-chip">調剤</span><span class="tab-chip">在庫</span><span class="tab-chip">薬袋</span><span class="tab-chip">採用薬</span></div>
       </div>
     </a>
 
     <a class="manual-card in-progress" href="01_共通業務/04_会計.html">
-      <div class="card-top">
-        <div class="card-icon amber">💴</div>
+      <div class="card-body">
+        <div class="card-ic amber">💴</div>
         <div class="card-info">
-          <div class="card-num">共通業務 ④</div>
+          <div class="card-no">共通業務 ④</div>
           <div class="card-title">会計</div>
-          <div class="card-sub">会計フロー・レジ締め・月次集計</div>
+          <div class="card-desc">会計フロー・レジ締め・月次集計</div>
         </div>
       </div>
-      <div class="card-status-bar">
-        <span class="status-badge in-progress">🔄 整備中</span>
-        <div class="card-tabs"><span class="tab-chip">レジ締め</span><span class="tab-chip gray">月次</span></div>
+      <div class="card-foot">
+        <span class="badge in-progress">🔄 整備中</span>
+        <div class="tab-chips"><span class="tab-chip">レジ締め</span><span class="tab-chip g">月次</span></div>
       </div>
     </a>
 
-    <a class="manual-card pending" href="01_共通業務/05_シュライバー.html">
-      <div class="card-top">
-        <div class="card-icon gray">✏️</div>
+    <a class="manual-card pending">
+      <div class="card-body">
+        <div class="card-ic gray">✏️</div>
         <div class="card-info">
-          <div class="card-num">共通業務 ⑤</div>
+          <div class="card-no">共通業務 ⑤</div>
           <div class="card-title">シュライバー</div>
-          <div class="card-sub">診察補助業務</div>
+          <div class="card-desc">診察補助業務</div>
         </div>
       </div>
-      <div class="card-status-bar">
-        <span class="status-badge pending">⬜ 録音待ち</span>
-        <div class="card-tabs"><span class="tab-chip gray">未収録</span></div>
+      <div class="card-foot">
+        <span class="badge pending">⬜ 録音待ち</span>
+        <div class="tab-chips"><span class="tab-chip g">未収録</span></div>
       </div>
     </a>
 
-    <a class="manual-card pending" href="01_共通業務/06_レセプト.html">
-      <div class="card-top">
-        <div class="card-icon gray">📊</div>
+    <a class="manual-card pending">
+      <div class="card-body">
+        <div class="card-ic gray">📊</div>
         <div class="card-info">
-          <div class="card-num">共通業務 ⑥</div>
+          <div class="card-no">共通業務 ⑥</div>
           <div class="card-title">レセプト</div>
-          <div class="card-sub">月次レセプト点検・請求業務</div>
+          <div class="card-desc">月次レセプト点検・請求業務</div>
         </div>
       </div>
-      <div class="card-status-bar">
-        <span class="status-badge pending">⬜ 録音待ち</span>
-        <div class="card-tabs"><span class="tab-chip gray">未収録</span></div>
+      <div class="card-foot">
+        <span class="badge pending">⬜ 録音待ち</span>
+        <div class="tab-chips"><span class="tab-chip g">未収録</span></div>
       </div>
     </a>
 
     <a class="manual-card in-progress" href="01_共通業務/07_個人タスク.html">
-      <div class="card-top">
-        <div class="card-icon teal">👥</div>
+      <div class="card-body">
+        <div class="card-ic teal">👥</div>
         <div class="card-info">
-          <div class="card-num">共通業務 ⑦</div>
+          <div class="card-no">共通業務 ⑦</div>
           <div class="card-title">個人タスク</div>
-          <div class="card-sub">各担当者の専門業務（流動的）</div>
+          <div class="card-desc">各担当者の専門業務（流動的）</div>
         </div>
       </div>
-      <div class="card-status-bar">
-        <span class="status-badge in-progress">🔄 整備中</span>
-        <div class="card-tabs"><span class="tab-chip">小幡</span><span class="tab-chip gray">他4名</span></div>
+      <div class="card-foot">
+        <span class="badge in-progress">🔄 整備中</span>
+        <div class="tab-chips"><span class="tab-chip">小幡</span><span class="tab-chip g">他4名</span></div>
       </div>
     </a>
 
   </div>
 
   <!-- 担当者別 -->
-  <div class="sec-head">
-    <div class="sec-head-icon teal">👤</div>
-    <div>
-      <h2>担当者別 マニュアル</h2>
-      <p class="sec-sub">個人タスクページからもアクセス可</p>
-    </div>
+  <div class="sec-head" style="margin-top:28px;">
+    <div class="sec-icon teal">👤</div>
+    <div><h2>担当者別マニュアル</h2><p>個人タスクページからもアクセス可</p></div>
   </div>
 
   <div class="staff-grid">
-
-    <a class="staff-card active-card" href="05_小幡/01_小幡_業務マニュアル.html">
+    <a class="staff-card active" href="05_小幡/01_小幡_業務マニュアル.html">
       <div class="staff-top">
-        <div class="staff-avatar active">👩‍💼</div>
+        <div class="staff-av t">👩‍💼</div>
         <div class="staff-name">小幡</div>
         <div class="staff-role">書類・レセプト<br>詳記担当</div>
       </div>
-      <div class="staff-bottom"><span class="staff-status active">🔄 整備中</span></div>
+      <div class="staff-foot"><span class="staff-badge t">🔄 整備中</span></div>
     </a>
-
-    <div class="staff-card pending-card">
-      <div class="staff-top">
-        <div class="staff-avatar gray-av">👩</div>
-        <div class="staff-name">吉田</div>
-        <div class="staff-role">録音待ち</div>
-      </div>
-      <div class="staff-bottom"><span class="staff-status pending">⬜ 未収録</span></div>
+    <div class="staff-card pending">
+      <div class="staff-top"><div class="staff-av g">👩</div><div class="staff-name">吉田</div><div class="staff-role">録音待ち</div></div>
+      <div class="staff-foot"><span class="staff-badge g">⬜ 未収録</span></div>
     </div>
-
-    <div class="staff-card pending-card">
-      <div class="staff-top">
-        <div class="staff-avatar gray-av">👩</div>
-        <div class="staff-name">守屋</div>
-        <div class="staff-role">録音待ち</div>
-      </div>
-      <div class="staff-bottom"><span class="staff-status pending">⬜ 未収録</span></div>
+    <div class="staff-card pending">
+      <div class="staff-top"><div class="staff-av g">👩</div><div class="staff-name">守屋</div><div class="staff-role">録音待ち</div></div>
+      <div class="staff-foot"><span class="staff-badge g">⬜ 未収録</span></div>
     </div>
-
-    <div class="staff-card pending-card">
-      <div class="staff-top">
-        <div class="staff-avatar gray-av">👩</div>
-        <div class="staff-name">松浦</div>
-        <div class="staff-role">録音待ち</div>
-      </div>
-      <div class="staff-bottom"><span class="staff-status pending">⬜ 未収録</span></div>
+    <div class="staff-card pending">
+      <div class="staff-top"><div class="staff-av g">👩</div><div class="staff-name">松浦</div><div class="staff-role">録音待ち</div></div>
+      <div class="staff-foot"><span class="staff-badge g">⬜ 未収録</span></div>
     </div>
-
-    <div class="staff-card pending-card">
-      <div class="staff-top">
-        <div class="staff-avatar gray-av">👩</div>
-        <div class="staff-name">綾目</div>
-        <div class="staff-role">録音待ち</div>
-      </div>
-      <div class="staff-bottom"><span class="staff-status pending">⬜ 未収録</span></div>
+    <div class="staff-card pending">
+      <div class="staff-top"><div class="staff-av g">👩</div><div class="staff-name">綾目</div><div class="staff-role">録音待ち</div></div>
+      <div class="staff-foot"><span class="staff-badge g">⬜ 未収録</span></div>
     </div>
-
-  </div>
-
-  <!-- 作成フロー -->
-  <div class="sec-head">
-    <div class="sec-head-icon blue">🔄</div>
-    <div>
-      <h2>マニュアル作成フロー</h2>
-    </div>
-  </div>
-
-  <div class="progress-wrap" style="padding:0;overflow:hidden;">
-    <div style="display:flex;flex-direction:column;">
-      <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--gray-mid);">
-        <div style="width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">1</div>
-        <div><div style="font-weight:700;font-size:.85rem;">🎙️ 業務を実況しながら音声録音</div><div style="font-size:.72rem;color:var(--text-sub);margin-top:2px;">担当者が作業しながら口頭で手順を説明</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--gray-mid);">
-        <div style="width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">2</div>
-        <div><div style="font-weight:700;font-size:.85rem;">📝 文字起こし（.txt）</div><div style="font-size:.72rem;color:var(--text-sub);margin-top:2px;">録音を文字起こしして txt で保存 → 10_ソースデータへ</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--gray-mid);">
-        <div style="width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">3</div>
-        <div><div style="font-weight:700;font-size:.85rem;">🤖 AI（Claude）でマニュアル化</div><div style="font-size:.72rem;color:var(--text-sub);margin-top:2px;">txt → 手順書 HTML に自動整理・整形</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;">
-        <div style="width:32px;height:32px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">4</div>
-        <div><div style="font-weight:700;font-size:.85rem;">🌐 Web公開 → スマホで閲覧</div><div style="font-size:.72rem;color:var(--text-sub);margin-top:2px;">GitHub Pages にデプロイ</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="info-box">
-    <strong>📌 利用上の注意：</strong>
-    このマニュアルはヒアリング内容をAIが整理したものです。実際の業務では必ず担当者・上長に確認してください。内容に誤りを見つけた場合は管理者までご連絡ください。
   </div>
 
 </main>
 
 <footer class="site-footer">
-  <p>いなだ医院 医療事務マニュアルポータル · 院内使用限定</p>
+  <p>いなだ医院 医療事務マニュアルポータル · スタッフ専用</p>
   <p style="margin-top:4px;">最終更新: 2026年5月</p>
 </footer>
 
+</div><!-- /mainContent -->
+
+<script>
+/* ════════════════════════════════════════
+   PASSWORD CONFIG
+   変更方法: python3 -c "import hashlib; print(hashlib.sha256(b'新4桁'.hexdigest())"
+   または change_password.py を実行
+═══════════════════════════════════════ */
+const PASS_HASH = "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0";
+const AUTH_KEY  = "inada_auth";
+const AUTH_VAL  = "ok";
+
+/* ── 起動時チェック ── */
+(function() {
+  if (sessionStorage.getItem(AUTH_KEY) === AUTH_VAL) {
+    unlock();
+  }
+})();
+
+/* ── PIN入力状態 ── */
+let pin = "";
+
+function padInput(d) {
+  if (pin.length >= 4) return;
+  pin += d;
+  updateDots();
+  if (pin.length === 4) setTimeout(submitPin, 120);
+}
+
+function padDel() {
+  if (pin.length === 0) return;
+  pin = pin.slice(0, -1);
+  updateDots();
+  document.getElementById("lockErr").textContent = "";
+}
+
+function updateDots() {
+  for (let i = 0; i < 4; i++) {
+    const d = document.getElementById("d" + i);
+    if (i < pin.length) {
+      d.textContent = "●"; d.className = "pin-dot filled";
+    } else if (i === pin.length) {
+      d.textContent = ""; d.className = "pin-dot active";
+    } else {
+      d.textContent = ""; d.className = "pin-dot";
+    }
+  }
+}
+
+async function submitPin() {
+  const enc  = new TextEncoder().encode(pin);
+  const buf  = await crypto.subtle.digest("SHA-256", enc);
+  const hex  = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+
+  if (hex === PASS_HASH) {
+    sessionStorage.setItem(AUTH_KEY, AUTH_VAL);
+    document.getElementById("lockScreen").style.transition = "opacity .3s";
+    document.getElementById("lockScreen").style.opacity = "0";
+    setTimeout(() => {
+      document.getElementById("lockScreen").classList.add("hidden");
+      unlock();
+    }, 300);
+  } else {
+    const card = document.getElementById("lockCard");
+    card.classList.remove("shake");
+    void card.offsetWidth;
+    card.classList.add("shake");
+    document.getElementById("lockErr").textContent = "暗証番号が違います";
+    pin = "";
+    updateDots();
+  }
+}
+
+function unlock() {
+  document.getElementById("mainContent").classList.add("visible");
+}
+
+/* キーボード入力対応 */
+document.addEventListener("keydown", e => {
+  if (document.getElementById("lockScreen").classList.contains("hidden")) return;
+  if (e.key >= "0" && e.key <= "9") padInput(e.key);
+  if (e.key === "Backspace") padDel();
+});
+</script>
 </body>
 </html>
