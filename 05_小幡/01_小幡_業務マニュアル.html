@@ -816,7 +816,6 @@
 <button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="トップへ戻る">↑</button>
 
 <script>
-if(sessionStorage.getItem('inada_auth')!=='ok'){window.location.replace('../index.html');}
 function switchTab(tabId, btn) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
