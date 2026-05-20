@@ -159,8 +159,57 @@ tr:last-child td { border-bottom: none; }
 .header-logo-img {
   height: 36px; width: auto; object-fit: contain;
   filter: brightness(0) invert(1); opacity: .92;
-  margin-bottom: 8px;
+  }
+
+/* ════ UNIFIED HEADER ════ */
+.header, .site-header {
+  position: sticky !important; top: 0; z-index: 100;
+  padding: 0 16px !important;
+  min-height: 56px;
+  display: flex; align-items: center;
+  overflow: visible !important;
 }
+.header-inner {
+  position: relative;
+  display: flex; align-items: center;
+  width: 100%; max-width: 960px; margin: 0 auto;
+  padding: 10px 0 10px 110px; /* 左に back-link 分の余白 */
+  text-align: center;
+}
+/* back-link: 常に左端に固定 */
+.back-link {
+  position: absolute !important;
+  left: 0 !important; top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: inline-flex !important; align-items: center; gap: 5px;
+  color: rgba(255,255,255,.92) !important; font-size: 12px !important;
+  font-weight: 600; text-decoration: none;
+  background: rgba(255,255,255,.18) !important;
+  border: 1px solid rgba(255,255,255,.3) !important;
+  border-radius: 20px; padding: 6px 13px !important;
+  white-space: nowrap; transition: background .15s;
+  margin: 0 !important;
+}
+.back-link:hover { background: rgba(255,255,255,.3) !important; color: #fff !important; }
+/* ロゴ */
+.header-logo-img {
+  height: 30px !important; width: auto;
+  filter: brightness(0) invert(1); opacity: .9;
+  display: block; margin: 0 auto 4px;
+}
+/* タイトルをコンパクトに */
+.header h1, .site-header h1 {
+  font-size: 16px !important; font-weight: 800; color: #fff;
+  letter-spacing: .02em; margin: 0;
+}
+.header .sub, .site-header .subtitle {
+  font-size: 10px !important; color: rgba(255,255,255,.65); margin-top: 1px;
+}
+.header-tag {
+  font-size: 10px; margin-bottom: 2px;
+}
+/* 小幡ページ用 */
+.site-header .staff-badge { font-size: 10px; margin-bottom: 3px; }
 </style>
 </head>
 <body>
