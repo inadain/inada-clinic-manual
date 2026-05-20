@@ -142,6 +142,25 @@ tr:last-child td { border-bottom: none; }
 .card.open .card-head::after { transform: rotate(90deg); }
 .card-body { display: none; }
 .card.open .card-body { display: block; }
+
+/* ── CARD HEAD COLOR CALM ── */
+.card-head {
+  background: #f8fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  border-left: 4px solid var(--blue-mid);
+}
+.card-head.teal   { border-left-color: var(--teal); }
+.card-head.amber  { border-left-color: var(--amber); }
+.card-head.red    { border-left-color: var(--red, #dc2626); }
+.card-head.green  { border-left-color: var(--green); }
+.card-head.purple { border-left-color: var(--purple, #7c3aed); }
+
+/* ── HEADER LOGO ── */
+.header-logo-img {
+  height: 36px; width: auto; object-fit: contain;
+  filter: brightness(0) invert(1); opacity: .92;
+  margin-bottom: 8px;
+}
 </style>
 </head>
 <body>
