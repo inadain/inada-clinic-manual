@@ -291,7 +291,7 @@ body {
           <span class="search-icon">🔍</span>
           <input class="search-input" id="searchInput" type="search"
                  placeholder="薬名・成分・効果・注意点で検索..." autocomplete="off"
-                 oninput="onSearch()">
+                 oninput="onSearch()" oncompositionupdate="onSearch()" oncompositionend="onSearch()">
           <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
         </div>
         <button class="cat-toggle-btn" id="catToggleBtn" onclick="toggleMobileCat()">
@@ -893,11 +893,11 @@ function clearSearch() {
 }
 
 function render() {
-  const q = currentQ.toLowerCase();
+  const q = norm(currentQ);
   const filtered = DRUGS.filter(d => {
     const catOk = currentCat === "すべて" || d.category === currentCat;
     const qOk = !q || [d.name, d.brand, d.category, d.desc, d.note]
-                       .some(s => (s||"").toLowerCase().includes(q));
+                       .some(s => norm(s).includes(q));
     return catOk && qOk;
   });
 
@@ -962,11 +962,27 @@ function toggleCard(el) {
   el.classList.toggle("open");
 }
 
+/* ひらがな→カタカナ変換（U+3041〜U+3096 → +0x60） */
+function hira2kata(s) {
+  return (s||"").replace(/[ぁ-ゖ]/g, c => String.fromCharCode(c.charCodeAt(0) + 0x60));
+}
+/* カタカナ→ひらがな変換 */
+function kata2hira(s) {
+  return (s||"").replace(/[ァ-ヶ]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
+}
+/* 検索正規化：ひらがな・カタカナを統一してlowerCase */
+function norm(s) {
+  return hira2kata((s||"").toLowerCase());
+}
+
 function highlight(text) {
   if (!currentQ || !text) return escHtml(text||"");
   const esc = escHtml(text);
-  const q = escHtml(currentQ).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return esc.replace(new RegExp(q, "gi"), m => `<mark style="background:#fef08a;border-radius:2px">${m}</mark>`);
+  // ひらがなでもカタカナでもマッチするよう両形式でハイライト
+  const kata = hira2kata(currentQ).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const hira = kata2hira(currentQ).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const pat  = kata === hira ? kata : `${kata}|${hira}`;
+  return esc.replace(new RegExp(pat, "gi"), m => `<mark style="background:#fef08a;border-radius:2px">${m}</mark>`);
 }
 
 function escHtml(s) {
