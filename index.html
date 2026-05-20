@@ -548,11 +548,7 @@ const AUTH_KEY  = "inada_auth";
 const AUTH_VAL  = "ok";
 
 /* ── 起動時チェック ── */
-(function() {
-  if (sessionStorage.getItem(AUTH_KEY) === AUTH_VAL) {
-    unlock();
-  }
-})();
+(function() { unlock(); })(); // パスワード一時無効
 
 /* ── PIN入力状態 ── */
 let pin = "";
