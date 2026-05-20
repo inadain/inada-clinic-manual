@@ -35,7 +35,7 @@
   }
 
   /* ヘッダー */
-  .site-header {
+  .site-header { position: relative;
     background: linear-gradient(135deg, #1a6b9a 0%, #0d4f75 100%);
     color: white;
     padding: 20px 16px 16px;
@@ -320,6 +320,14 @@
 .card.open .card-head::after { transform: rotate(90deg); }
 .card-body { display: none; }
 .card.open .card-body { display: block; }
+.back-link {
+  position: absolute; left: 14px; top: 14px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 5px;
+  color: rgba(255,255,255,.92); font-size: 12px; font-weight: 600; text-decoration: none;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+  border-radius: 20px; padding: 5px 12px; transition: background .15s;
+}
+.back-link:hover { background: rgba(255,255,255,.3); color: #fff; }
 </style>
 </head>
 <body>
