@@ -1030,6 +1030,12 @@ document.addEventListener("DOMContentLoaded", () => {
   buildMobilePanel();
   render();
 });
+
+/* ── ACCORDION JS ── */
+document.addEventListener('click', function(e) {
+  var head = e.target.closest('.card-head');
+  if (head) head.closest('.card').classList.toggle('open');
+});
 </script>
 </body>
 </html>
