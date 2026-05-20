@@ -51,10 +51,13 @@ body {
 }
 .header-inner { position:relative; z-index:1; display:flex; align-items:center; gap:12px; max-width:1100px; margin:0 auto; }
 .back-link {
-  color:rgba(255,255,255,.75); font-size:12px; text-decoration:none;
-  display:flex; align-items:center; gap:4px; white-space:nowrap;
+  position: absolute; left: 14px; top: 14px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 5px;
+  color: rgba(255,255,255,.92); font-size: 12px; font-weight: 600; text-decoration: none;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+  border-radius: 20px; padding: 5px 12px; transition: background .15s;
 }
-.back-link:hover { color:#fff; }
+.back-link:hover { background: rgba(255,255,255,.3); color: #fff; }
 .header-title { flex:1; }
 .header-title h1 { color:#fff; font-size:17px; font-weight:800; }
 .header-title .sub { color:rgba(255,255,255,.6); font-size:11px; }
