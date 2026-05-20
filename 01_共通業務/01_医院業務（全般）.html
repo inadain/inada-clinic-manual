@@ -792,6 +792,12 @@ window.addEventListener('scroll', () => {
   document.querySelectorAll('#tocL a, #tocOvL a').forEach((a, i) => a.classList.toggle('toc-cur', i === cur));
 });
 document.addEventListener('DOMContentLoaded', buildToc);
+
+/* ── ACCORDION JS ── */
+document.addEventListener('click', function(e) {
+  var head = e.target.closest('.card-head');
+  if (head) head.closest('.card').classList.toggle('open');
+});
 </script>
 </body>
 </html>
