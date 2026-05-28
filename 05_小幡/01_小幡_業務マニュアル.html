@@ -573,25 +573,59 @@
 
   <!-- 在宅 -->
   <div class="rec-cat">
-    <div class="rec-cat-header">🏠 在宅　<span style="font-size:11px;opacity:.7;font-weight:400;">録音待ち</span></div>
+    <div class="rec-cat-header">🏠 在宅患者 レセプトチェック</div>
     <div class="rec-cat-body">
-      <div class="callout gray"><span class="callout-icon">🎙️</span><div>ヒアリング未完了。録音・文字起こしが届いたら追記します。</div></div>
+      <div class="callout info"><span class="callout-icon">ℹ️</span><div>在宅患者は訪問看護の日にちなど外部情報が絡むため、チェッカーで引っかからない漏れが生じやすい。<strong>紙レセで目視確認を行う。</strong></div></div>
+      <div class="tbl-wrap"><table>
+        <tr><th>作業</th><th>担当</th></tr>
+        <tr><td>在宅患者のレセプトを印刷して紙で渡す</td><td>吉田さん</td></tr>
+        <tr><td>紙レセをチェックして返す</td><td>小幡さん</td></tr>
+        <tr><td>カルテ上で修正する</td><td>守屋さん</td></tr>
+      </table></div>
+      <div class="callout warn"><span class="callout-icon">⚠️</span><div>入力漏れのコメントや訪問看護日にちとのズレ、介護側の情報が絡む項目などを目視で確認する。チェッカーには引っかからない。</div></div>
     </div>
   </div>
 
   <!-- CPAP -->
   <div class="rec-cat">
-    <div class="rec-cat-header">😴 CPAP 必須入力項目　<span style="font-size:11px;opacity:.7;font-weight:400;">録音待ち</span></div>
+    <div class="rec-cat-header">😴 シーパップ（CPAP）必須入力項目</div>
     <div class="rec-cat-body">
-      <div class="callout gray"><span class="callout-icon">🎙️</span><div>ヒアリング未完了。録音・文字起こしが届いたら追記します。</div></div>
+      <div class="callout gray"><span class="callout-icon">📌</span><div>毎月、AHI（無呼吸指数）を含む6項目の入力が必要。初回は全項目入力、2回目以降は直近のAHIのみ更新。</div></div>
+      <div class="callout info">
+        <span class="callout-icon">📋</span>
+        <div>
+          <strong>必須6項目：</strong><br>
+          ① 直近のAHI（無呼吸指数）<br>
+          ② ポリソムノグラフィーの所見<br>
+          ③ 年月日<br>
+          ④ 自覚症状（必要かどうかを含む）<br>
+          ⑤ 一連の治療期間における初回指導管理年月日<br>
+          ⑥ 3定での算定（先生が書いた初回の所見を流用）
+        </div>
+      </div>
+      <ol class="steps">
+        <li>調査18番（シーパップ）で患者リストを検索する</li>
+        <li>レセプト抽出→作成されていない患者はここで新規作成する</li>
+        <li>コメント編集画面を開き、直近のAHI数値を確認・更新する</li>
+        <li>カルテで先生が書いてくれているAHI（呼吸指数）を確認して入力する</li>
+      </ol>
+      <div class="callout tip"><span class="callout-icon">💡</span><div>理想は月10日ごとに実施。レセ締め切りまでに完了させること。検索結果から未入力の患者を順番に開いてチェックしていく。</div></div>
+      <div class="callout warn"><span class="callout-icon">⚠️</span><div>在宅自己注射をしている患者は在宅指導管理料の方が高いため管理料は算定しないが、コメントは入れること。</div></div>
     </div>
   </div>
 
   <!-- 在宅酸素 -->
   <div class="rec-cat">
-    <div class="rec-cat-header">🫧 在宅酸素 必須入力項目　<span style="font-size:11px;opacity:.7;font-weight:400;">録音待ち</span></div>
+    <div class="rec-cat-header">🫧 在宅酸素 必須入力項目</div>
     <div class="rec-cat-body">
-      <div class="callout gray"><span class="callout-icon">🎙️</span><div>ヒアリング未完了。録音・文字起こしが届いたら追記します。</div></div>
+      <div class="callout gray"><span class="callout-icon">📌</span><div>カルテに先生が書いてくれているサチュレーション（SpO₂）の数値をレセに入力する。</div></div>
+      <ol class="steps">
+        <li>レセプト抽出→作成されていない患者はここで新規作成する</li>
+        <li>コメント編集画面を開く → 「当月分」を選択 → 「挿入」をクリック</li>
+        <li>加算項目の「選択」ボタンを押す → 動脈血酸素飽和度のパーセント数値を入力する</li>
+        <li>カルテで先生が書いてくれているSpO₂（%）の最新値を確認して入力する</li>
+      </ol>
+      <div class="callout tip"><span class="callout-icon">💡</span><div>「当月分」の挿入 → 数値入力で完了。シーパップと同様にリストから順番に処理していく。</div></div>
     </div>
   </div>
 
@@ -835,10 +869,12 @@
         <div class="drug-header" onclick="toggleDrug(this)">
           <span class="drug-num">調査 30番</span>
           <span class="drug-name">スピリーバ（吸入薬）</span>
-          <span class="drug-status-wip">🎙️ 録音待ち</span>
+          <span class="drug-status-done">— 対象なし</span>
           <span class="drug-arrow">▶</span>
         </div>
-        <div class="drug-pending">録音・文字起こしが届いたら追記します。</div>
+        <div class="drug-body">
+          <div class="callout gray"><span class="callout-icon">📌</span><div>現在、該当患者がいないためスキップ。対象患者が発生した際は手順を確認する。</div></div>
+        </div>
       </div>
 
       <!-- サムスカ -->
@@ -846,10 +882,19 @@
         <div class="drug-header" onclick="toggleDrug(this)">
           <span class="drug-num">—</span>
           <span class="drug-name">サムスカ</span>
-          <span class="drug-status-wip">🎙️ 録音待ち</span>
+          <span class="drug-status-done">✅ 収録済み</span>
           <span class="drug-arrow">▶</span>
         </div>
-        <div class="drug-pending">録音・文字起こしが届いたら追記します。</div>
+        <div class="drug-body">
+          <div class="callout gray"><span class="callout-icon">📌</span><div>調査（11番）で引っかかった全患者のAPコメントから定型文を引っ張って入力する。</div></div>
+          <ol class="steps">
+            <li>調査11番で対象患者を抽出・印刷する</li>
+            <li>レセプト抽出→ID入力→コメント編集に進む</li>
+            <li>APコメント（ドクターコメント）から過去コメントを引用して入力する</li>
+            <li>APコメントがない患者は先生に記入を依頼する</li>
+          </ol>
+          <div class="callout info"><span class="callout-icon">ℹ️</span><div>初回は先生にコメントを書いてもらう。2回目以降は前回コメントをそのままコピーでOK。</div></div>
+        </div>
       </div>
 
       <!-- ゾルミトリプタン -->
@@ -857,10 +902,19 @@
         <div class="drug-header" onclick="toggleDrug(this)">
           <span class="drug-num">—</span>
           <span class="drug-name">ゾルミトリプタン</span>
-          <span class="drug-status-wip">🎙️ 録音待ち</span>
+          <span class="drug-status-done">✅ 収録済み</span>
           <span class="drug-arrow">▶</span>
         </div>
-        <div class="drug-pending">録音・文字起こしが届いたら追記します。</div>
+        <div class="drug-body">
+          <div class="callout warn"><span class="callout-icon">⚠️</span><div>頓服薬を月2回処方すると28日分以上になり、上限14日を超過。月2回処方した患者に注釈コメントが必要。</div></div>
+          <ol class="steps">
+            <li>ルセの検索画面から対象患者全員を引っかける（月1回処方も含め全員上がってくる）</li>
+            <li>全員確認し「頓服かつ月2回処方」の患者を特定する</li>
+            <li>対象患者のコメント編集→下段テンプレ一覧からゾルミトリプタン用テンプレを選択</li>
+            <li>処方日（○月○日・○月○日）を入力して挿入する</li>
+          </ol>
+          <div class="callout info"><span class="callout-icon">ℹ️</span><div>コメント内容：「頓服処方に伴う制限のため　○月○日・○月○日 処方」</div></div>
+        </div>
       </div>
 
       <!-- PT・APTT -->
@@ -868,10 +922,18 @@
         <div class="drug-header" onclick="toggleDrug(this)">
           <span class="drug-num">—</span>
           <span class="drug-name">PT・APTT</span>
-          <span class="drug-status-wip">🎙️ 録音待ち</span>
+          <span class="drug-status-done">✅ 収録済み</span>
           <span class="drug-arrow">▶</span>
         </div>
-        <div class="drug-pending">録音・文字起こしが届いたら追記します。</div>
+        <div class="drug-body">
+          <div class="callout gray"><span class="callout-icon">📌</span><div>決められた固定コメントを入力する義務がある。出血病名がついていれば両方通るが、念のため入力する。</div></div>
+          <div class="tbl-wrap"><table>
+            <tr><th>検査</th><th>対象</th></tr>
+            <tr><td><strong>PT</strong></td><td>バファリン等の抗凝固薬を服用している患者（村崎さん等）</td></tr>
+            <tr><td><strong>APTT</strong></td><td>出血リスクのある患者（黒崎さん等）</td></tr>
+          </table></div>
+          <div class="callout info"><span class="callout-icon">ℹ️</span><div>コメント編集画面から固定コメントを選択して入力する。両方実施している患者は両方のコメントを入れる。</div></div>
+        </div>
       </div>
 
       <!-- 緊急検査・レントゲン -->
@@ -879,10 +941,19 @@
         <div class="drug-header" onclick="toggleDrug(this)">
           <span class="drug-num">—</span>
           <span class="drug-name">緊急検査・レントゲン（時間入力）</span>
-          <span class="drug-status-wip">🎙️ 録音待ち</span>
+          <span class="drug-status-done">✅ 収録済み</span>
           <span class="drug-arrow">▶</span>
         </div>
-        <div class="drug-pending">録音・文字起こしが届いたら追記します。</div>
+        <div class="drug-body">
+          <div class="callout info"><span class="callout-icon">ℹ️</span><div>時間外に院内で実施した検査は「決められたコード＋実施時間」の入力が必要。<strong>外注検査は対象外。</strong></div></div>
+          <div class="callout gray"><span class="callout-icon">📌</span><div>対象検査：CBC・CRP・検尿・インフルエンザ・コロナ など、院内で実施したもの</div></div>
+          <ol class="steps">
+            <li>決められたコードを選択する</li>
+            <li>カルテで実施日・実施時間を確認する（先生がカルテを登録した時間を参照）</li>
+            <li>「何月何日 何時」の形式で実施時間を入力する</li>
+          </ol>
+          <div class="callout tip"><span class="callout-icon">💡</span><div>先生がカルテに登録した時間以降であれば問題ない。その時間を目安に入力する。</div></div>
+        </div>
       </div>
 
       <!-- アドエア・メインテート -->
@@ -890,10 +961,12 @@
         <div class="drug-header" onclick="toggleDrug(this)">
           <span class="drug-num">—</span>
           <span class="drug-name">アドエア・メインテート</span>
-          <span class="drug-status-wip">🎙️ 録音待ち</span>
+          <span class="drug-status-done">— 対象なし</span>
           <span class="drug-arrow">▶</span>
         </div>
-        <div class="drug-pending">録音・文字起こしが届いたら追記します。</div>
+        <div class="drug-body">
+          <div class="callout gray"><span class="callout-icon">📌</span><div>現在は使用していないため対象なし。固定コメントあり（使用再開時に確認）。</div></div>
+        </div>
       </div>
 
       <!-- 処方量7剤以上 -->
@@ -901,10 +974,17 @@
         <div class="drug-header" onclick="toggleDrug(this)">
           <span class="drug-num">—</span>
           <span class="drug-name">処方量 7剤以上（減額対応）</span>
-          <span class="drug-status-wip">🎙️ 録音待ち</span>
+          <span class="drug-status-done">✅ 収録済み</span>
           <span class="drug-arrow">▶</span>
         </div>
-        <div class="drug-pending">録音・文字起こしが届いたら追記します。</div>
+        <div class="drug-body">
+          <div class="callout warn"><span class="callout-icon">⚠️</span><div>7剤以上になると点数が下がる（処方線量↓・薬剤も100分の90）。<strong>処方箋が薬局に渡ったものは変更不可。</strong>院内に留まっているもののみ修正する。</div></div>
+          <ol class="steps">
+            <li>レセチェッカーで7剤以上として引っかかった患者を確認する</li>
+            <li>院内のカルテを確認し、薬局に出ていない（院内で修正できる）ものだけ薬剤を調整する</li>
+          </ol>
+          <div class="callout info"><span class="callout-icon">ℹ️</span><div>普段の処方入力時から7剤未満になるよう気をつけているが、見落とした分をレセでチェックして対応する。</div></div>
+        </div>
       </div>
 
     </div><!-- /rec-cat-body 詳記 -->
@@ -925,8 +1005,11 @@
 <script>
 function switchTab(tabId, btn) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll(');
-  buildToc();
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (typeof closeNav === 'function') closeNav();
 }
 
 function toggleDrug(header) {
