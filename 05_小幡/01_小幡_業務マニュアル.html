@@ -995,9 +995,7 @@
 <div style="height:40px;"></div>
 </div><!-- /main-area -->
 </div><!-- /page-layout -->
-<div class="toc-ov-panel">
-    <div class="toc-ov-hd"><span>📋 目次</span><button class="toc-ov-close" onclick="closeToc()">×</button></div>
-    <ul class="toc-ov-list" id="tocOvL"></ul>
+<ul class="toc-ov-list" id="tocOvL"></ul>
   </div>
 </div>
 <button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="トップへ戻る">↑</button>
@@ -1024,31 +1022,7 @@ function toggleDrug(header) {
   arrow.style.transform = isOpen ? '' : 'rotate(90deg)';
 }
 
-function buildToc() {
-  const pane = document.querySelector('.tab-content.active');
-  const items = [];
-  if (pane) {
-    pane.querySelectorAll('.section-card, .card, .rec-cat').forEach((c, i) => {
-      const t = c.querySelector('.section-title, .card-title, .rec-cat-label');
-      if (t) { c.id = 'tc' + i; items.push({ el: c, text: t.textContent.trim() }); }
-    });
-  }
-  window._toc = items;
-  ['tocL', 'tocOvL'].forEach(id => {
-    const ul = document.getElementById(id);
-    if (ul) ul.innerHTML = items.map((it, i) => `<li><a href="#" data-i="${i}">${it.text}</a></li>`).join('');
-  });
-  document.querySelectorAll('#tocL a, #tocOvL a').forEach(a => {
-    a.onclick = e => {
-      e.preventDefault();
-      const it = (window._toc || [])[+a.dataset.i];
-      if (it) { it.el.classList.add('open'); window.scrollTo({ top: it.el.getBoundingClientRect().top + window.scrollY - 110, behavior: 'smooth' }); }
-      closeToc();
-    };
-  });
-}
-function openToc() { document.getElementById('tocOv').classList.add('open'); }
-function closeToc() { document.getElementById('tocOv').classList.remove('open'); }
+
 window.addEventListener('scroll', () => {
   document.getElementById('toTop').classList.toggle('show', window.scrollY > 250);
   const items = window._toc || [];
@@ -1057,7 +1031,6 @@ window.addEventListener('scroll', () => {
   items.forEach((it, i) => { if (it.el.getBoundingClientRect().top <= 120) cur = i; });
   document.querySelectorAll('#tocL a, #tocOvL a').forEach((a, i) => a.classList.toggle('toc-cur', i === cur));
 });
-document.addEventListener('DOMContentLoaded', buildToc);
 
 /* ── ACCORDION JS ── */
 document.addEventListener('click', function(e) {
