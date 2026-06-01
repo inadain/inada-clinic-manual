@@ -125,17 +125,7 @@ tr:last-child td { border-bottom: none; }
 .card-body { display: none; }
 .card.open .card-body { display: block; }
 
-/* ── CARD HEAD COLOR CALM ── */
-.card-head {
-  background: #f8fafc !important;
-  border-bottom: 1px solid #e2e8f0 !important;
-  border-left: 4px solid var(--blue-mid);
-}
-.card-head.teal   { border-left-color: var(--teal); }
-.card-head.amber  { border-left-color: var(--amber); }
-.card-head.red    { border-left-color: var(--red, #dc2626); }
-.card-head.green  { border-left-color: var(--green); }
-.card-head.purple { border-left-color: var(--purple, #7c3aed); }
+
 
 /* ── HEADER LOGO ── */
 .header-logo-img {
@@ -242,6 +232,37 @@ tr:last-child td { border-bottom: none; }
 .nav-ov-head button { background: none; border: none; cursor: pointer; font-size: 22px; color: var(--gray, #64748b); line-height: 1; }
 .nav-ov-list { list-style: none; padding: 6px 0; }
 .nav-ov-list .nav-btn { padding: 11px 16px; font-size: 14px; }
+
+/* ════ DESIGN REFRESH ════ */
+/* カード見出し：カラー別薄ティント背景 */
+.card-head {
+  background: var(--blue-xlight, #eff6ff) !important;
+  border-bottom: 1px solid var(--blue-light, #dbeafe) !important;
+  border-left: 5px solid var(--blue-mid, #1e74c8) !important;
+}
+.card-head.teal  { background: rgba(13,148,136,.07) !important; border-bottom-color: rgba(13,148,136,.18) !important; border-left-color: var(--teal, #0d9488) !important; }
+.card-head.amber { background: rgba(217,119,6,.07) !important;  border-bottom-color: rgba(217,119,6,.18) !important;  border-left-color: var(--amber, #d97706) !important; }
+.card-head.red   { background: rgba(220,38,38,.07) !important;  border-bottom-color: rgba(220,38,38,.18) !important;  border-left-color: var(--red, #dc2626) !important; }
+.card-head.green { background: rgba(22,163,74,.07) !important;  border-bottom-color: rgba(22,163,74,.18) !important;  border-left-color: var(--green, #16a34a) !important; }
+/* サブタイトル：背景付きで視認性UP */
+.sub-title {
+  background: var(--blue-xlight, #eff6ff) !important;
+  border-radius: 4px !important;
+  padding: 5px 10px !important;
+  border-left: 4px solid var(--blue-mid, #1e74c8) !important;
+  font-size: 13px !important;
+}
+/* callout/note：左ボーダーを太く */
+.note, .callout { border-left-width: 4px !important; }
+/* ステップ番号：より鮮明 */
+.proc-num { background: var(--blue, #1558a0) !important; }
+/* ナビサイドバー：セクションヘッダーをより見やすく */
+.nav-head {
+  color: var(--blue, #1558a0) !important;
+  border-bottom: 2px solid var(--blue-light, #dbeafe) !important;
+  padding-bottom: 10px !important;
+}
+
 </style>
 </head>
 <body>
