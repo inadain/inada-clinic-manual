@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>いなだ医院｜吉田 業務マニュアル</title>
+<style>
+:root {
+  --blue:        #1558a0;
+  --blue-mid:    #1e74c8;
+  --blue-light:  #dbeafe;
+  --blue-xlight: #eff6ff;
+  --teal:        #0d9488;
+  --teal-light:  #ccfbf1;
+  --amber:       #d97706;
+  --amber-light: #fef3c7;
+  --green:       #16a34a;
+  --green-light: #dcfce7;
+  --gray:        #64748b;
+  --gray-light:  #f1f5f9;
+  --gray-mid:    #e2e8f0;
+  --border:      #e2e8f0;
+  --text:        #0f172a;
+  --text-sub:    #475569;
+  --bg:          #f0f4f8;
+  --white:       #ffffff;
+  --radius-sm:   8px;
+  --radius:      12px;
+  --shadow-sm:   0 1px 3px rgba(0,0,0,.08);
+  --shadow:      0 4px 12px rgba(0,0,0,.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif; font-size: 15px; line-height: 1.75; color: var(--text); background: var(--bg); }
+
+/* ── HEADER ── */
+.site-header {
+  background: linear-gradient(135deg, #0f3d6e 0%, #1558a0 60%, #1e74c8 100%);
+  padding: 0 16px; text-align: center;
+}
+.header-inner {
+  position: relative; display: flex; align-items: center;
+  width: 100%; max-width: 960px; margin: 0 auto;
+  padding: 10px 0 10px 110px; text-align: center;
+}
+.back-link {
+  position: absolute !important; left: 0 !important; top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: inline-flex !important; align-items: center; gap: 5px;
+  color: rgba(255,255,255,.92) !important; font-size: 12px !important;
+  font-weight: 600; text-decoration: none;
+  background: rgba(255,255,255,.18) !important;
+  border: 1px solid rgba(255,255,255,.3) !important;
+  border-radius: 20px; padding: 6px 13px !important;
+  white-space: nowrap; transition: background .15s; margin: 0 !important;
+}
+.back-link:hover { background: rgba(255,255,255,.3) !important; color: #fff !important; }
+.header-logo-img { height: 30px !important; width: auto; filter: brightness(0) invert(1); opacity: .9; display: block; margin: 0 auto 4px; }
+.staff-badge { display: inline-block; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; letter-spacing: .08em; margin-bottom: 3px; }
+.site-header h1 { font-size: 16px !important; font-weight: 800; color: #fff; letter-spacing: .02em; margin: 0; }
+.site-header .subtitle { font-size: 10px !important; color: rgba(255,255,255,.65); margin-top: 1px; }
+
+/* ── NAV SIDEBAR ── */
+.page-layout { display: flex; align-items: flex-start; }
+.nav-sidebar {
+  width: 185px; flex-shrink: 0;
+  position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto;
+  background: #f8fafc; border-right: 1px solid var(--border, #e2e8f0);
+  padding: 12px 0; display: none;
+}
+@media (min-width: 700px) { .nav-sidebar { display: block; } }
+.nav-head { font-size: 10px; font-weight: 800; color: var(--gray, #64748b); text-transform: uppercase; letter-spacing: .08em; padding: 0 12px 8px; border-bottom: 1px solid var(--border, #e2e8f0); margin-bottom: 4px; }
+.nav-list { list-style: none; }
+.nav-btn { display: block; width: 100%; text-align: left; padding: 9px 12px; font-size: 13px; color: var(--gray, #64748b); background: none; border: none; cursor: pointer; border-left: 3px solid transparent; line-height: 1.4; transition: all .15s; font-family: inherit; text-decoration: none; }
+.nav-btn:hover { color: var(--blue, #1558a0); background: #eff6ff; }
+.nav-btn.active { color: var(--blue, #1558a0); border-left-color: var(--blue, #1558a0); background: #eff6ff; font-weight: 700; }
+.main-area { flex: 1; min-width: 0; }
+.nav-toggle { display: none; position: fixed; left: 16px; bottom: 72px; width: 44px; height: 44px; border-radius: 50%; background: var(--blue, #1558a0); color: #fff; border: none; font-size: 18px; cursor: pointer; z-index: 50; box-shadow: 0 4px 12px rgba(21,88,160,.4); align-items: center; justify-content: center; }
+@media (max-width: 699px) { .nav-toggle { display: flex; } }
+.nav-ov { display: none; position: fixed; inset: 0; z-index: 200; }
+.nav-ov.open { display: block; }
+.nav-ov-bg { position: absolute; inset: 0; background: rgba(0,0,0,.45); }
+.nav-ov-panel { position: absolute; left: 0; top: 0; bottom: 0; width: 250px; background: #fff; overflow-y: auto; }
+.nav-ov-head { font-size: 11px; font-weight: 800; color: var(--gray, #64748b); text-transform: uppercase; letter-spacing: .08em; padding: 12px 16px 8px; border-bottom: 1px solid var(--border, #e2e8f0); display: flex; align-items: center; justify-content: space-between; }
+.nav-ov-head button { background: none; border: none; cursor: pointer; font-size: 22px; color: var(--gray, #64748b); line-height: 1; }
+.nav-ov-list { list-style: none; padding: 6px 0; }
+.nav-ov-list .nav-btn { padding: 11px 16px; font-size: 14px; }
+
+/* ── TAB PANE ── */
+.tab-content { display: none; padding: 16px 16px 60px; }
+.tab-content.active { display: block; }
+
+/* ── CARD ── */
+.card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); margin-bottom: 14px; overflow: hidden; }
+.card-head { display: flex; align-items: center; gap: 10px; padding: 13px 16px; background: #f8fafc !important; border-bottom: 1px solid #e2e8f0 !important; border-left: 4px solid var(--blue-mid); cursor: pointer; user-select: none; }
+.card-head.teal   { border-left-color: var(--teal); }
+.card-head.amber  { border-left-color: var(--amber); }
+.card-head.green  { border-left-color: var(--green); }
+.card-head::after { content: '›'; font-size: 20px; font-weight: 300; color: var(--gray); margin-left: auto; line-height: 1; transition: transform .2s; flex-shrink: 0; }
+.card.open .card-head::after { transform: rotate(90deg); }
+.card-body { display: none; padding: 14px 16px; }
+.card.open .card-body { display: block; }
+.card-icon { font-size: 18px; }
+.card-title { font-size: 14px; font-weight: 700; }
+
+/* ── TABLE ── */
+.tbl-wrap { overflow-x: auto; margin: 8px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: var(--blue-xlight); color: var(--blue); font-weight: 700; padding: 8px 10px; text-align: left; border-bottom: 2px solid var(--blue-light); }
+td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+/* ── STEPS ── */
+.steps { list-style: none; counter-reset: step; display: flex; flex-direction: column; gap: 6px; margin: 8px 0; padding-left: 0; }
+.steps li { counter-increment: step; display: flex; align-items: flex-start; gap: 10px; font-size: 13px; background: var(--gray-light); border-radius: var(--radius-sm); padding: 8px 12px; }
+.steps li::before { content: counter(step); min-width: 22px; height: 22px; border-radius: 50%; background: var(--blue-mid); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* ── CALLOUT ── */
+.callout { display: flex; gap: 8px; border-radius: var(--radius-sm); padding: 10px 12px; margin: 8px 0; font-size: 13px; }
+.callout.info   { background: var(--blue-xlight); border-left: 3px solid var(--blue-mid); }
+.callout.tip    { background: var(--green-light); border-left: 3px solid var(--green); }
+.callout.warn   { background: var(--amber-light); border-left: 3px solid var(--amber); }
+.callout.gray   { background: var(--gray-light);  border-left: 3px solid var(--gray); }
+.callout-icon { flex-shrink: 0; font-size: 16px; }
+
+/* ── BADGE ── */
+.badge { display: inline-block; border-radius: 999px; font-size: 11px; font-weight: 700; padding: 2px 8px; }
+.badge.blue  { background: var(--blue-light);  color: var(--blue); }
+.badge.green { background: var(--green-light); color: var(--green); }
+.badge.amber { background: var(--amber-light); color: var(--amber); }
+
+/* ── SUB TITLE ── */
+.sub-title { font-size: 13px; font-weight: 700; color: var(--blue); margin: 14px 0 6px; border-left: 3px solid var(--blue-mid); padding-left: 8px; }
+.sub-title:first-child { margin-top: 0; }
+
+/* ── TO TOP ── */
+.to-top { display: none; position: fixed; right: 16px; bottom: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--blue); color: #fff; border: none; font-size: 16px; cursor: pointer; z-index: 50; box-shadow: 0 2px 8px rgba(21,88,160,.4); align-items: center; justify-content: center; }
+.to-top.show { display: flex; }
+
+/* ── UNIFIED HEADER ── */
+.site-header { position: sticky !important; top: 0; z-index: 100; min-height: 56px; display: flex; align-items: center; overflow: visible !important; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="back-link">← 一覧</a>
+    <img src="../assets/logo.png" class="header-logo-img" alt="いなだ医院">
+    <div>
+      <div class="staff-badge">個人タスク</div>
+      <h1>👩 吉田 業務マニュアル</h1>
+      <div class="subtitle">感染サーベイランス・データ報告</div>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+
+<nav class="nav-sidebar" id="navSidebar">
+  <div class="nav-head">セクション</div>
+  <ul class="nav-list">
+    <li><button class="nav-btn active" onclick="sw('t1',this)">🦠 感染サーベイランス</button></li>
+  </ul>
+</nav>
+
+<button class="nav-toggle" onclick="openNav()">☰</button>
+<div class="nav-ov" id="navOv">
+  <div class="nav-ov-bg" onclick="closeNav()"></div>
+  <div class="nav-ov-panel">
+    <div class="nav-ov-head">
+      <span>セクション</span>
+      <button onclick="closeNav()">×</button>
+    </div>
+    <ul class="nav-ov-list">
+      <li><button class="nav-btn active" onclick="sw('t1',this)">🦠 感染サーベイランス</button></li>
+    </ul>
+  </div>
+</div>
+
+<div class="main-area">
+
+<!-- ========== TAB 1: 感染サーベイランス ========== -->
+<div id="t1" class="tab-content active">
+
+  <!-- 概要 -->
+  <div class="card open">
+    <div class="card-head"><div class="card-icon">📋</div><div class="card-title">業務概要</div></div>
+    <div class="card-body">
+      <div class="callout info"><span class="callout-icon">ℹ️</span><div>感染症サーベイランス（感染実態の把握・報告）を担当する業務。3つのシステムへの定期報告が必要。</div></div>
+      <div class="tbl-wrap"><table>
+        <tr><th>システム</th><th>頻度</th><th>締め切り</th><th>内容</th></tr>
+        <tr><td><strong>ジャニス（JANIS）</strong></td><td>毎月</td><td>15日まで</td><td>検査センターデータを提出</td></tr>
+        <tr><td><strong>オアシス（OASIS）</strong></td><td>3ヶ月に1回</td><td>四半期締め切り</td><td>レセコンのUKEファイルを登録・抗菌薬データ</td></tr>
+        <tr><td><strong>クラチュー（チームズ）</strong></td><td>3ヶ月に1回</td><td>オアシスと同タイミング</td><td>感染状況データ報告（インフル患者数等）</td></tr>
+      </table></div>
+      <div class="callout tip"><span class="callout-icon">💡</span><div>オアシスとクラチュー報告は同じタイミングで行う。オアシス完了時にチームズでも報告する。</div></div>
+    </div>
+  </div>
+
+  <!-- ジャニス -->
+  <div class="card open">
+    <div class="card-head teal"><div class="card-icon">🔬</div><div class="card-title">ジャニス（JANIS）— 毎月15日まで</div></div>
+    <div class="card-body">
+      <div class="callout gray"><span class="callout-icon">📌</span><div>看護師のパソコンに検査センター（ファルコシステム）からデータが届く（10日ごろ）。届いたらUSBに落として提出する。</div></div>
+      <div class="sub-title">ログイン情報</div>
+      <div class="tbl-wrap"><table>
+        <tr><th>項目</th><th>内容</th></tr>
+        <tr><td>ID</td><td><strong>33AB</strong>（大文字）</td></tr>
+        <tr><td>部門</td><td>検査部門</td></tr>
+        <tr><td>パスワード</td><td><strong>大文字I + NADA0600</strong></td></tr>
+      </table></div>
+      <div class="sub-title">手順</div>
+      <ol class="steps">
+        <li>検査センターから看護師PCにデータが届いたことを確認（10日ごろ、連絡が来る）</li>
+        <li>看護師PCのファルコシステム（ダウンロード用）からデータをダウンロードしてUSBに保存する</li>
+        <li>こちらのPCにUSBを接続して、ジャニスにログインする</li>
+        <li>「提出」からその月のデータを選択して提出する</li>
+      </ol>
+      <div class="callout warn"><span class="callout-icon">⚠️</span><div>ジャニスへの月次提出が完了していないと、オアシスとの連携データが取得できない。先にジャニスを済ませること。</div></div>
+    </div>
+  </div>
+
+  <!-- オアシス -->
+  <div class="card open">
+    <div class="card-head amber"><div class="card-icon">💊</div><div class="card-title">オアシス（OASIS）— 3ヶ月に1回</div></div>
+    <div class="card-body">
+      <div class="callout gray"><span class="callout-icon">📌</span><div>レセコン（湯山）から抗菌薬データのUKEファイルを作成し、匿名化してオアシスに登録する。社保・国保それぞれ登録が必要。</div></div>
+      <div class="sub-title">UKEファイルの作成・登録手順</div>
+      <ol class="steps">
+        <li>レセコン（湯山）からレセプトデータをUKEファイルとしてダウンロードしてUSBに保存する</li>
+        <li>このPC上でUKEファイルを匿名化する（オアシスのマニュアルに手順あり）</li>
+        <li>オアシスにログインして「データ登録」を開く</li>
+        <li>社保・国保それぞれのUKEファイルを登録する</li>
+        <li>「データ登録状況」で登録が完了していることを確認する（「報告」と表示される）</li>
+      </ol>
+      <div class="sub-title">ジャニス連携データの取得</div>
+      <ol class="steps">
+        <li>オアシスの「データ登録」→「ジャニスサーバーから取得」をクリックして実行する</li>
+        <li>ジャニスのデータ（検査結果）が自動的に取り込まれる</li>
+      </ol>
+      <div class="callout info"><span class="callout-icon">ℹ️</span><div>UKEファイルの具体的な作成手順はオアシスのマニュアル（PC内に保存済み）を参照。</div></div>
+      <div class="sub-title">結果報告</div>
+      <div class="callout tip"><span class="callout-icon">💡</span><div>データ登録が完了すると数ヶ月後に抗菌薬使用状況の結果がメールで届く（クラチューから）。結果を先生（院長）に報告する。</div></div>
+    </div>
+  </div>
+
+  <!-- クラチュー感染状況報告 -->
+  <div class="card open">
+    <div class="card-head green"><div class="card-icon">📊</div><div class="card-title">クラチュー 感染状況データ報告 — 3ヶ月に1回（オアシスと同タイミング）</div></div>
+    <div class="card-body">
+      <div class="callout gray"><span class="callout-icon">📌</span><div>チームズの「感染対策ネットワーク」チャンネルでクラチューに感染状況Excelを添付して報告する。</div></div>
+      <div class="sub-title">Excelテンプレートの準備</div>
+      <div class="callout info"><span class="callout-icon">ℹ️</span><div>年度頭にテンプレートをダウンロードし、以降は同じファイルに継ぎ足していく。毎年4月に新しいテンプレートをダウンロードして開始する。</div></div>
+      <div class="sub-title">インフルエンザ患者数の入力</div>
+      <ol class="steps">
+        <li>レセコンで検索し、インフルエンザ患者を抽出する</li>
+        <li>抽出した患者を確認して患者数をカウントする（確定病名の確認）</li>
+        <li>ExcelのインフルエンザシートとグリーンのSpH衛生欄（必須項目）に患者数を入力する</li>
+        <li>外来患者数は小幡さんからもらった数字を入力する（自動計算あり）</li>
+      </ol>
+      <div class="callout tip"><span class="callout-icon">💡</span><div>3ヶ月分のアセスメント記入欄（上段）は委員長（先生）に記入してもらう。</div></div>
+      <div class="sub-title">チームズで提出</div>
+      <ol class="steps">
+        <li>Excelを保存して、チームズ「感染対策ネットワーク」チャンネルを開く</li>
+        <li>Excelを添付してメッセージを送信する（「オアシスも登録済みです。ご確認をお願いします」）</li>
+      </ol>
+      <div class="callout warn"><span class="callout-icon">⚠️</span><div>オアシス登録とクラチュー報告は同じタイミングで行うこと。</div></div>
+    </div>
+  </div>
+
+</div><!-- /t1 -->
+
+</div><!-- /main-area -->
+</div><!-- /page-layout -->
+
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="トップへ戻る">↑</button>
+
+<script>
+function sw(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (typeof closeNav === 'function') closeNav();
+}
+function openNav()  { document.getElementById('navOv').classList.add('open'); }
+function closeNav() { var ov = document.getElementById('navOv'); if (ov) ov.classList.remove('open'); }
+window.addEventListener('scroll', function() {
+  var t = document.getElementById('toTop');
+  if (t) t.classList.toggle('show', window.scrollY > 250);
+});
+document.addEventListener('click', function(e) {
+  var head = e.target.closest('.card-head');
+  if (head) head.closest('.card').classList.toggle('open');
+});
+</script>
+</body>
+</html>
