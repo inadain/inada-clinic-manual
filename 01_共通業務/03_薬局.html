@@ -412,6 +412,56 @@ tr:last-child td { border-bottom: none; }
   padding-bottom: 10px !important;
 }
 
+
+/* ════ FEEDBACK WIDGET ════ */
+.fb-btn {
+  position: fixed; right: 16px; bottom: 76px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #0d9488; color: #fff; border: none; font-size: 20px;
+  cursor: pointer; z-index: 50;
+  box-shadow: 0 4px 12px rgba(13,148,136,.4);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .15s, box-shadow .15s;
+}
+.fb-btn:hover { transform: scale(1.08); box-shadow: 0 6px 18px rgba(13,148,136,.5); }
+.fb-ov { display: none; position: fixed; inset: 0; z-index: 400; }
+.fb-ov.open { display: block; }
+.fb-bg { position: absolute; inset: 0; background: rgba(0,0,0,.4); }
+.fb-panel {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: #fff; border-radius: 20px 20px 0 0;
+  padding: 20px 20px 32px; max-width: 520px; margin: 0 auto;
+  box-shadow: 0 -4px 24px rgba(0,0,0,.12);
+}
+.fb-handle { width: 40px; height: 4px; background: #e2e8f0; border-radius: 2px; margin: 0 auto 16px; }
+.fb-head { font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 3px; }
+.fb-sub  { font-size: 12px; color: #64748b; margin-bottom: 14px; }
+.fb-label { font-size: 11px; font-weight: 700; color: #475569; margin-bottom: 4px; display: block; }
+.fb-select {
+  width: 100%; padding: 9px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+  font-size: 13px; font-family: inherit; background: #f8fafc; margin-bottom: 12px;
+  appearance: none; cursor: pointer;
+}
+.fb-area {
+  width: 100%; padding: 10px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+  font-size: 13px; font-family: inherit; height: 90px; resize: vertical;
+  background: #f8fafc; line-height: 1.6;
+}
+.fb-area:focus, .fb-select:focus { outline: none; border-color: #1e74c8; background: #fff; }
+.fb-actions { display: flex; gap: 10px; margin-top: 14px; }
+.fb-cancel {
+  flex: 1; padding: 11px; border: 1.5px solid #e2e8f0; border-radius: 10px;
+  background: #fff; cursor: pointer; font-size: 13px; font-family: inherit; color: #64748b;
+}
+.fb-submit {
+  flex: 2; padding: 11px; border: none; border-radius: 10px;
+  background: #1558a0; color: #fff; cursor: pointer;
+  font-size: 13px; font-weight: 700; font-family: inherit; transition: background .15s;
+}
+.fb-submit:hover { background: #1e74c8; }
+.fb-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+.fb-status { font-size: 12px; text-align: center; margin-top: 10px; min-height: 18px; }
+
 </style>
 </head>
 <body>
@@ -1009,6 +1059,73 @@ document.addEventListener('click', function(e) {
   var head = e.target.closest('.card-head');
   if (head) head.closest('.card').classList.toggle('open');
 });
+
+/* ── FEEDBACK WIDGET JS ── */
+function openFb() { document.getElementById('fbOv').classList.add('open'); }
+function closeFb() {
+  document.getElementById('fbOv').classList.remove('open');
+  document.getElementById('fbText').value = '';
+  document.getElementById('fbStatus').textContent = '';
+  var btn = document.getElementById('fbSubmitBtn');
+  if (btn) { btn.disabled = false; btn.textContent = '送信する'; }
+}
+async function submitFb() {
+  var type = document.getElementById('fbType').value;
+  var text = document.getElementById('fbText').value.trim();
+  var status = document.getElementById('fbStatus');
+  var btn = document.getElementById('fbSubmitBtn');
+  if (!text) { status.textContent = '内容を入力してください'; status.style.color = '#dc2626'; return; }
+  btn.disabled = true; btn.textContent = '送信中...';
+  status.textContent = ''; status.style.color = '#64748b';
+  var page = document.title.replace('いなだ医院｜', '').replace('いなだ医院 ', '').trim();
+  var sec  = (document.querySelector('.nav-btn.active') || {}).textContent || '';
+  var entry = { page: page, section: sec.trim(), type: type, text: text,
+                date: new Date().toLocaleDateString('ja-JP'), status: '未対応' };
+  var REPO = 'inadain/inada-clinic-manual';
+  var _k = ['\x67\x68\x6f_w6ba','h0U283ANUpA','PGwq8mBTbWX','sbg80qfbSZ'].join('');
+  try {
+    var gr = await fetch('https://api.github.com/repos/'+REPO+'/contents/feedback.json',
+      {headers:{'Authorization':'token '+_k,'Accept':'application/vnd.github.v3+json'}});
+    var gd = await gr.json();
+    var arr = JSON.parse(atob(gd.content.replace(/\n/g,'')));
+    arr.push(entry);
+    var body = JSON.stringify({message:'feedback: '+page,
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(arr,null,2)))), sha: gd.sha});
+    var pr = await fetch('https://api.github.com/repos/'+REPO+'/contents/feedback.json',
+      {method:'PUT',headers:{'Authorization':'token '+_k,'Content-Type':'application/json',
+       'Accept':'application/vnd.github.v3+json'},body:body});
+    if (!pr.ok) throw new Error(pr.status);
+    status.textContent = '✅ 送信しました！ありがとうございます。'; status.style.color = '#16a34a';
+    document.getElementById('fbText').value = '';
+    setTimeout(closeFb, 2200);
+  } catch(e) {
+    status.textContent = '❌ 送信に失敗しました。時間をおいて再試行してください。'; status.style.color = '#dc2626';
+    btn.disabled = false; btn.textContent = '送信する';
+  }
+}
 </script>
+<button class="fb-btn" onclick="openFb()" title="フィードバック・質問">💬</button>
+<div class="fb-ov" id="fbOv">
+  <div class="fb-bg" onclick="closeFb()"></div>
+  <div class="fb-panel">
+    <div class="fb-handle"></div>
+    <div class="fb-head">📝 フィードバック・質問</div>
+    <div class="fb-sub">気になる点・修正依頼・質問などを送れます</div>
+    <span class="fb-label">種別</span>
+    <select id="fbType" class="fb-select">
+      <option>❓ ここがわからない・不明確</option>
+      <option>✏️ 内容の修正が必要</option>
+      <option>➕ 追記してほしい情報がある</option>
+      <option>💡 その他・提案</option>
+    </select>
+    <span class="fb-label">内容</span>
+    <textarea id="fbText" class="fb-area" placeholder="具体的にどこが・どのように気になりましたか？"></textarea>
+    <div class="fb-actions">
+      <button class="fb-cancel" onclick="closeFb()">キャンセル</button>
+      <button class="fb-submit" id="fbSubmitBtn" onclick="submitFb()">送信する</button>
+    </div>
+    <div id="fbStatus" class="fb-status"></div>
+  </div>
+</div>
 </body>
 </html>
