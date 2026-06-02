@@ -364,15 +364,16 @@ tr:nth-child(even) td { background: #fafbfc; }
 
 /* ════ FEEDBACK WIDGET ════ */
 .fb-btn {
-  position: fixed; right: 16px; bottom: 76px;
-  width: 44px; height: 44px; border-radius: 50%;
-  background: #0d9488; color: #fff; border: none; font-size: 20px;
+  position: fixed; right: 12px; bottom: 76px;
+  height: 38px; padding: 0 14px 0 10px; border-radius: 999px;
+  background: #0d9488; color: #fff; border: none; font-size: 13px; font-weight: 700;
   cursor: pointer; z-index: 50;
-  box-shadow: 0 4px 12px rgba(13,148,136,.4);
-  display: flex; align-items: center; justify-content: center;
-  transition: transform .15s, box-shadow .15s;
+  box-shadow: 0 3px 10px rgba(13,148,136,.45);
+  display: flex; align-items: center; gap: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
+  transition: transform .15s, box-shadow .15s; white-space: nowrap;
 }
-.fb-btn:hover { transform: scale(1.08); box-shadow: 0 6px 18px rgba(13,148,136,.5); }
+.fb-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(13,148,136,.55); }
 .fb-ov { display: none; position: fixed; inset: 0; z-index: 400; }
 .fb-ov.open { display: block; }
 .fb-bg { position: absolute; inset: 0; background: rgba(0,0,0,.4); }
@@ -894,7 +895,7 @@ async function submitFb() {
   }
 }
 </script>
-<button class="fb-btn" onclick="openFb()" title="フィードバック・質問">💬</button>
+<button class="fb-btn" onclick="openFb()">💬 意見・質問</button>
 <div class="fb-ov" id="fbOv">
   <div class="fb-bg" onclick="closeFb()"></div>
   <div class="fb-panel">
