@@ -333,6 +333,7 @@ tr:last-child td { border-bottom: none; }
       <li><button class="nav-btn active" onclick="sw('t1',this)">💴 会計フロー</button></li>
       <li><button class="nav-btn" onclick="sw('t2',this)">🧾 レジ締め</button></li>
       <li><button class="nav-btn" onclick="sw('t3',this)">📅 月次業務</button></li>
+      <li><button class="nav-btn" onclick="sw('t4',this)">⚠️ 特殊対応</button></li>
   </ul>
 </nav>
 <div class="main-area">
@@ -356,10 +357,69 @@ tr:last-child td { border-bottom: none; }
     </div>
   </div>
 
-  <div class="pending-banner">
-    <div class="icon">🎙️</div>
-    <h3>追加内容 録音待ち</h3>
-    <p>会計業務の詳細手順（キャッシュレス・仮払い・返金等）は録音後に追記予定</p>
+
+  <!-- 精算前チェック -->
+  <div class="card">
+    <div class="card-head teal"><div class="card-icon">🔍</div><div class="card-title">精算前チェック（会計ボタンを押す前）</div></div>
+    <div class="card-body">
+      <div class="sub-title">印刷物の準備</div>
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">会計ボタンを押して読み込む</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body"><strong>薬状（大きい紙）</strong>を印刷する（必ず出力）</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">お薬手帳を持参している患者には<strong>お薬手帳用シール（A4小）</strong>も印刷する</span></li>
+        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body"><strong>地域包括ケアの患者</strong>は毎回印刷して貼る（カルテ・コメント欄に「地包」と記載あり）</span></li>
+      </ul>
+      <div class="sub-title">管理料・病名のチェック</div>
+      <div class="tbl-wrap"><table>
+        <tr><th>確認項目</th><th>チェック内容</th></tr>
+        <tr><td><strong>生活習慣病管理料</strong></td><td>管理料が入っているか確認。月何回目かも確認（月初は算定可）</td></tr>
+        <tr><td><strong>特定疾患療養管理料</strong></td><td>月2回まで算定可。2回分取れているか確認</td></tr>
+        <tr><td><strong>地域包括ケア</strong></td><td>保険設定の黄色い表示で確認。初回は先生が設定済み</td></tr>
+      </table></div>
+      <div class="note warn"><span class="note-icon">⚠️</span><div>管理料が入っていない場合は、カルテに指導が入っているか確認。入っていれば医師側のミス→先生に再入力を依頼する。</div></div>
+      <div class="sub-title">病名と処方・検査の整合性</div>
+      <ul class="chk">
+        <li>薬・検査・点滴に対して適切な病名がついているか確認する</li>
+        <li>合っていれば精算に進む</li>
+        <li>不明な病名は<strong>月末までに先生に確認</strong>する（その場では精算を優先）</li>
+      </ul>
+      <div class="note info"><span class="note-icon">ℹ️</span><div>この画面では病名漏れの赤字アラートは出ない。目視で確認すること。最終的にはレセチェッカーで拾う前提。</div></div>
+    </div>
+  </div>
+
+  <!-- 患者への会計対応 -->
+  <div class="card">
+    <div class="card-head"><div class="card-icon">👤</div><div class="card-title">患者への会計対応</div></div>
+    <div class="card-body">
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">お薬・薬状・領収書（明細書兼用）をカウンターに並べる</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">診察券・保険証（預かり中）も並べる</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">患者を名前でお呼びし、お薬の説明をする</span></li>
+        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body">金額を提示し、現金で受け取る</span></li>
+        <li class="proc-item"><span class="proc-num">⑤</span><span class="proc-body">レジで受け取り金額を打ち込む → お釣りを計算して返す</span></li>
+        <li class="proc-item"><span class="proc-num">⑥</span><span class="proc-body">領収書（明細書）・診察券・保険証を渡す</span></li>
+      </ul>
+      <div class="note gray"><span class="note-icon">💳</span><div>支払いは<strong>現金のみ</strong>。電子決済は対応していない。</div></div>
+    </div>
+  </div>
+
+  <!-- 自費診療の対応 -->
+  <div class="card">
+    <div class="card-head amber"><div class="card-icon">💰</div><div class="card-title">自費診療の対応</div></div>
+    <div class="card-body">
+      <div class="note info"><span class="note-icon">ℹ️</span><div>予防接種・検診・文書料などは自費。受付で登録済みのため、基本はそのまま会計する。</div></div>
+      <div class="sub-title">自費料金表（パソコン内に登録済み）</div>
+      <ul class="chk">
+        <li>予防接種・各種検診・診断書・証明書などはパソコンに金額登録済み</li>
+        <li>受付ノート下段に文書料・予防接種の金額一覧あり（参照可）</li>
+      </ul>
+      <div class="sub-title">料金表にないもの（ガーゼ・衛生材料など）</div>
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">会計エディター → 「追加」を選択</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">「その他」を選択し、金額を手入力する</span></li>
+      </ul>
+      <div class="note gray"><span class="note-icon">📓</span><div>金額が不明な場合は「算定ノート NO.3」（受付横の棚）を参照。</div></div>
+    </div>
   </div>
 
 </div>
@@ -379,35 +439,57 @@ tr:last-child td { border-bottom: none; }
     <div class="card-head"><div class="card-icon">🧾</div><div class="card-title">ステップ1：点検レシートの発行</div></div>
     <div class="card-body">
       <ul class="proc">
-        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">レシート発行モードに切り替える</span></li>
-        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">鍵を「点検」のところに回す</span></li>
-        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">「レシート発行」で3原型を出す</span></li>
-        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body">点検レシートが出力される</span></li>
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">レジの鍵を<strong>「点検」</strong>に合わせる（レジ真ん中あたりのつまみ）</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">「レシート発行」ボタンを押して3枚出す</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">点検レシート（長い紙）が出力される</span></li>
       </ul>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-head teal"><div class="card-icon">🖥️</div><div class="card-title">ステップ2：パソコンとの照合</div></div>
+    <div class="card-head"><div class="card-icon">💵</div><div class="card-title">ステップ2：現金カウント</div></div>
+    <div class="card-body">
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">レジ内の<strong>紙幣と硬貨を券種ごと</strong>に並べて枚数を数える</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">電卓で合計金額を出す</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body"><strong>2人でダブルチェック</strong>（1人がカウント、1人が確認）</span></li>
+      </ul>
+      <div class="note info"><span class="note-icon">ℹ️</span><div>レジ左側に「昼から来る」など後払い予定の患者の紙が置いてある場合は、その分を差し引いて計算する。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal"><div class="card-icon">🖥️</div><div class="card-title">ステップ3：パソコン売上との照合</div></div>
     <div class="card-body">
       <ul class="proc">
         <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">パソコンで「その他の開始」→「閉じる」→「OK」を押す</span></li>
         <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">右下に<strong>本日の売上金額</strong>が表示される</span></li>
-        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">表示金額と点検レシートの<strong>総計（トータル）を照合</strong>する</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">現金カウント額と売上金額を照合する</span></li>
       </ul>
-      <div class="note tip"><span class="note-icon">✅</span><div>一致していれば締め完了。</div></div>
+      <div class="note tip"><span class="note-icon">✅</span><div>一致したらレジの鍵を<strong>「S」</strong>に合わせて終了。</div></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-head red"><div class="card-icon">⚠️</div><div class="card-title">ステップ3：差異があった場合</div></div>
+    <div class="card-head red"><div class="card-icon">⚠️</div><div class="card-title">ステップ4：差異があった場合</div></div>
     <div class="card-body">
-      <ul class="chk">
-        <li>個別レシート（レジ内に保管）を全部並べて一枚一枚確認する</li>
-        <li>仮払い・未払い・保険返金なども含めて突き合わせる</li>
-        <li>それでも合わない場合は管理者に報告する</li>
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">点検レシート（長い紙）を2人で読み合わせる</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">個別の取引を1件ずつ確認して差異箇所を特定する</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">打ち間違いで多く受け取っていた場合は<strong>レジ左側に避けておく</strong>（メモを添付）</span></li>
+        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body">少なく受け取っていた場合は未収金として処理する（⚠️特殊対応タブ参照）</span></li>
       </ul>
-      <div class="note warn"><span class="note-icon">📝</span><div>レジには現金だけでなく、仮払い・返金・未払い分も記録されている。単純な合計ではなく、各項目を確認すること。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head green"><div class="card-icon">🪙</div><div class="card-title">つり銭準備・両替</div></div>
+    <div class="card-body">
+      <div class="note gray"><span class="note-icon">📌</span><div>両替用のお金は<strong>金庫の下段</strong>に保管。不足時は銀行で両替する。</div></div>
+      <ul class="chk">
+        <li>つり銭が少なくなったら金庫下段から補充する</li>
+        <li>金庫の両替分が不足した場合は銀行へ両替に行く</li>
+      </ul>
     </div>
   </div>
 
@@ -422,11 +504,85 @@ tr:last-child td { border-bottom: none; }
     <p>月次の会計集計・請求書対応等は録音後に追記予定</p>
   </div>
 </div>
+
+<!-- TAB 4: 特殊対応 -->
+<div id="t4" class="tab-pane">
+
+  <!-- 未収金 -->
+  <div class="card">
+    <div class="card-head amber"><div class="card-icon">💸</div><div class="card-title">未収金の対応</div></div>
+    <div class="card-body">
+      <div class="note info"><span class="note-icon">ℹ️</span><div>支払い金額が不足している場合（例：5,100円請求に500円しか持っていない）の対応手順。</div></div>
+      <div class="sub-title">その場での処理</div>
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">受け取れる金額だけレジで入金処理をする</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body"><strong>領収書は渡さず</strong>、レシートのみ発行して患者に渡す</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">パソコンで請求一覧の<strong>該当チェックを外す</strong>→ 精算を閉じる → 差額が未収金として残る</span></li>
+        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body">コメント欄に「<strong>○月○日 ○○円 未収金</strong>」と記録する</span></li>
+      </ul>
+      <div class="sub-title">後日受け取った時</div>
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">未収金を受け取る</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">領収書一覧から該当日を選択して<strong>領収書と明細書を発行</strong>する</span></li>
+      </ul>
+      <div class="note gray"><span class="note-icon">📌</span><div>長期未収金の管理は尾方さんが担当。月次で未収金リストを確認している。</div></div>
+    </div>
+  </div>
+
+  <!-- 金額ミス・追加請求 -->
+  <div class="card">
+    <div class="card-head red"><div class="card-icon">🔧</div><div class="card-title">金額ミス・追加請求の対応（検査・管理料の入れ忘れ）</div></div>
+    <div class="card-body">
+      <div class="note warn"><span class="note-icon">⚠️</span><div>エコー・各種検査・CPAPなどの入れ忘れに気づいた場合の対応。精算済みでも対応可能。</div></div>
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">先生にカルテへ追加入力してもらう</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">会計画面で<strong>再読み込み</strong>→ 差額が未収金として表示される</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">患者に追加分の金額を連絡する</span></li>
+        <li class="proc-item"><span class="proc-num">④</span><span class="proc-body">次回来院時に受け取り → <strong>追加分の領収書・明細書を発行</strong>する</span></li>
+      </ul>
+      <div class="note info"><span class="note-icon">ℹ️</span><div>前回分の領収書の破棄は不要。追加分として別に発行するだけでOK。</div></div>
+    </div>
+  </div>
+
+  <!-- 返金・領収書再発行 -->
+  <div class="card">
+    <div class="card-head green"><div class="card-icon">↩️</div><div class="card-title">返金・領収書の再発行</div></div>
+    <div class="card-body">
+      <div class="sub-title">返金が発生するケース</div>
+      <ul class="chk">
+        <li>多く受け取っていた場合（打ち間違いなど）</li>
+        <li>次回診療時に差し引いて調整する（次回会計がマイナス表示になる）</li>
+      </ul>
+      <div class="sub-title">領収書の再発行</div>
+      <ul class="proc">
+        <li class="proc-item"><span class="proc-num">①</span><span class="proc-body">領収書一覧から該当日・該当患者を選択する</span></li>
+        <li class="proc-item"><span class="proc-num">②</span><span class="proc-body">「印刷」から領収書を再発行する</span></li>
+        <li class="proc-item"><span class="proc-num">③</span><span class="proc-body">患者には古い領収書を破棄するよう伝える</span></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
 </div><!-- /main-area -->
 </div><!-- /page-layout -->
-<ul class="toc-ov-list" id="tocOvL"></ul>
+
+<button class="nav-toggle" onclick="openNav()">☰</button>
+<div class="nav-ov" id="navOv">
+  <div class="nav-ov-bg" onclick="closeNav()"></div>
+  <div class="nav-ov-panel">
+    <div class="nav-ov-head">
+      <span>セクション</span>
+      <button onclick="closeNav()">×</button>
+    </div>
+    <ul class="nav-ov-list">
+      <li><button class="nav-btn active" onclick="sw('t1',this)">💴 会計フロー</button></li>
+      <li><button class="nav-btn" onclick="sw('t2',this)">🧾 レジ締め</button></li>
+      <li><button class="nav-btn" onclick="sw('t3',this)">📅 月次業務</button></li>
+      <li><button class="nav-btn" onclick="sw('t4',this)">⚠️ 特殊対応</button></li>
+    </ul>
   </div>
 </div>
+
 <button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="トップへ戻る">↑</button>
 
 <script>
