@@ -1069,11 +1069,7 @@ function drugCard(d) {
     ${counselHtml}
     ${usageHtml}
     ${noteHtml}
-    ${d.dx !== undefined
-      ? (d.dx
-          ? `<div class="drug-dx"><span class="drug-dx-label">🏷 レセプト病名</span><span class="drug-dx-text">${highlight(d.dx)}</span></div>`
-          : `<div class="drug-dx dx-pending"><span class="drug-dx-label">🏷 レセプト病名</span><span class="drug-dx-pending-txt">入力待ち</span></div>`)
-      : ""}
+    ${d.dx ? `<div class="drug-dx"><span class="drug-dx-label">🏷 レセプト病名</span><span class="drug-dx-text">${highlight(d.dx)}</span></div>` : ""}
   </div>
 </div>`;
 }
