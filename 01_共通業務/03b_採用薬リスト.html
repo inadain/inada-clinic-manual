@@ -256,6 +256,18 @@ body {
   background:var(--amber-light); border-left:3px solid var(--amber);
   border-radius:4px; padding:7px 10px; color:#92400e; line-height:1.55;
 }
+.drug-dx {
+  display:flex; align-items:flex-start; gap:8px; font-size:12px;
+  background:#f0fdf4; border-left:3px solid var(--green);
+  border-radius:4px; padding:7px 10px; margin-top:6px;
+}
+.drug-dx.dx-pending {
+  background:var(--gray-light); border-left-color:var(--gray);
+}
+.drug-dx-label { font-weight:700; color:var(--green); white-space:nowrap; flex-shrink:0; }
+.drug-dx.dx-pending .drug-dx-label { color:var(--gray); }
+.drug-dx-text { color:#166534; }
+.drug-dx-pending-txt { color:var(--gray); font-style:italic; }
 
 /* ── EMPTY ── */
 .empty { text-align:center; padding:60px 20px; color:var(--gray); }
@@ -1057,6 +1069,11 @@ function drugCard(d) {
     ${counselHtml}
     ${usageHtml}
     ${noteHtml}
+    ${d.dx !== undefined
+      ? (d.dx
+          ? `<div class="drug-dx"><span class="drug-dx-label">🏷 レセプト病名</span><span class="drug-dx-text">${highlight(d.dx)}</span></div>`
+          : `<div class="drug-dx dx-pending"><span class="drug-dx-label">🏷 レセプト病名</span><span class="drug-dx-pending-txt">入力待ち</span></div>`)
+      : ""}
   </div>
 </div>`;
 }
