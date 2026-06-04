@@ -6,84 +6,41 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>いなだ医院｜レセプト整合表</title>
 <style>
-:root {
-  --blue:#1558a0;--blue-mid:#1e74c8;--blue-light:#dbeafe;--blue-xl:#eff6ff;
-  --teal:#0d9488;--teal-lt:#ccfbf1;
-  --amber:#d97706;--amber-lt:#fef3c7;
-  --green:#16a34a;--green-lt:#dcfce7;
-  --red:#dc2626;--red-lt:#fee2e2;
-  --gray:#64748b;--gray-lt:#f1f5f9;--border:#e2e8f0;
-  --text:#0f172a;--bg:#f0f4f8;--white:#fff;
-  --r:12px;--r-sm:8px;--sh:0 1px 4px rgba(0,0,0,.08);
-}
+:root{--blue:#1558a0;--blue-mid:#1e74c8;--blue-light:#dbeafe;--blue-xl:#eff6ff;--teal:#0d9488;--teal-lt:#ccfbf1;--amber:#d97706;--amber-lt:#fef3c7;--green:#16a34a;--green-lt:#dcfce7;--red:#dc2626;--red-lt:#fee2e2;--gray:#64748b;--gray-lt:#f1f5f9;--border:#e2e8f0;--text:#0f172a;--bg:#f0f4f8;--white:#fff;--r:12px;--r-sm:8px;--sh:0 1px 4px rgba(0,0,0,.08);}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;font-size:15px;color:var(--text);background:var(--bg);}
-
-/* HEADER */
 .header{background:linear-gradient(135deg,#0f3d6e,#1558a0,#1e74c8);padding:0 16px;min-height:56px;display:flex;align-items:center;position:sticky;top:0;z-index:100;}
 .header-inner{position:relative;display:flex;align-items:center;width:100%;max-width:1100px;margin:0 auto;padding:10px 0 10px 110px;}
 .back-link{position:absolute!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;display:inline-flex!important;align-items:center;gap:5px;color:rgba(255,255,255,.92)!important;font-size:12px!important;font-weight:600;text-decoration:none;background:rgba(255,255,255,.18)!important;border:1px solid rgba(255,255,255,.3)!important;border-radius:20px;padding:6px 13px!important;white-space:nowrap;}
-.back-link:hover{background:rgba(255,255,255,.3)!important;}
 .header-logo{height:28px;filter:brightness(0) invert(1);opacity:.9;display:block;margin:0 auto 3px;}
 .header h1{font-size:16px;font-weight:800;color:#fff;margin:0;}
 .header .sub{font-size:10px;color:rgba(255,255,255,.65);}
-
-/* LAYOUT */
-.page-layout{display:flex;max-width:1100px;margin:0 auto;gap:0;}
-
-/* SIDEBAR */
-.cat-sidebar{width:180px;flex-shrink:0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;background:#f8fafc;border-right:1px solid var(--border);padding:12px 0;}
-@media(max-width:699px){.cat-sidebar{display:none;}}
-.cat-head{font-size:10px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;padding:0 12px 8px;border-bottom:2px solid var(--blue-light);margin-bottom:4px;}
-.cat-btn{display:block;width:100%;text-align:left;padding:8px 12px;font-size:12px;color:var(--gray);background:none;border:none;cursor:pointer;border-left:3px solid transparent;font-family:inherit;transition:all .15s;line-height:1.4;}
-.cat-btn:hover{color:var(--blue);background:#eff6ff;}
-.cat-btn.active{color:var(--blue);border-left-color:var(--blue);background:#eff6ff;font-weight:700;}
-.cat-divider{height:1px;background:var(--border);margin:6px 12px;}
-
-/* MAIN */
+.page-layout{display:flex;max-width:1100px;margin:0 auto;}
+.d-sidebar{width:190px;flex-shrink:0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;background:#f8fafc;border-right:1px solid var(--border);padding:12px 0;}
+@media(max-width:699px){.d-sidebar{display:none;}}
+.d-sidebar-head{font-size:10px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;padding:0 12px 8px;border-bottom:2px solid var(--blue-light);margin-bottom:4px;}
+.d-btn{display:block;width:100%;text-align:left;padding:9px 12px;font-size:13px;color:var(--gray);background:none;border:none;cursor:pointer;border-left:3px solid transparent;font-family:inherit;transition:all .15s;}
+.d-btn:hover{color:var(--blue);background:#eff6ff;}
+.d-btn.active{color:var(--blue);border-left-color:var(--blue);background:#eff6ff;font-weight:700;}
 .main-area{flex:1;min-width:0;padding:16px 16px 60px;}
-
-/* SEARCH BAR */
-.search-bar{display:flex;gap:8px;margin-bottom:16px;align-items:center;}
-.search-input{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;background:#fff;}
+.search-bar{display:flex;gap:8px;margin-bottom:14px;align-items:center;}
+.search-input{flex:1;padding:9px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;background:#fff;}
 .search-input:focus{outline:none;border-color:var(--blue-mid);}
-.count-badge{font-size:12px;color:var(--gray);white-space:nowrap;}
-
-/* STATUS FILTER */
-.status-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
-.stab{padding:5px 14px;border-radius:999px;border:1.5px solid var(--border);background:#fff;font-size:12px;font-weight:600;cursor:pointer;color:var(--gray);transition:all .15s;}
-.stab.active{background:var(--blue);border-color:var(--blue);color:#fff;}
-
-/* TABLE */
-.tbl-wrap{overflow-x:auto;}
-table{width:100%;border-collapse:collapse;font-size:13px;}
-thead th{background:var(--blue-xl);color:var(--blue);font-weight:700;padding:9px 12px;text-align:left;border-bottom:2px solid var(--blue-light);white-space:nowrap;}
-tbody tr{border-bottom:1px solid var(--border);transition:background .1s;}
-tbody tr:hover{background:#f8fafc;}
-tbody td{padding:10px 12px;vertical-align:middle;}
-.cat-group-header td{background:var(--blue-xl);font-weight:800;font-size:12px;color:var(--blue);padding:7px 12px;border-bottom:1px solid var(--blue-light);}
-
-/* BADGES */
-.type-badge{display:inline-block;border-radius:999px;font-size:10px;font-weight:700;padding:2px 8px;white-space:nowrap;}
-.type-badge.drug{background:var(--blue-xl);color:var(--blue);}
-.type-badge.test{background:var(--teal-lt);color:var(--teal);}
-.type-badge.proc{background:var(--amber-lt);color:var(--amber);}
-
-.dx-cell{color:var(--text);font-weight:600;}
-.dx-pending{color:var(--gray);font-style:italic;font-size:12px;}
-
-.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.status-dot.done{background:var(--green);}
-.status-dot.pending{background:var(--gray);}
-
-/* EMPTY */
-.empty{text-align:center;padding:40px;color:var(--gray);font-size:14px;}
-
-/* MARK */
+.d-title{font-size:18px;font-weight:800;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.d-badge{font-size:11px;background:var(--blue-xl);color:var(--blue);padding:3px 10px;border-radius:999px;font-weight:600;}
+.section-card{background:#fff;border-radius:var(--r);box-shadow:var(--sh);margin-bottom:14px;overflow:hidden;}
+.section-head{display:flex;align-items:center;gap:8px;padding:12px 16px;font-size:14px;font-weight:700;border-bottom:1px solid var(--border);}
+.section-head.blue{background:var(--blue-xl);border-left:5px solid var(--blue-mid);}
+.section-head.teal{background:var(--teal-lt);border-left:5px solid var(--teal);}
+.section-head.green{background:var(--green-lt);border-left:5px solid var(--green);}
+.item-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;padding:12px 16px;}
+.item-chip{background:var(--gray-lt);border-radius:var(--r-sm);padding:7px 12px;font-size:12px;color:var(--text);border-left:3px solid var(--border);}
+.item-chip.match{background:#eff6ff;border-left-color:var(--blue-mid);color:var(--blue);font-weight:600;}
 mark{background:#fef08a;border-radius:2px;padding:0 1px;}
-
-/* UNIFIED HEADER */
-.header{position:sticky!important;top:0;z-index:100;}
+.drug-info{padding:12px 16px;font-size:13px;color:var(--gray);}
+.empty-msg{text-align:center;padding:60px;color:var(--gray);font-size:14px;}
+.mobile-d-select{display:none;width:100%;padding:10px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit;}
+@media(max-width:699px){.mobile-d-select{display:block;}}
 </style>
 </head>
 <body>
@@ -94,268 +51,177 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
     <div>
       <img src="../assets/logo.png" class="header-logo" alt="いなだ医院">
       <h1>📋 レセプト整合表</h1>
-      <div class="sub">処方・検査と必要な病名の対応表</div>
+      <div class="sub">傷病名ごとに使える検査・管理料・薬の一覧</div>
     </div>
   </div>
 </header>
 
 <div class="page-layout">
-  <nav class="cat-sidebar" id="catSidebar">
-    <div class="cat-head">カテゴリ</div>
-    <button class="cat-btn active" onclick="filterCat('すべて',this)">すべて</button>
-    <div class="cat-divider"></div>
-    <button class="cat-btn" onclick="filterCat('高血圧',this)">高血圧</button>
-    <button class="cat-btn" onclick="filterCat('糖尿病',this)">糖尿病</button>
-    <button class="cat-btn" onclick="filterCat('高脂血症',this)">高脂血症</button>
-    <button class="cat-btn" onclick="filterCat('心臓・循環器',this)">心臓・循環器</button>
-    <button class="cat-btn" onclick="filterCat('利尿薬',this)">利尿薬</button>
-    <button class="cat-btn" onclick="filterCat('腎臓・泌尿器',this)">腎臓・泌尿器</button>
-    <button class="cat-btn" onclick="filterCat('甲状腺',this)">甲状腺</button>
-    <button class="cat-btn" onclick="filterCat('骨・ミネラル',this)">骨・ミネラル</button>
-    <button class="cat-btn" onclick="filterCat('関節リウマチ',this)">関節リウマチ</button>
-    <button class="cat-btn" onclick="filterCat('痛風・高尿酸',this)">痛風・高尿酸</button>
-    <button class="cat-btn" onclick="filterCat('認知症',this)">認知症</button>
-    <button class="cat-btn" onclick="filterCat('パーキンソン',this)">パーキンソン</button>
-    <button class="cat-btn" onclick="filterCat('精神・神経',this)">精神・神経</button>
-    <button class="cat-btn" onclick="filterCat('睡眠薬',this)">睡眠薬</button>
-    <button class="cat-btn" onclick="filterCat('呼吸器・吸入',this)">呼吸器・吸入</button>
-    <button class="cat-btn" onclick="filterCat('アレルギー',this)">アレルギー</button>
-    <button class="cat-btn" onclick="filterCat('消化器',this)">消化器</button>
-    <button class="cat-btn" onclick="filterCat('片頭痛',this)">片頭痛</button>
-    <button class="cat-btn" onclick="filterCat('ステロイド',this)">ステロイド</button>
-    <button class="cat-btn" onclick="filterCat('抗凝固・抗血小板',this)">抗凝固・抗血小板</button>
-    <button class="cat-btn" onclick="filterCat('爪・皮膚',this)">爪・皮膚</button>
-    <button class="cat-btn" onclick="filterCat('眼科・耳鼻科',this)">眼科・耳鼻科</button>
-    <button class="cat-btn" onclick="filterCat('在宅・特殊',this)">在宅・特殊</button>
-    <div class="cat-divider"></div>
-    <button class="cat-btn" onclick="filterCat('検査',this)">🔬 検査</button>
-    <button class="cat-btn" onclick="filterCat('処置・管理',this)">🏥 処置・管理</button>
+  <nav class="d-sidebar">
+    <div class="d-sidebar-head">傷病名</div>
+    <button class="d-btn" onclick="showDisease(\"高血圧症\",this)">高血圧症</button>
+    <button class="d-btn" onclick="showDisease(\"高脂血症\",this)">高脂血症</button>
+    <button class="d-btn" onclick="showDisease(\"高コレステロール血症\",this)">高コレステロール血症</button>
+    <button class="d-btn" onclick="showDisease(\"糖尿病\",this)">糖尿病</button>
+    <button class="d-btn" onclick="showDisease(\"高尿酸血症\",this)">高尿酸血症</button>
+    <button class="d-btn" onclick="showDisease(\"腎機能低下\",this)">腎機能低下</button>
+    <button class="d-btn" onclick="showDisease(\"肝機能障害\",this)">肝機能障害</button>
+    <button class="d-btn" onclick="showDisease(\"膵炎\",this)">膵炎</button>
+    <button class="d-btn" onclick="showDisease(\"腰痛症\",this)">腰痛症</button>
+    <button class="d-btn" onclick="showDisease(\"インフルエンザ\",this)">インフルエンザ</button>
+    <button class="d-btn" onclick="showDisease(\"マイコプラズマ感染症\",this)">マイコプラズマ感染症</button>
+    <button class="d-btn" onclick="showDisease(\"ＣＯＶＩＤ－１９\",this)">ＣＯＶＩＤ－１９</button>
   </nav>
 
   <div class="main-area">
     <div class="search-bar">
-      <input type="text" class="search-input" id="searchInput" placeholder="薬剤名・病名で検索..." oninput="render()">
-      <span class="count-badge" id="countBadge"></span>
+      <input type="text" class="search-input" id="searchQ" placeholder="検査名・項目名で絞り込み..." oninput="applyFilter()">
     </div>
-    <div class="status-tabs">
-      <button class="stab active" onclick="filterStatus('all',this)">すべて</button>
-      <button class="stab" onclick="filterStatus('pending',this)">⏳ 入力待ち</button>
-      <button class="stab" onclick="filterStatus('done',this)">✅ 入力済み</button>
-    </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th style="width:24px"></th>
-            <th>薬剤・検査名</th>
-            <th style="width:70px">種別</th>
-            <th>必要な病名</th>
-            <th>調査番号</th>
-            <th>備考</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-      <div class="empty" id="emptyMsg" style="display:none">該当するデータがありません</div>
+
+    <select class="mobile-d-select" id="mobileSelect" onchange="showDisease(this.value,null)">
+      <option value="">-- 傷病名を選択 --</option>
+      <option value="高血圧症">高血圧症</option><option value="高脂血症">高脂血症</option><option value="高コレステロール血症">高コレステロール血症</option><option value="糖尿病">糖尿病</option><option value="高尿酸血症">高尿酸血症</option><option value="腎機能低下">腎機能低下</option><option value="肝機能障害">肝機能障害</option><option value="膵炎">膵炎</option><option value="腰痛症">腰痛症</option><option value="インフルエンザ">インフルエンザ</option><option value="マイコプラズマ感染症">マイコプラズマ感染症</option><option value="ＣＯＶＩＤ－１９">ＣＯＶＩＤ－１９</option>
+    </select>
+
+    <div id="mainContent">
+      <div class="empty-msg">左の傷病名をタップして内容を確認してください</div>
     </div>
   </div>
 </div>
 
 <script>
-const ITEMS = [
-  // ── 高血圧 ──
-  {cat:"高血圧", name:"カルシウム拮抗薬（アムロジピン・ニフェジピン等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"高血圧", name:"ARB（アジルサルタン・バルサルタン・カンデサルタン等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"高血圧", name:"ACE阻害薬", type:"drug", dx:"", survey:"", note:""},
-  {cat:"高血圧", name:"α1遮断薬（ドキサゾシン等・降圧目的）", type:"drug", dx:"", survey:"", note:""},
-  // ── 糖尿病 ──
-  {cat:"糖尿病", name:"インスリン製剤（全種）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"糖尿病", name:"SGLT2阻害薬（エンパグリフロジン・ダパグリフロジン等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"糖尿病", name:"GLP-1受容体作動薬（オゼンピック・ビクトーザ等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"糖尿病", name:"DPP-4阻害薬（シタグリプチン等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"糖尿病", name:"SU薬（グリメピリド等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"糖尿病", name:"ビグアナイド薬（メトホルミン等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"糖尿病", name:"HbA1c測定", type:"test", dx:"", survey:"", note:""},
-  // ── 高脂血症 ──
-  {cat:"高脂血症", name:"スタチン系（ロスバスタチン・アトルバスタチン等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"高脂血症", name:"フィブラート系（フェノフィブラート等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"高脂血症", name:"LDL-C・TG・HDL-C測定", type:"test", dx:"", survey:"", note:""},
-  // ── 心臓・循環器 ──
-  {cat:"心臓・循環器", name:"β遮断薬（ビソプロロール＝メインテート等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"心臓・循環器", name:"ジギタリス製剤（ジゴキシン等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"心臓・循環器", name:"硝酸薬（ニトロール等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"心臓・循環器", name:"BNP（NT-proBNP）測定", type:"test", dx:"", survey:"", note:""},
-  {cat:"心臓・循環器", name:"PT（プロトロンビン時間）", type:"test", dx:"", survey:"", note:""},
-  {cat:"心臓・循環器", name:"APTT", type:"test", dx:"", survey:"", note:""},
-  // ── 抗凝固・抗血小板 ──
-  {cat:"抗凝固・抗血小板", name:"ワーファリン（ワルファリン）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"抗凝固・抗血小板", name:"DOAC（アピキサバン・リバーロキサバン等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"抗凝固・抗血小板", name:"アスピリン（バファリン等）低用量", type:"drug", dx:"", survey:"", note:""},
-  {cat:"抗凝固・抗血小板", name:"クロピドグレル・プラスグレル", type:"drug", dx:"", survey:"", note:""},
-  // ── 利尿薬 ──
-  {cat:"利尿薬", name:"ループ利尿薬（フロセミド等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"利尿薬", name:"サムスカ（トルバプタン）", type:"drug", dx:"", survey:"11番", note:""},
-  {cat:"利尿薬", name:"スピロノラクトン", type:"drug", dx:"", survey:"", note:""},
-  // ── 腎臓・泌尿器 ──
-  {cat:"腎臓・泌尿器", name:"α1遮断薬（タムスロシン等・前立腺目的）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"腎臓・泌尿器", name:"タダラフィル・ザルティア（前立腺肥大）", type:"drug", dx:"", survey:"調査27番", note:""},
-  {cat:"腎臓・泌尿器", name:"抗コリン薬（ソリフェナシン等・過活動膀胱）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"腎臓・泌尿器", name:"ダルベポエチン（腎性貧血）", type:"drug", dx:"", survey:"調査26番", note:"Hb値入力必要"},
-  {cat:"腎臓・泌尿器", name:"クレアチニン・eGFR測定", type:"test", dx:"", survey:"", note:""},
-  // ── 甲状腺 ──
-  {cat:"甲状腺", name:"甲状腺ホルモン製剤（チラーヂンS等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"甲状腺", name:"抗甲状腺薬（チアマゾール等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"甲状腺", name:"甲状腺機能検査（TSH・FT4等）", type:"test", dx:"", survey:"", note:""},
-  // ── 骨・ミネラル ──
-  {cat:"骨・ミネラル", name:"ビスホスホネート系（アレンドロン酸等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"骨・ミネラル", name:"デノスマブ（プラリア）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"骨・ミネラル", name:"エルカトニン（エルシトニン）", type:"drug", dx:"", survey:"調査25番", note:"「疼痛を伴う」病名必要"},
-  {cat:"骨・ミネラル", name:"活性型ビタミンD3", type:"drug", dx:"", survey:"", note:""},
-  {cat:"骨・ミネラル", name:"骨密度測定", type:"test", dx:"", survey:"", note:""},
-  // ── 関節リウマチ ──
-  {cat:"関節リウマチ", name:"メトトレキサート（リウマトレックス）", type:"drug", dx:"", survey:"調査29番", note:"肝機能確認コメント要"},
-  {cat:"関節リウマチ", name:"サラゾスルファピリジン（アザルフィジン）", type:"drug", dx:"", survey:"調査29番", note:""},
-  {cat:"関節リウマチ", name:"生物学的製剤", type:"drug", dx:"", survey:"", note:""},
-  // ── 痛風・高尿酸 ──
-  {cat:"痛風・高尿酸", name:"フェブキソスタット（フェブリク等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"痛風・高尿酸", name:"アロプリノール等", type:"drug", dx:"", survey:"", note:""},
-  // ── 認知症 ──
-  {cat:"認知症", name:"メマリー（メマンチン）", type:"drug", dx:"", survey:"調査23番", note:"最大量未達患者のみ"},
-  {cat:"認知症", name:"レミニール（ガランタミン）", type:"drug", dx:"", survey:"調査23番", note:""},
-  {cat:"認知症", name:"アリセプト（ドネペジル）", type:"drug", dx:"", survey:"", note:""},
-  // ── パーキンソン ──
-  {cat:"パーキンソン", name:"レボドパ製剤", type:"drug", dx:"", survey:"", note:""},
-  {cat:"パーキンソン", name:"ドパミンアゴニスト（プラミペキソール等）", type:"drug", dx:"", survey:"", note:""},
-  // ── 精神・神経 ──
-  {cat:"精神・神経", name:"SSRIなど抗うつ薬", type:"drug", dx:"", survey:"", note:""},
-  {cat:"精神・神経", name:"抗不安薬", type:"drug", dx:"", survey:"", note:""},
-  {cat:"精神・神経", name:"神経障害疼痛薬（プレガバリン等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"精神・神経", name:"抗てんかん薬", type:"drug", dx:"", survey:"", note:""},
-  // ── 睡眠薬 ──
-  {cat:"睡眠薬", name:"非ベンゾジアゼピン系睡眠薬", type:"drug", dx:"", survey:"", note:""},
-  {cat:"睡眠薬", name:"オレキシン受容体拮抗薬（スボレキサント等）", type:"drug", dx:"", survey:"", note:""},
-  // ── 呼吸器・吸入 ──
-  {cat:"呼吸器・吸入", name:"COPD吸入薬（スピリーバ・シムビコート等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"呼吸器・吸入", name:"喘息吸入薬（フルタイド・アドエア等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"呼吸器・吸入", name:"SABA（発作時吸入）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"呼吸器・吸入", name:"テオフィリン製剤", type:"drug", dx:"", survey:"", note:""},
-  {cat:"呼吸器・吸入", name:"肺機能検査・スパイロ", type:"test", dx:"", survey:"", note:""},
-  // ── アレルギー ──
-  {cat:"アレルギー", name:"第2世代抗ヒスタミン薬（フェキソフェナジン等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"アレルギー", name:"スギ花粉・ダニ舌下免疫療法", type:"drug", dx:"", survey:"", note:""},
-  {cat:"アレルギー", name:"モンテルカスト", type:"drug", dx:"", survey:"", note:""},
-  // ── 消化器 ──
-  {cat:"消化器", name:"PPI（オメプラゾール・ランソプラゾール等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"消化器", name:"H2ブロッカー（ファモチジン等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"消化器", name:"緩下剤（酸化マグネシウム等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"消化器", name:"ウルソデオキシコール酸（ウルソ）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"消化器", name:"整腸剤（ビオフェルミン等）", type:"drug", dx:"", survey:"", note:""},
-  // ── 片頭痛 ──
-  {cat:"片頭痛", name:"ゾルミトリプタン（ゾーミッグ等）", type:"drug", dx:"", survey:"", note:"月2回処方時は注釈要"},
-  {cat:"片頭痛", name:"スマトリプタン等", type:"drug", dx:"", survey:"", note:""},
-  // ── ステロイド ──
-  {cat:"ステロイド", name:"プレドニゾロン内服", type:"drug", dx:"", survey:"", note:""},
-  {cat:"ステロイド", name:"ステロイド外用薬", type:"drug", dx:"", survey:"", note:""},
-  // ── 爪・皮膚 ──
-  {cat:"爪・皮膚", name:"クレナフィン・ルコナック（爪白癬）", type:"drug", dx:"", survey:"調査24番", note:"腎機能未検査なら文言修正"},
-  // ── 眼科・耳鼻科 ──
-  {cat:"眼科・耳鼻科", name:"点眼薬（緑内障・ドライアイ等）", type:"drug", dx:"", survey:"", note:""},
-  {cat:"眼科・耳鼻科", name:"耳鼻科薬", type:"drug", dx:"", survey:"", note:""},
-  // ── 在宅・特殊 ──
-  {cat:"在宅・特殊", name:"CPAP（シーパップ）", type:"proc", dx:"", survey:"調査18番", note:"必須6項目・毎月AHI更新"},
-  {cat:"在宅・特殊", name:"在宅酸素療法", type:"proc", dx:"", survey:"", note:"SpO₂入力必要"},
-  {cat:"在宅・特殊", name:"在宅自己注射指導管理", type:"proc", dx:"", survey:"", note:"血糖測定加算・薬剤支給日数入力"},
-  // ── 検査 ──
-  {cat:"検査", name:"BNP（NT-proBNP）", type:"test", dx:"", survey:"", note:""},
-  {cat:"検査", name:"HbA1c", type:"test", dx:"", survey:"", note:""},
-  {cat:"検査", name:"PT（プロトロンビン時間）", type:"test", dx:"", survey:"", note:"固定コメント要"},
-  {cat:"検査", name:"APTT", type:"test", dx:"", survey:"", note:"固定コメント要"},
-  {cat:"検査", name:"LDL-C・TG・HDL-C（脂質4分画）", type:"test", dx:"", survey:"", note:""},
-  {cat:"検査", name:"CBC（末梢血液一般）", type:"test", dx:"", survey:"", note:"時間外は時刻入力要"},
-  {cat:"検査", name:"CRP", type:"test", dx:"", survey:"", note:"時間外は時刻入力要"},
-  {cat:"検査", name:"尿一般検査", type:"test", dx:"", survey:"", note:"時間外は時刻入力要"},
-  {cat:"検査", name:"インフルエンザ迅速検査", type:"test", dx:"", survey:"", note:"時間外は時刻入力要"},
-  {cat:"検査", name:"SARS-CoV-2迅速検査", type:"test", dx:"", survey:"", note:"時間外は時刻入力要"},
-  {cat:"検査", name:"ヘモグロビン（Hb）", type:"test", dx:"", survey:"", note:""},
-  {cat:"検査", name:"クレアチニン・eGFR", type:"test", dx:"", survey:"", note:""},
-  {cat:"検査", name:"肝機能（ALT・AST・γGTP）", type:"test", dx:"", survey:"", note:""},
-  {cat:"検査", name:"甲状腺機能（TSH・FT3・FT4）", type:"test", dx:"", survey:"", note:""},
-  // ── 処置・管理 ──
-  {cat:"処置・管理", name:"生活習慣病管理料", type:"proc", dx:"", survey:"", note:"月1回（初回）算定可"},
-  {cat:"処置・管理", name:"特定疾患療養管理料", type:"proc", dx:"", survey:"", note:"月2回まで"},
-  {cat:"処置・管理", name:"地域包括診療料", type:"proc", dx:"", survey:"", note:"毎回算定・保険設定で確認"},
-  {cat:"処置・管理", name:"認知症地域包括診療料", type:"proc", dx:"", survey:"", note:""},
-  {cat:"処置・管理", name:"時間外緊急検査・レントゲン", type:"proc", dx:"—", survey:"", note:"時刻入力が必要。外注は対象外"},
-];
+const DISEASES = {
+  "高脂血症": {
+    tests: ["ＨＤＬ－コレステロール","Ｌ－ＣＡＴ","ＬＤＬ－コレステロール","ＬＰＬ","ＲＬＰ－Ｃ","Ｔｃｈｏ","ＴＧ","アポリポ蛋白（１項目）","アポリポ蛋白（２項目）","アポリポ蛋白（３項目以上）","コレステロール分画","末梢血液像（鏡検法）","末梢血液像（自動機械法）","遊離コレステロール","リポ蛋白（ａ）","リポ蛋白分画","リポ蛋白分画（ＰＡＧディスク電気泳動法）","リポ蛋白分画（ＨＰＬＣ法）","リン脂質"],
+    mgmt:  ["小児科療養指導料","小児科療養指導料（情報通信機器）","生活習慣病管理料１（脂質異常症を主病）","生活習慣病管理料２","生活習慣病管理料２（情報通信機器）"],
+    drug_count: 205
+  },
+  "インフルエンザ": {
+    tests: ["インフルエンザウイルスＡ型抗体価（定性・半定量・定量）","インフルエンザウイルスＢ型抗体価（定性・半定量・定量）","インフルエンザウイルス抗原定性","インフルエンザ核酸検出","内視鏡用テレスコープを用いた咽頭画像等解析","末梢血液像（鏡検法）","末梢血液像（自動機械法）"],
+    mgmt:  [],
+    drug_count: 38
+  },
+  "ＣＯＶＩＤ－１９": {
+    tests: ["ＩＦＮ－λ３","ＳＡＲＳ－ＣｏＶ－２・ＲＳウイルス核酸同時検出（検査委託）","ＳＡＲＳ－ＣｏＶ－２・ＲＳウイルス核酸同時検出（検査委託以外）","ＳＡＲＳ－ＣｏＶ－２・ＲＳウイルス抗原同時検出定性","ＳＡＲＳ－ＣｏＶ－２・インフルエンザ・ＲＳ核酸同時検出（委託）","ＳＡＲＳ－ＣｏＶ－２・インフルエンザ・ＲＳ核酸同時検出（委託外）","ＳＡＲＳ－ＣｏＶ－２・インフルエンザウイルス抗原同時検出定性","ＳＡＲＳ－ＣｏＶ－２・インフルエンザ・ＲＳ抗原同時検出定性","ＳＡＲＳ－ＣｏＶ－２・インフルエンザ核酸同時検出（検査委託以外）","ＳＡＲＳ－ＣｏＶ－２・インフルエンザ核酸同時検出（検査委託）","ＳＡＲＳ－ＣｏＶ－２核酸検出（検査委託以外）","ＳＡＲＳ－ＣｏＶ－２核酸検出（検査委託）","ＳＡＲＳ－ＣｏＶ－２抗原定性","ＳＡＲＳ－ＣｏＶ－２抗原定量","ＴＡＲＣ（ＣＯＶＩＤ－１９）","ウイルス・細菌核酸多項目同時検出（検査委託以外）","ウイルス・細菌核酸多項目同時検出（検査委託）"],
+    mgmt:  [],
+    drug_count: 6
+  },
+  "マイコプラズマ感染症": {
+    tests: ["CRP","ＣＲＰ定性","ＥＳＲ","寒冷凝集","尿一般検査","マイコプラズマ核酸検出","マイコプラズマ抗原定性（ＦＡ法）","マイコプラズマ抗原定性（免疫クロマト法）","マイコプラズマ抗体定性","マイコプラズマ抗体半定量","末梢血液像（鏡検法）","末梢血液像（自動機械法）"],
+    mgmt:  [],
+    drug_count: 13
+  },
+  "糖尿病": {
+    tests: ["１．５ＡＧ","ＢＭＲ","ＣｈＥ","ＣＫ","ＣＰＲ","ＣＰＲ（尿）","HbA1c","ＨＤＬ－コレステロール","ＩＲＩ","ＬＤＬ－コレステロール","Ｔｃｈｏ","ＴＧ","ＴＰ","アミノ酸","アミノ酸（５種類以上）","アミノ酸定性","アミノ酸定性（尿）","アルブミン定性（尿）","アルブミン定量（尿）","ガラクトース","グリコアルブミン","グルカゴン","グルカゴン負荷試験","血糖（グルコース）","グルコース（胸水）","グルコース（髄液）","グルコース（腹水）","クレアチニン（Cr）","クレアチニン（尿）","血液浸透圧","血中ケトン体（試験紙法）","血中ケトン体（アンプル法）","血中ケトン体（固定化酵素電極）","ケトン体","ケトン体分画","抗インスリン抗体","コレステロール分画","常用負荷試験","耐糖能精密検査","ナトリウム及びクロール","ナトリウム及びクロール（尿）","尿一般検査","尿グルコース","尿浸透圧","ピルビン酸","ピルビン酸（尿）","ブドウ糖等負荷血糖値等経時検査（常用負荷試験）","ブドウ糖等負荷血糖値等経時検査（耐糖能精密検査）","マグネシウム","マグネシウム（尿）","ミオイノシトール（尿）","遊離コレステロール","リポ蛋白分画","リポ蛋白分画（ＰＡＧディスク電気泳動法）","リン脂質"],
+    mgmt:  ["間歇注入シリンジポンプ加算（プログラム付き）","間歇注入シリンジポンプ加算（１以外）","血糖自己測定器加算（１２０回以上）（１型糖尿病・小児低血糖症等）","血糖自己測定器加算（６０回以上）（１型糖尿病・小児低血糖症等）","血糖自己測定器加算（３０回以上）（１型糖尿病の患者等を除く）","血糖自己測定器加算（２０回以上）（１型糖尿病の患者等を除く）","血糖自己測定器加算（４０回以上）（１型糖尿病の患者等を除く）","血糖自己測定器加算（６０回以上）（１型糖尿病の患者等を除く）","血糖自己測定器加算（間歇スキャン式持続血糖測定器）","注入器用注射針加算（１型糖尿病、血友病患者又はこれに準ずる患者）","生活習慣病管理料１（糖尿病を主病）","生活習慣病管理料２","生活習慣病管理料２（情報通信機器）"],
+    drug_count: 534
+  },
+  "肝機能障害": {
+    tests: ["ＡＬＤ","ＡＬＰ","ＡＬＰアイソザイム","ALT（GPT）","AST（GOT）","ＢＩＬ／総","ＢＩＬ／直","ＢＩＬ／抱","ＰＴ","Ｔｃｈｏ","アミノ酸定性","アミノ酸定性（尿）","α２－ＭＧ","ウロビリノゲン（尿）","肝機能テスト（ＩＣＧ１回・２回法）","肝機能テスト（ＢＳＰ２回法）","肝クリアランステスト","γ－ＧＴ","γ－ＧＴアイソ","γ－ＧＴアイソ（尿）","クレアチン","クレアチン（尿）","蛋白分画","蛋白分画（尿）","超音波検査（断層撮影法）（胸腹部）","尿一般検査","フィブリノゲン定量","フィブリノゲン半定量","プラスミノゲン活性","プラスミノゲン抗原"],
+    mgmt:  [],
+    drug_count: 15
+  },
+  "腎機能低下": {
+    tests: ["ＢＵＮ","ＢＵＮ（尿）","ＵＡ","ＵＡ（尿）","イヌリン","イヌリンクリアランス測定","クレアチニン（Cr）","クレアチニン（尿）","クレアチニン試験紙法（尿）（蛋白／クレアチニン比）","シスタチンＣ","腎クリアランステスト","ナトリウム及びクロール","ナトリウム及びクロール（尿）","尿一般検査","尿沈渣（鏡検法）","尿沈渣（フローサイトメトリー法）","フィッシュバーグ","ペントシジン","モーゼンタール法","ヨードカリ試験","リパーゼ","リパーゼ（尿）","レニン活性","レニン定量","レノグラム（ＲＩ）"],
+    mgmt:  [],
+    drug_count: 0
+  },
+  "腰痛症": {
+    tests: [],
+    mgmt:  ["ＪＰＳ桃核承気湯エキス顆粒〔調剤用〕","ＪＰＳ当帰芍薬散料エキス顆粒〔調剤用〕","ＪＰＳ八味地黄丸料エキス顆粒〔調剤用〕","ＭＳ温シップ「タイホウ」","ＭＳ温シップ「タカミツ」","ＭＳ冷シップ「タイホウ」","ＭＳ冷シップ「タカミツ」","アスピリン「ケンエー」","アスピリン原末「マルイシ」","アスピリン「ホエイ」","アスピリン（山善）","アスピリン「ヨシダ」","アセトアミノフェン","アセトアミノフェンＤＳ４０％「三和」","アセトアミノフェン「ＪＧ」原末","アセトアミノフェン「ＶＴＲＳ」原末","アセトアミノフェン細粒２０％「ＪＧ」","アセトアミノフェン細粒２０％「トーワ」","アセトアミノフェン細粒２０％「マルイシ」","アセトアミノフェン錠２００ｍｇ「ＪＧ」","アセトアミノフェン錠２００ｍｇ「ＮＩＧ」","アセトアミノフェン錠２００ｍｇ「ＮＰ」","アセトアミノフェン錠２００ｍｇ「ＴＣＫ」","アセトアミノフェン錠２００ｍｇ「ケンエー」","アセトアミノフェン錠２００ｍｇ「三和」","アセトアミノフェン錠２００ｍｇ「タカタ」","アセトアミノフェン錠２００ｍｇ「武田テバ」","アセトアミノフェン錠２００ｍｇ「トーワ」","アセトアミノフェン錠２００ｍｇ「マルイシ」","アセトアミノフェン錠３００ｍｇ「ＪＧ」","アセトアミノフェン錠３００ｍｇ「ケンエー」","アセトアミノフェン錠３００ｍｇ「マルイシ」","アセトアミノフェン錠５００ｍｇ「ケンエー」","アセトアミノフェン錠５００ｍｇ「マルイシ」","アセトアミノフェン〈ハチ〉","アセトアミノフェン「ヨシダ」","アフロクアロン錠２０ｍｇ「サワイ」","アフロクアロン錠２０ｍｇ「トーワ」","アルボ錠１００ｍｇ","アルボ錠２００ｍｇ","アロフト錠２０ｍｇ","アロフト錠２０ｍｇ（選）","イブプロフェン顆粒２０％「ツルハラ」","イブプロフェン錠１００ｍｇ「ＮＩＧ」","イブプロフェン錠１００ｍｇ「ＴＣＫ」","イブプロフェン錠２００ｍｇ「ＮＩＧ」","イブプロフェン錠２００ｍｇ「ＴＣＫ」","イブプロフェン錠２００ｍｇ「タイヨー」","インドメタシンカプセル　２５ｍｇ","インフリーＳカプセル２００ｍｇ","インフリーカプセル１００ｍｇ","ウチダの八味丸Ｍ","エチゾラム錠０．２５ｍｇ「ＥＭＥＣ」","エチゾラム錠０．２５ｍｇ「ＪＧ」","エチゾラム錠０．２５ｍｇ「ＮＩＧ」","エチゾラム錠０．２５ｍｇ「ＮＰ」","エチゾラム錠０．２５ｍｇ「ＳＷ」","エチゾラム錠０．２５ｍｇ「ＴＣＫ」","エチゾラム錠０．２５ｍｇ「アメル」","エチゾラム錠０．２５ｍｇ「クニヒロ」","エチゾラム錠０．２５ｍｇ「武田テバ」","エチゾラム錠０．２５ｍｇ「ツルハラ」","エチゾラム錠０．２５ｍｇ「トーワ」","エチゾラム錠０．２５ｍｇ「日医工」","エチゾラム錠０．２５ｍｇ「日新」","エチゾラム錠０．２５ｍｇ「フジナガ」","エチゾラム錠０．５ｍｇ「ＥＭＥＣ」","エチゾラム錠０．５ｍｇ「ＪＧ」","エチゾラム錠０．５ｍｇ「ＮＩＧ」","エチゾラム錠０．５ｍｇ「ＮＰ」","エチゾラム錠０．５ｍｇ「ＳＷ」","エチゾラム錠０．５ｍｇ「ＴＣＫ」","エチゾラム錠０．５ｍｇ「アメル」","エチゾラム錠０．５ｍｇ「クニヒロ」","エチゾラム錠０．５ｍｇ「武田テバ」","エチゾラム錠０．５ｍｇ「ツルハラ」","エチゾラム錠０．５ｍｇ「トーワ」","エチゾラム錠０．５ｍｇ「日医工」","エチゾラム錠０．５ｍｇ「日新」","エチゾラム錠０．５ｍｇ「フジナガ」","エチゾラム錠１ｍｇ「ＥＭＥＣ」","エチゾラム錠１ｍｇ「ＪＧ」","エチゾラム錠１ｍｇ「ＮＩＧ」","エチゾラム錠１ｍｇ「ＮＰ」","エチゾラム錠１ｍｇ「ＳＷ」","エチゾラム錠１ｍｇ「ＴＣＫ」","エチゾラム錠１ｍｇ「アメル」","エチゾラム錠１ｍｇ「クニヒロ」","エチゾラム錠１ｍｇ「ツルハラ」","エチゾラム錠１ｍｇ「トーワ」","エチゾラム錠１ｍｇ「日医工」","エチゾラム錠１ｍｇ「日新」","エチゾラム錠１ｍｇ「フジナガ」","エトドラク錠１００ｍｇ「ＪＧ」","エトドラク錠１００ｍｇ「ＳＷ」","エトドラク錠１００ｍｇ「タイヨー」","エトドラク錠１００ｍｇ「トーワ」","エトドラク錠１００ｍｇ「日医工」","エトドラク錠２００ｍｇ「ＪＧ」","エトドラク錠２００ｍｇ「ＳＷ」","エトドラク錠２００ｍｇ「タイヨー」","エトドラク錠２００ｍｇ「トーワ」","エトドラク錠２００ｍｇ「日医工」","エペリゾン塩酸塩錠５０ｍｇ「アメル」","エペリゾン塩酸塩錠５０ｍｇ「ＫＯ」","エペリゾン塩酸塩錠５０ｍｇ「テバ」","エペリゾン塩酸塩錠５０ｍｇ「ＴＣＫ」","エペリゾン塩酸塩錠５０ｍｇ「旭化成」","エペリゾン塩酸塩錠５０ｍｇ「トーワ」","エペリゾン塩酸塩錠５０ｍｇ「ＮＰ」","エペリゾン塩酸塩錠５０ｍｇ「ツルハラ」","エペリゾン塩酸塩錠５０ｍｇ「日医工」","エペリゾン塩酸塩錠５０ｍｇ「日新」","エペリゾン塩酸塩錠５０ｍｇ「ＮＩＧ」","エペリゾン塩酸塩錠５０ｍｇ「あすか」","オースギ疎経活血湯エキスＧ","オースギ桃核承気湯エキスＧ","オースギ当帰四逆加呉茱萸生姜湯エキスＧ","オースギ当帰芍薬散料エキスＧ","オースギ当帰芍薬散料エキスＴ錠","オースギ八味地黄丸料エキスＧ","オースギ八味地黄丸料エキスＴ錠","オステラック錠１００　１００ｍｇ","オステラック錠１００　１００ｍｇ（選）","オステラック錠２００　２００ｍｇ","オステラック錠２００　２００ｍｇ（選）","オパイリン錠１２５ｍｇ","オパイリン錠２５０ｍｇ","カシワドール静注　２０ｍＬ","カシワドール静注　２０ｍＬ（選）","カロナール原末","カロナール細粒２０％","カロナール細粒５０％","カロナール錠２００　２００ｍｇ","カロナール錠３００　３００ｍｇ","カロナール錠５００　５００ｍｇ","キョーリンＡＰ２配合顆粒","クラシエ桃核承気湯エキス細粒","クラシエ桃核承気湯エキス錠","クラシエ当帰四逆加呉茱萸生姜湯エキス細粒","クラシエ当帰芍薬散料エキス細粒","クラシエ八味地黄丸料エキス細粒","クラシエ八味地黄丸料エキス錠","クロルフェネシンカルバミン酸エステル錠１２５ｍｇ「サワイ」","クロルフェネシンカルバミン酸エステル錠１２５ｍｇ「ツルハラ」","クロルフェネシンカルバミン酸エステル錠１２５ｍｇ「ＮＰ」","クロルフェネシンカルバミン酸エステル錠２５０ｍｇ「サワイ」","クロルフェネシンカルバミン酸エステル錠２５０ｍｇ「ツルハラ」","ケトプロフェン坐剤５０ｍｇ「ＪＧ」","ケトプロフェン坐剤５０ｍｇ「日新」","ケトプロフェン坐剤７５ｍｇ「ＪＧ」","ケトプロフェン坐剤７５ｍｇ「日新」","ケトプロフェンテープ２０ｍｇ「ＢＭＤ」　７ｃｍ×１０ｃｍ","ケトプロフェンテープ２０ｍｇ「ＳＮ」　７ｃｍ×１０ｃｍ","ケトプロフェンテープ２０ｍｇ「杏林」　７ｃｍ×１０ｃｍ","ケトプロフェンテープ２０ｍｇ「三和」　７ｃｍ×１０ｃｍ","ケトプロフェンテープ２０ｍｇ「テイコク」　７ｃｍ×１０ｃｍ","ケトプロフェンテープ２０ｍｇ「東光」　７ｃｍ×１０ｃｍ","ケトプロフェンテープ２０ｍｇ「トーワ」　７ｃｍ×１０ｃｍ","ケトプロフェンテープ２０ｍｇ「日医工」　７ｃｍ×１０ｃｍ","ケトプロフェンテープ２０ｍｇ「パテル」　７ｃｍ×１０ｃｍ","ケトプロフェンテープ２０ｍｇ「ラクール」　７ｃｍ×１０ｃｍ","ケトプロフェンテープ４０ｍｇ「ＢＭＤ」　１０ｃｍ×１４ｃｍ","ケトプロフェンテープ４０ｍｇ「ＳＮ」　１０ｃｍ×１４ｃｍ","ケトプロフェンテープ４０ｍｇ「杏林」　１０ｃｍ×１４ｃｍ","ケトプロフェンテープ４０ｍｇ「三和」　１０ｃｍ×１４ｃｍ","ケトプロフェンテープ４０ｍｇ「テイコク」　１０ｃｍ×１４ｃｍ","ケトプロフェンテープ４０ｍｇ「東光」　１０ｃｍ×１４ｃｍ","ケトプロフェンテープ４０ｍｇ「トーワ」　１０ｃｍ×１４ｃｍ","ケトプロフェンテープ４０ｍｇ「日医工」　１０ｃｍ×１４ｃｍ","ケトプロフェンテープ４０ｍｇ「パテル」　１０ｃｍ×１４ｃｍ","ケトプロフェンテープ４０ｍｇ「ラクール」　１０ｃｍ×１４ｃｍ","ケトプロフェンテープＳ２０ｍｇ「テイコク」　７ｃｍ×１０ｃｍ","ケトプロフェンパップＸＲ１２０ｍｇ「テイコク」　１０×１４ｃｍ","コタロー温経湯エキス細粒","コタロー五積散エキス細粒","コタロー通導散エキス細粒","コタロー桃核承気湯エキス細粒","コタロー当帰四逆加呉茱萸生姜湯エキス細粒","コタロー苓姜朮甘湯エキス細粒","コンドロイチン硫酸ナトリウム注射液２００ｍｇ日医工　１％２０ｍＬ","サインバルタカプセル２０ｍｇ","サインバルタカプセル２０ｍｇ（選）","サインバルタカプセル３０ｍｇ","サインバルタカプセル３０ｍｇ（選）","サリチル酸ナトリウム・ジブカイン配合５ｍＬ注射液","ザルソロイチン静注１０ｍＬ","ザルソロイチン静注２０ｍＬ","ザルチロン注　１０ｍＬ","ザルトプロフェン錠８０ｍｇ「ＹＤ」","ザルトプロフェン錠８０ｍｇ「杏林」","ザルトプロフェン錠８０ｍｇ「サワイ」","ザルトプロフェン錠８０ｍｇ「日医工」","三和八味地黄丸料エキス細粒","三和苓姜朮甘湯エキス細粒","ジカベリン注２ｍＬ","ジカベリン注５ｍＬ","ジクトルテープ７５ｍｇ","ジクロフェナクＮａクリーム１％「日本臓器」","ジクロフェナクＮａゲル１％「ＮＩＧ」","ジクロフェナクＮａゲル１％「ＳＮ」","ジクロフェナクＮａゲル１％「日本臓器」","ジクロフェナクＮａゲル１％「ラクール」","ジクロフェナクＮａ坐剤１２．５ｍｇ「日新」","ジクロフェナクＮａ坐剤１２．５ｍｇ「ＮＩＧ」","ジクロフェナクＮａ坐剤２５ｍｇ「ＮＩＧ」","ジクロフェナクＮａ坐剤２５ｍｇ「日新」","ジクロフェナクＮａ坐剤５０ｍｇ「ＮＩＧ」","ジクロフェナクＮａ坐剤５０ｍｇ「日新」","ジクロフェナクＮａ錠２５ｍｇ「ＮＩＧ」","ジクロフェナクＮａ錠２５ｍｇ「ＴＣＫ」","ジクロフェナクＮａ錠２５ｍｇ「ＹＤ」","ジクロフェナクＮａ錠２５ｍｇ「サワイ」","ジクロフェナクＮａ錠２５ｍｇ「武田テバ」","ジクロフェナクＮａ錠２５ｍｇ「ツルハラ」","ジクロフェナクＮａ錠２５ｍｇ「トーワ」","ジクロフェナクＮａテープ１５ｍｇ「トーワ」　７ｃｍ×１０ｃｍ","ジクロフェナクＮａテープ１５ｍｇ「日医工」　７ｃｍ×１０ｃｍ","ジクロフェナクＮａテープ１５ｍｇ「日本臓器」　７ｃｍ×１０ｃｍ","ジクロフェナクＮａテープ１５ｍｇ「ラクール」　７ｃｍ×１０ｃｍ","ジクロフェナクＮａテープ３０ｍｇ「トーワ」　１０ｃｍ×１４ｃｍ","ジクロフェナクＮａテープ３０ｍｇ「日医工」　１０ｃｍ×１４ｃｍ","ジクロフェナクＮａテープ３０ｍｇ「日本臓器」　１０ｃｍ×１４ｃｍ","ジクロフェナクＮａテープ３０ｍｇ「ラクール」　１０ｃｍ×１４ｃｍ","ジクロフェナクＮａパップ１４０ｍｇ「ラクール」　１０×１４ｃｍ","ジクロフェナクＮａパップ１４０ｍｇ「日本臓器」　１０×１４ｃｍ","ジクロフェナクＮａパップ２８０ｍｇ「ラクール」　２０×１４ｃｍ","ジクロフェナクＮａパップ７０ｍｇ「日本臓器」　７ｃｍ×１０ｃｍ","ジクロフェナクＮａパップ７０ｍｇ「ラクール」　７ｃｍ×１０ｃｍ","ジクロフェナクＮａローション１％「日本臓器」","ジクロフェナクＮａローション１％「ラクール」","ジクロフェナクナトリウムクリーム１％「テイコク」","ジクロフェナクナトリウムクリーム１％「ユートク」","ジクロフェナクナトリウム坐剤１２．５ｍｇ「ゼリア」","ジクロフェナクナトリウム坐剤１２．５ｍｇ「日医工」","ジクロフェナクナトリウム坐剤１２．５ｍｇ「ＪＧ」","ジクロフェナクナトリウム坐剤２５ｍｇ「ゼリア」","ジクロフェナクナトリウム坐剤２５ｍｇ「日医工」","ジクロフェナクナトリウム坐剤２５ｍｇ「ＪＧ」","ジクロフェナクナトリウム坐剤５０ｍｇ「ゼリア」","ジクロフェナクナトリウム坐剤５０ｍｇ「日医工」","ジクロフェナクナトリウム坐剤５０ｍｇ「ＪＧ」","ジクロフェナクナトリウムテープ１５ｍｇ「テイコク」　７×１０ｃｍ","ジクロフェナクナトリウムテープ１５ｍｇ「ユートク」　７×１０ｃｍ","ジクロフェナクナトリウムテープ１５ｍｇ「ＪＧ」　７ｃｍ×１０ｃｍ","ジクロフェナクナトリウムテープ１５ｍｇ「ＮＰ」　７ｃｍ×１０ｃｍ","ジクロフェナクナトリウムテープ１５ｍｇ「三和」　７ｃｍ×１０ｃｍ","ジクロフェナクナトリウムテープ３０ｍｇテイコク　１０×１４ｃｍ","ジクロフェナクナトリウムテープ３０ｍｇユートク　１０×１４ｃｍ","ジクロフェナクナトリウムテープ３０ｍｇ「ＪＧ」　１０×１４ｃｍ","ジクロフェナクナトリウムテープ３０ｍｇ「ＮＰ」　１０×１４ｃｍ","ジクロフェナクナトリウムテープ３０ｍｇ「三和」　１０×１４ｃｍ","ジブカルソー注　２ｍＬ","ジブカルソー注　５ｍＬ","ジュンコウ　桃核承気湯ＦＣエキス細粒　医療用","ジュンコウ　当帰芍薬散料ＦＣエキス細粒　医療用","スチックゼノールＡ","ゼスタッククリーム","セレコキシブ錠１００ｍｇ「ＤＳＥＰ」","セレコキシブ錠１００ｍｇ「ＪＧ」","セレコキシブ錠１００ｍｇ「ＶＴＲＳ」","セレコキシブ錠１００ｍｇ「ＹＤ」","セレコキシブ錠１００ｍｇ「アメル」","セレコキシブ錠１００ｍｇ「オーハラ」","セレコキシブ錠１００ｍｇ「杏林」","セレコキシブ錠１００ｍｇ「ケミファ」","セレコキシブ錠１００ｍｇ「サワイ」","セレコキシブ錠１００ｍｇ「サンド」","セレコキシブ錠１００ｍｇ「ダイト」","セレコキシブ錠１００ｍｇ「武田テバ」","セレコキシブ錠１００ｍｇ「トーワ」","セレコキシブ錠１００ｍｇ「日医工」","セレコキシブ錠１００ｍｇ「日新」","セレコキシブ錠１００ｍｇ「ニプロ」","セレコキシブ錠１００ｍｇ「ファイザー」","セレコキシブ錠１００ｍｇ「フェルゼン」","セレコキシブ錠１００ｍｇ「三笠」","セレコキシブ錠１００ｍｇ「明治」","セレコキシブ錠２００ｍｇ「ＤＳＥＰ」","セレコキシブ錠２００ｍｇ「ＪＧ」","セレコキシブ錠２００ｍｇ「ＶＴＲＳ」","セレコキシブ錠２００ｍｇ「ＹＤ」","セレコキシブ錠２００ｍｇ「アメル」","セレコキシブ錠２００ｍｇ「オーハラ」","セレコキシブ錠２００ｍｇ「杏林」","セレコキシブ錠２００ｍｇ「ケミファ」","セレコキシブ錠２００ｍｇ「サワイ」","セレコキシブ錠２００ｍｇ「サンド」","セレコキシブ錠２００ｍｇ「ダイト」","セレコキシブ錠２００ｍｇ「武田テバ」","セレコキシブ錠２００ｍｇ「トーワ」","セレコキシブ錠２００ｍｇ「日医工」","セレコキシブ錠２００ｍｇ「日新」","セレコキシブ錠２００ｍｇ「ニプロ」","セレコキシブ錠２００ｍｇ「ファイザー」","セレコキシブ錠２００ｍｇ「フェルゼン」","セレコキシブ錠２００ｍｇ「三笠」","セレコキシブ錠２００ｍｇ「明治」","セレコックス錠１００ｍｇ","セレコックス錠１００ｍｇ（選）","セレコックス錠２００ｍｇ","セレコックス錠２００ｍｇ（選）","ソランタール錠１００ｍｇ","ソランタール錠５０ｍｇ","ソレトン錠８０　８０ｍｇ","ソレトン錠８０　８０ｍｇ（選）","タイオゼット注２ｍＬ","タイオゼット注５ｍＬ","太虎堂の疎経活血湯エキス顆粒","太虎堂の当帰芍薬散料エキス散","太虎堂の当帰芍薬散料エキス顆粒","チザニジン錠１ｍｇ「ＪＧ」","チザニジン錠１ｍｇ「ＮＰＩ」","チザニジン錠１ｍｇ「アメル」","チザニジン錠１ｍｇ「杏林」","チザニジン錠１ｍｇ「サワイ」","チザニジン錠１ｍｇ「ツルハラ」","チザニジン錠１ｍｇ「テバ」","チザニジン錠１ｍｇ「トーワ」","チザニジン錠１ｍｇ「日医工」","ツムラ五積散エキス顆粒（医療用）","ツムラ牛車腎気丸エキス顆粒（医療用）","ツムラ疎経活血湯エキス顆粒（医療用）","ツムラ通導散エキス顆粒（医療用）","ツムラ桃核承気湯エキス顆粒（医療用）","ツムラ当帰四逆加呉茱萸生姜湯エキス顆粒（医療用）","ツムラ八味地黄丸エキス顆粒（医療用）","ツムラ麻黄湯エキス顆粒（医療用）","ツムラ苓姜朮甘湯エキス顆粒（医療用）","デパス細粒１％","デパス錠０．２５ｍｇ","デパス錠０．２５ｍｇ（選）","デパス錠０．５ｍｇ","デパス錠０．５ｍｇ（選）","デパス錠１ｍｇ","デパス錠１ｍｇ（選）","デュロキセチンＯＤ錠２０ｍｇ「ニプロ」","デュロキセチンＯＤ錠２０ｍｇ「明治」","デュロキセチンＯＤ錠３０ｍｇ「ニプロ」","デュロキセチンＯＤ錠３０ｍｇ「明治」","デュロキセチンカプセル２０ｍｇ「ＤＳＥＰ」","デュロキセチンカプセル２０ｍｇ「ＪＧ」","デュロキセチンカプセル２０ｍｇ「ＫＭＰ」","デュロキセチンカプセル２０ｍｇ「ＹＤ」","デュロキセチンカプセル２０ｍｇ「アメル」","デュロキセチンカプセル２０ｍｇ「オーハラ」","デュロキセチンカプセル２０ｍｇ「杏林」","デュロキセチンカプセル２０ｍｇ「サワイ」","デュロキセチンカプセル２０ｍｇ「タカタ」","デュロキセチンカプセル２０ｍｇ「トーワ」","デュロキセチンカプセル２０ｍｇ「日医工Ｇ」","デュロキセチンカプセル２０ｍｇ「日新」","デュロキセチンカプセル２０ｍｇ「ニプロ」","デュロキセチンカプセル２０ｍｇ「フェルゼン」","デュロキセチンカプセル２０ｍｇ「三笠」","デュロキセチンカプセル２０ｍｇ「明治」","デュロキセチンカプセル３０ｍｇ「ＤＳＥＰ」","デュロキセチンカプセル３０ｍｇ「ＪＧ」","デュロキセチンカプセル３０ｍｇ「ＫＭＰ」","デュロキセチンカプセル３０ｍｇ「ＹＤ」","デュロキセチンカプセル３０ｍｇ「アメル」","デュロキセチンカプセル３０ｍｇ「オーハラ」","デュロキセチンカプセル３０ｍｇ「杏林」","デュロキセチンカプセル３０ｍｇ「サワイ」","デュロキセチンカプセル３０ｍｇ「タカタ」","デュロキセチンカプセル３０ｍｇ「トーワ」","デュロキセチンカプセル３０ｍｇ「日医工Ｇ」","デュロキセチンカプセル３０ｍｇ「日新」","デュロキセチンカプセル３０ｍｇ「ニプロ」","デュロキセチンカプセル３０ｍｇ「フェルゼン」","デュロキセチンカプセル３０ｍｇ「三笠」","デュロキセチンカプセル３０ｍｇ「明治」","デュロキセチン錠２０ｍｇ「ケミファ」","デュロキセチン錠２０ｍｇ「トーワ」","デュロキセチン錠３０ｍｇ「ケミファ」","デュロキセチン錠３０ｍｇ「トーワ」","テルネリン顆粒０．２％","テルネリン錠１ｍｇ","テルネリン錠１ｍｇ（選）","〔東洋〕当帰芍薬散料エキス細粒","ナイキサン錠１００ｍｇ","ナボールＳＲカプセル３７．５　３７．５ｍｇ","ナボールゲル１％","ナボールゲル１％（選）","ナボールテープ１５ｍｇ　７ｃｍ×１０ｃｍ","ナボールテープ１５ｍｇ　７ｃｍ×１０ｃｍ（選）","ナボールテープＬ３０ｍｇ　１０ｃｍ×１４ｃｍ","ナボールテープＬ３０ｍｇ　１０ｃｍ×１４ｃｍ（選）","ナボールパップ１４０ｍｇ　１０ｃｍ×１４ｃｍ","ナボールパップ１４０ｍｇ　１０ｃｍ×１４ｃｍ（選）","ナボールパップ７０ｍｇ　７ｃｍ×１０ｃｍ","ナボールパップ７０ｍｇ　７ｃｍ×１０ｃｍ（選）","ネオビタカイン注２ｍＬ","ネオビタカイン注２ｍＬ（選）","ネオビタカイン注５ｍＬ","ネオビタカイン注５ｍＬ（選）","ネオビタカイン注シリンジ２ｍＬ","ネオビタカイン注シリンジ５ｍＬ","ノイロトロピン錠４単位","ノイロトロピン注射液１．２単位　１ｍＬ","ノイロトロピン注射液３．６単位　３ｍＬ","ノルスパンテープ１０ｍｇ","ノルスパンテープ２０ｍｇ","ノルスパンテープ５ｍｇ","ハイペン錠１００ｍｇ","ハイペン錠１００ｍｇ（選）","ハイペン錠２００ｍｇ","ハイペン錠２００ｍｇ（選）","バキソカプセル１０　１０ｍｇ","バキソカプセル２０　２０ｍｇ","ピレチノール","ブルフェン顆粒２０％","ブルフェン顆粒２０％（選）","ブルフェン錠１００　１００ｍｇ","ブルフェン錠２００　２００ｍｇ","フロベン顆粒８％","フロベン錠４０　４０ｍｇ","ペオン錠８０　８０ｍｇ","ペオン錠８０　８０ｍｇ（選）","ボルタレンＳＲカプセル３７．５ｍｇ","ボルタレンゲル１％","ボルタレンゲル１％（選）","ボルタレンサポ１２．５ｍｇ","ボルタレンサポ１２．５ｍｇ（選）","ボルタレンサポ２５ｍｇ","ボルタレンサポ２５ｍｇ（選）","ボルタレンサポ５０ｍｇ","ボルタレンサポ５０ｍｇ（選）","ボルタレン錠２５ｍｇ","ボルタレン錠２５ｍｇ（選）","ボルタレンテープ１５ｍｇ　７ｃｍ×１０ｃｍ","ボルタレンテープ１５ｍｇ　７ｃｍ×１０ｃｍ（選）","ボルタレンテープ３０ｍｇ　１０ｃｍ×１４ｃｍ","ボルタレンローション１％","ボルタレンローション１％（選）","本草桃核承気湯エキス顆粒－Ｍ","本草当帰芍薬散料エキス顆粒－Ｍ","本草八味丸料エキス顆粒－Ｍ","本草苓姜朮甘湯エキス顆粒－Ｍ","ポンタールカプセル２５０ｍｇ","ポンタール細粒９８．５％","ポンタール散５０％","ミオナール顆粒１０％","ミオナール錠５０ｍｇ","ミオナール錠５０ｍｇ（選）","ミリダシン錠９０ｍｇ","メロキシカム錠１０ｍｇ「ＥＭＥＣ」","メロキシカム錠１０ｍｇ「ＮＰ」","メロキシカム錠１０ｍｇ「ＮＰＩ」","メロキシカム錠１０ｍｇ「ＹＤ」","メロキシカム錠１０ｍｇ「アメル」","メロキシカム錠１０ｍｇ「クニヒロ」","メロキシカム錠１０ｍｇ「ケミファ」","メロキシカム錠１０ｍｇ「サワイ」","メロキシカム錠１０ｍｇ「タカタ」","メロキシカム錠１０ｍｇ「トーワ」","メロキシカム錠１０ｍｇ「日医工」","メロキシカム錠５ｍｇ「ＥＭＥＣ」","メロキシカム錠５ｍｇ「ＮＰ」","メロキシカム錠５ｍｇ「ＮＰＩ」","メロキシカム錠５ｍｇ「ＴＹＫ」","メロキシカム錠５ｍｇ「ＹＤ」","メロキシカム錠５ｍｇ「アメル」","メロキシカム錠５ｍｇ「クニヒロ」","メロキシカム錠５ｍｇ「ケミファ」","メロキシカム錠５ｍｇ「サワイ」","メロキシカム錠５ｍｇ「タカタ」","メロキシカム錠５ｍｇ「トーワ」","メロキシカム錠５ｍｇ「日医工」","モービック錠１０ｍｇ","モービック錠１０ｍｇ（選）","モービック錠５ｍｇ","モービック錠５ｍｇ（選）","モーラステープ２０ｍｇ　７ｃｍ×１０ｃｍ","モーラステープ２０ｍｇ　７ｃｍ×１０ｃｍ（選）","モーラステープＬ４０ｍｇ　１０ｃｍ×１４ｃｍ","モーラステープＬ４０ｍｇ　１０ｃｍ×１４ｃｍ（選）","モーラスパップＸＲ１２０ｍｇ　１０ｃｍ×１４ｃｍ","モーラスパップＸＲ１２０ｍｇ　１０ｃｍ×１４ｃｍ（選）","モーラスパップＸＲ２４０ｍｇ　２０ｃｍ×１４ｃｍ","ヤスラミン配合静注　１０ｍＬ","ラクール温シップ","ラクール冷シップ","ランツジールコーワ錠３０ｍｇ","リンラキサー錠１２５ｍｇ","リンラキサー錠１２５ｍｇ（選）","リンラキサー錠２５０ｍｇ","リンラキサー錠２５０ｍｇ（選）","レリフェン錠４００ｍｇ","ロキシーン注２ｍｇ　０．２％１ｍＬ","ロキソニン細粒１０％","ロキソニン細粒１０％（選）","ロキソニン錠６０ｍｇ","ロキソニン錠６０ｍｇ（選）","ロキソプロフェンＮａ細粒１０％「ＹＤ」","ロキソプロフェンＮａ細粒１０％「サワイ」","ロキソプロフェンＮａ錠６０ｍｇ「ＫＯ」","ロキソプロフェンＮａ錠６０ｍｇ「ＮＰＩ」","ロキソプロフェンＮａ錠６０ｍｇ「ＯＨＡ」","ロキソプロフェンＮａ錠６０ｍｇ「ＴＣＫ」","ロキソプロフェンＮａ錠６０ｍｇ「ＹＤ」","ロキソプロフェンＮａ錠６０ｍｇ「あすか」","ロキソプロフェンＮａ錠６０ｍｇ「アメル」","ロキソプロフェンＮａ錠６０ｍｇ「サワイ」","ロキソプロフェンＮａ錠６０ｍｇ「三和」","ロキソプロフェンＮａ錠６０ｍｇ「三恵」","ロキソプロフェンＮａ錠６０ｍｇ「武田テバ」","ロキソプロフェンＮａ錠６０ｍｇ「ツルハラ」","ロキソプロフェンＮａ錠６０ｍｇ「トーワ」","ロキソプロフェンＮａ錠６０ｍｇ「日新」","ロキソプロフェン錠６０ｍｇ「ＥＭＥＣ」","ロキソプロフェンナトリウム６０ｍｇ錠","ロキソプロフェンナトリウム細粒１０％「ＣＨ」","ロキソプロフェンナトリウム細粒１０％「日医工」","ロキソプロフェンナトリウム錠６０ｍｇ「ＣＨ」","ロキソプロフェンナトリウム錠６０ｍｇ「日医工」","ロキソプロフェンナトリウム錠６０ｍｇ「クニヒロ」","ロバキシン顆粒９０％","ロルカム錠２ｍｇ","ロルカム錠２ｍｇ（選）","ロルカム錠４ｍｇ","ロルカム錠４ｍｇ（選）","ロルノキシカム錠２ｍｇ「ＫＯ」","ロルノキシカム錠４ｍｇ「ＫＯ」"],
+    drug_count: 0
+  },
+  "膵炎": {
+    tests: ["Ａｍｙ","CRP","ＣＲＰ定性","ＥＳＲ","ＬＡＰ","ＰＬＡ２","ＴＧ","アミラーゼ（尿）","アミラーゼアイソザイム","アミラーゼアイソザイム（尿）","アミラーゼアイソザイム（膵液）","胃液又は十二指腸液一般検査","エラスターゼ１","カルシウム","カルシウム（尿）","血糖（グルコース）","グルコース（胸水）","グルコース（髄液）","グルコース（腹水）","胆管・膵管鏡加算（検査）","胆管・膵管造影法加算（検査）","超音波検査（断層撮影法）（胸腹部）","超音波検査（断層撮影法）（訪問診療）","トリプシノーゲン２（尿）","トリプシン","トリプシン（十二指腸液）","尿一般検査","尿グルコース","糞便中脂質","リパーゼ","リパーゼ（尿）","リン脂質"],
+    mgmt:  [],
+    drug_count: 8
+  },
+  "高コレステロール血症": {
+    tests: ["ＨＤＬ－コレステロール","ＬＤＬ－コレステロール","ＲＬＰ－Ｃ","Ｔｃｈｏ","アポリポ蛋白（１項目）","アポリポ蛋白（２項目）","アポリポ蛋白（３項目以上）","遊離コレステロール","リポ蛋白分画","リポ蛋白分画（ＰＡＧディスク電気泳動法）","リン脂質"],
+    mgmt:  ["小児科療養指導料","小児科療養指導料（情報通信機器）","生活習慣病管理料１（脂質異常症を主病）","生活習慣病管理料２","生活習慣病管理料２（情報通信機器）"],
+    drug_count: 466
+  },
+  "高尿酸血症": {
+    tests: ["ＵＡ","ＵＡ（尿）","末梢血液像（鏡検法）","末梢血液像（自動機械法）"],
+    mgmt:  [],
+    drug_count: 129
+  },
+  "高血圧症": {
+    tests: ["２４時間自由行動下血圧測定","ＡＮＰ","心電図（6誘導以上）","心電図（ECG12誘導）","ＥＣＧ診断（他医描写）","尿一般検査","副腎皮質負荷試験（鉱質コルチコイド）","CBC（末梢血液一般）","末梢血液像（自動機械法）"],
+    mgmt:  ["生活習慣病管理料１（高血圧症を主病）","生活習慣病管理料２","生活習慣病管理料２（情報通信機器）","プログラム医療機器等指導管理料（高血圧症）"],
+    drug_count: 1901
+  },
+};
 
-let currentCat = "すべて", currentStatus = "all", currentQ = "";
+
+let currentDisease = null;
 
 function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
 function mark(s, q){
   if (!q) return esc(s);
-  return esc(s).replace(new RegExp(esc(q).replace(/[.*+?^${}()|[\]\\]/g,"\\$&"), "gi"), m => `<mark>${m}</mark>`);
+  return esc(s).replace(new RegExp(esc(q).replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi"), m => `<mark>${m}</mark>`);
 }
 
-function filterCat(cat, btn){
-  currentCat = cat;
-  document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+function showDisease(name, btn){
+  currentDisease = name;
+  document.querySelectorAll(".d-btn").forEach(b => b.classList.remove("active"));
   if (btn) btn.classList.add("active");
-  render();
-}
-function filterStatus(st, btn){
-  currentStatus = st;
-  document.querySelectorAll(".stab").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  render();
+  var sel = document.getElementById("mobileSelect");
+  if (sel) sel.value = name;
+  applyFilter();
 }
 
-function render(){
-  const q = document.getElementById("searchInput").value.trim().toLowerCase();
-  currentQ = q;
-  const tbody = document.getElementById("tableBody");
+function applyFilter(){
+  var q = document.getElementById("searchQ").value.trim().toLowerCase();
+  var d = DISEASES[currentDisease];
+  var el = document.getElementById("mainContent");
 
-  let filtered = ITEMS.filter(d => {
-    if (currentCat !== "すべて" && d.cat !== currentCat) return false;
-    if (currentStatus === "pending" && d.dx) return false;
-    if (currentStatus === "done" && !d.dx) return false;
-    if (q && !d.name.toLowerCase().includes(q) && !d.dx.toLowerCase().includes(q) &&
-        !d.cat.toLowerCase().includes(q) && !d.note.toLowerCase().includes(q)) return false;
-    return true;
-  });
+  if (!d){
+    el.innerHTML = '<div class="empty-msg">左の傷病名をタップして内容を確認してください</div>';
+    return;
+  }
 
-  document.getElementById("countBadge").textContent = `${filtered.length} 件`;
-  document.getElementById("emptyMsg").style.display = filtered.length === 0 ? "block" : "none";
+  var filterFn = item => !q || item.toLowerCase().includes(q);
 
-  // Group by category
-  const groups = {};
-  filtered.forEach(d => { if (!groups[d.cat]) groups[d.cat] = []; groups[d.cat].push(d); });
+  var tests  = d.tests.filter(filterFn);
+  var mgmts  = d.mgmt.filter(filterFn);
 
-  let html = "";
-  Object.entries(groups).forEach(([cat, items]) => {
-    if (currentCat === "すべて") {
-      html += `<tr class="cat-group-header"><td colspan="6">📂 ${esc(cat)}</td></tr>`;
-    }
-    items.forEach(d => {
-      const typeLabel = d.type === "drug" ? "薬剤" : d.type === "test" ? "検査" : "処置・管理";
-      const typeClass = d.type === "drug" ? "drug" : d.type === "test" ? "test" : "proc";
-      const dxHtml = d.dx
-        ? `<span class="dx-cell">${mark(d.dx, q)}</span>`
-        : `<span class="dx-pending">入力待ち</span>`;
-      const dot = d.dx ? "done" : "pending";
-      html += `<tr>
-        <td><span class="status-dot ${dot}"></span></td>
-        <td>${mark(d.name, q)}</td>
-        <td><span class="type-badge ${typeClass}">${typeLabel}</span></td>
-        <td>${dxHtml}</td>
-        <td style="font-size:11px;color:var(--gray)">${esc(d.survey)}</td>
-        <td style="font-size:11px;color:var(--gray-mid../.gray)">${mark(d.note, q)}</td>
-      </tr>`;
-    });
-  });
-  tbody.innerHTML = html;
+  var html = `<div class="d-title">📌 ${esc(currentDisease)}
+    <span class="d-badge">薬剤 ${d.drug_count}種対応</span>
+  </div>`;
+
+  // 検査セクション
+  if (tests.length > 0){
+    html += '<div class="section-card"><div class="section-head blue">🔬 検査（' + tests.length + '件）</div><div class="item-grid">';
+    tests.forEach(t => html += `<div class="item-chip${q && t.toLowerCase().includes(q)?" match":""}">${mark(t,q)}</div>`);
+    html += '</div></div>';
+  }
+
+  // 管理料・指導セクション
+  if (mgmts.length > 0){
+    var maxShow = 30;
+    var shown = mgmts.slice(0, maxShow);
+    html += '<div class="section-card"><div class="section-head teal">📋 管理料・指導・処置（' + mgmts.length + '件）</div><div class="item-grid">';
+    shown.forEach(m => html += `<div class="item-chip${q && m.toLowerCase().includes(q)?" match":""}">${mark(m,q)}</div>`);
+    if (mgmts.length > maxShow) html += `<div class="item-chip" style="color:var(--gray);font-style:italic">他 ${mgmts.length-maxShow} 件...</div>`;
+    html += '</div></div>';
+  }
+
+  // 薬剤（採用薬リストへのリンク）
+  html += `<div class="section-card"><div class="section-head green">💊 対応薬剤</div>
+    <div class="drug-info">この傷病名で算定できる薬剤は <strong>${d.drug_count}種</strong> あります。<br>
+    各薬剤の詳細は <a href="03b_採用薬リスト.html" style="color:var(--blue-mid);font-weight:700;">採用薬リスト</a> を確認してください。</div></div>`;
+
+  if (tests.length === 0 && mgmts.length === 0){
+    html += '<div class="empty-msg">絞り込み条件に一致する項目がありません</div>';
+  }
+
+  el.innerHTML = html;
 }
 
-render();
+// 初期表示
+showDisease("高血圧症", document.querySelector(".d-btn"));
 </script>
 </body>
 </html>
