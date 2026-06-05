@@ -70,6 +70,37 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 .empty-msg{text-align:center;padding:48px;color:var(--gray);}
 .tab-content{display:none;}
 .tab-content.active{display:block;}
+/* ── クイズ ── */
+.qz-wrap{padding:16px;max-width:460px;margin:0 auto;}
+.qz-hdr{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--gray);margin-bottom:8px;}
+.qz-prog{height:5px;background:var(--bd);border-radius:3px;margin-bottom:16px;overflow:hidden;}
+.qz-prog-bar{height:100%;background:var(--blue);border-radius:3px;transition:width .4s;}
+.qz-card{background:#fff;border:1px solid var(--bd);border-radius:14px;padding:24px 20px;text-align:center;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.qz-label{font-size:10px;font-weight:800;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+.qz-disease{font-size:19px;font-weight:800;color:var(--text);margin-bottom:10px;}
+.qz-sep{font-size:18px;color:var(--bd);margin-bottom:10px;}
+.qz-drug{font-size:22px;font-weight:900;color:var(--blue);margin-bottom:8px;}
+.qz-hint{font-size:13px;color:var(--gray);}
+.qz-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.qz-btn{padding:20px 8px;border-radius:12px;border:2.5px solid;font-size:26px;font-weight:900;cursor:pointer;background:#fff;transition:all .15s;font-family:inherit;}
+.qz-btn.ok{border-color:#16a34a;color:#16a34a;}
+.qz-btn.ng{border-color:#dc2626;color:#dc2626;}
+.qz-btn:active{transform:scale(.96);}
+.qz-btn:disabled{opacity:.45;cursor:default;}
+.qz-btn.correct-ans{background:#f0fdf4 !important;}
+.qz-btn.wrong-ans{background:#fef2f2 !important;}
+.qz-btn.user-wrong{border-style:dashed;}
+.qz-fb{border-radius:10px;padding:12px 14px;font-size:13px;margin-bottom:12px;display:none;border-left:4px solid;}
+.qz-fb.show{display:block;}
+.qz-fb.ok-fb{background:#f0fdf4;border-color:#16a34a;color:#166534;}
+.qz-fb.ng-fb{background:#fef2f2;border-color:#dc2626;color:#991b1b;}
+.qz-next{width:100%;padding:14px;border-radius:10px;border:none;background:var(--blue);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:none;}
+.qz-next.show{display:block;}
+.qz-result{text-align:center;background:#fff;border-radius:16px;border:1px solid var(--bd);padding:36px 20px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.qz-big{font-size:56px;font-weight:900;color:var(--blue);line-height:1;}
+.qz-big span{font-size:24px;color:var(--gray);}
+.qz-rlabel{font-size:14px;color:var(--gray);margin:8px 0 24px;}
+.qz-retry{padding:14px 32px;border-radius:10px;border:none;background:var(--blue);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}
 .msel{display:none;width:100%;padding:9px;border:1.5px solid var(--bd);border-radius:10px;font-size:14px;margin-bottom:12px;font-family:inherit;}
 @media(max-width:699px){.msel{display:block;}}
 </style>
@@ -89,7 +120,8 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 
 <div class="main-tabs">
   <button class="main-tab active" onclick="switchTab('disease',this)">📂 病名別</button>
-  <button class="main-tab" onclick="switchTab('reverse',this)">🔍 逆引き（検査→病名）</button>
+  <button class="main-tab" onclick="switchTab('reverse',this)">🔍 逆引き</button>
+  <button class="main-tab" onclick="switchTab('quiz',this)">🧠 クイズ</button>
 </div>
 
 <div class="pl">
@@ -167,6 +199,11 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
       </div>
       <div class="filter-cats" id="catFilters"></div>
       <div class="test-list" id="reverseContent"></div>
+    </div>
+
+    <!-- タブ3: クイズ -->
+    <div class="tab-content" id="tab-quiz">
+      <div class="qz-wrap" id="quizContainer"></div>
     </div>
   </div>
 </div>
@@ -633,6 +670,7 @@ function switchTab(tab, btn){
   document.getElementById("tab-"+tab).classList.add("active");
   document.getElementById("diseaseSidebar").style.display = tab==="disease" ? "" : "none";
   if(tab==="reverse") renderReverse();
+  if(tab==="quiz") qzStart();
 }
 
 /* ── 病名別タブ ── */
@@ -719,6 +757,99 @@ function renderReverse(){
 /* ── 初期化 ── */
 buildCatFilters();
 showDisease(DISEASE_ORDER[0], document.querySelector(".d-btn"));
+
+/* ── クイズ ── */
+const QZ_TOTAL = 10;
+let qzState = {q:0, score:0, done:false};
+let qzCur = null;
+
+function qzGen(){
+  const ds = Object.keys(ADOPTED).filter(d=>ADOPTED[d].length>0);
+  const disease = ds[Math.floor(Math.random()*ds.length)];
+  const isOk = Math.random()>0.4;
+  let drug;
+  if(isOk){
+    const list = ADOPTED[disease];
+    drug = list[Math.floor(Math.random()*list.length)];
+  } else {
+    const others = ds.filter(d=>d!==disease);
+    let tries=0, found=false;
+    while(!found && tries<30){
+      const od = others[Math.floor(Math.random()*others.length)];
+      const dl = ADOPTED[od];
+      const cand = dl[Math.floor(Math.random()*dl.length)];
+      if(!ADOPTED[disease].includes(cand)){drug=cand;found=true;}
+      tries++;
+    }
+    if(!found){const list=ADOPTED[disease];drug=list[Math.floor(Math.random()*list.length)];return{disease,drug,ok:true};}
+  }
+  return {disease,drug,ok:isOk};
+}
+
+function qzStart(){
+  qzState={q:0,score:0,done:false};
+  qzRender();
+}
+
+function qzRender(){
+  const c=document.getElementById('quizContainer');
+  if(qzState.q>=QZ_TOTAL){
+    const pct=Math.round(qzState.score/QZ_TOTAL*100);
+    const em=pct>=80?'🎉':pct>=60?'👍':'📖';
+    const msg=pct>=80?'すばらしい！':pct>=60?'よくできました！':'もう少し練習しましょう';
+    c.innerHTML=`<div class="qz-result"><div style="font-size:52px;margin-bottom:12px">${em}</div>
+      <div class="qz-big">${qzState.score}<span>/${QZ_TOTAL}</span></div>
+      <div class="qz-rlabel">${pct}% 正解 — ${msg}</div>
+      <button class="qz-retry" onclick="qzStart()">もう1回チャレンジ</button></div>`;
+    return;
+  }
+  qzCur=qzGen();
+  const {disease,drug}=qzCur;
+  const pw=Math.round(qzState.q/QZ_TOTAL*100);
+  c.innerHTML=`
+    <div class="qz-hdr"><span>${qzState.q+1} / ${QZ_TOTAL} 問目</span><span>✅ ${qzState.score} 正解</span></div>
+    <div class="qz-prog"><div class="qz-prog-bar" style="width:${pw}%"></div></div>
+    <div class="qz-card">
+      <div class="qz-label">病名</div>
+      <div class="qz-disease">${esc(disease)}</div>
+      <div class="qz-sep">×</div>
+      <div class="qz-label">薬剤</div>
+      <div class="qz-drug">${esc(drug)}</div>
+      <div class="qz-hint">この組み合わせは正しい？</div>
+    </div>
+    <div class="qz-btns">
+      <button class="qz-btn ok" id="qBtnOk" onclick="qzAnswer(true)">○<br><span style="font-size:12px;font-weight:700">通る</span></button>
+      <button class="qz-btn ng" id="qBtnNg" onclick="qzAnswer(false)">×<br><span style="font-size:12px;font-weight:700">通らない</span></button>
+    </div>
+    <div class="qz-fb" id="qzFb"></div>
+    <button class="qz-next" id="qzNext" onclick="qzNext()">${qzState.q+1>=QZ_TOTAL?'結果を見る':'次の問題 →'}</button>`;
+}
+
+function qzAnswer(userOk){
+  if(!qzCur)return;
+  const{disease,drug,ok}=qzCur;
+  const correct=(userOk===ok);
+  if(correct)qzState.score++;
+  document.getElementById('qBtnOk').disabled=true;
+  document.getElementById('qBtnNg').disabled=true;
+  document.getElementById(ok?'qBtnOk':'qBtnNg').classList.add('correct-ans');
+  if(!correct)document.getElementById(userOk?'qBtnOk':'qBtnNg').classList.add('wrong-ans','user-wrong');
+  const fb=document.getElementById('qzFb');
+  if(correct){
+    fb.innerHTML=ok?`✅ 正解！「${esc(drug)}」は「${esc(disease)}」の採用薬です`:`✅ 正解！「${esc(drug)}」は「${esc(disease)}」では使いません`;
+    fb.className='qz-fb show ok-fb';
+  } else {
+    fb.innerHTML=ok?`❌ 不正解。「${esc(drug)}」は「${esc(disease)}」の採用薬です`:`❌ 不正解。「${esc(drug)}」は「${esc(disease)}」では通りません`;
+    fb.className='qz-fb show ng-fb';
+  }
+  document.getElementById('qzNext').classList.add('show');
+  qzCur=null;
+}
+
+function qzNext(){
+  qzState.q++;
+  qzRender();
+}
 </script>
 </body>
 </html>
