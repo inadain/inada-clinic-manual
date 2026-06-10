@@ -83,6 +83,8 @@
   }
   .nav-btn:hover { color: var(--blue); background: #eff6ff; }
   .nav-btn.active { color: var(--blue); border-left-color: var(--blue); background: #eff6ff; font-weight: 700; }
+  .nav-btn .dot-done  { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-right: 6px; vertical-align: middle; }
+  .nav-btn .dot-wip   { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #d1d5db; margin-right: 6px; vertical-align: middle; }
   .main-area { flex: 1; min-width: 0; }
 
   /* ── TABS ── */
@@ -103,52 +105,25 @@
   .section-title { font-size: 15px; font-weight: 700; }
   .section-body { padding: 14px; }
 
-  /* ── CARD（アコーディオン） ── */
-  .card {
-    border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 10px;
-  }
-  .card:last-child { margin-bottom: 0; }
-  .card-head {
-    background: var(--blue-xlight); border-bottom: 1px solid var(--blue-light);
-    border-left: 5px solid var(--blue-mid);
-    padding: 11px 14px; display: flex; align-items: center; gap: 10px;
-    cursor: pointer; user-select: none;
-  }
-  .card-head::after {
-    content: '›'; font-size: 20px; font-weight: 300; color: var(--gray);
-    margin-left: auto; line-height: 1; transition: transform .2s; flex-shrink: 0;
-  }
-  .card.open .card-head::after { transform: rotate(90deg); }
-  .card-title { font-size: 14px; font-weight: 700; color: var(--primary); flex: 1; }
-  .card-badge {
-    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; white-space: nowrap;
-  }
-  .badge-done    { background: var(--accent-light); color: var(--accent); }
-  .badge-pending { background: var(--gray-light); color: #9ca3af; }
-  .card-body { display: none; padding: 14px; }
-  .card.open .card-body { display: block; }
-
   /* 整備中バナー */
   .pending-banner {
     background: #f9fafb; border: 2px dashed #d1d5db; border-radius: var(--radius);
-    padding: 24px 16px; text-align: center; color: var(--gray);
+    padding: 32px 16px; text-align: center; color: var(--gray);
   }
-  .pending-banner .pending-icon { font-size: 28px; margin-bottom: 8px; }
-  .pending-banner .pending-title { font-size: 14px; font-weight: 700; color: #4b5563; margin-bottom: 4px; }
+  .pending-banner .pending-icon { font-size: 32px; margin-bottom: 10px; }
+  .pending-banner .pending-title { font-size: 15px; font-weight: 700; color: #4b5563; margin-bottom: 6px; }
   .pending-banner .pending-desc { font-size: 12px; line-height: 1.7; }
 
-  /* サブセクション */
-  .subsection { margin-bottom: 16px; }
-  .subsection:last-child { margin-bottom: 0; }
-  .subsection-title {
-    font-size: 13px; font-weight: 700; color: var(--primary);
-    border-left: 3px solid var(--primary); padding-left: 10px; margin-bottom: 10px;
-  }
+  /* サブタイトル */
   .sub-title {
     background: var(--blue-xlight); border-radius: 4px; padding: 5px 10px;
     border-left: 4px solid var(--blue-mid); font-size: 13px; font-weight: 700;
     color: var(--primary); margin-bottom: 10px;
   }
+
+  /* subsection */
+  .subsection { margin-bottom: 16px; }
+  .subsection:last-child { margin-bottom: 0; }
 
   /* コールアウト */
   .callout {
@@ -186,16 +161,7 @@
   tr:last-child td { border-bottom: none; }
   tr:nth-child(even) td { background: #fafafa; }
 
-  /* バッジ */
-  .badge {
-    display: inline-block; padding: 2px 8px; border-radius: 12px;
-    font-size: 11px; font-weight: 600; white-space: nowrap;
-  }
-  .badge-blue  { background: var(--primary-light); color: var(--primary); }
-  .badge-green { background: var(--accent-light);  color: var(--accent); }
-  .badge-warn  { background: var(--warn-light);    color: var(--warn); }
-
-  /* レセプトサブアイテム */
+  /* レセプトアイテムリスト */
   .rec-item-list { list-style: none; }
   .rec-item {
     display: flex; align-items: center; gap: 10px;
@@ -204,8 +170,8 @@
   .rec-item:last-child { border-bottom: none; }
   .rec-dot {
     width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center; font-size: 9px;
-    background: var(--gray-light); color: #9ca3af; border: 1.5px solid #d1d5db;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--gray-light); color: #9ca3af; border: 1.5px solid #d1d5db; font-size: 9px;
   }
 
   /* to-top */
@@ -241,14 +207,8 @@
   .fb-head { font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 3px; }
   .fb-sub  { font-size: 12px; color: #64748b; margin-bottom: 14px; }
   .fb-label { font-size: 11px; font-weight: 700; color: #475569; margin-bottom: 4px; display: block; }
-  .fb-select {
-    width: 100%; padding: 9px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;
-    font-size: 13px; font-family: inherit; background: #f8fafc; margin-bottom: 12px; appearance: none; cursor: pointer;
-  }
-  .fb-area {
-    width: 100%; padding: 10px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;
-    font-size: 13px; font-family: inherit; height: 90px; resize: vertical; background: #f8fafc; line-height: 1.6;
-  }
+  .fb-select { width: 100%; padding: 9px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 13px; font-family: inherit; background: #f8fafc; margin-bottom: 12px; appearance: none; cursor: pointer; }
+  .fb-area { width: 100%; padding: 10px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 13px; font-family: inherit; height: 90px; resize: vertical; background: #f8fafc; line-height: 1.6; }
   .fb-area:focus, .fb-select:focus { outline: none; border-color: #1e74c8; background: #fff; }
   .fb-actions { display: flex; gap: 10px; margin-top: 14px; }
   .fb-cancel { flex: 1; padding: 11px; border: 1.5px solid #e2e8f0; border-radius: 10px; background: #fff; cursor: pointer; font-size: 13px; font-family: inherit; color: #64748b; }
@@ -258,22 +218,13 @@
   .fb-status { font-size: 12px; text-align: center; margin-top: 10px; min-height: 18px; }
 
   /* モバイルナビ */
-  .nav-toggle {
-    display: none; position: fixed; left: 16px; bottom: 72px; width: 44px; height: 44px;
-    border-radius: 50%; background: var(--blue); color: #fff; border: none; font-size: 18px;
-    cursor: pointer; z-index: 50; box-shadow: 0 4px 12px rgba(21,88,160,.4);
-    align-items: center; justify-content: center;
-  }
+  .nav-toggle { display: none; position: fixed; left: 16px; bottom: 72px; width: 44px; height: 44px; border-radius: 50%; background: var(--blue); color: #fff; border: none; font-size: 18px; cursor: pointer; z-index: 50; box-shadow: 0 4px 12px rgba(21,88,160,.4); align-items: center; justify-content: center; }
   @media (max-width: 699px) { .nav-toggle { display: flex; } }
   .nav-ov { display: none; position: fixed; inset: 0; z-index: 200; }
   .nav-ov.open { display: block; }
   .nav-ov-bg { position: absolute; inset: 0; background: rgba(0,0,0,.45); }
   .nav-ov-panel { position: absolute; left: 0; top: 0; bottom: 0; width: 250px; background: #fff; overflow-y: auto; }
-  .nav-ov-head {
-    font-size: 11px; font-weight: 800; color: var(--gray); text-transform: uppercase;
-    letter-spacing: .08em; padding: 12px 16px 8px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-  }
+  .nav-ov-head { font-size: 11px; font-weight: 800; color: var(--gray); text-transform: uppercase; letter-spacing: .08em; padding: 12px 16px 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
   .nav-ov-head button { background: none; border: none; cursor: pointer; font-size: 22px; color: var(--gray); line-height: 1; }
   .nav-ov-list { list-style: none; padding: 6px 0; }
   .nav-ov-list .nav-btn { padding: 11px 16px; font-size: 14px; }
@@ -294,18 +245,22 @@
 
 <div class="page-layout">
 <nav class="nav-sidebar" id="navSidebar">
-  <div class="nav-head">セクション</div>
+  <div class="nav-head">タスク一覧</div>
   <ul class="nav-list">
-    <li><button class="nav-btn active" onclick="switchTab('t1',this)">一般業務</button></li>
-    <li><button class="nav-btn" onclick="switchTab('t2',this)">レセプトチェック</button></li>
+    <li><button class="nav-btn active" onclick="switchTab('t1',this)"><span class="dot-done"></span>職員医療費</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t2',this)"><span class="dot-done"></span>労災</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t3',this)"><span class="dot-wip"></span>自賠責</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t4',this)"><span class="dot-wip"></span>特定健診</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t5',this)"><span class="dot-wip"></span>がん検診</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t6',this)"><span class="dot-wip"></span>保健指導</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t7',this)"><span class="dot-wip"></span>おむつ証明書</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t8',this)"><span class="dot-wip"></span>レセプト</button></li>
   </ul>
 </nav>
 <div class="main-area">
 
-<!-- ========== TAB 1: 一般業務 ========== -->
+<!-- ========== TAB 1: 職員医療費 ========== -->
 <div id="t1" class="tab-content active">
-
-  <!-- 職員医療費 -->
   <div class="section">
     <div class="section-header">
       <div class="section-num">1</div>
@@ -361,8 +316,10 @@
 
     </div>
   </div>
+</div>
 
-  <!-- 労災 -->
+<!-- ========== TAB 2: 労災 ========== -->
+<div id="t2" class="tab-content">
   <div class="section">
     <div class="section-header">
       <div class="section-num">2</div>
@@ -386,14 +343,14 @@
         </ol>
         <div class="callout gray">
           <span class="callout-icon">📌</span>
-          <div>同患者の2回目以降の来院時は、患者情報登録画面で上書き登録（療養期間等を更新）する。</div>
+          <div>2回目以降の来院時は、患者情報登録画面で上書き登録（療養期間等を更新）する。</div>
         </div>
       </div>
 
       <div class="subsection">
         <div class="sub-title">② 病名・処置の確認</div>
         <ol class="steps">
-          <li>病名・処置を確認し、来院日の処置内容に対して適切な病名が入っているか確認する</li>
+          <li>病名・処置を確認し、処置内容に対して適切な病名が入っているか確認する</li>
           <li>不足があれば病名・処置を追加・修正する</li>
         </ol>
       </div>
@@ -407,7 +364,7 @@
         </ol>
         <div class="callout tip">
           <span class="callout-icon">💡</span>
-          <div>初回の記入は必ず先生に確認。2回目以降は前回コメントを参考に更新する。</div>
+          <div>初回は必ず先生に確認。2回目以降は前回コメントを参考に更新する。</div>
         </div>
       </div>
 
@@ -445,8 +402,10 @@
 
     </div>
   </div>
+</div>
 
-  <!-- 自賠責 -->
+<!-- ========== TAB 3: 自賠責 ========== -->
+<div id="t3" class="tab-content">
   <div class="section">
     <div class="section-header"><div class="section-num">3</div><div class="section-title">自賠責</div></div>
     <div class="section-body">
@@ -457,8 +416,10 @@
       </div>
     </div>
   </div>
+</div>
 
-  <!-- 倉敷市 特定健診 -->
+<!-- ========== TAB 4: 特定健診 ========== -->
+<div id="t4" class="tab-content">
   <div class="section">
     <div class="section-header"><div class="section-num">4</div><div class="section-title">倉敷市　特定健診</div></div>
     <div class="section-body">
@@ -469,8 +430,10 @@
       </div>
     </div>
   </div>
+</div>
 
-  <!-- 倉敷市 がん検診 -->
+<!-- ========== TAB 5: がん検診 ========== -->
+<div id="t5" class="tab-content">
   <div class="section">
     <div class="section-header"><div class="section-num">5</div><div class="section-title">倉敷市　がん検診</div></div>
     <div class="section-body">
@@ -481,8 +444,10 @@
       </div>
     </div>
   </div>
+</div>
 
-  <!-- 保健指導 -->
+<!-- ========== TAB 6: 保健指導 ========== -->
+<div id="t6" class="tab-content">
   <div class="section">
     <div class="section-header"><div class="section-num">6</div><div class="section-title">保健指導</div></div>
     <div class="section-body">
@@ -493,8 +458,10 @@
       </div>
     </div>
   </div>
+</div>
 
-  <!-- おむつ証明書 -->
+<!-- ========== TAB 7: おむつ証明書 ========== -->
+<div id="t7" class="tab-content">
   <div class="section">
     <div class="section-header"><div class="section-num">7</div><div class="section-title">おむつ証明書（ねたきり）</div></div>
     <div class="section-body">
@@ -505,11 +472,10 @@
       </div>
     </div>
   </div>
+</div>
 
-</div><!-- /t1 -->
-
-<!-- ========== TAB 2: レセプトチェック ========== -->
-<div id="t2" class="tab-content">
+<!-- ========== TAB 8: レセプト ========== -->
+<div id="t8" class="tab-content">
   <div class="section">
     <div class="section-header">
       <div class="section-num">8</div>
@@ -543,7 +509,7 @@
       </ul>
     </div>
   </div>
-</div><!-- /t2 -->
+</div>
 
 <div style="height:80px;"></div>
 </div><!-- /main-area -->
@@ -556,12 +522,18 @@
   <div class="nav-ov-bg" onclick="closeNav()"></div>
   <div class="nav-ov-panel">
     <div class="nav-ov-head">
-      <span>セクション</span>
+      <span>タスク一覧</span>
       <button onclick="closeNav()">×</button>
     </div>
     <ul class="nav-ov-list">
-      <li><button class="nav-btn" onclick="switchTab('t1',this)">一般業務</button></li>
-      <li><button class="nav-btn" onclick="switchTab('t2',this)">レセプトチェック</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t1',this)"><span class="dot-done"></span>職員医療費</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t2',this)"><span class="dot-done"></span>労災</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t3',this)"><span class="dot-wip"></span>自賠責</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t4',this)"><span class="dot-wip"></span>特定健診</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t5',this)"><span class="dot-wip"></span>がん検診</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t6',this)"><span class="dot-wip"></span>保健指導</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t7',this)"><span class="dot-wip"></span>おむつ証明書</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t8',this)"><span class="dot-wip"></span>レセプト</button></li>
     </ul>
   </div>
 </div>
