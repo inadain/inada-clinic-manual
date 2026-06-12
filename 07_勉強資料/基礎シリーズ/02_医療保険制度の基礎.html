@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="医療事務 第02回">
+<title>第02回 医療保険制度の基礎｜医療事務 基礎シリーズ</title>
+<style>
+:root {
+  --blue:#1558a0;--blue-m:#1e74c8;--blue-lt:#dbeafe;--blue-xl:#eff6ff;
+  --teal:#0d9488;--teal-lt:#f0fdfa;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --gray:#64748b;--gray-lt:#f1f5f9;--gray-m:#e2e8f0;
+  --text:#0f172a;--sub:#475569;--bg:#f0f4f8;--white:#fff;
+  --r:12px;--r-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+      font-size:15px;line-height:1.7;color:var(--text);background:var(--bg);min-height:100vh}
+
+/* ─── HEADER ─── */
+.site-header{position:sticky;top:0;z-index:100;height:56px;
+  background:linear-gradient(135deg,#0d9488,#1558a0);
+  display:flex;align-items:center;padding:0 16px;gap:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:#fff;
+  background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;
+  font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;
+  transition:background .15s}
+.back-link:hover{background:rgba(255,255,255,.28)}
+.hdr-center{flex:1;text-align:center;overflow:hidden}
+.hdr-badge{display:inline-block;background:rgba(255,255,255,.2);
+  color:#fff;font-size:11px;font-weight:700;padding:2px 10px;
+  border-radius:12px;letter-spacing:.04em;margin-bottom:2px}
+.hdr-title{color:#fff;font-size:14px;font-weight:800;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ─── EPISODE NAV ─── */
+.ep-bar{background:var(--white);border-bottom:1px solid var(--gray-m);
+  padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+.ep-nav{display:inline-flex;align-items:center;background:var(--blue-xl);
+  color:var(--blue);padding:6px 16px;border-radius:20px;font-size:13px;
+  font-weight:700;text-decoration:none;transition:background .15s}
+.ep-nav:hover{background:var(--blue-lt)}
+.ep-dots{display:flex;gap:5px;align-items:center}
+.ep-dot{width:8px;height:8px;border-radius:50%;background:var(--gray-m)}
+.ep-dot.on{background:var(--blue-m);width:20px;border-radius:4px}
+
+/* ─── SECTION NAV ─── */
+.snav{position:sticky;top:56px;z-index:90;background:var(--white);
+  border-bottom:1px solid var(--gray-m);overflow-x:auto;
+  white-space:nowrap;padding:8px 12px;display:flex;gap:8px;
+  scrollbar-width:none}
+.snav::-webkit-scrollbar{display:none}
+.snav-btn{display:inline-block;background:var(--gray-lt);color:var(--sub);
+  border-radius:20px;padding:5px 14px;font-size:12.5px;font-weight:600;
+  text-decoration:none;transition:background .15s,color .15s}
+.snav-btn:hover,.snav-btn.active{background:var(--teal);color:#fff}
+
+/* ─── MAIN ─── */
+.main{max-width:720px;margin:0 auto;padding:20px 16px 60px}
+
+/* ─── SECTION BLOCK ─── */
+.sec-block{margin-bottom:28px}
+.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  padding-bottom:8px;border-bottom:2px solid var(--sc)}
+.sec-num{font-size:22px;font-weight:900;color:var(--sc)}
+.sec-ttl{font-size:15px;font-weight:800;color:var(--text)}
+
+/* ─── BODY TEXT ─── */
+.body-p{margin:8px 0;color:var(--text)}
+
+/* ─── TABLES ─── */
+.tbl-wrap{overflow-x:auto;margin:12px 0;border-radius:var(--r);
+  box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.dtbl{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--white)}
+.dtbl th{background:var(--teal);color:#fff;padding:8px 12px;
+  text-align:left;font-weight:700;white-space:nowrap}
+.dtbl td{padding:7px 12px;border-bottom:1px solid var(--gray-m);vertical-align:top}
+.dtbl tbody tr:last-child td{border-bottom:none}
+.dtbl tbody tr:nth-child(odd){background:var(--gray-lt)}
+
+/* ─── SPECIAL BOXES ─── */
+.box-goal,.box-term,.box-warn,.box-note{
+  margin:12px 0;border-radius:var(--r);padding:14px 16px}
+.box-goal{background:#f0fdf4;border-left:4px solid var(--green)}
+.box-goal .box-head{font-weight:800;color:var(--green);margin-bottom:8px}
+.box-goal ul{padding-left:20px}
+.box-goal li{margin:4px 0;color:var(--text)}
+.box-term{background:var(--blue-xl);border-left:4px solid var(--blue-m)}
+.box-term .box-head{font-weight:800;color:var(--blue);margin-bottom:6px}
+.box-term p{font-size:13.5px;color:var(--sub)}
+.box-warn{background:var(--amber-lt);border-left:4px solid var(--amber)}
+.box-warn .box-head{font-weight:800;color:var(--amber);margin-bottom:8px}
+.box-warn ul{padding-left:20px}
+.box-warn li{margin:4px 0;color:var(--text)}
+.box-note{background:var(--gray-lt);border-left:4px solid var(--gray)}
+
+/* ─── QUIZ ─── */
+.quiz-box{background:var(--green-lt, #f0fdf4);border:1px solid #bbf7d0;
+  border-radius:var(--r);padding:16px;margin:12px 0}
+.quiz-title{font-weight:800;color:var(--green);margin-bottom:12px;font-size:15px}
+.quiz-item{background:var(--white);border-radius:var(--r-sm);padding:12px 14px;
+  margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.q-text{font-size:13.5px;color:var(--text);margin-bottom:8px;font-weight:600}
+.q-btn{background:var(--green);color:#fff;border:none;border-radius:20px;
+  padding:5px 16px;font-size:12.5px;font-weight:700;cursor:pointer;
+  transition:background .15s}
+.q-btn:hover{background:#15803d}
+.q-ans{margin-top:8px;padding:8px 12px;background:#dcfce7;border-radius:var(--r-sm);
+  font-size:13px;color:#166534;font-weight:600}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:600px){
+  .hdr-title{font-size:12px}
+  .main{padding:14px 10px 60px}
+  .ep-nav{padding:5px 12px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="back-link">← 一覧</a>
+  <div class="hdr-center">
+    <div class="hdr-badge">医療事務 基礎シリーズ</div>
+    <div class="hdr-title">第02回 医療保険制度の基礎</div>
+  </div>
+</header>
+
+<div class="ep-bar">
+  <a href="01_医療事務の仕事とは.html" class="ep-nav prev">← 第1回</a>
+  <div class="ep-dots"><span class="ep-dot "></span><span class="ep-dot on"></span><span class="ep-dot "></span><span class="ep-dot "></span><span class="ep-dot "></span><span class="ep-dot "></span><span class="ep-dot "></span><span class="ep-dot "></span></div>
+  <a href="03_窓口負担金の計算.html" class="ep-nav next">第3回 →</a>
+</div>
+
+<nav class="snav"><a href="#s①" class="snav-btn">💡 業務との結びつき</a><a href="#s②" class="snav-btn">📖 基本の仕組み</a><a href="#s③" class="snav-btn">🏥 実務の具体例</a><a href="#s④" class="snav-btn">⚠️ よくある間違い</a><a href="#s⑤" class="snav-btn">✏️ 確認問題</a></nav>
+
+<main class="main">
+<section id="s①" class="sec-block" style="--sc:#3b82f6;--sb:#eff6ff">
+  <div class="sec-label"><span class="sec-num">①</span><span class="sec-ttl">業務との結びつき</span></div>
+  <p class="body-p">日本は「国民皆保険」で、原則すべての人が何らかの公的医療保険に入っています。患者さんが入っている保険の種類と資格を正しく確認できないと、請求先（保険者）を間違えたり、資格がないのに保険診療してしまい後で返戻（差し戻し）・未収金が発生します。保険確認は、医療事務の信頼性の土台です。</p>
+<div class="box-goal"><div class="box-head">✓ この回のゴール公的医療保険の種類を区別できる資格情報（記号・番号など）の見方がわかるなぜ月初に保険確認が必要かを説明できる</div></div>
+
+</section>
+<section id="s②" class="sec-block" style="--sc:#0d9488;--sb:#f0fdfa">
+  <div class="sec-label"><span class="sec-num">②</span><span class="sec-ttl">基本の仕組み</span></div>
+  <p class="body-p">公的医療保険は大きく 被用者保険（職場の保険）・国民健康保険・後期高齢者医療制度 に分かれます。</p>
+<div class="tbl-wrap"><table class="dtbl"><thead><tr><th>区分</th><th>制度</th><th>主な対象</th></tr></thead><tbody><tr><td>被用者保険</td><td>健康保険（協会けんぽ／組合健保）</td><td>会社員とその扶養家族</td></tr><tr><td>被用者保険</td><td>共済組合</td><td>公務員・私立学校教職員とその家族</td></tr><tr><td>被用者保険</td><td>船員保険</td><td>船員とその家族</td></tr><tr><td>地域保険</td><td>国民健康保険（国保）</td><td>自営業・無職・退職者など（市区町村国保・国保組合）</td></tr><tr><td>高齢者</td><td>後期高齢者医療制度</td><td>75歳以上（65〜74歳で一定の障害がある人を含む）</td></tr></tbody></table></div>
+<div class="box-term"><div class="box-head">◆ 用語：保険者／被保険者／被扶養者保険者＝保険を運営し医療費を支払う側（健保組合・市区町村など）。被保険者＝保険に加入している本人。被扶養者＝その家族（扶養に入っている人）。</div></div>
+
+</section>
+<section id="s③" class="sec-block" style="--sc:#7c3aed;--sb:#f5f3ff">
+  <div class="sec-label"><span class="sec-num">③</span><span class="sec-ttl">実務の具体例</span></div>
+  <p class="body-p">確認したい必須項目</p>
+<div class="tbl-wrap"><table class="dtbl"><thead><tr><th>確認項目</th><th>見るポイント・補足</th></tr></thead><tbody><tr><td>有効期限／資格</td><td>資格確認書には有効期限あり。マイナ保険証はオンライン資格確認で最新資格を確認</td></tr><tr><td>保険者番号</td><td>請求先を決める番号。被用者保険は8桁、国保は6桁が基本</td></tr><tr><td>記号・番号</td><td>加入者を特定する番号。転記ミスは返戻の原因No.1級</td></tr><tr><td>枝番（2桁）</td><td>令和3年以降、被保険者本人と家族を個人単位で区別する2桁</td></tr><tr><td>本人／家族の別</td><td>被保険者（本人）か被扶養者（家族）か</td></tr><tr><td>負担割合</td><td>高齢受給者証・資格情報で1割／2割／3割を確認（第3回で詳述）</td></tr></tbody></table></div>
+<div class="box-goal"><div class="box-head">✓ 現在の受付の基本（2024年12月以降）従来の紙の健康保険証は新規発行が終了し、マイナ保険証（マイナンバーカードの保険証利用）が基本。マイナ保険証を持たない人には資格確認書が交付され、窓口で提示してもらう。オンライン資格確認で、その場で最新の資格・負担割合を確認できる。</div></div>
+
+</section>
+<section id="s④" class="sec-block" style="--sc:#d97706;--sb:#fffbeb">
+  <div class="sec-label"><span class="sec-num">④</span><span class="sec-ttl">よくある間違い</span></div>
+  <div class="box-warn"><div class="box-head">⚠ ありがちなミス資格確認書の有効期限切れを見落とす記号・番号・枝番の入力ミス／枝番の入れ忘れ結婚・離婚後の旧姓のまま、転職後の旧保険のまま登録している扶養から外れた家族をそのまま家族扱いで請求してしまう</div></div>
+<p class="body-p">なぜ月初（毎月最初の受診時）に確認するのか</p>
+<p class="body-p">保険資格は月単位で管理され、就職・退職・扶養の変更で月の途中に切り替わることがあります。前月の保険のまま請求すると、資格喪失後の受診として返戻・過誤調整となり、再請求や患者さんへの負担割合の訂正が発生します。だから「月が替わって最初の受診時」には必ず資格を確認します。</p>
+
+</section>
+<section id="s⑤" class="sec-block" style="--sc:#16a34a;--sb:#f0fdf4">
+  <div class="sec-label"><span class="sec-num">⑤</span><span class="sec-ttl">確認問題</span></div>
+  <div class="quiz-box"><div class="quiz-title">✏️ 確認問題</div></div>
+
+</section>
+
+</main>
+
+<script>
+// Section nav highlight on scroll
+const sections = document.querySelectorAll('.sec-block');
+const navBtns  = document.querySelectorAll('.snav-btn');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navBtns.forEach(b => b.classList.remove('active'));
+      const idx = [...sections].indexOf(e.target);
+      if (navBtns[idx]) navBtns[idx].classList.add('active');
+    }
+  });
+}, {rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
