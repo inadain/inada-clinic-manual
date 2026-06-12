@@ -15,15 +15,12 @@
   --green:#16a34a;--green-lt:#f0fdf4;
   --gray:#64748b;--gray-lt:#f1f5f9;--gray-m:#e2e8f0;
   --text:#0f172a;--sub:#475569;--bg:#f0f4f8;--white:#fff;
-  --r:12px;--r-sm:8px;
-  --sidebar:220px;--hdr:56px;
+  --r:12px;--r-sm:8px;--sidebar:220px;--hdr:56px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
   font-size:15px;line-height:1.7;color:var(--text);background:var(--bg)}
-
-/* ── HEADER ── */
 .site-header{position:sticky;top:0;z-index:200;height:var(--hdr);
   background:linear-gradient(135deg,#0d9488,#1558a0);
   display:flex;align-items:center;padding:0 16px;gap:10px;
@@ -34,12 +31,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
 .back-link:hover{background:rgba(255,255,255,.28)}
 .hdr-center{flex:1;text-align:center;min-width:0}
 .hdr-badge{display:block;color:rgba(255,255,255,.8);font-size:10.5px;font-weight:700;letter-spacing:.04em}
-.hdr-title{color:#fff;font-size:14px;font-weight:800;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hdr-menu{background:none;border:none;color:#fff;font-size:22px;
-  cursor:pointer;padding:4px 6px;display:none}
-
-/* ── EPISODE BAR ── */
+.hdr-title{color:#fff;font-size:14px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr-menu{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:4px 6px;display:none}
 .ep-bar{background:var(--white);border-bottom:1px solid var(--gray-m);
   padding:8px 16px 8px calc(var(--sidebar)+16px);
   display:flex;align-items:center;justify-content:space-between}
@@ -50,17 +43,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
 .ep-dots{display:flex;gap:4px;align-items:center}
 .ep-dot{width:7px;height:7px;border-radius:50%;background:var(--gray-m)}
 .ep-dot.ep-dot-cur{background:var(--blue-m);width:18px;border-radius:4px}
-
-/* ── SIDEBAR ── */
 .sidebar{position:fixed;top:var(--hdr);left:0;width:var(--sidebar);
   height:calc(100vh - var(--hdr));overflow-y:auto;
-  background:var(--white);border-right:1px solid var(--gray-m);
-  padding:12px 0;z-index:150}
+  background:var(--white);border-right:1px solid var(--gray-m);padding:12px 0;z-index:150}
 .sidebar-ttl{font-size:11px;font-weight:800;color:var(--sub);
   letter-spacing:.06em;padding:4px 16px 10px;text-transform:uppercase}
-.ep-item{display:flex;align-items:flex-start;gap:8px;
-  padding:8px 14px;text-decoration:none;color:var(--text);
-  border-left:3px solid transparent;transition:background .12s}
+.ep-item{display:flex;align-items:flex-start;gap:8px;padding:8px 14px;
+  text-decoration:none;color:var(--text);border-left:3px solid transparent;transition:background .12s}
 .ep-item:hover{background:var(--gray-lt)}
 .ep-item.ep-active{background:var(--teal-lt);border-left-color:var(--teal)}
 .ep-dot-s{flex-shrink:0;width:22px;height:22px;border-radius:50%;
@@ -69,8 +58,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
 .ep-dot-s.ep-dot-on{background:var(--teal);color:#fff}
 .ep-name{font-size:12.5px;line-height:1.4;padding-top:3px}
 .ep-item.ep-active .ep-name{font-weight:700;color:var(--teal)}
-
-/* ── OVERLAY (mobile) ── */
 .nav-ov{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.5)}
 .nav-ov.open{display:block}
 .nav-ov-panel{position:absolute;top:0;left:0;width:260px;height:100%;
@@ -80,56 +67,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
 .nav-ov-close{display:flex;justify-content:flex-end;padding:8px 14px}
 .nav-ov-close button{background:var(--gray-lt);border:none;border-radius:8px;
   padding:6px 12px;font-size:14px;cursor:pointer;font-weight:700;color:var(--sub)}
-
-/* ── SECTION NAV ── */
 .snav{position:sticky;top:var(--hdr);z-index:100;background:var(--white);
   border-bottom:1px solid var(--gray-m);overflow-x:auto;white-space:nowrap;
-  padding:8px 12px 8px calc(var(--sidebar)+12px);display:flex;gap:7px;
-  scrollbar-width:none}
+  padding:8px 12px 8px calc(var(--sidebar)+12px);display:flex;gap:7px;scrollbar-width:none}
 .snav::-webkit-scrollbar{display:none}
 .snav-btn{display:inline-block;background:var(--gray-lt);color:var(--sub);
   border-radius:20px;padding:4px 13px;font-size:12.5px;font-weight:600;
   text-decoration:none;transition:background .15s,color .15s;white-space:nowrap}
 .snav-btn:hover,.snav-btn.active{background:var(--teal);color:#fff}
-
-/* ── LAYOUT ── */
-.page-body{margin-left:var(--sidebar);min-height:calc(100vh - var(--hdr))}
+.page-body{margin-left:var(--sidebar)}
 .main{max-width:700px;margin:0 auto;padding:20px 16px 32px}
-
-/* ── SECTION BLOCK ── */
 .sec-block{margin-bottom:32px;scroll-margin-top:calc(var(--hdr) + 44px)}
-.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:14px;
-  padding-bottom:8px;border-bottom:2px solid}
+.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid}
 .sec-num{font-size:22px;font-weight:900}
 .sec-ttl{font-size:15px;font-weight:800}
 .body-p{margin:8px 0}
-
-/* ── TABLE ── */
-.tbl-wrap{overflow-x:auto;margin:12px 0;border-radius:var(--r);
-  box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.tbl-wrap{overflow-x:auto;margin:12px 0;border-radius:var(--r);box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .dtbl{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--white)}
 .dtbl th{background:var(--teal);color:#fff;padding:8px 12px;text-align:left;font-weight:700}
 .dtbl td{padding:7px 12px;border-bottom:1px solid var(--gray-m);vertical-align:top}
 .dtbl tbody tr:last-child td{border-bottom:none}
 .dtbl tbody tr:nth-child(odd){background:var(--gray-lt)}
-
-/* ── SPECIAL BOXES ── */
 .box-goal,.box-term,.box-warn,.box-note{margin:12px 0;border-radius:var(--r);padding:14px 16px}
 .box-head{font-weight:800;margin-bottom:8px;font-size:13.5px}
 .box-goal{background:#f0fdf4;border-left:4px solid var(--green)}
 .box-goal .box-head{color:var(--green)}
-.box-goal ul{padding-left:18px}.box-goal li{margin:3px 0}
+.box-goal ul,.box-warn ul{padding-left:18px}
+.box-goal li,.box-warn li{margin:3px 0}
 .box-term{background:var(--blue-xl);border-left:4px solid var(--blue-m)}
 .box-term .box-head{color:var(--blue)}
 .box-term p{font-size:13.5px;color:var(--sub)}
 .box-warn{background:var(--amber-lt);border-left:4px solid var(--amber)}
 .box-warn .box-head{color:var(--amber)}
-.box-warn ul{padding-left:18px}.box-warn li{margin:3px 0}
 .box-note{background:var(--gray-lt);border-left:4px solid var(--gray)}
-
-/* ── QUIZ ── */
-.quiz-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:var(--r);
-  padding:16px;margin:12px 0}
+.quiz-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:var(--r);padding:16px;margin:12px 0}
 .quiz-title{font-weight:800;color:var(--green);margin-bottom:14px;font-size:15px}
 .quiz-item{background:var(--white);border-radius:var(--r-sm);padding:12px 14px;
   margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
@@ -139,21 +110,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
 .q-btn:hover{background:#15803d}
 .q-ans{margin-top:10px;padding:10px 14px;background:#dcfce7;border-radius:var(--r-sm);
   font-size:13.5px;color:#166534;font-weight:600;line-height:1.6}
-
-/* ── BOTTOM NAV ── */
 .bottom-nav-bar{display:flex;align-items:center;justify-content:space-between;
-  margin-top:40px;padding-top:24px;border-top:2px solid var(--gray-m);gap:12px}
+  margin-top:40px;padding-top:24px;border-top:2px solid var(--gray-m);gap:12px;flex-wrap:wrap}
 .bottom-nav{display:inline-flex;align-items:center;text-decoration:none;
-  padding:12px 22px;border-radius:var(--r);font-weight:700;font-size:14px;
-  transition:background .15s;max-width:48%}
-.bottom-nav.next{background:var(--teal);color:#fff;margin-left:auto}
+  padding:12px 22px;border-radius:var(--r);font-weight:700;font-size:14px;transition:background .15s}
+.bottom-nav.next{background:var(--teal);color:#fff}
 .bottom-nav.next:hover{background:#0f766e}
 .bottom-nav.prev{background:var(--gray-lt);color:var(--text)}
 .bottom-nav.prev:hover{background:var(--gray-m)}
-.bottom-nav.done{background:var(--green-lt);color:var(--green);
-  margin-left:auto;padding:12px 22px;border-radius:var(--r);font-weight:700;font-size:14px}
-
-/* ── RESPONSIVE ── */
+.bottom-nav.done{background:var(--green-lt);color:var(--green);padding:12px 22px;
+  border-radius:var(--r);font-weight:700;font-size:14px}
 @media(max-width:768px){
   :root{--sidebar:0px}
   .sidebar{display:none}
@@ -165,7 +131,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
 </style>
 </head>
 <body>
-
 <header class="site-header">
   <a href="../../index.html" class="back-link">← 一覧</a>
   <div class="hdr-center">
@@ -175,47 +140,42 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
   <button class="hdr-menu" onclick="document.getElementById('navOv').classList.add('open')" aria-label="メニュー">☰</button>
 </header>
 
-<!-- サイドバー（デスクトップ） -->
 <nav class="sidebar">
   <div class="sidebar-ttl">全8回シリーズ</div>
-  <a href="../01_医療事務の仕事とは.html" class="ep-item "><span class="ep-dot-s ">01</span><span class="ep-name">医療事務の仕事とは</span></a>
-<a href="../02_医療保険制度の基礎.html" class="ep-item "><span class="ep-dot-s ">02</span><span class="ep-name">医療保険制度の基礎</span></a>
-<a href="../03_窓口負担金の計算.html" class="ep-item "><span class="ep-dot-s ">03</span><span class="ep-name">窓口負担金の計算</span></a>
-<a href="../04_診療報酬点数の仕組み.html" class="ep-item "><span class="ep-dot-s ">04</span><span class="ep-name">診療報酬点数の仕組み</span></a>
-<a href="../05_公費負担医療.html" class="ep-item "><span class="ep-dot-s ">05</span><span class="ep-name">公費負担医療</span></a>
-<a href="../06_レセプトとは.html" class="ep-item ep-active"><span class="ep-dot-s ep-dot-on">06</span><span class="ep-name">レセプトとは</span></a>
-<a href="../07_レセプト点検の基礎.html" class="ep-item "><span class="ep-dot-s ">07</span><span class="ep-name">レセプト点検の基礎</span></a>
-<a href="../08_書類業務.html" class="ep-item "><span class="ep-dot-s ">08</span><span class="ep-name">書類業務</span></a>
+  <a href="01_医療事務の仕事とは.html" class="ep-item "><span class="ep-dot-s ">01</span><span class="ep-name">医療事務の仕事とは</span></a>
+<a href="02_医療保険制度の基礎.html" class="ep-item "><span class="ep-dot-s ">02</span><span class="ep-name">医療保険制度の基礎</span></a>
+<a href="03_窓口負担金の計算.html" class="ep-item "><span class="ep-dot-s ">03</span><span class="ep-name">窓口負担金の計算</span></a>
+<a href="04_診療報酬点数の仕組み.html" class="ep-item "><span class="ep-dot-s ">04</span><span class="ep-name">診療報酬点数の仕組み</span></a>
+<a href="05_公費負担医療.html" class="ep-item "><span class="ep-dot-s ">05</span><span class="ep-name">公費負担医療</span></a>
+<a href="06_レセプトとは.html" class="ep-item ep-active"><span class="ep-dot-s ep-dot-on">06</span><span class="ep-name">レセプトとは</span></a>
+<a href="07_レセプト点検の基礎.html" class="ep-item "><span class="ep-dot-s ">07</span><span class="ep-name">レセプト点検の基礎</span></a>
+<a href="08_書類業務.html" class="ep-item "><span class="ep-dot-s ">08</span><span class="ep-name">書類業務</span></a>
 
 </nav>
 
-<!-- サイドバーオーバーレイ（モバイル） -->
 <div id="navOv" class="nav-ov" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="nav-ov-panel">
     <div class="nav-ov-close"><button onclick="document.getElementById('navOv').classList.remove('open')">✕ 閉じる</button></div>
     <div class="sidebar-ttl">全8回シリーズ</div>
-    <a href="../01_医療事務の仕事とは.html" class="ep-item "><span class="ep-dot-s ">01</span><span class="ep-name">医療事務の仕事とは</span></a>
-<a href="../02_医療保険制度の基礎.html" class="ep-item "><span class="ep-dot-s ">02</span><span class="ep-name">医療保険制度の基礎</span></a>
-<a href="../03_窓口負担金の計算.html" class="ep-item "><span class="ep-dot-s ">03</span><span class="ep-name">窓口負担金の計算</span></a>
-<a href="../04_診療報酬点数の仕組み.html" class="ep-item "><span class="ep-dot-s ">04</span><span class="ep-name">診療報酬点数の仕組み</span></a>
-<a href="../05_公費負担医療.html" class="ep-item "><span class="ep-dot-s ">05</span><span class="ep-name">公費負担医療</span></a>
-<a href="../06_レセプトとは.html" class="ep-item ep-active"><span class="ep-dot-s ep-dot-on">06</span><span class="ep-name">レセプトとは</span></a>
-<a href="../07_レセプト点検の基礎.html" class="ep-item "><span class="ep-dot-s ">07</span><span class="ep-name">レセプト点検の基礎</span></a>
-<a href="../08_書類業務.html" class="ep-item "><span class="ep-dot-s ">08</span><span class="ep-name">書類業務</span></a>
+    <a href="01_医療事務の仕事とは.html" class="ep-item "><span class="ep-dot-s ">01</span><span class="ep-name">医療事務の仕事とは</span></a>
+<a href="02_医療保険制度の基礎.html" class="ep-item "><span class="ep-dot-s ">02</span><span class="ep-name">医療保険制度の基礎</span></a>
+<a href="03_窓口負担金の計算.html" class="ep-item "><span class="ep-dot-s ">03</span><span class="ep-name">窓口負担金の計算</span></a>
+<a href="04_診療報酬点数の仕組み.html" class="ep-item "><span class="ep-dot-s ">04</span><span class="ep-name">診療報酬点数の仕組み</span></a>
+<a href="05_公費負担医療.html" class="ep-item "><span class="ep-dot-s ">05</span><span class="ep-name">公費負担医療</span></a>
+<a href="06_レセプトとは.html" class="ep-item ep-active"><span class="ep-dot-s ep-dot-on">06</span><span class="ep-name">レセプトとは</span></a>
+<a href="07_レセプト点検の基礎.html" class="ep-item "><span class="ep-dot-s ">07</span><span class="ep-name">レセプト点検の基礎</span></a>
+<a href="08_書類業務.html" class="ep-item "><span class="ep-dot-s ">08</span><span class="ep-name">書類業務</span></a>
 
   </div>
 </div>
 
 <div class="page-body">
-
   <div class="ep-bar">
-    <a href="../05_公費負担医療.html" class="ep-nav-btn">← 前へ</a>
+    <a href="05_公費負担医療.html" class="ep-nav-btn">← 前へ</a>
     <div class="ep-dots"><span class="ep-dot "></span><span class="ep-dot "></span><span class="ep-dot "></span><span class="ep-dot "></span><span class="ep-dot "></span><span class="ep-dot ep-dot-cur"></span><span class="ep-dot "></span><span class="ep-dot "></span></div>
-    <a href="../07_レセプト点検の基礎.html" class="ep-nav-btn">次へ →</a>
+    <a href="07_レセプト点検の基礎.html" class="ep-nav-btn">次へ →</a>
   </div>
-
   <nav class="snav"><a href="#s1" class="snav-btn">💡 業務との結びつき</a><a href="#s2" class="snav-btn">📖 基本の仕組み</a><a href="#s3" class="snav-btn">🏥 実務の具体例</a><a href="#s4" class="snav-btn">⚠️ よくある間違い</a><a href="#s5" class="snav-btn">✏️ 確認問題</a></nav>
-
   <main class="main">
     <section id="s1" class="sec-block">
 <div class="sec-label" style="border-color:#3b82f6"><span class="sec-num" style="color:#3b82f6">①</span><span class="sec-ttl">業務との結びつき</span></div>
@@ -256,38 +216,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
 </div></div>
 </section>
 
-
-    <!-- 下部ナビ -->
     <div class="bottom-nav-bar">
-      <a href="../05_公費負担医療.html" class="bottom-nav prev">← 第5回 公費負担医療</a>
-      <a href="../07_レセプト点検の基礎.html" class="bottom-nav next">第7回 レセプト点検の基礎 →</a>
+      <a href="05_公費負担医療.html" class="bottom-nav prev">← 第5回　公費負担医療</a>
+      <a href="07_レセプト点検の基礎.html" class="bottom-nav next">第7回　レセプト点検の基礎 →</a>
     </div>
   </main>
 </div>
 
 <script>
-// section nav highlight
-const secs = document.querySelectorAll('.sec-block');
-const btns = document.querySelectorAll('.snav-btn');
-new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting){
-      btns.forEach(b=>b.classList.remove('active'));
-      const i=[...secs].indexOf(e.target);
-      if(btns[i]) btns[i].classList.add('active');
-    }
-  });
-},{rootMargin:'-10% 0px -75% 0px'}).observe && secs.forEach(s=>
-  new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        btns.forEach(b=>b.classList.remove('active'));
-        const i=[...secs].indexOf(e.target);
-        if(btns[i]) btns[i].classList.add('active');
-      }
-    });
-  },{rootMargin:'-10% 0px -75% 0px'}).observe(s)
-);
+const secs=document.querySelectorAll('.sec-block'),btns=document.querySelectorAll('.snav-btn');
+secs.forEach(s=>new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){btns.forEach(b=>b.classList.remove('active'));
+    const i=[...secs].indexOf(e.target);if(btns[i])btns[i].classList.add('active');}});
+},{rootMargin:'-10% 0px -75% 0px'}).observe(s));
 </script>
 </body>
 </html>
