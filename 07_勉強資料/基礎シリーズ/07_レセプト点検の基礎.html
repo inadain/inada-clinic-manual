@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="医療事務 第07回">
+<title>第07回 レセプト点検の基礎｜医療事務 基礎シリーズ</title>
+<style>
+:root {
+  --blue:#1558a0;--blue-m:#1e74c8;--blue-lt:#dbeafe;--blue-xl:#eff6ff;
+  --teal:#0d9488;--teal-lt:#f0fdfa;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --gray:#64748b;--gray-lt:#f1f5f9;--gray-m:#e2e8f0;
+  --text:#0f172a;--sub:#475569;--bg:#f0f4f8;--white:#fff;
+  --r:12px;--r-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+      font-size:15px;line-height:1.7;color:var(--text);background:var(--bg);min-height:100vh}
+
+/* ─── HEADER ─── */
+.site-header{position:sticky;top:0;z-index:100;height:56px;
+  background:linear-gradient(135deg,#0d9488,#1558a0);
+  display:flex;align-items:center;padding:0 16px;gap:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:#fff;
+  background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;
+  font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;
+  transition:background .15s}
+.back-link:hover{background:rgba(255,255,255,.28)}
+.hdr-center{flex:1;text-align:center;overflow:hidden}
+.hdr-badge{display:inline-block;background:rgba(255,255,255,.2);
+  color:#fff;font-size:11px;font-weight:700;padding:2px 10px;
+  border-radius:12px;letter-spacing:.04em;margin-bottom:2px}
+.hdr-title{color:#fff;font-size:14px;font-weight:800;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ─── EPISODE NAV ─── */
+.ep-bar{background:var(--white);border-bottom:1px solid var(--gray-m);
+  padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+.ep-nav{display:inline-flex;align-items:center;background:var(--blue-xl);
+  color:var(--blue);padding:6px 16px;border-radius:20px;font-size:13px;
+  font-weight:700;text-decoration:none;transition:background .15s}
+.ep-nav:hover{background:var(--blue-lt)}
+.ep-dots{display:flex;gap:5px;align-items:center}
+.ep-dot{width:8px;height:8px;border-radius:50%;background:var(--gray-m)}
+.ep-dot.on{background:var(--blue-m);width:20px;border-radius:4px}
+
+/* ─── SECTION NAV ─── */
+.snav{position:sticky;top:56px;z-index:90;background:var(--white);
+  border-bottom:1px solid var(--gray-m);overflow-x:auto;
+  white-space:nowrap;padding:8px 12px;display:flex;gap:8px;
+  scrollbar-width:none}
+.snav::-webkit-scrollbar{display:none}
+.snav-btn{display:inline-block;background:var(--gray-lt);color:var(--sub);
+  border-radius:20px;padding:5px 14px;font-size:12.5px;font-weight:600;
+  text-decoration:none;transition:background .15s,color .15s}
+.snav-btn:hover,.snav-btn.active{background:var(--teal);color:#fff}
+
+/* ─── MAIN ─── */
+.main{max-width:720px;margin:0 auto;padding:20px 16px 60px}
+
+/* ─── SECTION BLOCK ─── */
+.sec-block{margin-bottom:28px}
+.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  padding-bottom:8px;border-bottom:2px solid var(--sc)}
+.sec-num{font-size:22px;font-weight:900;color:var(--sc)}
+.sec-ttl{font-size:15px;font-weight:800;color:var(--text)}
+
+/* ─── BODY TEXT ─── */
+.body-p{margin:8px 0;color:var(--text)}
+
+/* ─── TABLES ─── */
+.tbl-wrap{overflow-x:auto;margin:12px 0;border-radius:var(--r);
+  box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.dtbl{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--white)}
+.dtbl th{background:var(--teal);color:#fff;padding:8px 12px;
+  text-align:left;font-weight:700;white-space:nowrap}
+.dtbl td{padding:7px 12px;border-bottom:1px solid var(--gray-m);vertical-align:top}
+.dtbl tbody tr:last-child td{border-bottom:none}
+.dtbl tbody tr:nth-child(odd){background:var(--gray-lt)}
+
+/* ─── SPECIAL BOXES ─── */
+.box-goal,.box-term,.box-warn,.box-note{
+  margin:12px 0;border-radius:var(--r);padding:14px 16px}
+.box-goal{background:#f0fdf4;border-left:4px solid var(--green)}
+.box-goal .box-head{font-weight:800;color:var(--green);margin-bottom:8px}
+.box-goal ul{padding-left:20px}
+.box-goal li{margin:4px 0;color:var(--text)}
+.box-term{background:var(--blue-xl);border-left:4px solid var(--blue-m)}
+.box-term .box-head{font-weight:800;color:var(--blue);margin-bottom:6px}
+.box-term p{font-size:13.5px;color:var(--sub)}
+.box-warn{background:var(--amber-lt);border-left:4px solid var(--amber)}
+.box-warn .box-head{font-weight:800;color:var(--amber);margin-bottom:8px}
+.box-warn ul{padding-left:20px}
+.box-warn li{margin:4px 0;color:var(--text)}
+.box-note{background:var(--gray-lt);border-left:4px solid var(--gray)}
+
+/* ─── QUIZ ─── */
+.quiz-box{background:var(--green-lt, #f0fdf4);border:1px solid #bbf7d0;
+  border-radius:var(--r);padding:16px;margin:12px 0}
+.quiz-title{font-weight:800;color:var(--green);margin-bottom:12px;font-size:15px}
+.quiz-item{background:var(--white);border-radius:var(--r-sm);padding:12px 14px;
+  margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.q-text{font-size:13.5px;color:var(--text);margin-bottom:8px;font-weight:600}
+.q-btn{background:var(--green);color:#fff;border:none;border-radius:20px;
+  padding:5px 16px;font-size:12.5px;font-weight:700;cursor:pointer;
+  transition:background .15s}
+.q-btn:hover{background:#15803d}
+.q-ans{margin-top:8px;padding:8px 12px;background:#dcfce7;border-radius:var(--r-sm);
+  font-size:13px;color:#166534;font-weight:600}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:600px){
+  .hdr-title{font-size:12px}
+  .main{padding:14px 10px 60px}
+  .ep-nav{padding:5px 12px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="back-link">← 一覧</a>
+  <div class="hdr-center">
+    <div class="hdr-badge">医療事務 基礎シリーズ</div>
+    <div class="hdr-title">第07回 レセプト点検の基礎</div>
+  </div>
+</header>
+
+<div class="ep-bar">
+  <a href="06_レセプトとは.html" class="ep-nav prev">← 第6回</a>
+  <div class="ep-dots"><span class="ep-dot "></span><span class="ep-dot "></span><span class="ep-dot "></span><span class="ep-dot "></span><span class="ep-dot "></span><span class="ep-dot "></span><span class="ep-dot on"></span><span class="ep-dot "></span></div>
+  <a href="08_書類業務.html" class="ep-nav next">第8回 →</a>
+</div>
+
+<nav class="snav"><a href="#s①" class="snav-btn">💡 業務との結びつき</a><a href="#s②" class="snav-btn">📖 基本の仕組み</a><a href="#s③" class="snav-btn">🏥 実務の具体例</a><a href="#s④" class="snav-btn">⚠️ よくある間違い</a><a href="#s⑤" class="snav-btn">✏️ 確認問題</a></nav>
+
+<main class="main">
+<section id="s①" class="sec-block" style="--sc:#3b82f6;--sb:#eff6ff">
+  <div class="sec-label"><span class="sec-num">①</span><span class="sec-ttl">業務との結びつき</span></div>
+  <p class="body-p">作成したレセプトをそのまま出すと、内容の不備で査定（減点）や返戻（差し戻し）になり、収入の減少と再請求の手間が生じます。提出前の点検は、医院の収入を守る最後の砦です。</p>
+<div class="box-goal"><div class="box-head">✓ この回のゴール適応病名の考え方を理解するよくある査定・返戻の型を知る点検チェックリストと再請求・取下げの手順がわかる</div></div>
+
+</section>
+<section id="s②" class="sec-block" style="--sc:#0d9488;--sb:#f0fdfa">
+  <div class="sec-label"><span class="sec-num">②</span><span class="sec-ttl">基本の仕組み</span></div>
+  <div class="box-term"><div class="box-head">◆ 用語：査定／返戻／適応病名査定＝審査で点数が減らされること。返戻＝不備で差し戻され、いったん支払われないこと。適応病名＝その検査・薬・処置が保険で認められる病名。診療行為に見合う病名が必要。</div></div>
+<p class="body-p">保険診療では『この検査・薬には、この病名が必要』という対応関係があります。実施した診療行為に対して必要な病名が付いていないと、査定の対象になります。</p>
+
+</section>
+<section id="s③" class="sec-block" style="--sc:#7c3aed;--sb:#f5f3ff">
+  <div class="sec-label"><span class="sec-num">③</span><span class="sec-ttl">実務の具体例</span></div>
+  <div class="tbl-wrap"><table class="dtbl"><thead><tr><th>#</th><th>よくある事例</th><th>対策</th></tr></thead><tbody><tr><td>1</td><td>病名漏れ（検査・投薬に対応する病名がない）</td><td>診療行為と病名の対応を点検</td></tr><tr><td>2</td><td>保険資格の誤り（記号番号・枝番ミス、資格喪失後）</td><td>月初の資格確認・入力チェック</td></tr><tr><td>3</td><td>算定要件・回数オーバー（月の上限を超えた算定）</td><td>点数表の要件・回数を確認</td></tr><tr><td>4</td><td>重複・併算定不可（同時に取れない項目を併算定）</td><td>算定ルールの確認</td></tr><tr><td>5</td><td>用量・日数の不整合（投薬日数や量の誤り）</td><td>処方内容との突合</td></tr></tbody></table></div>
+<p class="body-p">点検チェックリストの作り方</p>
+<p class="body-p">『基本情報→傷病名→診療行為→薬剤』の順で、上から突合する流れを固定する。</p>
+<p class="body-p">自院で多い査定・返戻を記録し、頻出項目を専用チェック欄にする。</p>
+<p class="body-p">『病名あり？要件OK？回数OK？保険正しい？』を毎回同じ順で確認する。</p>
+
+</section>
+<section id="s④" class="sec-block" style="--sc:#d97706;--sb:#fffbeb">
+  <div class="sec-label"><span class="sec-num">④</span><span class="sec-ttl">よくある間違い</span></div>
+  <div class="tbl-wrap"><table class="dtbl"><thead><tr><th>状況</th><th>対応</th></tr></thead><tbody><tr><td>返戻された（差し戻し）</td><td>内容を修正し、翌月以降に再請求する</td></tr><tr><td>誤って請求した（こちらの誤り）</td><td>取下げ（取消）依頼を行い、正しい内容で出し直す</td></tr><tr><td>査定（減点）に納得できない</td><td>再審査請求で根拠を添えて申し立てる</td></tr></tbody></table></div>
+<div class="box-warn"><div class="box-head">⚠ 注意返戻・取下げ・再審査は期限や手順が決まっています。自己判断で放置せず、レセコンの処理と提出先（支払基金／国保連）の様式に従います。修正の根拠（カルテ・検査結果）を必ず確認してから出し直します。</div></div>
+
+</section>
+<section id="s⑤" class="sec-block" style="--sc:#16a34a;--sb:#f0fdf4">
+  <div class="sec-label"><span class="sec-num">⑤</span><span class="sec-ttl">確認問題</span></div>
+  <div class="quiz-box"><div class="quiz-title">✏️ 確認問題</div></div>
+
+</section>
+
+</main>
+
+<script>
+// Section nav highlight on scroll
+const sections = document.querySelectorAll('.sec-block');
+const navBtns  = document.querySelectorAll('.snav-btn');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navBtns.forEach(b => b.classList.remove('active'));
+      const idx = [...sections].indexOf(e.target);
+      if (navBtns[idx]) navBtns[idx].classList.add('active');
+    }
+  });
+}, {rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
