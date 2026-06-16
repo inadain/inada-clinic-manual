@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>勉強資料 | いなだ医院 スタッフマニュアル</title>
+<style>
+:root {
+  --blue:       #1558a0;
+  --blue-mid:   #1e74c8;
+  --blue-light: #dbeafe;
+  --blue-xl:    #eff6ff;
+  --teal:       #0d9488;
+  --teal-light: #ccfbf1;
+  --amber:      #d97706;
+  --amber-lt:   #fef3c7;
+  --green:      #16a34a;
+  --green-lt:   #dcfce7;
+  --gray:       #64748b;
+  --gray-lt:    #f1f5f9;
+  --gray-mid:   #e2e8f0;
+  --text:       #0f172a;
+  --text-sub:   #475569;
+  --bg:         #f0f4f8;
+  --white:      #ffffff;
+  --r:          12px;
+  --r-sm:       8px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-size: 15px; line-height: 1.6; color: var(--text); background: var(--bg); min-height: 100vh;
+}
+
+/* ヘッダー */
+.site-header {
+  background: var(--blue);
+  color: #fff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+.header-back {
+  background: rgba(255,255,255,.15);
+  border: none;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.header-back:hover { background: rgba(255,255,255,.25); }
+.header-title { font-size: 16px; font-weight: 700; }
+
+/* メイン */
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+/* セクションヘッダー */
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 32px 0 16px;
+}
+.sec-head:first-of-type { margin-top: 8px; }
+.sec-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--blue-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.sec-icon.amber { background: var(--amber-lt); }
+.sec-head h2 { font-size: 17px; font-weight: 800; color: var(--text); }
+.sec-head p  { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+
+/* カードリスト（基礎シリーズ用） */
+.series-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.series-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--white);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+  text-decoration: none;
+  color: var(--text);
+  border: 1px solid var(--gray-mid);
+  transition: box-shadow .15s, transform .1s;
+}
+.series-item:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+  transform: translateY(-1px);
+}
+.series-num {
+  width: 32px; height: 32px;
+  background: var(--blue-light);
+  color: var(--blue);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800;
+  flex-shrink: 0;
+}
+.series-info { flex: 1; }
+.series-title { font-size: 14px; font-weight: 700; }
+.series-sub   { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+.series-arrow { color: var(--gray); font-size: 16px; }
+
+/* カードグリッド（加算・制度用） */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.manual-card {
+  background: var(--white);
+  border-radius: var(--r);
+  border: 1.5px solid var(--gray-mid);
+  text-decoration: none;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: box-shadow .15s, transform .1s;
+}
+.manual-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.12); transform: translateY(-2px); }
+.card-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  flex: 1;
+}
+.card-ic {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--amber-lt);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.card-no    { font-size: 11px; color: var(--text-sub); font-weight: 600; text-transform: uppercase; }
+.card-title { font-size: 14px; font-weight: 800; margin-top: 2px; }
+.card-desc  { font-size: 12px; color: var(--text-sub); margin-top: 4px; line-height: 1.5; }
+.card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--gray-lt);
+  border-top: 1px solid var(--gray-mid);
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.badge { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+.badge.done        { background: var(--green-lt); color: var(--green); }
+.badge.in-progress { background: var(--blue-light); color: var(--blue-mid); }
+.tab-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.tab-chip  { font-size: 11px; background: var(--gray-mid); color: var(--text-sub); padding: 2px 7px; border-radius: 4px; }
+
+footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-sub);
+  padding: 24px 16px;
+  border-top: 1px solid var(--gray-mid);
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="header-back" href="../index.html">← トップに戻る</a>
+  <div class="header-title">📚 勉強資料・制度解説</div>
+</header>
+
+<main>
+
+  <!-- 基礎シリーズ -->
+  <div class="sec-head">
+    <div class="sec-icon">📖</div>
+    <div>
+      <h2>① 医療事務 基礎シリーズ</h2>
+      <p>初学者向け全8回・確認問題付き</p>
+    </div>
+  </div>
+
+  <div class="series-list">
+    <a class="series-item" href="基礎シリーズ/01_医療事務の仕事とは.html">
+      <div class="series-num">1</div>
+      <div class="series-info">
+        <div class="series-title">医療事務の仕事とは</div>
+      </div>
+      <div class="series-arrow">›</div>
+    </a>
+    <a class="series-item" href="基礎シリーズ/02_医療保険制度の基礎.html">
+      <div class="series-num">2</div>
+      <div class="series-info">
+        <div class="series-title">医療保険制度の基礎</div>
+      </div>
+      <div class="series-arrow">›</div>
+    </a>
+    <a class="series-item" href="基礎シリーズ/03_窓口負担金の計算.html">
+      <div class="series-num">3</div>
+      <div class="series-info">
+        <div class="series-title">窓口負担金の計算</div>
+      </div>
+      <div class="series-arrow">›</div>
+    </a>
+    <a class="series-item" href="基礎シリーズ/04_診療報酬点数の仕組み.html">
+      <div class="series-num">4</div>
+      <div class="series-info">
+        <div class="series-title">診療報酬点数の仕組み</div>
+      </div>
+      <div class="series-arrow">›</div>
+    </a>
+    <a class="series-item" href="基礎シリーズ/05_公費負担医療.html">
+      <div class="series-num">5</div>
+      <div class="series-info">
+        <div class="series-title">公費負担医療</div>
+      </div>
+      <div class="series-arrow">›</div>
+    </a>
+    <a class="series-item" href="基礎シリーズ/06_レセプトとは.html">
+      <div class="series-num">6</div>
+      <div class="series-info">
+        <div class="series-title">レセプトとは</div>
+      </div>
+      <div class="series-arrow">›</div>
+    </a>
+    <a class="series-item" href="基礎シリーズ/07_レセプト点検の基礎.html">
+      <div class="series-num">7</div>
+      <div class="series-info">
+        <div class="series-title">レセプト点検の基礎</div>
+      </div>
+      <div class="series-arrow">›</div>
+    </a>
+    <a class="series-item" href="基礎シリーズ/08_書類業務.html">
+      <div class="series-num">8</div>
+      <div class="series-info">
+        <div class="series-title">書類業務</div>
+      </div>
+      <div class="series-arrow">›</div>
+    </a>
+  </div>
+
+  <!-- 加算・制度解説 -->
+  <div class="sec-head">
+    <div class="sec-icon amber">📋</div>
+    <div>
+      <h2>② 加算・制度解説</h2>
+      <p>各種加算の要件・算定フロー</p>
+    </div>
+  </div>
+
+  <div class="card-grid">
+
+    <a class="manual-card" href="01_地域包括診療加算.html">
+      <div class="card-body">
+        <div class="card-ic">📋</div>
+        <div class="card-info">
+          <div class="card-no">加算・制度 ①</div>
+          <div class="card-title">地域包括診療加算</div>
+          <div class="card-desc">制度概要・対象疾患・点数・算定要件・当院方針（令和6年改定対応）</div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <span class="badge done">✅ 公開中</span>
+        <div class="tab-chips"><span class="tab-chip">初学者向け</span><span class="tab-chip">加算１</span><span class="tab-chip">認知症</span></div>
+      </div>
+    </a>
+
+    <a class="manual-card" href="02_CPAP加算_診療報酬_勉強資料.html">
+      <div class="card-body">
+        <div class="card-ic">😴</div>
+        <div class="card-info">
+          <div class="card-no">加算・制度 ②</div>
+          <div class="card-title">CPAP加算（充実管理体制加算）</div>
+          <div class="card-desc">CPAP療法の診療報酬・加算要件・算定フロー（令和8年改定対応）</div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <span class="badge done">✅ 公開中</span>
+        <div class="tab-chips"><span class="tab-chip">CPAP</span><span class="tab-chip">充実管理体制加算</span><span class="tab-chip">睡眠時無呼吸</span></div>
+      </div>
+    </a>
+
+  </div>
+
+</main>
+
+<footer>
+  いなだ医院 スタッフマニュアル · 勉強資料
+</footer>
+
+</body>
+</html>
