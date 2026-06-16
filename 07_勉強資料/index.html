@@ -69,30 +69,77 @@ main {
   padding: 24px 16px 48px;
 }
 
-/* セクションヘッダー */
-.sec-head {
+/* ─── アコーディオン ─── */
+.accordion {
+  margin-top: 20px;
+  border-radius: var(--r);
+  border: 1px solid var(--gray-mid);
+  overflow: hidden;
+}
+.accordion:first-of-type { margin-top: 8px; }
+
+.accordion-head {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 32px 0 16px;
+  padding: 16px 18px;
+  background: var(--white);
+  cursor: pointer;
+  user-select: none;
+  transition: background .15s;
 }
-.sec-head:first-of-type { margin-top: 8px; }
-.sec-icon {
-  width: 40px; height: 40px;
+.accordion-head:hover { background: var(--gray-lt); }
+
+.acc-icon {
+  width: 38px; height: 38px;
   border-radius: 10px;
   background: var(--blue-light);
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px; flex-shrink: 0;
+  font-size: 18px; flex-shrink: 0;
 }
-.sec-icon.amber { background: var(--amber-lt); }
-.sec-head h2 { font-size: 17px; font-weight: 800; color: var(--text); }
-.sec-head p  { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+.acc-icon.green { background: var(--green-lt); }
 
-/* カードリスト（基礎シリーズ用） */
+.acc-label { flex: 1; }
+.acc-title { font-size: 15px; font-weight: 800; color: var(--text); }
+.acc-sub   { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+
+.acc-badge {
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--blue-light);
+  color: var(--blue-mid);
+  padding: 3px 9px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+.acc-badge.green { background: var(--green-lt); color: var(--green); }
+
+.acc-arrow {
+  color: var(--gray);
+  font-size: 12px;
+  flex-shrink: 0;
+  transition: transform .25s ease;
+}
+.accordion.open .acc-arrow { transform: rotate(180deg); }
+
+/* 中身 */
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s ease;
+  background: var(--gray-lt);
+  border-top: 0px solid var(--gray-mid);
+}
+.accordion.open .accordion-body {
+  max-height: 1200px;
+  border-top-width: 1px;
+}
+
 .series-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 1px;
+  padding: 8px;
 }
 .series-item {
   display: flex;
@@ -100,31 +147,44 @@ main {
   gap: 12px;
   background: var(--white);
   border-radius: var(--r-sm);
-  padding: 14px 16px;
+  padding: 12px 14px;
   text-decoration: none;
   color: var(--text);
-  border: 1px solid var(--gray-mid);
-  transition: box-shadow .15s, transform .1s;
+  transition: background .12s;
 }
-.series-item:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,.1);
-  transform: translateY(-1px);
-}
+.series-item:hover { background: var(--blue-xl); }
+
 .series-num {
-  width: 32px; height: 32px;
+  width: 28px; height: 28px;
   background: var(--blue-light);
   color: var(--blue);
-  border-radius: 8px;
+  border-radius: 7px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 800;
+  font-size: 12px; font-weight: 800;
   flex-shrink: 0;
 }
 .series-info { flex: 1; }
-.series-title { font-size: 14px; font-weight: 700; }
-.series-sub   { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
-.series-arrow { color: var(--gray); font-size: 16px; }
+.series-title { font-size: 13.5px; font-weight: 700; }
+.series-sub   { font-size: 11.5px; color: var(--text-sub); margin-top: 1px; }
+.series-arrow { color: var(--gray); font-size: 15px; }
 
-/* カードグリッド（加算・制度用） */
+/* 加算・制度カード */
+.sec-head-plain {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 12px;
+}
+.sec-icon-plain {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: var(--amber-lt);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.sec-head-plain h2 { font-size: 15px; font-weight: 800; }
+.sec-head-plain p  { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -156,7 +216,7 @@ main {
   display: flex; align-items: center; justify-content: center;
   font-size: 20px; flex-shrink: 0;
 }
-.card-no    { font-size: 11px; color: var(--text-sub); font-weight: 600; text-transform: uppercase; }
+.card-no    { font-size: 11px; color: var(--text-sub); font-weight: 600; }
 .card-title { font-size: 14px; font-weight: 800; margin-top: 2px; }
 .card-desc  { font-size: 12px; color: var(--text-sub); margin-top: 4px; line-height: 1.5; }
 .card-foot {
@@ -170,8 +230,7 @@ main {
   gap: 6px;
 }
 .badge { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
-.badge.done        { background: var(--green-lt); color: var(--green); }
-.badge.in-progress { background: var(--blue-light); color: var(--blue-mid); }
+.badge.done { background: var(--green-lt); color: var(--green); }
 .tab-chips { display: flex; flex-wrap: wrap; gap: 4px; }
 .tab-chip  { font-size: 11px; background: var(--gray-mid); color: var(--text-sub); padding: 2px 7px; border-radius: 4px; }
 
@@ -193,129 +252,123 @@ footer {
 
 <main>
 
-  <!-- 基礎シリーズ -->
-  <div class="sec-head">
-    <div class="sec-icon">📖</div>
-    <div>
-      <h2>① 医療事務 基礎シリーズ</h2>
-      <p>初学者向け全8回・確認問題付き</p>
+  <!-- ① 基礎シリーズ -->
+  <div class="accordion" id="acc-kiso">
+    <div class="accordion-head" onclick="toggle('acc-kiso')">
+      <div class="acc-icon">📖</div>
+      <div class="acc-label">
+        <div class="acc-title">① 医療事務 基礎シリーズ</div>
+        <div class="acc-sub">初学者向け・確認問題付き</div>
+      </div>
+      <span class="acc-badge">全8回</span>
+      <span class="acc-arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="series-list">
+        <a class="series-item" href="基礎シリーズ/01_医療事務の仕事とは.html">
+          <div class="series-num">1</div>
+          <div class="series-info"><div class="series-title">医療事務の仕事とは</div></div>
+          <div class="series-arrow">›</div>
+        </a>
+        <a class="series-item" href="基礎シリーズ/02_医療保険制度の基礎.html">
+          <div class="series-num">2</div>
+          <div class="series-info"><div class="series-title">医療保険制度の基礎</div></div>
+          <div class="series-arrow">›</div>
+        </a>
+        <a class="series-item" href="基礎シリーズ/03_窓口負担金の計算.html">
+          <div class="series-num">3</div>
+          <div class="series-info"><div class="series-title">窓口負担金の計算</div></div>
+          <div class="series-arrow">›</div>
+        </a>
+        <a class="series-item" href="基礎シリーズ/04_診療報酬点数の仕組み.html">
+          <div class="series-num">4</div>
+          <div class="series-info"><div class="series-title">診療報酬点数の仕組み</div></div>
+          <div class="series-arrow">›</div>
+        </a>
+        <a class="series-item" href="基礎シリーズ/05_公費負担医療.html">
+          <div class="series-num">5</div>
+          <div class="series-info"><div class="series-title">公費負担医療</div></div>
+          <div class="series-arrow">›</div>
+        </a>
+        <a class="series-item" href="基礎シリーズ/06_レセプトとは.html">
+          <div class="series-num">6</div>
+          <div class="series-info"><div class="series-title">レセプトとは</div></div>
+          <div class="series-arrow">›</div>
+        </a>
+        <a class="series-item" href="基礎シリーズ/07_レセプト点検の基礎.html">
+          <div class="series-num">7</div>
+          <div class="series-info"><div class="series-title">レセプト点検の基礎</div></div>
+          <div class="series-arrow">›</div>
+        </a>
+        <a class="series-item" href="基礎シリーズ/08_書類業務.html">
+          <div class="series-num">8</div>
+          <div class="series-info"><div class="series-title">書類業務</div></div>
+          <div class="series-arrow">›</div>
+        </a>
+      </div>
     </div>
   </div>
 
-  <div class="series-list">
-    <a class="series-item" href="基礎シリーズ/01_医療事務の仕事とは.html">
-      <div class="series-num">1</div>
-      <div class="series-info">
-        <div class="series-title">医療事務の仕事とは</div>
+  <!-- ② 当法人特有シリーズ -->
+  <div class="accordion" id="acc-hojin">
+    <div class="accordion-head" onclick="toggle('acc-hojin')">
+      <div class="acc-icon green">🏥</div>
+      <div class="acc-label">
+        <div class="acc-title">② 当法人特有シリーズ</div>
+        <div class="acc-sub">介護事業所・訪問診療・在宅医療・連携実務</div>
       </div>
-      <div class="series-arrow">›</div>
-    </a>
-    <a class="series-item" href="基礎シリーズ/02_医療保険制度の基礎.html">
-      <div class="series-num">2</div>
-      <div class="series-info">
-        <div class="series-title">医療保険制度の基礎</div>
+      <span class="acc-badge green">全5回</span>
+      <span class="acc-arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="series-list">
+        <a class="series-item" href="当法人特有シリーズ/01_当法人の事業所と役割.html">
+          <div class="series-num" style="background:#dcfce7;color:#16a34a;">1</div>
+          <div class="series-info">
+            <div class="series-title">当法人の事業所と役割</div>
+            <div class="series-sub">医療系・介護系の各事業所と医療事務の接点</div>
+          </div>
+          <div class="series-arrow">›</div>
+        </a>
+        <a class="series-item" href="当法人特有シリーズ/02_介護保険の基礎.html">
+          <div class="series-num" style="background:#dcfce7;color:#16a34a;">2</div>
+          <div class="series-info">
+            <div class="series-title">介護保険の基礎</div>
+            <div class="series-sub">医療保険との違い・要介護認定・ケアマネの役割</div>
+          </div>
+          <div class="series-arrow">›</div>
+        </a>
+        <a class="series-item" href="当法人特有シリーズ/03_訪問診療と往診の違い.html">
+          <div class="series-num" style="background:#dcfce7;color:#16a34a;">3</div>
+          <div class="series-info">
+            <div class="series-title">訪問診療と往診の違い</div>
+            <div class="series-sub">計画的訪問 vs 緊急往診・診療報酬・在支診</div>
+          </div>
+          <div class="series-arrow">›</div>
+        </a>
+        <a class="series-item" href="当法人特有シリーズ/04_訪問看護の仕組み.html">
+          <div class="series-num" style="background:#dcfce7;color:#16a34a;">4</div>
+          <div class="series-info">
+            <div class="series-title">訪問看護の仕組み</div>
+            <div class="series-sub">医療保険 vs 介護保険・指示書の流れ</div>
+          </div>
+          <div class="series-arrow">›</div>
+        </a>
+        <a class="series-item" href="当法人特有シリーズ/05_医療と介護の連携実務.html">
+          <div class="series-num" style="background:#dcfce7;color:#16a34a;">5</div>
+          <div class="series-info">
+            <div class="series-title">医療と介護の連携実務</div>
+            <div class="series-sub">診療情報提供書・主治医意見書・ケアマネ対応</div>
+          </div>
+          <div class="series-arrow">›</div>
+        </a>
       </div>
-      <div class="series-arrow">›</div>
-    </a>
-    <a class="series-item" href="基礎シリーズ/03_窓口負担金の計算.html">
-      <div class="series-num">3</div>
-      <div class="series-info">
-        <div class="series-title">窓口負担金の計算</div>
-      </div>
-      <div class="series-arrow">›</div>
-    </a>
-    <a class="series-item" href="基礎シリーズ/04_診療報酬点数の仕組み.html">
-      <div class="series-num">4</div>
-      <div class="series-info">
-        <div class="series-title">診療報酬点数の仕組み</div>
-      </div>
-      <div class="series-arrow">›</div>
-    </a>
-    <a class="series-item" href="基礎シリーズ/05_公費負担医療.html">
-      <div class="series-num">5</div>
-      <div class="series-info">
-        <div class="series-title">公費負担医療</div>
-      </div>
-      <div class="series-arrow">›</div>
-    </a>
-    <a class="series-item" href="基礎シリーズ/06_レセプトとは.html">
-      <div class="series-num">6</div>
-      <div class="series-info">
-        <div class="series-title">レセプトとは</div>
-      </div>
-      <div class="series-arrow">›</div>
-    </a>
-    <a class="series-item" href="基礎シリーズ/07_レセプト点検の基礎.html">
-      <div class="series-num">7</div>
-      <div class="series-info">
-        <div class="series-title">レセプト点検の基礎</div>
-      </div>
-      <div class="series-arrow">›</div>
-    </a>
-    <a class="series-item" href="基礎シリーズ/08_書類業務.html">
-      <div class="series-num">8</div>
-      <div class="series-info">
-        <div class="series-title">書類業務</div>
-      </div>
-      <div class="series-arrow">›</div>
-    </a>
-  </div>
-
-  <!-- 当法人特有シリーズ -->
-  <div class="sec-head">
-    <div class="sec-icon" style="background:#f0fdf4;">🏥</div>
-    <div>
-      <h2>② 当法人特有シリーズ</h2>
-      <p>介護事業所・訪問診療・在宅医療・連携実務（全5回）</p>
     </div>
   </div>
 
-  <div class="series-list">
-    <a class="series-item" href="当法人特有シリーズ/01_当法人の事業所と役割.html">
-      <div class="series-num" style="background:#dcfce7;color:#16a34a;">1</div>
-      <div class="series-info">
-        <div class="series-title">当法人の事業所と役割</div>
-        <div class="series-sub">医療系・介護系の各事業所と医療事務の接点</div>
-      </div>
-      <div class="series-arrow">›</div>
-    </a>
-    <a class="series-item" href="当法人特有シリーズ/02_介護保険の基礎.html">
-      <div class="series-num" style="background:#dcfce7;color:#16a34a;">2</div>
-      <div class="series-info">
-        <div class="series-title">介護保険の基礎</div>
-        <div class="series-sub">医療保険との違い・要介護認定・ケアマネの役割</div>
-      </div>
-      <div class="series-arrow">›</div>
-    </a>
-    <a class="series-item" href="当法人特有シリーズ/03_訪問診療と往診の違い.html">
-      <div class="series-num" style="background:#dcfce7;color:#16a34a;">3</div>
-      <div class="series-info">
-        <div class="series-title">訪問診療と往診の違い</div>
-        <div class="series-sub">計画的訪問 vs 緊急往診・診療報酬・在支診</div>
-      </div>
-      <div class="series-arrow">›</div>
-    </a>
-    <a class="series-item" href="当法人特有シリーズ/04_訪問看護の仕組み.html">
-      <div class="series-num" style="background:#dcfce7;color:#16a34a;">4</div>
-      <div class="series-info">
-        <div class="series-title">訪問看護の仕組み</div>
-        <div class="series-sub">医療保険 vs 介護保険・指示書の流れ</div>
-      </div>
-      <div class="series-arrow">›</div>
-    </a>
-    <a class="series-item" href="当法人特有シリーズ/05_医療と介護の連携実務.html">
-      <div class="series-num" style="background:#dcfce7;color:#16a34a;">5</div>
-      <div class="series-info">
-        <div class="series-title">医療と介護の連携実務</div>
-        <div class="series-sub">診療情報提供書・主治医意見書・ケアマネ対応</div>
-      </div>
-      <div class="series-arrow">›</div>
-    </a>
-  </div>
-
-  <!-- 加算・制度解説 -->
-  <div class="sec-head" style="margin-top:32px;">
-    <div class="sec-icon amber">📋</div>
+  <!-- ③ 加算・制度解説 -->
+  <div class="sec-head-plain" style="margin-top:28px;">
+    <div class="sec-icon-plain">📋</div>
     <div>
       <h2>③ 加算・制度解説</h2>
       <p>各種加算の要件・算定フロー</p>
@@ -323,7 +376,6 @@ footer {
   </div>
 
   <div class="card-grid">
-
     <a class="manual-card" href="01_地域包括診療加算.html">
       <div class="card-body">
         <div class="card-ic">📋</div>
@@ -338,7 +390,6 @@ footer {
         <div class="tab-chips"><span class="tab-chip">初学者向け</span><span class="tab-chip">加算１</span><span class="tab-chip">認知症</span></div>
       </div>
     </a>
-
     <a class="manual-card" href="02_CPAP加算_診療報酬_勉強資料.html">
       <div class="card-body">
         <div class="card-ic">😴</div>
@@ -353,7 +404,6 @@ footer {
         <div class="tab-chips"><span class="tab-chip">CPAP</span><span class="tab-chip">充実管理体制加算</span><span class="tab-chip">睡眠時無呼吸</span></div>
       </div>
     </a>
-
   </div>
 
 </main>
@@ -361,6 +411,13 @@ footer {
 <footer>
   いなだ医院 スタッフマニュアル · 勉強資料
 </footer>
+
+<script>
+function toggle(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+</script>
 
 </body>
 </html>
