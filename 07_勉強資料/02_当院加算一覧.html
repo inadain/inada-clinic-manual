@@ -172,6 +172,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
   .rank-item{grid-template-columns:32px 1fr auto}
   .cat-grid{grid-template-columns:1fr}
 }
+/* ── ALL LIST ── */
+.all-cat{margin-bottom:28px}
+.all-cat-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;
+  padding-left:10px;border-left:4px solid}
+.all-cat-name{font-size:15px;font-weight:800}
+.all-cat-count{font-size:12px;color:var(--sub);background:var(--gray-lt);
+  border-radius:20px;padding:2px 10px;font-weight:700}
+.all-tbl-wrap{overflow-x:auto;border-radius:var(--r);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.all-tbl{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--white)}
+.all-tbl thead th{padding:7px 10px;font-weight:700;white-space:nowrap;font-size:11.5px}
+.all-tbl th:nth-child(1){background:#334155;color:#fff;width:38%}
+.all-tbl th:nth-child(2){background:#475569;color:#fff;width:9%;text-align:right}
+.all-tbl th:nth-child(3){background:#475569;color:#fff;width:15%;text-align:center}
+.all-tbl th:nth-child(4){background:#334155;color:#fff;width:38%}
+.all-tbl td{padding:6px 10px;border-bottom:1px solid var(--gray-m);vertical-align:top;line-height:1.5}
+.all-tbl tbody tr:last-child td{border-bottom:none}
+.all-tbl tbody tr:nth-child(odd){background:var(--gray-lt)}
+.all-tbl .an{font-size:12px;font-weight:600;color:var(--text)}
+.all-tbl .au{text-align:right;font-weight:700;color:var(--blue-m);white-space:nowrap}
+.all-tbl .as{text-align:center}
+.all-tbl .as .stars{font-size:11px}
+.all-tbl .ad{color:var(--sub);font-size:12px}
+@media(max-width:600px){
+  .all-tbl{font-size:11.5px}
+  .all-tbl td,.all-tbl th{padding:5px 7px}
+  .all-tbl .ad{display:none}  /* モバイルでは概要列を非表示 */
+  .all-tbl th:nth-child(4){display:none}
+}
+
 </style>
 </head>
 <body>
@@ -189,8 +218,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
   <a href="#s2" class="snav-btn">🏆 重要TOP10</a>
   <a href="#s3" class="snav-btn">📂 カテゴリ別</a>
   <a href="#s4" class="snav-btn">🔍 主要加算の解説</a>
-  <a href="#s5" class="snav-btn">⚠️ 注意点</a>
-  <a href="#s6" class="snav-btn">✏️ 確認問題</a>
+  <a href="#s5" class="snav-btn">📋 全加算リスト</a>
+  <a href="#s6" class="snav-btn">⚠️ 注意点</a>
+  <a href="#s7" class="snav-btn">✏️ 確認問題</a>
 </nav>
 
 <div class="hero">
@@ -581,10 +611,210 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
   </div>
 </section>
 
-<!-- ⑤ 注意点 -->
+
+<!-- ⑤ 全加算リスト -->
 <section id="s5" class="sec-block">
+  <div class="sec-label" style="border-color:var(--blue)">
+    <span class="sec-num" style="color:var(--blue)">⑤</span>
+    <span class="sec-ttl">全加算リスト（カテゴリ別）</span>
+  </div>
+  <p class="body-p">TOP10以外を含む全加算をカテゴリ別に一覧しています。★は算定頻度の目安です。</p>
+  <div class="info-box">
+    <div class="ih">📌 この一覧の見方</div>
+    <p>★が多いほど算定頻度が高い加算です。日々のレセプト入力で漏れが起きやすい加算を中心に、算定タイミング・概要を確認してください。</p>
+  </div>
+
+<div class="all-cat">
+  <div class="all-cat-head" style="border-left-color:#1558a0">
+    <span class="all-cat-name" style="color:#1558a0">初診</span>
+    <span class="all-cat-count">11件</span>
+  </div>
+  <div class="all-tbl-wrap"><table class="all-tbl">
+    <thead><tr><th>加算名</th><th>点数</th><th>頻度</th><th>算定タイミング・概要</th></tr></thead>
+    <tbody><tr><td class="an">夜間・早朝等加算（初診）</td><td class="au">50点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span></span></td><td class="ad">早朝6〜8時・平日夜18〜22時・土曜12〜22時の初診に算定</td></tr>
+<tr><td class="an">発熱患者等対応加算（初診）</td><td class="au">20点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span></span></td><td class="ad">感染症疑いの発熱患者等への対応に対する加算（初診）</td></tr>
+<tr><td class="an">医療ＤＸ推進体制整備加算５（初診）</td><td class="au">9点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span></span></td><td class="ad">電子カルテ・マイナ保険証等の医療DX体制整備への加算（初診）</td></tr>
+<tr><td class="an">外来感染対策向上加算（初診）</td><td class="au">6点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span></span></td><td class="ad">感染対策向上のための施設基準届出加算（初診）</td></tr>
+<tr><td class="an">休日加算（初診）</td><td class="au">250点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">日曜・祝日・年末年始の初診に算定</td></tr>
+<tr><td class="an">連携強化加算（初診）</td><td class="au">3点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span></span></td><td class="ad">感染症対応機関との連携体制を持つ施設への加算（初診）</td></tr>
+<tr><td class="an">医療ＤＸ推進体制整備加算６（初診）</td><td class="au">8点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">マイナ保険証利用率等の要件を満たした場合の加算</td></tr>
+<tr><td class="an">医療情報取得加算（初診）</td><td class="au">1点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span></span></td><td class="ad">マイナ保険証等で診療情報を取得した初診に算定</td></tr>
+<tr><td class="an">サーベイランス強化加算（初診）</td><td class="au">1点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span></span></td><td class="ad">院内感染対策サーベイランス参加施設への加算（初診）</td></tr>
+<tr><td class="an">時間外加算（初診）</td><td class="au">85点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">標榜診療時間外（深夜・早朝を除く）の初診に算定</td></tr>
+<tr><td class="an">深夜加算（初診）</td><td class="au">480点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">深夜22時〜翌6時の初診に算定</td></tr>
+</tbody></table></div></div>
+
+<div class="all-cat">
+  <div class="all-cat-head" style="border-left-color:#0d9488">
+    <span class="all-cat-name" style="color:#0d9488">再診</span>
+    <span class="all-cat-count">11件</span>
+  </div>
+  <div class="all-tbl-wrap"><table class="all-tbl">
+    <thead><tr><th>加算名</th><th>点数</th><th>頻度</th><th>算定タイミング・概要</th></tr></thead>
+    <tbody><tr><td class="an">外来感染対策向上加算（再診）</td><td class="au">6点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span></span></td><td class="ad">感染対策向上のための施設基準届出加算。再診のたびに算定</td></tr>
+<tr><td class="an">時間外対応加算３</td><td class="au">3点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span></span></td><td class="ad">診療時間外の電話対応体制への加算。再診患者に毎回算定</td></tr>
+<tr><td class="an">連携強化加算（再診）</td><td class="au">3点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span></span></td><td class="ad">感染症対応機関との連携体制を持つ施設への加算</td></tr>
+<tr><td class="an">明細書発行体制等加算</td><td class="au">1点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span></span></td><td class="ad">詳細な診療明細書を無償発行している体制への加算</td></tr>
+<tr><td class="an">休日加算（再診）（入院外）</td><td class="au">190点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">日曜・祝日・年末年始の再診に算定</td></tr>
+<tr><td class="an">サーベイランス強化加算（再診）</td><td class="au">1点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span></span></td><td class="ad">院内感染対策サーベイランス参加施設への加算</td></tr>
+<tr><td class="an">発熱患者等対応加算（再診）</td><td class="au">20点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">感染症疑いの発熱患者等への対応に対する加算</td></tr>
+<tr><td class="an">医療情報取得加算（再診）</td><td class="au">1点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span></span></td><td class="ad">マイナ保険証等で診療情報を取得した場合の加算</td></tr>
+<tr><td class="an">深夜加算（再診）（入院外）</td><td class="au">420点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">深夜22時〜翌6時の再診に算定</td></tr>
+<tr><td class="an">認知症地域包括診療加算１</td><td class="au">38点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">認知症を含む複数疾患患者への継続的なかかりつけ医管理</td></tr>
+<tr><td class="an">時間外加算（再診）（入院外）</td><td class="au">65点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">標榜診療時間外（深夜・早朝を除く）の再診に算定</td></tr>
+</tbody></table></div></div>
+
+<div class="all-cat">
+  <div class="all-cat-head" style="border-left-color:#d97706">
+    <span class="all-cat-name" style="color:#d97706">投薬</span>
+    <span class="all-cat-count">3件</span>
+  </div>
+  <div class="all-tbl-wrap"><table class="all-tbl">
+    <thead><tr><th>加算名</th><th>点数</th><th>頻度</th><th>算定タイミング・概要</th></tr></thead>
+    <tbody><tr><td class="an">一般名処方加算１（処方箋料）</td><td class="au">10点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">後発品のある薬を一般名で処方した場合の加算（全品一般名）</td></tr>
+<tr><td class="an">特定疾患処方管理加算（処方箋料）</td><td class="au">56点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">高血圧・糖尿病等の特定疾患の処方に対し処方箋料へ加算（院外処方）</td></tr>
+<tr><td class="an">一般名処方加算２（処方箋料）</td><td class="au">8点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">後発品のある薬を一般名で処方した場合の加算（一部一般名）</td></tr>
+</tbody></table></div></div>
+
+<div class="all-cat">
+  <div class="all-cat-head" style="border-left-color:#7c3aed">
+    <span class="all-cat-name" style="color:#7c3aed">医学管理</span>
+    <span class="all-cat-count">19件</span>
+  </div>
+  <div class="all-tbl-wrap"><table class="all-tbl">
+    <thead><tr><th>加算名</th><th>点数</th><th>頻度</th><th>算定タイミング・概要</th></tr></thead>
+    <tbody><tr><td class="an">機能強化加算（初診）（小児科外来診療料）</td><td class="au">80点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">小児科外来診療料算定時のかかりつけ医機能加算（初診）</td></tr>
+<tr><td class="an">手帳記載加算（薬剤情報提供料）</td><td class="au">3点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span></span></td><td class="ad">薬剤情報をお薬手帳に記載・提供した場合の加算</td></tr>
+<tr><td class="an">小児抗菌薬適正使用支援加算（小児科外来診療料）</td><td class="au">80点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">小児に抗菌薬を処方しなかった際の適正使用支援加算</td></tr>
+<tr><td class="an">乳幼児休日加算（小児科初診）（小児科外来診療料）</td><td class="au">250点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">休日の乳幼児初診への加算（小児科外来診療料）</td></tr>
+<tr><td class="an">乳幼児夜間加算（小児科初診）（小児科外来診療料）</td><td class="au">85点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">夜間の乳幼児初診への加算（小児科外来診療料）</td></tr>
+<tr><td class="an">発熱患者等対応加算（医学管理等）</td><td class="au">20点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">感染症疑いの発熱患者等への対応加算（医学管理等）</td></tr>
+<tr><td class="an">乳幼児夜間加算（小児科再診）（小児科外来診療料）</td><td class="au">65点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">夜間の乳幼児再診への加算（小児科外来診療料）</td></tr>
+<tr><td class="an">医療ＤＸ推進体制整備加算５（医学管理等）</td><td class="au">9点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">DX体制整備への加算（医学管理等算定時）</td></tr>
+<tr><td class="an">外来感染対策向上加算（医学管理等）</td><td class="au">6点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">感染対策向上加算（医学管理等算定時）</td></tr>
+<tr><td class="an">乳幼児休日加算（小児科再診）（小児科外来診療料）</td><td class="au">190点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">休日の乳幼児再診への加算（小児科外来診療料）</td></tr>
+<tr><td class="an">連携強化加算（医学管理等）</td><td class="au">3点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">感染症対応機関との連携加算（医学管理等算定時）</td></tr>
+<tr><td class="an">医療ＤＸ推進体制整備加算６（医学管理等）</td><td class="au">8点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">DX体制整備加算（医学管理等・マイナ保険証利用率要件あり）</td></tr>
+<tr><td class="an">腫瘍マーカー検査初回月加算</td><td class="au">150点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">腫瘍マーカー検査を初めて行う月に算定できる加算</td></tr>
+<tr><td class="an">サーベイランス強化加算（医学管理等）</td><td class="au">1点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">院内感染対策サーベイランス参加施設への加算（医学管理等）</td></tr>
+<tr><td class="an">医療情報取得加算（初診）（医学管理等）</td><td class="au">1点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">マイナ保険証等で診療情報を取得した初診（医学管理等）</td></tr>
+<tr><td class="an">乳幼児時間外加算（初診）（小児科外来診療料）</td><td class="au">85点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">時間外の乳幼児初診への加算（小児科外来診療料）</td></tr>
+<tr><td class="an">乳幼児時間外加算（再診）（小児科外来診療料）</td><td class="au">65点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">時間外の乳幼児再診への加算（小児科外来診療料）</td></tr>
+<tr><td class="an">認知症専門医療機関紹介加算</td><td class="au">100点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">認知症の精査・治療のため専門医療機関に紹介した場合に算定</td></tr>
+<tr><td class="an">医療情報取得加算（再診）（医学管理等）</td><td class="au">1点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">マイナ保険証等で情報取得した再診（医学管理等算定時）</td></tr>
+</tbody></table></div></div>
+
+<div class="all-cat">
+  <div class="all-cat-head" style="border-left-color:#16a34a">
+    <span class="all-cat-name" style="color:#16a34a">在宅</span>
+    <span class="all-cat-count">34件</span>
+  </div>
+  <div class="all-tbl-wrap"><table class="all-tbl">
+    <thead><tr><th>加算名</th><th>点数</th><th>頻度</th><th>算定タイミング・概要</th></tr></thead>
+    <tbody><tr><td class="an">血糖自己測定器加算（６０回以上）（１型糖尿病の患者等を除く）</td><td class="au">830点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">在宅自己注射患者が月60回以上血糖測定する場合に加算</td></tr>
+<tr><td class="an">酸素ボンベ加算（携帯用酸素ボンベ）</td><td class="au">880点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">HOT患者が携帯用酸素ボンベを使用する場合に月1回加算</td></tr>
+<tr><td class="an">血糖自己測定器加算（１２０回以上）（１型糖尿病・小児低血糖症等）</td><td class="au">1，490点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">1型糖尿病等で月120回以上血糖測定する場合に加算</td></tr>
+<tr><td class="an">在宅持続陽圧呼吸療法材料加算</td><td class="au">100点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">CPAP用マスク・チューブ等の材料に対する月1回加算</td></tr>
+<tr><td class="an">注入器用注射針加算（その他）</td><td class="au">130点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">在宅自己注射患者へのペン針等に対する月1回加算</td></tr>
+<tr><td class="an">在宅療養実績加算１（在医総管）（１人）</td><td class="au">300点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">在宅医療の実績要件を満たした診療所の在宅患者管理料への加算</td></tr>
+<tr><td class="an">在宅ターミナルケア加算（イ）（在支診等）</td><td class="au">4，500点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">在宅で看取りを行った場合に算定する高点数加算</td></tr>
+<tr><td class="an">在宅療養実績加算１（在がん医総）</td><td class="au">110点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">在宅がん医療総合診療料への実績加算</td></tr>
+<tr><td class="an">休日往診加算（在支診等）</td><td class="au">1，300点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">休日に往診を行った場合の加算</td></tr>
+<tr><td class="an">血糖自己測定器加算（９０回以上）（１型糖尿病・小児低血糖症等）</td><td class="au">1，170点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">1型糖尿病等で月90回以上血糖測定する場合に加算</td></tr>
+<tr><td class="an">包括的支援加算（在医総管・施医総管）</td><td class="au">150点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">医療・介護・障害等の多職種連携をしている場合の加算</td></tr>
+<tr><td class="an">注入器用注射針加算（１型糖尿病、血友病患者又はこれに準ずる患者）</td><td class="au">200点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">1型糖尿病・血友病患者へのペン針等に対する月1回加算</td></tr>
+<tr><td class="an">看取り加算（在宅患者訪問診療料（１）１・（２）イ・往診料）</td><td class="au">3，000点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">在宅で患者を看取った場合に算定</td></tr>
+<tr><td class="an">呼吸同調式デマンドバルブ加算</td><td class="au">291点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">HOT患者が呼吸同調式デマンドバルブを使用する場合に加算</td></tr>
+<tr><td class="an">夜間往診加算（在支診等）</td><td class="au">1，300点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">夜間（18〜22時）に往診を行った場合の加算</td></tr>
+<tr><td class="an">深夜往診加算（在支診等）</td><td class="au">2，300点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">深夜（22時〜翌6時）に往診を行った場合の加算</td></tr>
+<tr><td class="an">在宅療養実績加算１（施医総管）（１０人〜１９人）</td><td class="au">56点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">10〜19人の在宅患者を管理している場合の加算</td></tr>
+<tr><td class="an">在宅酸素療法材料加算（その他）</td><td class="au">100点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">HOT用の加湿器等の材料に対する月1回加算</td></tr>
+<tr><td class="an">緊急往診加算（在支診等）</td><td class="au">650点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">緊急で往診を行った場合の加算</td></tr>
+<tr><td class="an">在宅療養実績加算１（在宅患者訪問診療料（１）１）</td><td class="au">750点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">在宅患者訪問診療料への実績加算</td></tr>
+<tr><td class="an">在宅療養実績加算１（往診料）</td><td class="au">75点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">往診料への実績加算</td></tr>
+<tr><td class="an">導入初期加算（在宅自己注射指導管理料）</td><td class="au">580点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">在宅自己注射を初めて導入した月から3ヶ月間の加算</td></tr>
+<tr><td class="an">在宅医療ＤＸ情報活用加算２（在宅患者訪問診療料（１）（２））</td><td class="au">9点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">在宅訪問診療でのDX情報活用への加算</td></tr>
+<tr><td class="an">在宅移行早期加算（在医総管・施医総管）</td><td class="au">100点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">入院から在宅へ移行した早期（3か月以内）の加算</td></tr>
+<tr><td class="an">外来感染対策向上加算（在宅医療）</td><td class="au">6点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">感染対策向上のための施設基準届出加算（在宅医療）</td></tr>
+<tr><td class="an">処方箋無交付加算（在医総管・施医総管）</td><td class="au">300点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">在宅患者への処方を処方箋なしで行った場合の加算</td></tr>
+<tr><td class="an">在宅療養実績加算１（施医総管）（２〜９人）</td><td class="au">110点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">2〜9人の在宅患者を管理している場合の加算</td></tr>
+<tr><td class="an">血糖自己測定器加算（６０回以上）（１型糖尿病・小児低血糖症等）</td><td class="au">830点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">1型糖尿病等で月60回以上血糖測定する場合に加算</td></tr>
+<tr><td class="an">血糖自己測定器加算（４０回以上）（１型糖尿病の患者等を除く）</td><td class="au">580点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">在宅自己注射患者が月40回以上血糖測定する場合に加算</td></tr>
+<tr><td class="an">連携強化加算（在宅医療）</td><td class="au">3点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">感染症対応機関との連携体制（在宅医療）への加算</td></tr>
+<tr><td class="an">サーベイランス強化加算（在宅医療）</td><td class="au">1点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">院内感染対策サーベイランス参加施設への加算（在宅）</td></tr>
+<tr><td class="an">バイオ後続品導入初期加算（在宅自己注射指導管理料）</td><td class="au">150点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">バイオ後続品（バイオシミラー）を初めて使用した月の加算</td></tr>
+<tr><td class="an">発熱患者等対応加算（在宅医療）</td><td class="au">20点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">感染症疑いの在宅患者への対応加算</td></tr>
+<tr><td class="an">在宅医療ＤＸ情報活用加算２（在宅がん医療総合診療料）</td><td class="au">9点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">在宅がん医療でのDX情報活用への加算</td></tr>
+</tbody></table></div></div>
+
+<div class="all-cat">
+  <div class="all-cat-head" style="border-left-color:#0891b2">
+    <span class="all-cat-name" style="color:#0891b2">検査</span>
+    <span class="all-cat-count">2件</span>
+  </div>
+  <div class="all-tbl-wrap"><table class="all-tbl">
+    <thead><tr><th>加算名</th><th>点数</th><th>頻度</th><th>算定タイミング・概要</th></tr></thead>
+    <tbody><tr><td class="an">時間外緊急院内検査加算</td><td class="au">200点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">時間外・休日・深夜に緊急で院内検査を実施した場合に算定</td></tr>
+<tr><td class="an">外来迅速検体検査加算</td><td class="au">10点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star off">★</span></span></td><td class="ad">採血後当日中に結果を説明・処方した場合に算定（最大5項目）</td></tr>
+</tbody></table></div></div>
+
+<div class="all-cat">
+  <div class="all-cat-head" style="border-left-color:#4f46e5">
+    <span class="all-cat-name" style="color:#4f46e5">画像</span>
+    <span class="all-cat-count">1件</span>
+  </div>
+  <div class="all-tbl-wrap"><table class="all-tbl">
+    <thead><tr><th>加算名</th><th>点数</th><th>頻度</th><th>算定タイミング・概要</th></tr></thead>
+    <tbody><tr><td class="an">時間外緊急院内画像診断加算</td><td class="au">110点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">時間外・休日・深夜に緊急で院内画像診断を行った場合に算定</td></tr>
+</tbody></table></div></div>
+
+<div class="all-cat">
+  <div class="all-cat-head" style="border-left-color:#64748b">
+    <span class="all-cat-name" style="color:#64748b">処置</span>
+    <span class="all-cat-count">1件</span>
+  </div>
+  <div class="all-tbl-wrap"><table class="all-tbl">
+    <thead><tr><th>加算名</th><th>点数</th><th>頻度</th><th>算定タイミング・概要</th></tr></thead>
+    <tbody><tr><td class="an">胸部固定帯加算</td><td class="au">170点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">肋骨骨折等で胸部固定帯を使用した場合の加算</td></tr>
+</tbody></table></div></div>
+
+<div class="all-cat">
+  <div class="all-cat-head" style="border-left-color:#dc2626">
+    <span class="all-cat-name" style="color:#dc2626">手術</span>
+    <span class="all-cat-count">2件</span>
+  </div>
+  <div class="all-tbl-wrap"><table class="all-tbl">
+    <thead><tr><th>加算名</th><th>点数</th><th>頻度</th><th>算定タイミング・概要</th></tr></thead>
+    <tbody><tr><td class="an">休日加算２（手術）</td><td class="au">0.8</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">休日に手術を行った場合の加算（所定点数×0.8）</td></tr>
+<tr><td class="an">デブリードマン加算（汚染された挫創）</td><td class="au">100点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">汚染された創傷のデブリードマン（洗浄・壊死組織除去）に加算</td></tr>
+</tbody></table></div></div>
+
+<div class="all-cat">
+  <div class="all-cat-head" style="border-left-color:#9333ea">
+    <span class="all-cat-name" style="color:#9333ea">注射</span>
+    <span class="all-cat-count">1件</span>
+  </div>
+  <div class="all-tbl-wrap"><table class="all-tbl">
+    <thead><tr><th>加算名</th><th>点数</th><th>頻度</th><th>算定タイミング・概要</th></tr></thead>
+    <tbody><tr><td class="an">生物学的製剤注射加算</td><td class="au">15点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">生物学的製剤（インターフェロン等）を注射した場合の加算</td></tr>
+</tbody></table></div></div>
+
+<div class="all-cat">
+  <div class="all-cat-head" style="border-left-color:#92400e">
+    <span class="all-cat-name" style="color:#92400e">病理診断・その他</span>
+    <span class="all-cat-count">1件</span>
+  </div>
+  <div class="all-tbl-wrap"><table class="all-tbl">
+    <thead><tr><th>加算名</th><th>点数</th><th>頻度</th><th>算定タイミング・概要</th></tr></thead>
+    <tbody><tr><td class="an">４種類以上抗体使用加算</td><td class="au">1，200点</td><td class="as"><span class="stars"><span class="star on">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td><td class="ad">病理免疫染色で4種類以上の抗体を使用した場合の加算</td></tr>
+</tbody></table></div></div>
+
+</section>
+
+<!-- ⑥ 注意点 -->
+<section id="s6" class="sec-block">
   <div class="sec-label" style="border-color:var(--red)">
-    <span class="sec-num" style="color:var(--red)">⑤</span>
+    <span class="sec-num" style="color:var(--red)">⑥</span>
     <span class="sec-ttl">算定時の注意点・よくある間違い</span>
   </div>
   <div class="warn-box">
@@ -619,10 +849,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
   </div>
 </section>
 
-<!-- ⑥ 確認問題 -->
-<section id="s6" class="sec-block">
+<!-- ⑦ 確認問題 -->
+<section id="s7" class="sec-block">
   <div class="sec-label" style="border-color:var(--green)">
-    <span class="sec-num" style="color:var(--green)">⑥</span>
+    <span class="sec-num" style="color:var(--green)">⑦</span>
     <span class="sec-ttl">確認問題</span>
   </div>
   <div class="quiz-box">
