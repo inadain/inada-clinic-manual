@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第1回 当法人の事業所と役割 | 当法人特有シリーズ</title>
+<style>
+:root{
+  --blue:#1558a0;--blue-m:#1e74c8;--blue-lt:#dbeafe;--blue-xl:#eff6ff;
+  --teal:#0d9488;--teal-lt:#f0fdfa;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --gray:#64748b;--gray-lt:#f1f5f9;--gray-m:#e2e8f0;
+  --text:#0f172a;--sub:#475569;--bg:#f0f4f8;--white:#fff;
+  --r:12px;--r-sm:8px;--sidebar:220px;--hdr:56px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;font-size:14px;color:var(--text);background:var(--bg);line-height:1.7;}
+
+/* ヘッダー */
+header{
+  position:sticky;top:0;z-index:100;
+  background:linear-gradient(135deg,#0d9488,#1558a0);
+  height:var(--hdr);display:flex;align-items:center;padding:0 20px;gap:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+header a.back{
+  color:#fff;text-decoration:none;font-size:13px;opacity:.85;
+  display:flex;align-items:center;gap:4px;white-space:nowrap;
+}
+header a.back:hover{opacity:1;}
+header .series-name{
+  color:#fff;font-size:15px;font-weight:700;
+  border-left:2px solid rgba(255,255,255,.4);padding-left:16px;
+}
+
+/* レイアウト */
+.layout{display:flex;min-height:calc(100vh - var(--hdr));}
+
+/* サイドバー */
+nav.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--white);border-right:1px solid var(--gray-m);
+  padding:20px 0;position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));
+  overflow-y:auto;
+}
+nav.sidebar .nav-label{
+  font-size:11px;font-weight:700;color:var(--gray);letter-spacing:.05em;
+  padding:0 16px 8px;text-transform:uppercase;
+}
+nav.sidebar ul{list-style:none;}
+nav.sidebar ul li a{
+  display:block;padding:9px 16px;font-size:13px;color:var(--sub);
+  text-decoration:none;border-left:3px solid transparent;
+  transition:all .15s;line-height:1.4;
+}
+nav.sidebar ul li a:hover{background:var(--blue-xl);color:var(--blue);}
+nav.sidebar ul li a.active{
+  background:var(--blue-xl);color:var(--blue);
+  border-left-color:var(--blue);font-weight:700;
+}
+nav.sidebar ul li .ep-num{font-size:11px;color:var(--gray);display:block;margin-bottom:1px;}
+
+/* メインコンテンツ */
+main{flex:1;padding:32px 24px;min-width:0;}
+.content-inner{max-width:700px;margin:0 auto;}
+
+/* ページヘッド */
+.page-head{margin-bottom:32px;}
+.page-head .series-badge{
+  display:inline-block;background:var(--teal);color:#fff;
+  font-size:11px;font-weight:700;border-radius:4px;padding:2px 10px;margin-bottom:10px;
+  letter-spacing:.03em;
+}
+.page-head h1{font-size:22px;font-weight:800;color:var(--text);line-height:1.3;}
+.page-head .meta{margin-top:8px;font-size:13px;color:var(--sub);}
+
+/* セクションブロック */
+.sec-block{margin-bottom:36px;scroll-margin-top:calc(var(--hdr) + 44px);}
+h2.sec-title{
+  font-size:18px;font-weight:800;color:var(--blue);
+  border-left:4px solid var(--blue);padding-left:12px;margin-bottom:16px;
+}
+.lead{font-size:14px;color:var(--sub);margin-bottom:16px;line-height:1.8;}
+
+/* カード */
+.card{
+  background:var(--white);border-radius:var(--r);
+  border:1px solid var(--gray-m);padding:16px 20px;margin-bottom:12px;
+}
+.card-title{font-size:14px;font-weight:800;margin-bottom:6px;color:var(--text);}
+.card p{font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:4px;}
+.card ul{padding-left:18px;margin-top:6px;}
+.card ul li{font-size:13px;color:var(--sub);line-height:1.7;}
+
+/* ポイントボックス・警告ボックス */
+.point-box{
+  background:var(--blue-xl);border-left:4px solid var(--blue);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;
+}
+.point-box p{font-size:13px;color:var(--text);line-height:1.7;}
+.warn-box{
+  background:var(--amber-lt);border-left:4px solid var(--amber);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;
+}
+.warn-box p{font-size:13px;color:#92400e;line-height:1.7;}
+
+/* テーブル */
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
+th{background:var(--blue);color:#fff;padding:8px 12px;font-size:13px;text-align:left;}
+td{padding:8px 12px;border:1px solid var(--gray-m);}
+tr:nth-child(even) td{background:var(--gray-lt);}
+.table-label{
+  font-size:12px;font-weight:700;color:var(--gray);
+  margin:20px 0 6px;letter-spacing:.03em;
+}
+
+/* 要確認スパン */
+.fill-in{
+  background:#fef9c3;border:1px dashed #d97706;
+  border-radius:4px;padding:1px 6px;font-size:.9em;color:#92400e;
+}
+
+/* まとめリスト */
+.summary-list{list-style:none;padding:0;}
+.summary-list li{
+  padding:10px 14px 10px 40px;position:relative;
+  border-bottom:1px solid var(--gray-m);font-size:14px;line-height:1.7;
+}
+.summary-list li:last-child{border-bottom:none;}
+.summary-list li::before{
+  content:"✔";position:absolute;left:14px;top:10px;
+  color:var(--teal);font-weight:700;
+}
+
+/* ハンバーガー（スマホ用） */
+.ham-btn{
+  display:none;position:fixed;bottom:20px;right:20px;z-index:200;
+  background:var(--blue);color:#fff;border:none;border-radius:50%;
+  width:48px;height:48px;font-size:20px;cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.3);
+}
+.sidebar-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:150;
+}
+
+/* レスポンシブ */
+@media(max-width:640px){
+  nav.sidebar{
+    position:fixed;left:-240px;top:0;height:100vh;z-index:160;
+    width:240px;transition:left .25s;padding-top:calc(var(--hdr) + 12px);
+  }
+  nav.sidebar.open{left:0;}
+  .sidebar-overlay.open{display:block;}
+  .ham-btn{display:flex;align-items:center;justify-content:center;}
+  main{padding:20px 16px;}
+  h2.sec-title{font-size:16px;}
+  .page-head h1{font-size:18px;}
+  table{font-size:12px;}
+  th,td{padding:6px 8px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header>
+  <a class="back" href="../index.html">◀ 勉強資料 TOP</a>
+  <span class="series-name">当法人特有シリーズ</span>
+</header>
+
+<!-- サイドバーオーバーレイ -->
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- レイアウト -->
+<div class="layout">
+
+  <!-- サイドバー -->
+  <nav class="sidebar" id="sidebar">
+    <div class="nav-label">当法人特有シリーズ</div>
+    <ul>
+      <li>
+        <a href="01_当法人の事業所と役割.html" class="active">
+          <span class="ep-num">第1回</span>当法人の事業所と役割
+        </a>
+      </li>
+      <li>
+        <a href="02_介護保険の基礎.html">
+          <span class="ep-num">第2回</span>介護保険の基礎
+        </a>
+      </li>
+      <li>
+        <a href="03_訪問診療と往診の違い.html">
+          <span class="ep-num">第3回</span>訪問診療と往診の違い
+        </a>
+      </li>
+      <li>
+        <a href="04_訪問看護の仕組み.html">
+          <span class="ep-num">第4回</span>訪問看護の仕組み
+        </a>
+      </li>
+      <li>
+        <a href="05_医療と介護の連携実務.html">
+          <span class="ep-num">第5回</span>医療と介護の連携実務
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- メインコンテンツ -->
+  <main>
+    <div class="content-inner">
+
+      <!-- ページヘッド -->
+      <div class="page-head">
+        <div class="series-badge">当法人特有シリーズ</div>
+        <h1>第1回 当法人の事業所と役割</h1>
+        <div class="meta">医療と介護の両方を運営する当法人の全体像を把握しよう</div>
+      </div>
+
+      <!-- セクション1 -->
+      <div class="sec-block" id="s1">
+        <h2 class="sec-title">1. なぜ知っておく必要があるか</h2>
+        <p class="lead">
+          当法人は医院（いなだ医院）と複数の介護事業所をひとつの法人として運営しています。医療事務スタッフの主な業務は外来の受付・会計・レセプト請求ですが、患者さん・利用者さんは必ずしも外来だけを利用しているわけではありません。サービス付き高齢者向け住宅に入居しながら外来に通っている方、デイサービスを利用しながら訪問診療も受けている方など、複数のサービスを組み合わせて利用するケースが日常的に発生します。
+        </p>
+        <div class="point-box">
+          <p><strong>なぜ医療事務が知る必要があるのか</strong><br>
+          各事業所の役割を理解していないと、電話対応や書類依頼への対応で戸惑う場面が生まれます。「ケアマネから電話が来たが何を聞けばよいかわからない」「施設の方が受診された際に保険証が2枚ある理由がわからない」といった疑問に答えられるようになるために、法人全体の事業所像を把握しておきましょう。</p>
+        </div>
+        <p class="lead">
+          また、患者さんから「施設への送り迎えはどうなっているの？」「ケアマネさんに情報を伝えてほしい」などの相談を受けることもあります。適切な窓口へ案内するためにも、各事業所の機能と連絡先を知っておくことが大切です。
+        </p>
+      </div>
+
+      <!-- セクション2 -->
+      <div class="sec-block" id="s2">
+        <h2 class="sec-title">2. 事業所の全体像</h2>
+        <p class="lead">
+          当法人が運営する事業所は、大きく「医療系」と「介護系」に分類できます。それぞれの根拠法・対象・役割を整理しておきましょう。
+        </p>
+
+        <div class="table-label">▌ 医療系事業所</div>
+        <table>
+          <thead>
+            <tr>
+              <th>事業所</th>
+              <th>主なサービス</th>
+              <th>根拠法</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>いなだ医院（外来）</strong></td>
+              <td>一般外来診療・各種検査・処方</td>
+              <td>医療法</td>
+            </tr>
+            <tr>
+              <td><strong>訪問診療</strong></td>
+              <td>計画的な在宅医療（定期訪問）</td>
+              <td>医療法</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="table-label">▌ 介護系事業所</div>
+        <table>
+          <thead>
+            <tr>
+              <th>事業所</th>
+              <th>主なサービス</th>
+              <th>対象</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>サービス付き高齢者向け住宅<br>（サ高住）</strong></td>
+              <td>安否確認・生活相談・居住の提供</td>
+              <td>自立〜要介護</td>
+            </tr>
+            <tr>
+              <td><strong>小規模多機能型居宅介護<br>（小多機）</strong></td>
+              <td>通い・泊まり・訪問を一体的に提供</td>
+              <td>要支援1〜要介護5</td>
+            </tr>
+            <tr>
+              <td><strong>通所介護<br>（デイサービス）</strong></td>
+              <td>日帰りでの介護・機能訓練・入浴</td>
+              <td>要介護1〜5</td>
+            </tr>
+            <tr>
+              <td><strong>訪問介護</strong></td>
+              <td>自宅での生活援助・身体介護</td>
+              <td>要支援1〜要介護5</td>
+            </tr>
+            <tr>
+              <td><strong>居宅介護支援<br>（居宅支援）</strong></td>
+              <td>ケアプラン作成・サービス調整</td>
+              <td>要支援1〜要介護5</td>
+            </tr>
+            <tr>
+              <td><strong>訪問看護</strong></td>
+              <td>看護師・リハビリ職による在宅ケア</td>
+              <td>医療・介護両保険対応</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warn-box">
+          <p>⚠ <strong>注意：</strong>事業所ごとに保険の種類（医療保険／介護保険）・請求先・担当者が異なります。「当法人の事業所だから同じ仕組み」ではなく、それぞれ別の制度で動いていることを意識してください。</p>
+        </div>
+      </div>
+
+      <!-- セクション3 -->
+      <div class="sec-block" id="s3">
+        <h2 class="sec-title">3. 各事業所と医療事務の接点</h2>
+        <p class="lead">
+          医療事務スタッフが直接関わることが多い場面を事業所別に整理します。「自分には関係ない」と感じるかもしれませんが、電話対応や書類依頼など意外なところで接点が生まれます。
+        </p>
+
+        <div class="card">
+          <div class="card-title">🏠 サ高住入居者が外来受診</div>
+          <p>受付・診察・会計の基本的な流れは一般患者と同じです。ただし、サ高住スタッフ（生活相談員・介護職員）から「今日の受診結果を教えてほしい」と連絡が来ることがあります。情報提供の際は、患者本人の同意確認・情報連絡票の有無を確認しましょう。</p>
+          <div class="point-box">
+            <p>保険証はサ高住入居者でも個人が管理しています。施設スタッフが「預かっています」と持参することもあるため、本人確認とセットで対応しましょう。</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">🚌 小多機・デイサービスの利用者が外来受診</div>
+          <p>デイサービスや小多機を利用している日に外来受診をするケースでは、<strong>送迎との時間調整</strong>が必要になる場合があります。患者さんから「デイの送迎が来るまでに終わりますか？」と聞かれたら、診察の待ち時間の目安を伝えつつ、必要に応じて各事業所へ連絡します。</p>
+          <p style="margin-top:8px;">連絡先・調整手順：<span class="fill-in">【要確認：小多機・デイサービスへの送迎調整連絡先と手順】</span></p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📋 訪問診療の事務処理</div>
+          <p>訪問診療のレセプト請求は外来とは仕組みが大きく異なります（診療報酬の区分・請求様式・訪問先の記録など）。詳細は後続の回で解説しますが、「訪問診療の請求について教えてほしい」と患者家族から問い合わせがあった場合は、担当者へ引き継ぐことが基本です。</p>
+          <p style="margin-top:8px;">訪問診療の担当事務：<span class="fill-in">【要確認：訪問診療事務担当者名・内線番号】</span></p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📞 居宅介護支援（居宅支援）のケアマネからの連絡</div>
+          <p>居宅支援のケアマネジャーからは、主に以下の書類依頼の電話が来ます。これらは医師が作成するもので、医療事務が直接書くわけではありませんが、受け取り・受付の窓口になることがあります。</p>
+          <ul>
+            <li><strong>主治医意見書</strong>：介護保険の要介護認定に必要。市区町村・ケアマネからの依頼</li>
+            <li><strong>診療情報提供書（ケアマネ宛）</strong>：医療情報をサービス提供者と共有するための書類</li>
+            <li><strong>居宅療養管理指導の指示書</strong>：訪問看護などを指示する際に必要</li>
+          </ul>
+          <p style="margin-top:8px;">書類依頼受付の記録方法：<span class="fill-in">【要確認：書類依頼票の様式・保管場所】</span></p>
+        </div>
+      </div>
+
+      <!-- セクション4 -->
+      <div class="sec-block" id="s4">
+        <h2 class="sec-title">4. 日常でよくある連携場面</h2>
+        <p class="lead">
+          実際に窓口で発生しやすい場面を具体的にイメージしておきましょう。
+        </p>
+
+        <div class="card">
+          <div class="card-title">場面① 「施設の方が外来受診された」</div>
+          <p>受付時に「サービス付き高齢者向け住宅に入居中です」と告げられた場合、保険証の種類（健康保険証＋介護保険証を持参していることが多い）を確認します。外来診療は<strong>医療保険で請求</strong>するため、健康保険証を優先して確認してください。</p>
+          <p style="margin-top:6px;">終了後にサ高住スタッフへ連絡が必要かどうかは、患者さん本人に確認しましょう。同意なく第三者（施設スタッフ含む）への情報提供は行わないことが原則です。</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">場面② 「ケアマネから書類依頼の電話が来た」</div>
+          <p>「主治医意見書をお願いしたい」という電話は、市区町村またはケアマネから直接来ることがあります。以下の情報を確認・メモして担当者へ引き継ぎましょう。</p>
+          <ul>
+            <li>患者氏名・生年月日</li>
+            <li>依頼内容（主治医意見書／情報提供書 など）</li>
+            <li>依頼元（市区町村名／ケアマネ名・事業所名）</li>
+            <li>提出期限・提出先</li>
+            <li>折り返し連絡先</li>
+          </ul>
+          <p style="margin-top:6px;">書類依頼受付フォーム・引き継ぎ先：<span class="fill-in">【要確認：書類依頼の受付フロー・引き継ぎ先担当者】</span></p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">場面③ 「往診の請求について聞かれた」</div>
+          <p>患者家族から「先生が家に来てくれたけど、費用はどうなるの？」という問い合わせは少なくありません。往診（急きょ依頼したもの）と訪問診療（定期的に計画したもの）では費用の仕組みが異なります。概要は第3回「訪問診療と往診の違い」で学びますが、詳細な費用については<span class="fill-in">【要確認：訪問診療担当者への引き継ぎ基準】</span>で担当者へ案内するようにしましょう。</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">場面④ 「保険証が2枚ある（医療保険＋介護保険証）」</div>
+          <p>65歳以上の患者さんは<strong>医療保険証と介護保険被保険者証の2枚</strong>を持っています。外来受診の際は<strong>医療保険証を使用</strong>します。介護保険証は外来では原則使用しませんが、提示された場合は「こちらは介護サービスの際に使うものですね」と丁寧に説明して返却しましょう。</p>
+          <div class="warn-box">
+            <p>⚠ 介護保険証を医療受付で預かったままにしないよう注意。重要な個人情報であり、紛失トラブルに繋がります。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- セクション5 -->
+      <div class="sec-block" id="s5">
+        <h2 class="sec-title">5. まとめ</h2>
+        <ul class="summary-list">
+          <li>当法人は外来（いなだ医院）・訪問診療を中心に、サ高住・小多機・デイサービス・訪問介護・居宅支援・訪問看護など複数の事業所を運営している。医療事務スタッフはそれぞれの役割を把握しておくことで、患者・利用者を適切な窓口へ案内できる。</li>
+          <li>外来を受診する患者さんが複数の介護サービスを同時利用していることは日常的。保険証が2枚（医療保険証＋介護保険被保険者証）ある場合は外来では医療保険証を使用する。</li>
+          <li>ケアマネ・施設スタッフからの書類依頼や情報照会の連絡を受けた際は、必要な情報をメモして適切な担当者へ引き継ぐことが基本。患者本人の同意なく情報を第三者へ提供しないことも意識する。</li>
+        </ul>
+      </div>
+
+    </div><!-- /.content-inner -->
+  </main>
+</div><!-- /.layout -->
+
+<!-- ハンバーガーボタン（スマホ用） -->
+<button class="ham-btn" id="hamBtn" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+</script>
+</body>
+</html>

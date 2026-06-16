@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="当法人特有 第5回">
+<title>第5回 医療と介護の連携実務 | 当法人特有シリーズ</title>
+<style>
+:root{
+  --blue:#1558a0;--blue-m:#1e74c8;--blue-lt:#dbeafe;--blue-xl:#eff6ff;
+  --teal:#0d9488;--teal-lt:#f0fdfa;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --gray:#64748b;--gray-lt:#f1f5f9;--gray-m:#e2e8f0;
+  --text:#0f172a;--sub:#475569;--bg:#f0f4f8;--white:#fff;
+  --r:12px;--r-sm:8px;--sidebar:220px;--hdr:56px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  font-size:15px;line-height:1.7;color:var(--text);background:var(--bg)}
+
+/* ヘッダー */
+.site-header{position:sticky;top:0;z-index:200;height:var(--hdr);
+  background:linear-gradient(135deg,#0d9488,#1558a0);
+  display:flex;align-items:center;padding:0 16px;gap:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.back-link{display:inline-flex;align-items:center;gap:5px;color:#fff;
+  background:rgba(255,255,255,.18);border-radius:20px;padding:5px 13px;
+  font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap}
+.back-link:hover{background:rgba(255,255,255,.28)}
+.hdr-center{flex:1;text-align:center;min-width:0}
+.hdr-badge{display:block;color:rgba(255,255,255,.8);font-size:10.5px;font-weight:700;letter-spacing:.04em}
+.hdr-title{color:#fff;font-size:14px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr-menu{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:4px 6px;display:none}
+
+/* エピソードバー */
+.ep-bar{background:var(--white);border-bottom:1px solid var(--gray-m);
+  padding:8px 16px 8px calc(var(--sidebar)+16px);
+  display:flex;align-items:center;justify-content:space-between}
+.ep-nav-btn{display:inline-flex;align-items:center;background:var(--blue-xl);
+  color:var(--blue);padding:5px 14px;border-radius:20px;
+  font-size:12.5px;font-weight:700;text-decoration:none}
+.ep-nav-btn:hover{background:var(--blue-lt)}
+.ep-dots{display:flex;gap:4px;align-items:center}
+.ep-dot{width:7px;height:7px;border-radius:50%;background:var(--gray-m)}
+.ep-dot.ep-dot-cur{background:var(--blue-m);width:18px;border-radius:4px}
+
+/* サイドバー */
+.sidebar{position:fixed;top:var(--hdr);left:0;width:var(--sidebar);
+  height:calc(100vh - var(--hdr));overflow-y:auto;
+  background:var(--white);border-right:1px solid var(--gray-m);padding:12px 0;z-index:150}
+.sidebar-ttl{font-size:11px;font-weight:800;color:var(--sub);
+  letter-spacing:.06em;padding:4px 16px 10px;text-transform:uppercase}
+.ep-item{display:flex;align-items:flex-start;gap:8px;padding:8px 14px;
+  text-decoration:none;color:var(--text);border-left:3px solid transparent;transition:background .12s}
+.ep-item:hover{background:var(--gray-lt)}
+.ep-item.ep-active{background:var(--teal-lt);border-left-color:var(--teal)}
+.ep-dot-s{flex-shrink:0;width:22px;height:22px;border-radius:50%;
+  background:var(--gray-m);display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;color:var(--sub)}
+.ep-dot-s.ep-dot-on{background:var(--teal);color:#fff}
+.ep-name{font-size:12.5px;line-height:1.4;padding-top:3px}
+.ep-item.ep-active .ep-name{font-weight:700;color:var(--teal)}
+
+/* モバイルオーバーレイ */
+.nav-ov{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.5)}
+.nav-ov.open{display:block}
+.nav-ov-panel{position:absolute;top:0;left:0;width:260px;height:100%;
+  background:var(--white);overflow-y:auto;padding:12px 0;
+  box-shadow:4px 0 16px rgba(0,0,0,.2);animation:slideIn .2s ease}
+@keyframes slideIn{from{transform:translateX(-100%)}to{transform:none}}
+.nav-ov-close{display:flex;justify-content:flex-end;padding:8px 14px}
+.nav-ov-close button{background:var(--gray-lt);border:none;border-radius:8px;
+  padding:6px 12px;font-size:14px;cursor:pointer;font-weight:700;color:var(--sub)}
+
+/* セクションナビ */
+.snav{position:sticky;top:var(--hdr);z-index:100;background:var(--white);
+  border-bottom:1px solid var(--gray-m);overflow-x:auto;white-space:nowrap;
+  padding:8px 12px 8px calc(var(--sidebar)+12px);display:flex;gap:7px;scrollbar-width:none}
+.snav::-webkit-scrollbar{display:none}
+.snav-btn{display:inline-block;background:var(--gray-lt);color:var(--sub);
+  border-radius:20px;padding:4px 13px;font-size:12.5px;font-weight:600;
+  text-decoration:none;transition:background .15s,color .15s;white-space:nowrap}
+.snav-btn:hover,.snav-btn.active{background:var(--teal);color:#fff}
+
+/* レイアウト */
+.page-body{margin-left:var(--sidebar)}
+.main{max-width:700px;margin:0 auto;padding:20px 16px 32px}
+
+/* セクション */
+.sec-block{margin-bottom:32px;scroll-margin-top:calc(var(--hdr) + 44px)}
+h2.sec-title{font-size:18px;font-weight:800;color:var(--blue);
+  border-left:4px solid var(--blue);padding-left:12px;margin-bottom:16px}
+
+/* カード */
+.card{background:var(--white);border-radius:var(--r);border:1px solid var(--gray-m);
+  padding:16px 20px;margin-bottom:12px}
+.card-title{font-size:14px;font-weight:800;margin-bottom:6px}
+
+/* ポイントボックス */
+.point-box{background:var(--blue-xl);border-left:4px solid var(--blue);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0}
+.warn-box{background:var(--amber-lt);border-left:4px solid var(--amber);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0}
+.green-box{background:var(--green-lt);border-left:4px solid var(--green);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0}
+
+/* テーブル */
+table{width:100%;border-collapse:collapse;margin:12px 0}
+th{background:var(--blue);color:#fff;padding:8px 12px;font-size:13px;text-align:left}
+td{padding:8px 12px;border:1px solid var(--gray-m);font-size:13px}
+tr:nth-child(even) td{background:var(--gray-lt)}
+
+/* fill-in */
+.fill-in{background:#fef9c3;border:1px dashed #d97706;border-radius:4px;
+  padding:1px 6px;font-size:0.9em;color:#92400e}
+
+/* 連携図 */
+.flow-diagram{display:flex;align-items:center;justify-content:center;
+  gap:0;margin:16px 0;flex-wrap:wrap}
+.flow-box{background:var(--white);border:2px solid var(--blue);border-radius:var(--r-sm);
+  padding:10px 16px;text-align:center;min-width:130px}
+.flow-box.teal{border-color:var(--teal)}
+.flow-box-title{font-size:12px;font-weight:800;color:var(--blue)}
+.flow-box.teal .flow-box-title{color:var(--teal)}
+.flow-box-sub{font-size:11px;color:var(--sub);margin-top:2px}
+.flow-arrow{font-size:22px;color:var(--gray);padding:0 6px}
+
+/* バッジ */
+.badge{display:inline-block;font-size:11px;font-weight:700;border-radius:4px;
+  padding:2px 8px;margin-right:4px}
+.badge-blue{background:var(--blue-lt);color:var(--blue)}
+.badge-teal{background:var(--teal-lt);color:var(--teal)}
+.badge-amber{background:var(--amber-lt);color:var(--amber)}
+
+/* まとめカード */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.summary-card{background:var(--white);border-radius:var(--r);border:1px solid var(--gray-m);padding:14px 16px}
+.summary-card-icon{font-size:20px;margin-bottom:6px}
+.summary-card-title{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:4px}
+.summary-card-body{font-size:12.5px;color:var(--sub);line-height:1.6}
+
+/* ページフッター */
+.page-footer{background:var(--white);border-top:1px solid var(--gray-m);
+  padding:16px;text-align:center;font-size:12px;color:var(--sub)}
+
+/* モバイル */
+@media(max-width:640px){
+  .sidebar{display:none}
+  .hdr-menu{display:block}
+  .ep-bar{padding-left:16px}
+  .snav{padding-left:12px}
+  .page-body{margin-left:0}
+  .ep-bar .ep-nav-btn span.prev-text{display:none}
+  table{font-size:12px}
+  th,td{padding:6px 8px}
+  .summary-grid{grid-template-columns:1fr}
+  .flow-diagram{gap:4px}
+}
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="site-header">
+  <a class="back-link" href="../index.html">← 一覧</a>
+  <div class="hdr-center">
+    <span class="hdr-badge">当法人特有シリーズ</span>
+    <span class="hdr-title">第5回 医療と介護の連携実務</span>
+  </div>
+  <button class="hdr-menu" onclick="document.getElementById('navOv').classList.add('open')" aria-label="メニュー">☰</button>
+</header>
+
+<!-- モバイルオーバーレイ -->
+<div class="nav-ov" id="navOv" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="nav-ov-panel">
+    <div class="nav-ov-close"><button onclick="document.getElementById('navOv').classList.remove('open')">✕ 閉じる</button></div>
+    <div class="sidebar-ttl">当法人特有シリーズ</div>
+    <a class="ep-item" href="01_当法人の事業所と役割.html">
+      <span class="ep-dot-s">1</span><span class="ep-name">当法人の事業所と役割</span></a>
+    <a class="ep-item" href="02_介護保険の基礎.html">
+      <span class="ep-dot-s">2</span><span class="ep-name">介護保険の基礎</span></a>
+    <a class="ep-item" href="03_訪問診療と往診の違い.html">
+      <span class="ep-dot-s">3</span><span class="ep-name">訪問診療と往診の違い</span></a>
+    <a class="ep-item" href="04_訪問看護の仕組み.html">
+      <span class="ep-dot-s">4</span><span class="ep-name">訪問看護の仕組み</span></a>
+    <a class="ep-item ep-active" href="05_医療と介護の連携実務.html">
+      <span class="ep-dot-s ep-dot-on">5</span><span class="ep-name">医療と介護の連携実務</span></a>
+  </div>
+</div>
+
+<!-- エピソードバー -->
+<div class="ep-bar">
+  <a class="ep-nav-btn" href="04_訪問看護の仕組み.html">← <span class="prev-text">第4回</span></a>
+  <div class="ep-dots">
+    <span class="ep-dot"></span>
+    <span class="ep-dot"></span>
+    <span class="ep-dot"></span>
+    <span class="ep-dot"></span>
+    <span class="ep-dot ep-dot-cur"></span>
+  </div>
+  <span style="font-size:12px;color:var(--sub);font-weight:700;">5 / 5</span>
+</div>
+
+<!-- 左サイドバー -->
+<nav class="sidebar">
+  <div class="sidebar-ttl">当法人特有シリーズ</div>
+  <a class="ep-item" href="01_当法人の事業所と役割.html">
+    <span class="ep-dot-s">1</span><span class="ep-name">当法人の事業所と役割</span></a>
+  <a class="ep-item" href="02_介護保険の基礎.html">
+    <span class="ep-dot-s">2</span><span class="ep-name">介護保険の基礎</span></a>
+  <a class="ep-item" href="03_訪問診療と往診の違い.html">
+    <span class="ep-dot-s">3</span><span class="ep-name">訪問診療と往診の違い</span></a>
+  <a class="ep-item" href="04_訪問看護の仕組み.html">
+    <span class="ep-dot-s">4</span><span class="ep-name">訪問看護の仕組み</span></a>
+  <a class="ep-item ep-active" href="05_医療と介護の連携実務.html">
+    <span class="ep-dot-s ep-dot-on">5</span><span class="ep-name">医療と介護の連携実務</span></a>
+</nav>
+
+<!-- セクションナビ -->
+<div class="snav">
+  <a class="snav-btn" href="#s1">連携の全体像</a>
+  <a class="snav-btn" href="#s2">診療情報提供書</a>
+  <a class="snav-btn" href="#s3">主治医意見書</a>
+  <a class="snav-btn" href="#s4">居宅療養管理指導</a>
+  <a class="snav-btn" href="#s5">ケアマネとのやり取り</a>
+  <a class="snav-btn" href="#s6">書類一覧まとめ</a>
+  <a class="snav-btn" href="#s7">まとめ</a>
+</div>
+
+<!-- メインコンテンツ -->
+<div class="page-body">
+<main class="main">
+
+  <!-- セクション1 -->
+  <section class="sec-block" id="s1">
+    <h2 class="sec-title">1. 連携の全体像</h2>
+
+    <p style="margin-bottom:14px;">いなだ医院を中心とした医療と介護の連携は、患者さんが安心して自宅や施設で生活し続けるために欠かせない仕組みです。医師・看護師・医療事務スタッフがそれぞれの役割を果たすことで、医療と介護のサービスがスムーズにつながります。</p>
+
+    <div class="flow-diagram">
+      <div class="flow-box">
+        <div class="flow-box-title">いなだ医院</div>
+        <div class="flow-box-sub">診察・書類作成<br>訪問診療</div>
+      </div>
+      <div class="flow-arrow">⇄</div>
+      <div class="flow-box teal">
+        <div class="flow-box-title">居宅介護支援</div>
+        <div class="flow-box-sub">ケアマネジャー<br>ケアプラン作成</div>
+      </div>
+      <div class="flow-arrow">⇄</div>
+      <div class="flow-box teal">
+        <div class="flow-box-title">各サービス事業所</div>
+        <div class="flow-box-sub">訪問看護・訪問介護<br>デイサービス 等</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">医療事務スタッフの役割</div>
+      <p style="font-size:13.5px;margin-bottom:8px;">医療と介護の連携においては、<strong>医療事務スタッフが最初の窓口</strong>となる場面が多くあります。ケアマネジャーや訪問看護ステーションからの電話・FAX・来院対応が中心です。</p>
+      <ul style="font-size:13.5px;padding-left:20px;line-height:2;">
+        <li>ケアマネジャーからの書類依頼（主治医意見書・診療情報提供書）の受付</li>
+        <li>訪問看護ステーションからの指示書依頼の受付</li>
+        <li>市区町村からの意見書依頼文書の受取・管理</li>
+        <li>作成された書類の封入・送付・FAX送信</li>
+        <li>介護保険関連書類の保管・ファイリング</li>
+      </ul>
+    </div>
+
+    <div class="point-box">
+      <strong>ポイント：</strong>書類の依頼が来たら、まず「誰から・何の書類・いつまでに必要か」を確認することが大切です。期限が短い場合は医師に早めに伝えましょう。
+    </div>
+  </section>
+
+  <!-- セクション2 -->
+  <section class="sec-block" id="s2">
+    <h2 class="sec-title">2. 診療情報提供書（紹介状）</h2>
+
+    <div class="card">
+      <div class="card-title">📄 診療情報提供書とは</div>
+      <p style="font-size:13.5px;">医師が、他の医療機関や介護事業所（ケアマネジャーなど）に対して、患者さんの病状・治療内容・生活上の注意点などを文書でお伝えするものです。「紹介状」と呼ばれることもありますが、介護の場面では情報提供が目的の場合も多くあります。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💴 診療報酬（点数）</div>
+      <table>
+        <thead>
+          <tr><th>区分</th><th>点数</th><th>算定条件</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>診療情報提供料（Ⅰ）</td><td><strong>250点</strong></td><td>月1回まで算定可</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ 250点 = 2,500円の医療費が医療機関に支払われます（保険者負担分含む）</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📋 ケアマネジャー宛に出す主なケース</div>
+      <ul style="font-size:13.5px;padding-left:20px;line-height:2;">
+        <li>居宅療養管理指導を開始・継続する際に病状・注意点を伝えるとき</li>
+        <li>患者さんの状態が変化し、ケアプランの見直しが必要と医師が判断したとき</li>
+        <li>退院後の在宅生活に向け、サービス内容の調整をケアマネに依頼するとき</li>
+        <li>施設入所・転院の際に情報を引き継ぐとき</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📬 書類の流れ</div>
+      <div class="flow-diagram" style="justify-content:flex-start;gap:8px;flex-wrap:wrap;">
+        <div style="background:var(--blue-xl);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;color:var(--blue);">① 医師が作成</div>
+        <span style="font-size:18px;color:var(--gray);">→</span>
+        <div style="background:var(--teal-lt);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;color:var(--teal);">② 事務スタッフが確認・封入</div>
+        <span style="font-size:18px;color:var(--gray);">→</span>
+        <div style="background:var(--gray-lt);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;color:var(--sub);">③ 郵送またはFAX送信</div>
+      </div>
+      <div class="warn-box" style="margin-top:12px;">
+        <strong>注意：</strong>FAX送信の場合は送信確認（送信レポート）を必ず確認し、ファイルに綴じておきましょう。個人情報が含まれるため、誤送信には十分ご注意ください。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">当院での作成依頼方法</div>
+      <p style="font-size:13.5px;"><span class="fill-in">【要確認：当院での作成依頼方法と担当者】</span></p>
+    </div>
+  </section>
+
+  <!-- セクション3 -->
+  <section class="sec-block" id="s3">
+    <h2 class="sec-title">3. 主治医意見書</h2>
+
+    <div class="card">
+      <div class="card-title">📄 主治医意見書とは</div>
+      <p style="font-size:13.5px;">患者さんが要介護認定（介護保険を利用するための認定）を申請する際に、市区町村が主治医に作成を依頼する公的文書です。患者さんの心身の状態・病名・医療処置の内容・生活機能の状況などを記載します。介護認定審査会での審査資料として重要な役割を担います。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💴 費用（謝礼金）</div>
+      <p style="font-size:13.5px;margin-bottom:8px;">主治医意見書は<strong>医療保険の診療報酬ではなく</strong>、市区町村から医院に謝礼金が支払われます。金額は地域によって異なります。</p>
+      <table>
+        <thead>
+          <tr><th>依頼元</th><th>支払元</th><th>金額</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>市区町村</td><td>市区町村</td><td>地域により異なる（例：4,000〜6,000円程度）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📬 依頼〜発送の流れ</div>
+      <div class="flow-diagram" style="justify-content:flex-start;gap:8px;flex-wrap:wrap;">
+        <div style="background:var(--gray-lt);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;color:var(--sub);">① 市区町村・患者家族から依頼書が届く</div>
+        <span style="font-size:18px;color:var(--gray);">→</span>
+        <div style="background:var(--blue-xl);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;color:var(--blue);">② 医師が作成</div>
+        <span style="font-size:18px;color:var(--gray);">→</span>
+        <div style="background:var(--teal-lt);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;color:var(--teal);">③ 事務スタッフが発送</div>
+      </div>
+      <ul style="font-size:13.5px;padding-left:20px;line-height:2;margin-top:12px;">
+        <li>依頼書には返送期限が明記されているため、受け取ったらすぐに医師に渡す</li>
+        <li>作成後は市区町村の担当窓口宛に返送（郵送・持参）</li>
+        <li>写しを患者ファイルに保管しておくと後日の確認に便利</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">当院での対応方法</div>
+      <p style="font-size:13.5px;"><span class="fill-in">【要確認：当院での意見書作成の依頼受付方法・費用徴収有無】</span></p>
+    </div>
+
+    <div class="warn-box">
+      <strong>注意：</strong>主治医意見書の作成を依頼できるのは「かかりつけ医（主治医）」のみです。患者さんから「先生に書いてもらいたい」と申し出があった場合は、直近の診察状況を確認し、対応可否を医師に相談しましょう。
+    </div>
+  </section>
+
+  <!-- セクション4 -->
+  <section class="sec-block" id="s4">
+    <h2 class="sec-title">4. 居宅療養管理指導</h2>
+
+    <div class="card">
+      <div class="card-title">📄 居宅療養管理指導とは</div>
+      <p style="font-size:13.5px;">医師・歯科医師・薬剤師・管理栄養士などの専門職が、通院が困難な患者さんの自宅（居宅）を訪問し、療養上の管理・指導を行う<strong>介護保険サービス</strong>です。医療保険の訪問診療とは別の保険（介護保険）で請求する点が特徴です。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💴 医師が行う場合の介護報酬</div>
+      <table>
+        <thead>
+          <tr><th>区分</th><th>単位数</th><th>算定上限</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>居宅療養管理指導費（Ⅰ）<br><span style="font-size:11px;color:var(--sub);">同一建物外の場合</span></td><td><strong>514単位</strong></td><td>月2回まで</td></tr>
+          <tr><td>居宅療養管理指導費（Ⅱ）<br><span style="font-size:11px;color:var(--sub);">同一建物内の場合</span></td><td><strong>486単位</strong></td><td>月2回まで</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ 1単位＝約10円（地域加算により若干異なる）</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📝 医療保険との違い</div>
+      <table>
+        <thead>
+          <tr><th>項目</th><th>訪問診療（医療保険）</th><th>居宅療養管理指導（介護保険）</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>保険の種類</td><td>医療保険</td><td>介護保険</td></tr>
+          <tr><td>請求先</td><td>社会保険診療報酬支払基金・国保連</td><td>国保連（介護給付費）</td></tr>
+          <tr><td>単位</td><td>点数（10円/点）</td><td>単位数（地域加算あり）</td></tr>
+          <tr><td>利用者負担</td><td>1〜3割</td><td>1〜3割</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="point-box">
+      <strong>ポイント：</strong>居宅療養管理指導は介護保険の請求になるため、医療保険レセプトとは別に<strong>国保連へ介護給付費の請求</strong>が必要です。担当者への引き継ぎや請求漏れに注意しましょう。
+    </div>
+
+    <div class="card">
+      <div class="card-title">当院での算定状況</div>
+      <p style="font-size:13.5px;"><span class="fill-in">【要確認：当院で居宅療養管理指導を算定しているか・請求担当者】</span></p>
+    </div>
+  </section>
+
+  <!-- セクション5 -->
+  <section class="sec-block" id="s5">
+    <h2 class="sec-title">5. ケアマネジャーとのやり取りで多い問い合わせ</h2>
+
+    <p style="margin-bottom:16px;">ケアマネジャーから医院へ連絡が入る際、医療事務スタッフが一次対応をする場面があります。よくある問い合わせパターンと対応の基本を確認しておきましょう。</p>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--teal);">📞 「主治医意見書をお願いしたい」</div>
+      <p style="font-size:13.5px;margin-bottom:8px;"><strong>依頼の背景：</strong>患者さんが要介護認定を申請または更新する際に、ケアマネジャー（または患者家族）から連絡が入ることがあります。</p>
+      <p style="font-size:13.5px;margin-bottom:8px;"><strong>対応の基本手順：</strong></p>
+      <ol style="font-size:13.5px;padding-left:20px;line-height:2;">
+        <li>患者氏名・生年月日・連絡先を確認する</li>
+        <li>市区町村から依頼書（様式）が届いているか確認する</li>
+        <li>期限を確認し、医師に作成依頼を伝える</li>
+        <li>作成後、事務スタッフが市区町村へ発送する</li>
+      </ol>
+      <p style="font-size:13.5px;margin-top:8px;"><span class="fill-in">【要確認：当院での対応手順】</span></p>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--teal);">📞 「情報提供書（診療情報提供書）をお願いしたい」</div>
+      <p style="font-size:13.5px;margin-bottom:8px;"><strong>依頼の背景：</strong>ケアプランの作成・見直し、または新しいサービス導入にあたり、患者さんの医療情報が必要な場合に依頼が来ます。</p>
+      <p style="font-size:13.5px;margin-bottom:8px;"><strong>対応の基本手順：</strong></p>
+      <ol style="font-size:13.5px;padding-left:20px;line-height:2;">
+        <li>患者氏名・依頼の目的・提出先・期限を確認する</li>
+        <li>医師に依頼内容を伝え、作成を依頼する</li>
+        <li>作成された書類を確認し、封入またはFAX送信する</li>
+        <li>送付完了をケアマネに連絡する（必要に応じて）</li>
+      </ol>
+      <p style="font-size:13.5px;margin-top:8px;"><span class="fill-in">【要確認：当院での対応手順】</span></p>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--amber);">📞 「患者さんの薬の内容を教えてほしい」</div>
+      <p style="font-size:13.5px;margin-bottom:8px;"><strong>依頼の背景：</strong>ケアプランや食事調整のために、服薬情報の確認を求められることがあります。</p>
+      <div class="warn-box">
+        <strong>個人情報の観点から要注意：</strong>薬の情報は個人情報です。電話口でそのままお伝えすることは<strong>原則できません</strong>。医師または薬剤師に確認が必要であることをお伝えし、対応方法を仰ぎましょう。患者さんご本人またはご家族の同意がある場合は、医師の判断で情報提供が可能なことがあります。
+      </div>
+      <p style="font-size:13.5px;margin-top:8px;"><span class="fill-in">【要確認：当院での対応手順】</span></p>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--teal);">📞 「訪問看護の指示書をお願いしたい」</div>
+      <p style="font-size:13.5px;margin-bottom:8px;"><strong>依頼の背景：</strong>訪問看護ステーションが看護サービスを提供するためには、主治医が発行する「訪問看護指示書」が必要です。新規・更新の際に依頼が来ます。</p>
+      <p style="font-size:13.5px;margin-bottom:8px;"><strong>対応の基本手順：</strong></p>
+      <ol style="font-size:13.5px;padding-left:20px;line-height:2;">
+        <li>依頼元（訪問看護ステーション名・担当者名・連絡先）を確認する</li>
+        <li>患者氏名・指示期間（通常1〜6か月）・特記事項を確認する</li>
+        <li>医師に作成を依頼する</li>
+        <li>作成後、訪問看護ステーションに郵送またはFAX送信する</li>
+      </ol>
+      <div class="point-box" style="margin-top:10px;">
+        訪問看護指示書の有効期間は原則<strong>6か月以内</strong>。更新時期が近づいたら、先方から連絡が来る前に確認できると丁寧な対応です。
+      </div>
+      <p style="font-size:13.5px;margin-top:8px;"><span class="fill-in">【要確認：当院での対応手順】</span></p>
+    </div>
+  </section>
+
+  <!-- セクション6 -->
+  <section class="sec-block" id="s6">
+    <h2 class="sec-title">6. 書類一覧まとめ表</h2>
+
+    <p style="margin-bottom:12px;">医療と介護の連携で登場する主な書類をまとめました。書類ごとに依頼元・作成者・提出先・報酬を把握しておきましょう。</p>
+
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>書類名</th>
+            <th>依頼元</th>
+            <th>作成者</th>
+            <th>提出先</th>
+            <th>診療報酬/謝礼</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>主治医意見書</strong></td>
+            <td>市区町村</td>
+            <td>医師</td>
+            <td>市区町村</td>
+            <td>謝礼金<br><span style="font-size:11px;color:var(--sub);">（地域差あり）</span></td>
+          </tr>
+          <tr>
+            <td><strong>診療情報提供書<br>（ケアマネ宛）</strong></td>
+            <td>ケアマネ・患者</td>
+            <td>医師</td>
+            <td>ケアマネ事業所</td>
+            <td>診療情報提供料<br><strong>250点</strong>（月1回）</td>
+          </tr>
+          <tr>
+            <td><strong>訪問看護指示書</strong></td>
+            <td>訪問看護ST</td>
+            <td>医師</td>
+            <td>訪問看護ST</td>
+            <td>訪問看護指示料<br><strong>300点</strong></td>
+          </tr>
+          <tr>
+            <td><strong>特別訪問看護指示書</strong></td>
+            <td>訪問看護ST</td>
+            <td>医師</td>
+            <td>訪問看護ST</td>
+            <td>特別訪問看護<br>指示加算<strong>100点</strong></td>
+          </tr>
+          <tr>
+            <td><strong>居宅療養管理指導<br>（介護保険サービス）</strong></td>
+            <td>患者・ケアマネ</td>
+            <td>医師</td>
+            <td>国保連（介護給付費請求）</td>
+            <td>514単位/回<br><span style="font-size:11px;color:var(--sub);">（月2回まで）</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="warn-box" style="margin-top:16px;">
+      <strong>注意：</strong>特別訪問看護指示書は、急性増悪・終末期・退院直後など<strong>特別な事情がある場合</strong>に発行されます。通常の訪問看護指示書とは別に発行され、月1回・14日間を限度として頻回の訪問看護が可能になります。
+    </div>
+  </section>
+
+  <!-- セクション7 -->
+  <section class="sec-block" id="s7">
+    <h2 class="sec-title">7. まとめ</h2>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-card-icon">🔗</div>
+        <div class="summary-card-title">連携の窓口は事務スタッフ</div>
+        <div class="summary-card-body">書類依頼・情報共有の多くは医療事務スタッフが最初に対応します。「誰から・何の目的で・いつまでに」を必ず確認しましょう。</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card-icon">📄</div>
+        <div class="summary-card-title">書類の種類を覚える</div>
+        <div class="summary-card-body">主治医意見書・診療情報提供書・訪問看護指示書・居宅療養管理指導の4つが特に頻度が高いです。依頼元と提出先を混同しないよう注意しましょう。</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card-icon">💴</div>
+        <div class="summary-card-title">保険の種類に注意</div>
+        <div class="summary-card-body">医療保険（診療報酬）と介護保険（介護給付費）は請求先が異なります。居宅療養管理指導は介護保険（国保連）への請求になります。</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card-icon">🔒</div>
+        <div class="summary-card-title">個人情報の取り扱い</div>
+        <div class="summary-card-body">薬の内容・病状など患者さんの個人情報は、本人・家族の同意なく第三者に伝えることはできません。判断に迷ったら必ず医師に確認しましょう。</div>
+      </div>
+    </div>
+
+    <div class="green-box" style="margin-top:20px;">
+      <strong>シリーズ修了：</strong>「当法人特有シリーズ」全5回を完了しました。当法人の事業所・介護保険・訪問診療・訪問看護・医療と介護の連携という流れで学んできました。日々の業務の中で迷ったときは、このシリーズに立ち返って確認してください。
+    </div>
+  </section>
+
+</main>
+<footer class="page-footer">
+  当法人特有シリーズ 第5回 / 全5回 ｜ いなだ医院 医療事務研修資料
+</footer>
+</div>
+
+<script>
+// セクションナビのアクティブ表示
+(function(){
+  const btns = document.querySelectorAll('.snav-btn');
+  const secs = Array.from(document.querySelectorAll('.sec-block'));
+  const hdr = document.querySelector('.hdr-menu') ? 56 + 44 : 56 + 44;
+  function update(){
+    let cur = 0;
+    secs.forEach((s,i)=>{
+      if(window.scrollY + hdr + 10 >= s.offsetTop) cur = i;
+    });
+    btns.forEach((b,i)=>b.classList.toggle('active', i===cur));
+  }
+  window.addEventListener('scroll', update, {passive:true});
+  update();
+})();
+</script>
+</body>
+</html>
