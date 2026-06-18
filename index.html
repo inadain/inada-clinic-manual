@@ -144,7 +144,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
 .hero-stat .l { font-size: 10.5px; opacity: .8; margin-top: 1px; }
 
 /* ── Main wrap ── */
-.main { max-width: 1100px; margin: 0 auto; padding: 20px 20px 60px; }
+.main { max-width: 1200px; margin: 0 auto; padding: 20px 20px 60px; }
 
 /* ── Section head ── */
 .sec-head { display: flex; align-items: center; gap: 10px; margin: 24px 0 12px; }
@@ -268,6 +268,30 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
 .pw-status { font-size: 14px; text-align: center; color: var(--text-sub); padding: 20px 0; }
 .pw-change-link { display: inline-block; font-size: 11px; color: var(--gray); cursor: pointer; opacity: .45; margin-left: 8px; }
 .pw-change-link:hover { opacity: .9; text-decoration: underline; }
+/* ── PC 2-column layout ── */
+.page-body { display: flex; flex-direction: column; gap: 0; }
+.sidebar-col { order: 0; }
+.content-col { order: 1; }
+
+@media(min-width:900px){
+  .page-body { flex-direction: row; align-items: flex-start; gap: 22px; }
+  .content-col { flex: 1; min-width: 0; order: 0; }
+  .sidebar-col {
+    width: 268px; flex-shrink: 0; order: 1;
+    position: sticky; top: 76px;
+    max-height: calc(100vh - 90px); overflow-y: auto;
+  }
+  .sidebar-col::-webkit-scrollbar { width: 4px; }
+  .sidebar-col::-webkit-scrollbar-thumb { background: var(--gray-mid); border-radius: 4px; }
+  .sidebar-col .sec-head { margin-top: 0; }
+  .card-grid { grid-template-columns: 1fr 1fr; }
+  .hero { padding: 30px 40px 36px; }
+  .hero h2 { font-size: 20px; }
+  .hero-stats { gap: 14px; }
+  .hero-stat { padding: 10px 22px; }
+  .hero-stat .n { font-size: 26px; }
+}
+
 </style>
 </head>
 <body>
@@ -332,7 +356,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
 </div>
 
 <main class="main">
+<div class="page-body">
 
+<aside class="sidebar-col">
   <!-- 作成進捗 -->
   <div class="sec-head">
     <div class="sec-icon green">📊</div>
@@ -350,8 +376,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
     <div class="prog-row"><div class="prog-label">業務マニュアル（吉田）</div><div class="prog-track"><div class="prog-fill amber" style="width:60%"></div></div><div class="prog-pct">60%</div></div>
   </div>
 
+</aside><!-- /sidebar-col -->
+
+<div class="content-col">
   <!-- 共通業務 -->
-  <div class="sec-head" style="margin-top:28px;">
+  <div class="sec-head">
     <div class="sec-icon blue">🏥</div>
     <div><h2>共通業務マニュアル</h2><p>全スタッフ対象 · 担当業務ごとに参照</p></div>
   </div>
@@ -539,6 +568,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
 
   </div>
 
+</div><!-- /content-col -->
+</div><!-- /page-body -->
 </main>
 
 <footer class="site-footer">
