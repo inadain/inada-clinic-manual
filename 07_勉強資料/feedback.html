@@ -45,7 +45,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
 .hero p{font-size:13px;opacity:.85;line-height:1.6;max-width:480px;margin:0 auto}
 
 /* ── メイン ── */
-.main{max-width:680px;margin:0 auto;padding:24px 16px 60px}
+.main{max-width:1060px;margin:0 auto;padding:24px 20px 60px}
 
 /* ── タブ切り替え ── */
 .type-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
@@ -129,6 +129,13 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   .type-tab .tab-sub{display:none}
   .form-card{padding:16px 14px}
 }
+@media(min-width:860px){
+  .fb-pc-wrap{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start }
+  .type-tabs{ grid-template-columns:1fr 1fr }
+  .form-panel{ min-height:500px }
+  .note-box{ margin-top:0 }
+}
+
 </style>
 </head>
 <body>
