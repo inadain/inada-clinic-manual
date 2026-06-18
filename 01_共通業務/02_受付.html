@@ -337,11 +337,17 @@ tr:nth-child(even) td { background: #fafbfc; }
   background: var(--blue-xlight, #eff6ff) !important;
   border-bottom: 1px solid var(--blue-light, #dbeafe) !important;
   border-left: 5px solid var(--blue-mid, #1e74c8) !important;
+  color: var(--blue-mid, #1e74c8) !important;
 }
-.card-head.teal  { background: rgba(13,148,136,.07) !important; border-bottom-color: rgba(13,148,136,.18) !important; border-left-color: var(--teal, #0d9488) !important; }
-.card-head.amber { background: rgba(217,119,6,.07) !important;  border-bottom-color: rgba(217,119,6,.18) !important;  border-left-color: var(--amber, #d97706) !important; }
-.card-head.red   { background: rgba(220,38,38,.07) !important;  border-bottom-color: rgba(220,38,38,.18) !important;  border-left-color: var(--red, #dc2626) !important; }
-.card-head.green { background: rgba(22,163,74,.07) !important;  border-bottom-color: rgba(22,163,74,.18) !important;  border-left-color: var(--green, #16a34a) !important; }
+.card-head .card-icon { background: rgba(30,116,200,.12) !important; }
+.card-head.teal  { background: rgba(13,148,136,.09) !important; border-bottom-color: rgba(13,148,136,.22) !important; border-left-color: var(--teal, #0d9488) !important; color: #0f766e !important; }
+.card-head.teal  .card-icon { background: rgba(13,148,136,.14) !important; }
+.card-head.amber { background: rgba(217,119,6,.09) !important;  border-bottom-color: rgba(217,119,6,.22) !important;  border-left-color: var(--amber, #d97706) !important; color: #92400e !important; }
+.card-head.amber .card-icon { background: rgba(217,119,6,.14) !important; }
+.card-head.red   { background: rgba(220,38,38,.09) !important;  border-bottom-color: rgba(220,38,38,.22) !important;  border-left-color: var(--red, #dc2626) !important; color: #991b1b !important; }
+.card-head.red   .card-icon { background: rgba(220,38,38,.14) !important; }
+.card-head.green { background: rgba(22,163,74,.09) !important;  border-bottom-color: rgba(22,163,74,.22) !important;  border-left-color: var(--green, #16a34a) !important; color: #15803d !important; }
+.card-head.green .card-icon { background: rgba(22,163,74,.14) !important; }
 /* サブタイトル：背景付きで視認性UP */
 .sub-title {
   background: var(--blue-xlight, #eff6ff) !important;
