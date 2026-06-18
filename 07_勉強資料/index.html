@@ -40,7 +40,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
 .hero h2{font-size:20px;font-weight:900;margin-bottom:6px}
 .hero p{font-size:13px;opacity:.85;line-height:1.6}
 
-.main{max-width:780px;margin:0 auto;padding:24px 16px 60px}
+.main{max-width:1060px;margin:0 auto;padding:24px 20px 60px}
 
 /* ── カテゴリセクション ── */
 .sec-head{display:flex;align-items:center;gap:12px;margin:28px 0 14px;
@@ -109,6 +109,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
   .ep-link:nth-last-child(-n+2){border-bottom:1px solid var(--gray-m)}
   .ep-link:last-child{border-bottom:none}
 }
+@media(min-width:900px){
+  .card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px }
+  .series-ep-list{ grid-template-columns:1fr 1fr 1fr 1fr }
+  .ep-link:nth-child(even){ border-right:1px solid var(--gray-m) }
+  .ep-link:nth-child(4n){ border-right:none }
+  .ep-link:nth-last-child(-n+4){ border-bottom:none }
+  .ep-link:nth-last-child(-n+2){ border-bottom:1px solid var(--gray-m) }
+  .ep-link:last-child{ border-bottom:none }
+  .hero p{ font-size:14px }
+}
+
 </style>
 </head>
 <body>
