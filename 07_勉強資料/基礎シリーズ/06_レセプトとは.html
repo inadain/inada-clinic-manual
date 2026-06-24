@@ -34,7 +34,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
 .hdr-title{color:#fff;font-size:14px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hdr-menu{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:4px 6px;display:none}
 .ep-bar{background:var(--white);border-bottom:1px solid var(--gray-m);
-  padding:8px 16px 8px calc(var(--sidebar)+16px);
+  padding:8px 16px;
   display:flex;align-items:center;justify-content:space-between}
 .ep-nav-btn{display:inline-flex;align-items:center;background:var(--blue-xl);
   color:var(--blue);padding:5px 14px;border-radius:20px;
@@ -69,7 +69,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
   padding:6px 12px;font-size:14px;cursor:pointer;font-weight:700;color:var(--sub)}
 .snav{position:sticky;top:var(--hdr);z-index:100;background:var(--white);
   border-bottom:1px solid var(--gray-m);overflow-x:auto;white-space:nowrap;
-  padding:8px 12px 8px calc(var(--sidebar)+12px);display:flex;gap:7px;scrollbar-width:none}
+  padding:8px 12px;display:flex;gap:7px;scrollbar-width:none}
 .snav::-webkit-scrollbar{display:none}
 .snav-btn{display:inline-block;background:var(--gray-lt);color:var(--sub);
   border-radius:20px;padding:4px 13px;font-size:12.5px;font-weight:600;
@@ -144,8 +144,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
 @media(min-width:768px) and (max-width:1099px){
   :root{--sidebar:220px}
   .sidebar{width:220px}
-  .ep-bar{padding:8px 14px 8px calc(220px + 14px)}
-  .snav{padding:8px 10px 8px calc(220px + 10px)}
+  .ep-bar{padding:8px 14px}
+  .snav{padding:8px 10px}
   .page-body{margin-left:220px;display:block}
   .toc-col{display:none}
   .main{max-width:none;padding:18px 20px 36px}
@@ -163,10 +163,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
   :root{--sidebar:240px}
   .sidebar{width:240px}
   .hdr-menu{display:none}
-  .ep-bar{padding:8px 20px 8px calc(240px + 20px)}
-  .snav{padding:8px 12px 8px calc(240px + 12px);font-size:13px}
+  .ep-bar{padding:8px 20px}
+  .snav{padding:8px 12px;font-size:13px}
   /* page-body を flex コンテナに */
-  .page-body{margin-left:240px;display:flex;align-items:flex-start}
+  .page-body{margin-left:240px;display:block}
   .main{flex:1;min-width:0;max-width:none;padding:20px 24px 40px}
   /* 右ToCサイドバー表示 */
   .toc-col{display:block}
@@ -189,8 +189,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
 @media(min-width:1400px){
   :root{--sidebar:260px}
   .sidebar{width:260px}
-  .ep-bar{padding:8px 24px 8px calc(260px + 24px)}
-  .snav{padding:8px 14px 8px calc(260px + 14px)}
+  .ep-bar{padding:8px 24px}
+  .snav{padding:8px 14px}
   .page-body{margin-left:260px}
   .main{padding:22px 28px 44px}
 }
