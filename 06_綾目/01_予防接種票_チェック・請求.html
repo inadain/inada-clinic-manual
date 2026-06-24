@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="予防接種票 チェック・請求">
+<title>予防接種票 チェック・請求｜いなだ医院</title>
+<style>
+:root{
+  --blue:#1558a0;--blue-m:#1e74c8;--blue-lt:#dbeafe;--blue-xl:#eff6ff;
+  --teal:#0d9488;--teal-lt:#f0fdfa;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --purple:#7c3aed;--purple-lt:#f5f3ff;
+  --gray:#64748b;--gray-lt:#f1f5f9;--gray-m:#e2e8f0;
+  --text:#0f172a;--sub:#475569;--bg:#f0f4f8;--white:#fff;
+  --r:12px;--r-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  font-size:15px;line-height:1.75;color:var(--text);background:var(--bg)}
+
+/* ── ヘッダー ── */
+.site-header{background:linear-gradient(135deg,#065f46,#0d9488);
+  padding:0 16px;text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.header-inner{position:relative;display:flex;align-items:center;
+  width:100%;max-width:960px;margin:0 auto;padding:10px 0 10px 110px}
+.back-link{position:absolute !important;left:0 !important;top:50% !important;
+  transform:translateY(-50%) !important;
+  display:inline-flex !important;align-items:center;gap:5px;
+  color:rgba(255,255,255,.92) !important;font-size:12px !important;
+  font-weight:600;text-decoration:none;
+  background:rgba(255,255,255,.18) !important;
+  border:1px solid rgba(255,255,255,.3) !important;
+  border-radius:20px;padding:6px 13px !important;
+  white-space:nowrap;transition:background .15s}
+.back-link:hover{background:rgba(255,255,255,.3) !important}
+.staff-badge{display:inline-block;background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.3);color:#fff;
+  font-size:10px;font-weight:700;padding:2px 10px;
+  border-radius:20px;letter-spacing:.08em;margin-bottom:3px}
+.site-header h1{font-size:16px;font-weight:800;color:#fff;letter-spacing:.02em;margin:0}
+.site-header .subtitle{font-size:10px;color:rgba(255,255,255,.65);margin-top:1px}
+
+/* ── メインレイアウト ── */
+.main-wrap{max-width:780px;margin:0 auto;padding:20px 16px 48px}
+
+/* ── セクション見出し ── */
+.sec{margin-bottom:28px;scroll-margin-top:72px}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  padding-bottom:8px;border-bottom:3px solid}
+.sec-icon{width:34px;height:34px;border-radius:var(--r-sm);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.sec-title{font-size:15px;font-weight:800}
+
+/* ── チェックカード ── */
+.check-card{background:var(--white);border-radius:var(--r);
+  box-shadow:0 1px 6px rgba(0,0,0,.09);overflow:hidden;margin-bottom:14px}
+.check-card-head{padding:10px 16px;font-size:13px;font-weight:800;color:#fff;
+  display:flex;align-items:center;gap:7px}
+.check-card-body{padding:14px 16px}
+
+/* ── チェックリスト ── */
+.cl{list-style:none;padding:0;display:flex;flex-direction:column;gap:5px}
+.cl li{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;
+  padding:6px 10px;border-radius:var(--r-sm);line-height:1.5}
+.cl li::before{content:"□";font-size:14px;flex-shrink:0;color:var(--gray);margin-top:1px}
+.cl li.warn{background:var(--amber-lt);border-left:3px solid var(--amber)}
+.cl li.warn::before{content:"⚠️";font-size:13px}
+.cl li.danger{background:var(--red-lt);border-left:3px solid var(--red)}
+.cl li.danger::before{content:"❗";font-size:13px}
+.cl li.ok{background:var(--green-lt)}
+.cl li.ok::before{content:"✓";color:var(--green);font-weight:900}
+strong.hl{color:var(--red);font-weight:800}
+strong.b{font-weight:800}
+
+/* ── 注記ボックス ── */
+.note-box{background:var(--blue-xl);border-left:4px solid var(--blue);
+  border-radius:var(--r-sm);padding:10px 14px;font-size:13px;
+  color:var(--text);margin-bottom:12px;line-height:1.6}
+.note-box.warn{background:var(--amber-lt);border-left-color:var(--amber)}
+.note-box.danger{background:var(--red-lt);border-left-color:var(--red)}
+
+/* ── 区分テーブル ── */
+.dtbl-wrap{overflow-x:auto;border-radius:var(--r-sm);margin-bottom:12px}
+.dtbl{width:100%;border-collapse:collapse;font-size:13px;background:var(--white)}
+.dtbl th{background:var(--teal);color:#fff;padding:7px 12px;text-align:left;font-weight:700}
+.dtbl td{padding:7px 12px;border-bottom:1px solid var(--gray-m);vertical-align:top}
+.dtbl tbody tr:last-child td{border-bottom:none}
+.dtbl tbody tr:nth-child(odd){background:var(--gray-lt)}
+.dtbl .warn-cell{color:var(--red);font-weight:700}
+
+/* ── フロー ── */
+.flow{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.flow-step{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;
+  background:var(--white);border-radius:var(--r-sm);
+  box-shadow:0 1px 3px rgba(0,0,0,.07);font-size:13.5px}
+.flow-num{width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;flex-shrink:0;margin-top:1px}
+.flow-body{flex:1;line-height:1.5}
+.flow-sub{font-size:12px;color:var(--sub);margin-top:2px}
+
+/* ── 締め切りバナー ── */
+.dl-banner{display:flex;gap:10px;margin-bottom:20px}
+.dl-item{flex:1;background:var(--white);border-radius:var(--r-sm);
+  box-shadow:0 1px 4px rgba(0,0,0,.08);padding:12px 14px;
+  border-top:3px solid}
+.dl-item.blue{border-top-color:var(--blue-m)}
+.dl-item.red{border-top-color:var(--red)}
+.dl-label{font-size:11px;font-weight:800;color:var(--sub);letter-spacing:.04em;margin-bottom:4px}
+.dl-date{font-size:16px;font-weight:900;color:var(--text)}
+.dl-note{font-size:11.5px;color:var(--sub);margin-top:3px}
+
+/* ── スクロール見出しバー ── */
+.toc-bar{background:var(--white);border-bottom:1px solid var(--gray-m);
+  overflow-x:auto;white-space:nowrap;padding:7px 16px;
+  display:flex;gap:7px;scrollbar-width:none;position:sticky;top:0;z-index:100}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-btn{display:inline-block;background:var(--gray-lt);color:var(--sub);
+  border-radius:20px;padding:4px 13px;font-size:12px;font-weight:600;
+  text-decoration:none;white-space:nowrap;transition:background .15s}
+.toc-btn:hover{background:var(--teal);color:#fff}
+
+@media(max-width:600px){
+  .header-inner{padding:10px 0 10px 80px}
+  .dl-banner{flex-direction:column;gap:8px}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="back-link">← 一覧</a>
+    <div style="flex:1;min-width:0;text-align:center">
+      <div class="staff-badge">綾目　担当業務</div>
+      <h1>予防接種票　チェック・請求</h1>
+      <div class="subtitle">毎月の取りまとめ・チェック・請求業務の手順</div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc-bar">
+  <a class="toc-btn" href="#adult">大人の予防接種</a>
+  <a class="toc-btn" href="#child">子供の予防接種</a>
+  <a class="toc-btn" href="#influenza">インフル・コロナ</a>
+  <a class="toc-btn" href="#billing">請求の流れ</a>
+  <a class="toc-btn" href="#deadline">提出期限</a>
+</nav>
+
+<div class="main-wrap">
+
+  <!-- 概要 -->
+  <div class="note-box" style="margin-bottom:20px">
+    <strong>この業務について</strong><br>
+    月ごとに予防接種票を取りまとめ、チェック漏れがないかを確認し、市・総合乗り入れへ請求する。漏れが多い項目を中心に都度チェックを行う。
+  </div>
+
+  <!-- 締め切り一覧 -->
+  <div id="deadline" class="sec">
+    <div class="sec-head" style="border-color:var(--blue)">
+      <div class="sec-icon" style="background:var(--blue-lt)">📅</div>
+      <div class="sec-title" style="color:var(--blue)">提出期限まとめ</div>
+    </div>
+    <div class="dl-banner">
+      <div class="dl-item blue">
+        <div class="dl-label">一般予防接種（肺炎球菌・帯状疱疹・子供）</div>
+        <div class="dl-date">毎月 10日まで</div>
+        <div class="dl-note">支所へ持参提出。3〜4日前には仕上げておく</div>
+      </div>
+      <div class="dl-item red">
+        <div class="dl-label">インフルエンザ・コロナ</div>
+        <div class="dl-date">月末より早め</div>
+        <div class="dl-note">量が多いため月中盤から都度チェックを進める</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 大人の予防接種 -->
+  <div id="adult" class="sec">
+    <div class="sec-head" style="border-color:var(--teal)">
+      <div class="sec-icon" style="background:var(--teal-lt)">💉</div>
+      <div class="sec-title" style="color:var(--teal)">大人の予防接種</div>
+    </div>
+
+    <div class="check-card">
+      <div class="check-card-head" style="background:var(--teal)">🫁 肺炎球菌ワクチン</div>
+      <div class="check-card-body">
+        <ul class="cl">
+          <li>接種回数に丸がついているか</li>
+          <li>費用区分の記入があるか（自己負担・半額免除・全額免除・予診のみ）</li>
+          <li class="warn">自己負担免除の方は<strong class="hl">葉書の確認欄</strong>（半額・全額の区分）に記入があるか ← <strong>漏れが多い</strong></li>
+          <li>患者本人のチェック（希望するに印など）があるか</li>
+          <li>上下の日付が一致しているか</li>
+          <li>接種量が記入されているか</li>
+          <li>ロット番号シールが貼付されているか</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="check-card">
+      <div class="check-card-head" style="background:#7c3aed">🔰 帯状疱疹ワクチン（シングリクス・水痘ワクチン）</div>
+      <div class="check-card-body">
+        <div class="note-box" style="margin-bottom:10px">
+          ワクチンが <strong>シングリクス</strong> と <strong>水痘ワクチン</strong> の2種類あるため、どちらに丸がついているか必ず確認
+        </div>
+        <ul class="cl">
+          <li>ワクチン種類（シングリクス or 水痘）に丸があるか</li>
+          <li>費用区分の記入があるか（自己負担・半額免除・全額免除・予診のみ）</li>
+          <li class="warn">自己負担免除の方は<strong class="hl">葉書の確認欄</strong>に記入があるか ← <strong>最も漏れやすい</strong></li>
+          <li>患者本人のチェックがあるか</li>
+          <li>日付の一致確認</li>
+          <li>ロット番号シールの貼付確認</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note-box warn">
+      <strong>費用区分の分類について</strong><br>
+      自己負担免除の方は葉書を持参する。葉書を確認した旨の記入欄があるが、<strong>ほぼ毎回漏れている</strong>ため必ずチェックする。<br>
+      予信票は「半額免除」「全額免除」「予診のみ」の区分ごとに分けて管理する。
+    </div>
+  </div>
+
+  <!-- 子供の予防接種 -->
+  <div id="child" class="sec">
+    <div class="sec-head" style="border-color:var(--purple)">
+      <div class="sec-icon" style="background:var(--purple-lt)">👧</div>
+      <div class="sec-title" style="color:var(--purple)">子供の予防接種</div>
+    </div>
+
+    <div class="check-card">
+      <div class="check-card-head" style="background:var(--purple)">📋 一般チェック項目</div>
+      <div class="check-card-body">
+        <ul class="cl">
+          <li class="warn"><strong>13歳未満で親同伴なし</strong>の場合 → <strong class="hl">同意書の確認</strong>必須</li>
+          <li>接種部位（左 or 右）に丸があるか</li>
+          <li>接種回数（何回目か）の記入があるか</li>
+          <li>費用区分の記入があるか</li>
+          <li>日付の一致確認</li>
+        </ul>
+        <div class="note-box" style="margin-top:10px">
+          親御さんが記入するため抜けは比較的少ない。ただし漏れがないか目を通すこと。
+        </div>
+      </div>
+    </div>
+
+    <div class="check-card">
+      <div class="check-card-head" style="background:#9d174d">💜 シルガード（HPVワクチン）― 特別注意事項</div>
+      <div class="check-card-body">
+        <ul class="cl">
+          <li class="danger"><strong>16歳未満は本人署名の確認</strong>（代筆との区別）</li>
+          <li class="warn"><strong>整理番号</strong>があるか確認（<strong class="hl">倉敷市の患者のみ必要</strong>・岡山市等は不要）</li>
+          <li>接種回数の確認</li>
+          <li>費用区分の確認</li>
+        </ul>
+        <div class="note-box warn" style="margin-top:10px">
+          岡山市・倉敷市以外：整理番号は不要。ただし初めての市区町村は市に確認してから請求する。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- インフルエンザ・コロナ -->
+  <div id="influenza" class="sec">
+    <div class="sec-head" style="border-color:var(--red)">
+      <div class="sec-icon" style="background:var(--red-lt)">🤒</div>
+      <div class="sec-title" style="color:var(--red)">インフルエンザ・コロナワクチン</div>
+    </div>
+
+    <div class="note-box danger">
+      量が多く、チェック漏れが発生しやすい。<strong>手が空いた都度・月中盤から</strong>確認を進めること。
+    </div>
+
+    <div class="check-card">
+      <div class="check-card-head" style="background:var(--red)">❗ 最重要チェック：署名欄</div>
+      <div class="check-card-body">
+        <div class="note-box danger" style="margin-bottom:10px">
+          <strong>代筆署名の書き方に注意</strong><br>
+          ❌ 本人署名欄に代筆者の名前 → アウト<br>
+          ✅ 本人署名欄に<strong>本人の名前</strong>、代筆署名欄に<strong>代筆者の名前</strong>
+        </div>
+        <ul class="cl">
+          <li class="danger">本人署名欄と代筆署名欄の使い分けが正しいか</li>
+          <li class="warn">費用区分（半額免除・全額免除・自己負担・予診のみ）の記入漏れがないか</li>
+          <li>先生の名前（ハンコ）の確認：<strong>上 = 問診確認医師（稲田）、下 = 常に院長ハンコ</strong></li>
+          <li>接種回数の確認</li>
+          <li>日付の一致確認</li>
+          <li>ロット番号の貼付確認</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="check-card">
+      <div class="check-card-head" style="background:var(--amber)">📦 振り分け・整理の流れ</div>
+      <div class="check-card-body">
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-num">1</div>
+            <div class="flow-body">
+              <strong>都度チェック</strong>：帰宅前・引き出しに入れる前にチェック漏れがないか確認
+              <div class="flow-sub">会計時・受付時でも引っかかるが、最終窓口として漏れを補足する</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">2</div>
+            <div class="flow-body">
+              <strong>区分ごとに分類</strong>：費用区分（自己負担・半額・全額・予診のみ）ごとに分ける
+              <div class="flow-sub">月途中に手が空いた時にこまめに振り分けておく</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">3</div>
+            <div class="flow-body">
+              <strong>月末確認</strong>：全件チェックして漏れがないか最終確認
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">4</div>
+            <div class="flow-body">
+              <strong>請求書の順番に並べ替え</strong>て提出
+              <div class="flow-sub">予防接種ごとにファイルあり。各予防接種ファイルにまとめて保管</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 請求の流れ -->
+  <div id="billing" class="sec">
+    <div class="sec-head" style="border-color:var(--blue)">
+      <div class="sec-icon" style="background:var(--blue-lt)">🏛️</div>
+      <div class="sec-title" style="color:var(--blue)">請求先・請求方法</div>
+    </div>
+
+    <div class="dtbl-wrap">
+      <table class="dtbl">
+        <thead>
+          <tr>
+            <th>患者の住所</th>
+            <th>請求先</th>
+            <th>提出方法</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>倉敷市</strong></td>
+            <td>倉敷市（子供用・大人用を合わせて）<br>市指定の報告書に順番どおりに並べる</td>
+            <td>支所へ持参</td>
+          </tr>
+          <tr>
+            <td><strong>倉敷市以外</strong><br>（岡山市・その他）</td>
+            <td>総合乗り入れ請求</td>
+            <td>支所へ持参</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note-box">
+      <strong>倉敷市以外の市の特殊ルール</strong><br>
+      岡山市など初めての市区町村の患者が来た場合は、請求前に市へ問い合わせて請求方法を確認すること（整理番号の要否など異なる場合がある）。
+    </div>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-body">
+          月初〜月末：予防接種票を都度チェック・区分ごとに振り分け
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-body">
+          倉敷市 / 倉敷市以外 に分類
+          <div class="flow-sub">予防接種の種類ごとにさらに分類（肺炎球菌・帯状疱疹・子供・インフル等）</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-body">
+          市指定の報告書の順番どおりに並べ替え
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-body">
+          <strong>提出期限までに支所へ持参</strong>（10日締め切りの場合は6〜7日ごろまでに仕上げる）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- よくある漏れ -->
+  <div class="sec">
+    <div class="sec-head" style="border-color:var(--red)">
+      <div class="sec-icon" style="background:var(--red-lt)">⚠️</div>
+      <div class="sec-title" style="color:var(--red)">よくある漏れ項目</div>
+    </div>
+    <div class="check-card">
+      <div class="check-card-head" style="background:var(--red)">❗ 特に見落としやすい箇所</div>
+      <div class="check-card-body">
+        <ul class="cl">
+          <li class="danger"><strong>自己負担免除の葉書確認欄</strong>（費用区分の記入）← 最も漏れやすい</li>
+          <li class="danger"><strong>インフル・コロナの代筆署名</strong>の使い方の誤り</li>
+          <li class="warn">インフル・コロナの<strong>費用区分</strong>（半額・全額免除・自己負担・予診のみ）</li>
+          <li class="warn">シルガードの<strong>整理番号</strong>（倉敷市患者のみ必要）</li>
+          <li class="warn"><strong>接種部位</strong>（子供の左/右の記入）</li>
+          <li class="warn">上下の<strong>日付不一致</strong></li>
+          <li>患者本人の<strong>チェック欄</strong>の未記入</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
