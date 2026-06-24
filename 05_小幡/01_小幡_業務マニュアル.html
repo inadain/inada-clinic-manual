@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="小幡 業務マニュアル">
-<title>いなだ医院｜小幡 業務マニュアル</title>
+<title>小幡 業務マニュアル</title>
 <style>
   :root {
     --primary: #1a6b9a;
@@ -497,7 +497,7 @@
 
 <header class="site-header">
   <div class="staff-badge">担当：小幡</div>
-  <h1>いなだ医院｜業務マニュアル</h1>
+  <h1>業務マニュアル</h1>
   <div class="subtitle">ヒアリング準拠版　最終更新：2026年4月</div>
 </header>
 <div class="page-layout">
@@ -1127,7 +1127,7 @@ async function submitFb() {
   if (!text) { status.textContent = '内容を入力してください'; status.style.color = '#dc2626'; return; }
   btn.disabled = true; btn.textContent = '送信中...';
   status.textContent = ''; status.style.color = '#64748b';
-  var page = document.title.replace('いなだ医院｜', '').replace('いなだ医院 ', '').trim();
+  var page = document.title.replace('', '').replace(' ', '').trim();
   var sec  = (document.querySelector('.nav-btn.active') || {}).textContent || '';
   var entry = { page: page, section: sec.trim(), type: type, text: text,
                 date: new Date().toLocaleDateString('ja-JP'), status: '未対応' };

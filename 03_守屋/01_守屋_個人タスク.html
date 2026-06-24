@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="守屋 個人タスク">
-<title>いなだ医院｜守屋 個人タスク</title>
+<title>守屋 個人タスク</title>
 <style>
   :root {
     --primary: #1a6b9a;
@@ -237,7 +237,7 @@
     <a class="back-link" href="../index.html">← 一覧</a>
     <div>
       <div class="staff-badge">担当：守屋</div>
-      <h1>いなだ医院｜個人タスク</h1>
+      <h1>個人タスク</h1>
       <div class="subtitle">ヒアリング準拠版　最終更新：2026年6月</div>
     </div>
   </div>
@@ -594,7 +594,7 @@ async function submitFb() {
   if (!text) { status.textContent = '内容を入力してください'; status.style.color = '#dc2626'; return; }
   btn.disabled = true; btn.textContent = '送信中...';
   status.textContent = ''; status.style.color = '#64748b';
-  var page = document.title.replace('いなだ医院｜', '').trim();
+  var page = document.title.replace('', '').trim();
   var sec  = (document.querySelector('.nav-btn.active') || {}).textContent || '';
   var entry = { page: page, section: sec.trim(), type: type, text: text,
                 date: new Date().toLocaleDateString('ja-JP'), status: '未対応' };

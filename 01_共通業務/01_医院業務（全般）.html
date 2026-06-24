@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>いなだ医院｜医院業務（全般）</title>
+<title>医院業務（全般）</title>
 <style>
 :root {
   --blue:        #1558a0;
@@ -964,7 +964,7 @@ async function submitFb() {
   if (!text) { status.textContent = '内容を入力してください'; status.style.color = '#dc2626'; return; }
   btn.disabled = true; btn.textContent = '送信中...';
   status.textContent = ''; status.style.color = '#64748b';
-  var page = document.title.replace('いなだ医院｜', '').replace('いなだ医院 ', '').trim();
+  var page = document.title.replace('', '').replace(' ', '').trim();
   var sec  = (document.querySelector('.nav-btn.active') || {}).textContent || '';
   var entry = { page: page, section: sec.trim(), type: type, text: text,
                 date: new Date().toLocaleDateString('ja-JP'), status: '未対応' };

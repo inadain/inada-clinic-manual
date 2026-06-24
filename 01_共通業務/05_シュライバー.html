@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>いなだ医院｜シュライバー</title>
+<title>シュライバー</title>
 <style>
 :root{--blue:#1558a0;--blue-mid:#1e74c8;--blue-light:#dbeafe;--blue-xlight:#eff6ff;--amber:#d97706;--amber-light:#fef3c7;--gray:#64748b;--gray-light:#f1f5f9;--border:#e2e8f0;--text:#0f172a;--bg:#f0f4f8;--white:#ffffff;--radius:12px;--shadow-sm:0 1px 3px rgba(0,0,0,.08);}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -244,7 +244,7 @@ async function submitFb() {
   if (!text) { status.textContent = '内容を入力してください'; status.style.color = '#dc2626'; return; }
   btn.disabled = true; btn.textContent = '送信中...';
   status.textContent = ''; status.style.color = '#64748b';
-  var page = document.title.replace('いなだ医院｜', '').replace('いなだ医院 ', '').trim();
+  var page = document.title.replace('', '').replace(' ', '').trim();
   var sec  = (document.querySelector('.nav-btn.active') || {}).textContent || '';
   var entry = { page: page, section: sec.trim(), type: type, text: text,
                 date: new Date().toLocaleDateString('ja-JP'), status: '未対応' };
