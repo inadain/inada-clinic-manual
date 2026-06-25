@@ -194,53 +194,52 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP"
       </div>
     </a>
   </div>
-  <div class="sb-section">
-    <div class="sb-section-label">目次</div>
-    <button class="sb-link active" onclick="scrollTo('s1')">
-      <span class="sb-link-icon">💊</span>長期収載品・選定療養
-    </button>
-    <button class="sb-link" onclick="scrollTo('s2')">
-      <span class="sb-link-icon">🪪</span>マイナ保険証・資格確認
-    </button>
-    <button class="sb-link" onclick="scrollTo('s3')">
-      <span class="sb-link-icon">📊</span>医療DX推進体制整備加算
-    </button>
-    <button class="sb-link" onclick="scrollTo('s4')">
-      <span class="sb-link-icon">🏥</span>外来感染対策向上加算
-    </button>
-    <button class="sb-link" onclick="scrollTo('s5')">
-      <span class="sb-link-icon">📋</span>生活習慣病管理料
-    </button>
-    <button class="sb-link" onclick="scrollTo('s6')">
-      <span class="sb-link-icon">💰</span>ベースアップ評価料
-    </button>
-    <button class="sb-link" onclick="scrollTo('s7')">
-      <span class="sb-link-icon">🏠</span>かかりつけ医機能報告
-    </button>
-    <button class="sb-link" onclick="scrollTo('s8')">
-      <span class="sb-link-icon">🔍</span>審査の一般的取扱い
-    </button>
-    <button class="sb-link" onclick="scrollTo('s9')">
-      <span class="sb-link-icon">📅</span>年末年始・休日加算
-    </button>
-    <button class="sb-link" onclick="scrollTo('s10')">
-      <span class="sb-link-icon">💴</span>補助金・支援事業
-    </button>
-    <button class="sb-link" onclick="scrollTo('s11')">
-      <span class="sb-link-icon">🔮</span>令和8年度改定情報
-    </button>
-    <button class="sb-link" onclick="scrollTo('s12')">
-      <span class="sb-link-icon">📌</span>個別指導・査定対策
-    </button>
-  </div>
-  <div class="sb-section">
-    <div class="sb-section-label">ナビゲーション</div>
-    <a class="sb-link" href="index.html">
-      <span class="sb-link-icon">←</span>勉強資料一覧へ
+  <div class="sb-section" style="padding-top:10px;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:10px">
+    <a class="sb-link" href="index.html" style="color:#fff;font-weight:800">
+      <span class="sb-link-icon">←</span>勉強資料一覧へ戻る
     </a>
     <a class="sb-link" href="../index.html">
       <span class="sb-link-icon">🏠</span>マニュアルトップ
     </a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">目次</div>
+    <button class="sb-link active" onclick="jumpTo('s1')">
+      <span class="sb-link-icon">💊</span>長期収載品・選定療養
+    </button>
+    <button class="sb-link" onclick="jumpTo('s2')">
+      <span class="sb-link-icon">🪪</span>マイナ保険証・資格確認
+    </button>
+    <button class="sb-link" onclick="jumpTo('s3')">
+      <span class="sb-link-icon">📊</span>医療DX推進体制整備加算
+    </button>
+    <button class="sb-link" onclick="jumpTo('s4')">
+      <span class="sb-link-icon">🏥</span>外来感染対策向上加算
+    </button>
+    <button class="sb-link" onclick="jumpTo('s5')">
+      <span class="sb-link-icon">📋</span>生活習慣病管理料
+    </button>
+    <button class="sb-link" onclick="jumpTo('s6')">
+      <span class="sb-link-icon">💰</span>ベースアップ評価料
+    </button>
+    <button class="sb-link" onclick="jumpTo('s7')">
+      <span class="sb-link-icon">🏠</span>かかりつけ医機能報告
+    </button>
+    <button class="sb-link" onclick="jumpTo('s8')">
+      <span class="sb-link-icon">🔍</span>審査の一般的取扱い
+    </button>
+    <button class="sb-link" onclick="jumpTo('s9')">
+      <span class="sb-link-icon">📅</span>年末年始・休日加算
+    </button>
+    <button class="sb-link" onclick="jumpTo('s10')">
+      <span class="sb-link-icon">💴</span>補助金・支援事業
+    </button>
+    <button class="sb-link" onclick="jumpTo('s11')">
+      <span class="sb-link-icon">🔮</span>令和8年度改定情報
+    </button>
+    <button class="sb-link" onclick="jumpTo('s12')">
+      <span class="sb-link-icon">📌</span>個別指導・査定対策
+    </button>
   </div>
 </nav>
 
@@ -1026,10 +1025,9 @@ function toggleMenu(){
   sb.classList.toggle('open');
   ov.classList.toggle('open');
 }
-function scrollTo(id){
+function jumpTo(id){
   const el=document.getElementById(id);
   if(el){el.scrollIntoView({behavior:'smooth',block:'start'})}
-  // モバイルでメニューを閉じる
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('overlay').classList.remove('open');
 }
@@ -1048,7 +1046,7 @@ window.addEventListener('scroll',()=>{
   });
   links.forEach(l=>{
     l.classList.remove('active');
-    if(l.getAttribute('onclick')&&l.getAttribute('onclick').includes("'"+cur+"'"))
+    if(l.getAttribute('onclick')&&l.getAttribute('onclick').includes("jumpTo('"+cur+"')"))
       l.classList.add('active');
   });
 },{ passive:true });
