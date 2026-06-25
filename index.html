@@ -199,23 +199,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
 .badge.done        { background: var(--green-lt);  color: var(--green); }
 .badge.in-progress { background: var(--amber-lt);  color: var(--amber); }
 .badge.pending     { background: var(--gray-lt);   color: var(--gray); }
-.tab-chips { display: flex; flex-wrap: wrap; gap: 3px; justify-content: flex-end; }
-.tab-chip  { font-size: 10px; background: var(--blue-xl); color: var(--blue-mid); border-radius: 999px; padding: 2px 6px; }
-.tab-chip.g { background: var(--gray-lt); color: var(--gray); }
 
-/* ── Progress card ── */
-.prog-card { background: var(--white); border-radius: var(--r); box-shadow: var(--sh); padding: 16px 18px; }
-.prog-card h3 { font-size: 11px; font-weight: 800; color: var(--gray); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 14px; }
-.prog-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
-.prog-row:last-child { margin-bottom: 0; }
-.prog-label { font-size: 12px; width: 120px; flex-shrink: 0; color: var(--text-sub); }
-.prog-track { flex: 1; height: 7px; background: var(--gray-mid); border-radius: 999px; overflow: hidden; }
-.prog-fill  { height: 100%; border-radius: 999px; transition: width .6s ease; }
-.prog-fill.blue  { background: var(--blue-mid); }
-.prog-fill.green { background: var(--green); }
-.prog-fill.amber { background: var(--amber); }
-.prog-fill.gray  { background: var(--gray); }
-.prog-pct { font-size: 11px; font-weight: 700; color: var(--text-sub); width: 30px; text-align: right; flex-shrink: 0; }
 
 /* ── Staff cards ── */
 .staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
@@ -348,35 +332,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
 <div class="hero">
   <h2>業務マニュアル 一覧</h2>
   <p>ヒアリング録音 → 文字起こし → AI整理 で作成<br>随時更新中 · 不明点は担当者へ確認を</p>
-  <div class="hero-stats">
-    <div class="hero-stat"><div class="n">7</div><div class="l">共通業務</div></div>
-    <div class="hero-stat"><div class="n">5</div><div class="l">担当者</div></div>
-    <div class="hero-stat"><div class="n">9</div><div class="l">公開中</div></div>
-  </div>
 </div>
 
 <main class="main">
 <div class="page-body">
 
-<aside class="sidebar-col">
-  <!-- 作成進捗 -->
-  <div class="sec-head">
-    <div class="sec-icon green">📊</div>
-    <div><h2>作成進捗</h2></div>
-  </div>
-  <div class="prog-card">
-    <div class="prog-row"><div class="prog-label">医院業務（全般）</div><div class="prog-track"><div class="prog-fill green" style="width:85%"></div></div><div class="prog-pct">85%</div></div>
-    <div class="prog-row"><div class="prog-label">受付</div><div class="prog-track"><div class="prog-fill green" style="width:90%"></div></div><div class="prog-pct">90%</div></div>
-    <div class="prog-row"><div class="prog-label">薬局</div><div class="prog-track"><div class="prog-fill blue" style="width:100%"></div></div><div class="prog-pct">100%</div></div>
-    <div class="prog-row"><div class="prog-label">会計</div><div class="prog-track"><div class="prog-fill amber" style="width:40%"></div></div><div class="prog-pct">40%</div></div>
-    <div class="prog-row"><div class="prog-label">シュライバー</div><div class="prog-track"><div class="prog-fill gray" style="width:0%"></div></div><div class="prog-pct">0%</div></div>
-    <div class="prog-row"><div class="prog-label">レセプト（共通）</div><div class="prog-track"><div class="prog-fill gray" style="width:0%"></div></div><div class="prog-pct">0%</div></div>
-    <div class="prog-row"><div class="prog-label">個人タスク（小幡）</div><div class="prog-track"><div class="prog-fill amber" style="width:70%"></div></div><div class="prog-pct">70%</div></div>
-    <div class="prog-row"><div class="prog-label">個人タスク（守屋）</div><div class="prog-track"><div class="prog-fill amber" style="width:25%"></div></div><div class="prog-pct">25%</div></div>
-    <div class="prog-row"><div class="prog-label">業務マニュアル（吉田）</div><div class="prog-track"><div class="prog-fill amber" style="width:60%"></div></div><div class="prog-pct">60%</div></div>
-  </div>
-
-</aside><!-- /sidebar-col -->
 
 <div class="content-col">
   <!-- 共通業務 -->
@@ -396,10 +356,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
           <div class="card-desc">開院準備・昼休憩・閉院・電話切替・スタッフ連携</div>
         </div>
       </div>
-      <div class="card-foot">
-        <span class="badge done">✅ 公開中</span>
-        <div class="tab-chips"><span class="tab-chip">朝の開院</span><span class="tab-chip">昼休憩</span><span class="tab-chip">閉院</span></div>
-      </div>
+      <div class="card-foot"><span class="badge done">整備中</span></div>
     </a>
 
     <a class="manual-card done" href="01_共通業務/02_受付.html">
@@ -411,10 +368,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
           <div class="card-desc">保険確認・公費・労災・発熱外来・書類対応</div>
         </div>
       </div>
-      <div class="card-foot">
-        <span class="badge done">✅ 公開中</span>
-        <div class="tab-chips"><span class="tab-chip">基本受付</span><span class="tab-chip">保険</span><span class="tab-chip">公費</span><span class="tab-chip">労災</span></div>
-      </div>
+      <div class="card-foot"><span class="badge done">整備中</span></div>
     </a>
 
     <a class="manual-card done" href="01_共通業務/03_薬局.html">
@@ -426,10 +380,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
           <div class="card-desc">調剤・在庫管理・ダブルチェック・採用薬リスト</div>
         </div>
       </div>
-      <div class="card-foot">
-        <span class="badge done">✅ 完成</span>
-        <div class="tab-chips"><span class="tab-chip">調剤</span><span class="tab-chip">在庫</span><span class="tab-chip">薬袋</span><span class="tab-chip">採用薬</span></div>
-      </div>
+      <div class="card-foot"><span class="badge done">整備中</span></div>
     </a>
 
     <a class="manual-card in-progress" href="01_共通業務/04_会計.html">
@@ -441,10 +392,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
           <div class="card-desc">会計フロー・レジ締め・月次集計</div>
         </div>
       </div>
-      <div class="card-foot">
-        <span class="badge in-progress">🔄 整備中</span>
-        <div class="tab-chips"><span class="tab-chip">レジ締め</span><span class="tab-chip g">月次</span></div>
-      </div>
+      <div class="card-foot"><span class="badge in-progress">整備中</span></div>
     </a>
 
     <a class="manual-card pending">
@@ -456,10 +404,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
           <div class="card-desc">診察補助業務</div>
         </div>
       </div>
-      <div class="card-foot">
-        <span class="badge pending">⬜ 録音待ち</span>
-        <div class="tab-chips"><span class="tab-chip g">未収録</span></div>
-      </div>
+      <div class="card-foot"><span class="badge pending">未整備</span></div>
     </a>
 
     <a class="manual-card pending">
@@ -471,10 +416,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
           <div class="card-desc">月次レセプト点検・請求業務</div>
         </div>
       </div>
-      <div class="card-foot">
-        <span class="badge pending">⬜ 録音待ち</span>
-        <div class="tab-chips"><span class="tab-chip g">未収録</span></div>
-      </div>
+      <div class="card-foot"><span class="badge pending">未整備</span></div>
     </a>
 
     <a class="manual-card in-progress" href="01_共通業務/08_レセプト整合表.html">
@@ -483,13 +425,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
         <div class="card-info">
           <div class="card-no">共通業務 ⑧</div>
           <div class="card-title">レセプト整合表</div>
-          <div class="card-desc">処方・検査と必要な病名の対応一覧（病名入力中）</div>
+          <div class="card-desc">処方・検査と必要な病名の対応一覧</div>
         </div>
       </div>
-      <div class="card-foot">
-        <span class="badge in-progress">🔄 整備中</span>
-        <div class="tab-chips"><span class="tab-chip">薬剤</span><span class="tab-chip">検査</span><span class="tab-chip">処置</span></div>
-      </div>
+      <div class="card-foot"><span class="badge in-progress">整備中</span></div>
     </a>
 
     <a class="manual-card in-progress" href="01_共通業務/07_個人タスク.html">
@@ -498,13 +437,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
         <div class="card-info">
           <div class="card-no">共通業務 ⑦</div>
           <div class="card-title">個人タスク</div>
-          <div class="card-desc">各担当者の専門業務（流動的）</div>
+          <div class="card-desc">各担当者の専門業務</div>
         </div>
       </div>
-      <div class="card-foot">
-        <span class="badge in-progress">🔄 整備中</span>
-        <div class="tab-chips"><span class="tab-chip">小幡</span><span class="tab-chip g">他4名</span></div>
-      </div>
+      <div class="card-foot"><span class="badge in-progress">整備中</span></div>
     </a>
 
   </div>
@@ -522,23 +458,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
         <div class="staff-name">小幡</div>
         <div class="staff-role">書類・レセプト<br>詳記担当</div>
       </div>
-      <div class="staff-foot"><span class="staff-badge t">🔄 整備中</span></div>
+      <div class="staff-foot"><span class="staff-badge t">整備中</span></div>
     </a>
     <a class="staff-card active" href="02_吉田/01_吉田_業務マニュアル.html">
       <div class="staff-top"><div class="staff-av t">👩</div><div class="staff-name">吉田</div><div class="staff-role">受付・書類<br>担当</div></div>
-      <div class="staff-foot"><span class="staff-badge t">🔄 整備中</span></div>
+      <div class="staff-foot"><span class="staff-badge t">整備中</span></div>
     </a>
     <a class="staff-card active" href="03_守屋/01_守屋_個人タスク.html">
       <div class="staff-top"><div class="staff-av t">👩</div><div class="staff-name">守屋</div><div class="staff-role">レセプト詳記<br>各種健診担当</div></div>
-      <div class="staff-foot"><span class="staff-badge t">🔄 整備中</span></div>
+      <div class="staff-foot"><span class="staff-badge t">整備中</span></div>
     </a>
     <div class="staff-card pending">
-      <div class="staff-top"><div class="staff-av g">👩</div><div class="staff-name">松浦</div><div class="staff-role">録音待ち</div></div>
-      <div class="staff-foot"><span class="staff-badge g">⬜ 未収録</span></div>
+      <div class="staff-top"><div class="staff-av g">👩</div><div class="staff-name">松浦</div><div class="staff-role">未整備</div></div>
+      <div class="staff-foot"><span class="staff-badge g">未整備</span></div>
     </div>
     <a class="staff-card active" href="06_綾目/01_予防接種票_チェック・請求.html">
       <div class="staff-top"><div class="staff-av t">👩</div><div class="staff-name">綾目</div><div class="staff-role">予防接種票<br>チェック・請求</div></div>
-      <div class="staff-foot"><span class="staff-badge t">🔄 整備中</span></div>
+      <div class="staff-foot"><span class="staff-badge t">整備中</span></div>
     </a>
   </div>
 
@@ -560,10 +496,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
           <div class="card-desc">基礎シリーズ（全8回）・加算解説・地域包括診療加算など。初学者向け教材をまとめています</div>
         </div>
       </div>
-      <div class="card-foot">
-        <span class="badge in-progress">🔄 整備中</span>
-        <div class="tab-chips"><span class="tab-chip">基礎シリーズ</span><span class="tab-chip">加算一覧</span><span class="tab-chip">全8回</span></div>
-      </div>
+      <div class="card-foot"><span class="badge in-progress">整備中</span></div>
     </a>
 
   </div>
