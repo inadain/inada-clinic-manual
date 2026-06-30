@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>受付受診票</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    font-size: 10pt;
+    line-height: 1.6;
+    color: #000;
+    background: #fff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .page {
+    width: 148mm;
+    height: 210mm;
+    margin: 0 auto;
+    padding: 5mm 6mm;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* タイトル */
+  .title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 2.5px solid #000;
+    border-bottom: 2.5px solid #000;
+    padding: 2px 2px;
+    margin-bottom: 3px;
+  }
+  .title-row h1 { font-size: 12pt; font-weight: bold; letter-spacing: 0.1em; }
+  .date-line { display: inline-block; border-bottom: 1.5px solid #000; width: 80px; height: 14px; }
+
+  /* 名前・ID */
+  .name-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 3px;
+    align-items: flex-end;
+  }
+  .name-row .field-sm { flex: 1; }
+  .name-row .field    { flex: 2; }
+  .field-label { font-size: 8pt; font-weight: bold; margin-bottom: 1px; }
+  .field-line { border-bottom: 1.5px solid #000; height: 16px; }
+
+  /* セクション共通 */
+  .section {
+    border: 1.5px solid #000;
+    margin-bottom: 3px;
+    overflow: hidden;
+  }
+  .sec-head {
+    background: #000;
+    color: #fff;
+    font-size: 9pt;
+    font-weight: bold;
+    padding: 2px 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .sec-num {
+    background: #fff;
+    color: #000;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    font-size: 8.5pt;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+  .sec-body { padding: 4px 6px; }
+
+  /* チェックボックス */
+  .cb { display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
+  .cb input[type="checkbox"] {
+    width: 12px; height: 12px;
+    border: 1.5px solid #000;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background: #fff;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .cb input[type="checkbox"]:checked::after {
+    content: "✓"; position: absolute; top: -3px; left: 0;
+    font-size: 12px; color: #000;
+  }
+
+  /* 4列グリッド */
+  .cb-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px 4px;
+  }
+  /* 3列グリッド */
+  .cb-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px 4px;
+  }
+
+  /* 体温 */
+  .temp-box {
+    border: none;
+    border-bottom: 1.5px solid #000;
+    width: 44px;
+    font-size: 10pt;
+    text-align: center;
+    outline: none;
+  }
+
+  /* 担当医＋体温 横並び */
+  .doc-temp-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .doc-part { display: flex; gap: 10px; align-items: center; }
+  .temp-part { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+
+  /* ワクチングループ */
+  .vac-group { margin-bottom: 3px; }
+  .vac-group-title {
+    font-size: 8.5pt;
+    font-weight: bold;
+    background: #ddd;
+    border-left: 3px solid #000;
+    padding: 1px 4px;
+    margin-bottom: 2px;
+  }
+
+  /* インスリン記入欄 */
+  .insulin-line {
+    display: inline-block;
+    border-bottom: 1.5px solid #000;
+    width: 30px;
+    vertical-align: bottom;
+  }
+  .insulin-row {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    padding: 3px 0;
+    font-size: 10pt;
+  }
+
+  /* 持参物 */
+  .cb-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    padding: 3px 0;
+  }
+
+  /* 健診その他 */
+  .other-line {
+    display: inline-block;
+    border-bottom: 1px solid #000;
+    width: 60px;
+    vertical-align: -2px;
+  }
+
+  /* 受診後確認 */
+  .confirm-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 5px;
+    border: 2px solid #000;
+    margin-top: 3px;
+    font-size: 9pt;
+  }
+  .confirm-label {
+    font-size: 8.5pt;
+    font-weight: bold;
+    border-right: 1.5px solid #000;
+    padding-right: 7px;
+  }
+
+  /* 地域包括加算チェック */
+  .chiiki-wrap {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .chiiki-step {
+    flex: 1;
+  }
+  .chiiki-step-title {
+    font-size: 7.5pt;
+    font-weight: bold;
+    background: #1e3a5f;
+    color: #fff;
+    border-radius: 3px;
+    padding: 1px 5px;
+    margin-bottom: 3px;
+    display: inline-block;
+  }
+  .chiiki-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 8.5pt;
+    margin-bottom: 2px;
+    flex-wrap: wrap;
+  }
+  .chiiki-label {
+    font-size: 8pt;
+    font-weight: bold;
+    color: #1e3a5f;
+    min-width: 72px;
+  }
+  .chiiki-note {
+    font-size: 7pt;
+    color: #555;
+    margin-top: 2px;
+  }
+
+  /* マニュアルリンク */
+  .manual-link {
+    margin-left: auto;
+    font-size: 7pt;
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 3px;
+    padding: 1px 5px;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .manual-link:hover { background: rgba(255,255,255,0.35); }
+
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; }
+    @page { size: A5 portrait; margin: 0; }
+    .manual-link { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- タイトル -->
+  <div class="title-row">
+    <h1>受付受診票</h1>
+  </div>
+
+  <!-- 患者ID・名前（ID左・名前右） -->
+  <div class="name-row">
+    <div class="field-sm">
+      <div class="field-label">患者ID</div>
+      <div class="field-line"></div>
+    </div>
+    <div class="field">
+      <div class="field-label">お名前</div>
+      <div class="field-line"></div>
+    </div>
+  </div>
+
+  <!-- 1. 担当医・体温 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">1</span>担当医・体温</div>
+    <div class="sec-body">
+      <div class="doc-temp-row">
+        <div class="doc-part">
+          <label class="cb"><input type="checkbox">稲田 俊雄 院長</label>
+          <label class="cb"><input type="checkbox">稲田 崇志 医師</label>
+          <label class="cb"><input type="checkbox">どちらでも良い</label>
+        </div>
+        <div class="temp-part">
+          <input class="temp-box" type="text">
+          <span>℃</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 受診理由 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">2</span>本日の受診理由</div>
+    <div class="sec-body">
+      <div class="cb-grid">
+        <label class="cb"><input type="checkbox">定期受診</label>
+        <label class="cb"><input type="checkbox">健診</label>
+        <label class="cb"><input type="checkbox">予防接種</label>
+        <label class="cb"><input type="checkbox">電話再診</label>
+        <label class="cb"><input type="checkbox">検査結果</label>
+        <label class="cb"><input type="checkbox">注射・点滴</label>
+        <label class="cb"><input type="checkbox">処置</label>
+        <label class="cb"><input type="checkbox">電気</label>
+        <label class="cb"><input type="checkbox">内視鏡</label>
+        <label class="cb"><input type="checkbox">薬（家族のみ）</label>
+        <label class="cb"><input type="checkbox">その他</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 地域包括診療加算 受付確認 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">3</span>地域包括診療加算 ― 受付確認<span style="font-size:7.5pt;font-weight:normal;margin-left:4px;">（定期受診の方のみ）</span></div>
+    <div class="sec-body" style="padding:4px 6px;">
+      <div class="chiiki-wrap">
+
+        <!-- レセコン確認 -->
+        <div class="chiiki-step" style="flex:1.2;">
+          <label class="cb" style="display:flex;margin-bottom:3px;align-items:flex-start;">
+            <input type="checkbox" style="margin-top:2px;">
+            <span style="font-size:8pt;color:#166534;font-weight:bold;">加算1（認知症）算定中</span>
+          </label>
+          <label class="cb" style="display:flex;margin-bottom:3px;align-items:flex-start;">
+            <input type="checkbox" style="margin-top:2px;">
+            <span style="font-size:8pt;color:#1e3a8a;font-weight:bold;">加算1（その他）算定中</span>
+          </label>
+          <label class="cb" style="display:flex;align-items:flex-start;">
+            <input type="checkbox" style="margin-top:2px;">
+            <span style="font-size:8pt;font-weight:bold;">加算なし（新規・変更なし）</span>
+          </label>
+        </div>
+
+        <!-- 必要項目確認 -->
+        <div class="chiiki-step" style="flex:1.8;">
+          <div class="chiiki-row">
+            <span class="chiiki-label">①認知症の病名</span>
+            <label class="cb"><input type="checkbox">あり</label>
+            <label class="cb"><input type="checkbox">なし</label>
+          </div>
+          <div class="chiiki-row">
+            <span class="chiiki-label">②慢性5疾患</span>
+            <label class="cb"><input type="checkbox">あり（1種）</label>
+            <label class="cb"><input type="checkbox">あり（2種〜）</label>
+            <label class="cb"><input type="checkbox">なし</label>
+          </div>
+          <div class="chiiki-row">
+            <span class="chiiki-label">③介護サービス</span>
+            <label class="cb"><input type="checkbox">あり</label>
+            <label class="cb"><input type="checkbox">なし</label>
+            <label class="cb"><input type="checkbox">不明</label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. インスリン関連 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">4</span>インスリン関連</div>
+    <div class="sec-body">
+      <div class="insulin-row">
+        <span>ナノパスニードル&nbsp;<span class="insulin-line"></span>&nbsp;袋（14本/袋）</span>
+        <span>チップ&nbsp;<span class="insulin-line"></span>&nbsp;本</span>
+        <span>針&nbsp;<span class="insulin-line"></span>&nbsp;本</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 持参物 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">5</span>持参物（お持ちのものに✓）</div>
+    <div class="sec-body">
+      <div class="cb-wrap">
+        <label class="cb"><input type="checkbox">保険証</label>
+        <label class="cb"><input type="checkbox">診察券</label>
+        <label class="cb"><input type="checkbox">マイナンバーカード・スマホ</label>
+        <label class="cb"><input type="checkbox">血圧手帳</label>
+        <label class="cb"><input type="checkbox">おくすり手帳</label>
+        <label class="cb"><input type="checkbox">母子手帳</label>
+        <label class="cb"><input type="checkbox">血糖手帳</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 健診の方 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">6</span>健診の方</div>
+    <div class="sec-body">
+      <div class="cb-wrap">
+        <label class="cb"><input type="checkbox">ニシナ</label>
+        <label class="cb"><input type="checkbox">のだ初</label>
+        <label class="cb"><input type="checkbox">倉敷市</label>
+        <label class="cb"><input type="checkbox">雇用時</label>
+        <label class="cb"><input type="checkbox">その他</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. 予防接種の方 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">7</span>予防接種の方</div>
+    <div class="sec-body">
+
+      <div class="vac-group">
+        <div class="vac-group-title">成人</div>
+        <div class="cb-grid">
+          <label class="cb"><input type="checkbox">インフルエンザ</label>
+          <label class="cb"><input type="checkbox">新型コロナ</label>
+          <label class="cb"><input type="checkbox">肺炎球菌<span style="font-size:7pt;">（プレベナー）</span></label>
+          <label class="cb"><input type="checkbox">帯状疱疹</label>
+        </div>
+      </div>
+
+      <div class="vac-group">
+        <div class="vac-group-title">小児</div>
+        <div class="cb-grid">
+          <label class="cb"><input type="checkbox">B型肝炎</label>
+          <label class="cb"><input type="checkbox">ロタウイルス</label>
+          <label class="cb"><input type="checkbox">ヒブ</label>
+          <label class="cb"><input type="checkbox">小児肺炎球菌<span style="font-size:7pt;">（プレベナー）</span></label>
+          <label class="cb"><input type="checkbox">五種混合<span style="font-size:7pt;">（DPT-IPV-Hib）</span></label>
+          <label class="cb"><input type="checkbox">四種混合<span style="font-size:7pt;">（DPT-IPV）</span></label>
+          <label class="cb"><input type="checkbox">BCG</label>
+          <label class="cb"><input type="checkbox">MR<span style="font-size:7pt;">（麻しん・風しん）</span></label>
+          <label class="cb"><input type="checkbox">おたふくかぜ</label>
+          <label class="cb"><input type="checkbox">水痘<span style="font-size:7pt;">（水ぼうそう）</span></label>
+          <label class="cb"><input type="checkbox">日本脳炎</label>
+          <label class="cb"><input type="checkbox">二種混合<span style="font-size:7pt;">（DT）</span></label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 8. コメント -->
+  <div class="section" style="flex:1;display:flex;flex-direction:column;">
+    <div class="sec-head"><span class="sec-num">8</span>コメント・申し送り</div>
+    <div class="sec-body" style="flex:1;"></div>
+  </div>
+
+  <!-- 受診後確認 -->
+  <div class="confirm-row">
+    <span class="confirm-label">【事務チェック】</span>
+    <label class="cb"><input type="checkbox"><span>病名</span></label>
+    <label class="cb"><input type="checkbox"><span>検尿</span></label>
+  </div>
+
+</div>
+</body>
+</html>
