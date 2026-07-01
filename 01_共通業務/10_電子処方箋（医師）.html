@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電子処方箋マニュアル（医師）</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+  font-size: 14px; line-height: 1.7; color: #1a202c;
+  background: #f7f8fa; padding: 32px 20px 60px;
+}
+.container { max-width: 760px; margin: 0 auto; }
+
+.page-header {
+  background: linear-gradient(135deg, #064e3b 0%, #059669 100%);
+  border-radius: 12px; padding: 22px 28px; margin-bottom: 24px; color: #fff;
+}
+.page-header h1 { font-size: 1.2rem; font-weight: 800; margin-bottom: 4px; }
+.page-header p  { font-size: 12px; opacity: .75; }
+
+.banner {
+  border-radius: 10px; padding: 14px 20px; margin-bottom: 20px;
+  font-size: 13.5px; line-height: 1.9;
+}
+.banner.info  { background: #ecfdf5; border-left: 4px solid #059669; color: #064e3b; }
+.banner.warn  { background: #fff7ed; border-left: 4px solid #f59e0b; color: #78350f; }
+.banner strong { font-weight: 800; }
+
+.section { background: #fff; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.07); margin-bottom: 20px; overflow: hidden; }
+.section-head {
+  padding: 11px 20px; font-size: 13px; font-weight: 800;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-head.green  { background: #dcfce7; color: #166534; }
+.section-head.blue   { background: #dbeafe; color: #1e40af; }
+.section-head.red    { background: #fee2e2; color: #991b1b; }
+.section-head.gray   { background: #f1f5f9; color: #475569; }
+.section-body { padding: 16px 20px; }
+
+.steps { counter-reset: step; }
+.step {
+  display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start;
+}
+.step:last-child { margin-bottom: 0; }
+.step-num {
+  counter-increment: step;
+  width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+  background: #059669; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; margin-top: 1px;
+}
+.step-body { flex: 1; }
+.step-title { font-size: 13.5px; font-weight: 700; margin-bottom: 2px; }
+.step-desc  { font-size: 12.5px; color: #475569; line-height: 1.7; }
+
+.qa-item { margin-bottom: 14px; }
+.qa-item:last-child { margin-bottom: 0; }
+.qa-q { font-weight: 800; color: #1e3a5f; margin-bottom: 3px; }
+.qa-a { font-size: 13px; color: #374151; padding-left: 1em; line-height: 1.8; }
+
+.caution {
+  background: #fef2f2; border: 1.5px solid #fca5a5;
+  border-radius: 8px; padding: 12px 16px;
+  font-size: 12.5px; color: #991b1b; line-height: 1.8;
+}
+
+.req-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.req-table th { background: #1e3a5f; color: #fff; padding: 9px 12px; text-align: left; font-weight: 700; }
+.req-table td { padding: 10px 12px; border-bottom: 1px solid #e8ecf0; vertical-align: top; }
+.req-table tr:last-child td { border-bottom: none; }
+
+.badge-done { display:inline-block; background:#dcfce7; color:#166534; border-radius:6px; padding:2px 10px; font-size:11px; font-weight:700; }
+.badge-todo { display:inline-block; background:#fee2e2; color:#991b1b; border-radius:6px; padding:2px 10px; font-size:11px; font-weight:700; }
+
+@media print {
+  body { background: #fff; }
+  .section { box-shadow: none; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="page-header">
+    <h1>電子処方箋マニュアル（医師向け）</h1>
+    <p>電子的診療情報連携体制整備加算 対応 ／ 2026年6月改定</p>
+  </div>
+
+  <!-- 結論 -->
+  <div class="banner info">
+    <strong>【結論】当面、先生の操作は何も変わりません。</strong><br>
+    電子処方箋の発行形態は受付スタッフが選択します。院長が電子処方箋（2番）を出すよう指示した患者さんのカルテを閉じる際に、重複投薬チェックの画面（約3秒）が表示されるだけです。
+  </div>
+
+  <!-- 通常の流れ -->
+  <div class="section">
+    <div class="section-head green">🖥️ 電子処方箋を出す患者のカルテ操作</div>
+    <div class="section-body">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">通常通りカルテを開いてSOAPを入力・処方を入力</div>
+            <div class="step-desc">操作は今まで通りです。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">カルテを「終了」する</div>
+            <div class="step-desc">終了ボタンを押すと、処方データが支払基金にアップロードされます。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">重複投薬チェック画面が約3秒表示される（待つだけ）</div>
+            <div class="step-desc">他のクリニックで同じ薬をもらっていないかチェックします。チェック中は画面に「重複チェック中」の表示が出ます。終わるまで待ってください。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">重複があった場合：確認してOKまたは処方修正</div>
+            <div class="step-desc">
+              重複なし（問題ない）と判断した場合 → OKボタンを押す<br>
+              処方を修正する場合 → 処方内容を直してから再度終了（再チェックされます）
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HPKIカード -->
+  <div class="section">
+    <div class="section-head blue">💳 HPKIカードについて（1番を出す場合のみ）</div>
+    <div class="section-body">
+      <div class="banner warn" style="margin-bottom:14px;">
+        当面は2番・3番の運用のため、HPKIカードは使いません。国の指示があるまで1番は使いません。
+      </div>
+      <p style="font-size:13px;font-weight:700;margin-bottom:10px;color:#1e3a5f;">将来、1番（完全電子処方箋）を出す場合の手順：</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">HPKIカードをカードホルダーに差し込む</div>
+            <div class="step-desc">表裏・向きはどちらでも構いません。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">デスクトップの「ピン入力」アイコンをダブルクリック</div>
+            <div class="step-desc">画面中央に小さい入力欄が表示されます。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">暗証番号4桁を入力してOK</div>
+            <div class="step-desc">正しければ入力欄が消えます。間違えるとすぐ再表示されます。</div>
+          </div>
+        </div>
+      </div>
+      <div class="caution" style="margin-top:14px;">
+        <strong>⚠️ 暗証番号を14回連続で間違えるとカードがロックされます。</strong><br>
+        ロック解除は非常に手間がかかります。不確かな場合は入力を止めてスタッフに確認してください。
+      </div>
+    </div>
+  </div>
+
+  <!-- よくある質問 -->
+  <div class="section">
+    <div class="section-head gray">❓ よくある疑問</div>
+    <div class="section-body">
+      <div class="qa-item">
+        <div class="qa-q">Q. 院内処方の患者でも何か出る？</div>
+        <div class="qa-a">A. 設定をオフにしています（※）ので、院内処方ではポップアップは出ません。<br>
+        <span style="font-size:11.5px;color:#94a3b8">※ 設定変更後にカルテソフトを再起動済みの場合に有効です。</span></div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Q. 処方チェックに何秒かかる？</div>
+        <div class="qa-a">A. 多剤処方や複数機関にかかっている患者さんは最大20秒程度かかる場合があります。チェック中は「重複チェック中」の表示が出るので、消えるまで待ってください。</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Q. 誰が電子処方箋を出す患者を決める？</div>
+        <div class="qa-a">A. 院長が判断して受付に指示します。スタッフが勝手に切り替えることはありません。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ポータルサイト手続き（必須） -->
+  <div class="section">
+    <div class="section-head red">📌 加算取得に必要な手続き（要確認）</div>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:12px;color:#374151;">電子的診療情報連携体制整備加算を算定するには、オンライン資格確認ポータルサイトで以下2点の登録が必要です。</p>
+      <table class="req-table">
+        <thead>
+          <tr><th>手続き</th><th>内容</th><th>状況</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>電子処方箋サービスの<strong>利用申請</strong></td>
+            <td>ポータルサイトのマイページから申請</td>
+            <td><span class="badge-todo">要確認</span></td>
+          </tr>
+          <tr>
+            <td><strong>運用開始日</strong>の入力</td>
+            <td>電子処方箋の運用を開始した日付を入力</td>
+            <td><span class="badge-todo">要確認</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="banner warn" style="margin-top:12px;margin-bottom:0;">
+        <strong>この2点が未登録だと処方チェックが拒否されます。</strong><br>
+        ポータルサイトへのログインは院長（または事務長）が行います。
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
