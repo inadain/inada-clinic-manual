@@ -326,8 +326,18 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sa
       <p>スタッフ向け業務手順書ポータル</p>
     </div>
     <div class="header-lock">🔒 認証済み</div>
+    <div id="header-qr" style="flex-shrink:0;background:#fff;border-radius:6px;padding:4px;line-height:0;"></div>
   </div>
 </header>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  new QRCode(document.getElementById("header-qr"), {
+    text: "https://manual.inadaiin.com/",
+    width: 48, height: 48,
+    colorDark: "#1558a0", colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.M
+  });
+</script>
 
 <div class="hero">
   <h2>業務マニュアル 一覧</h2>
