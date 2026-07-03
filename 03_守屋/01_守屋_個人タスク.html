@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="守屋 個人タスク">
+<title>守屋 個人タスク</title>
+<style>
+  :root {
+    --primary: #1a6b9a;
+    --primary-light: #e8f4fb;
+    --accent: #2eaa72;
+    --accent-light: #e6f7f0;
+    --warn: #e07b2a;
+    --warn-light: #fff4e8;
+    --gray: #6b7280;
+    --gray-light: #f3f4f6;
+    --border: #e5e7eb;
+    --text: #1f2937;
+    --radius: 10px;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08);
+    --blue: #1558a0;
+    --blue-xlight: #eff6ff;
+    --blue-light: #dbeafe;
+    --blue-mid: #1e74c8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+    font-size: 15px; line-height: 1.75; color: var(--text); background: #f7f8fa;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    position: sticky; top: 0; z-index: 100;
+    background: linear-gradient(135deg, #1a6b9a 0%, #0d4f75 100%);
+    color: white; padding: 0 16px; min-height: 56px;
+    display: flex; align-items: center;
+  }
+  .header-inner {
+    position: relative; display: flex; align-items: center;
+    width: 100%; max-width: 960px; margin: 0 auto;
+    padding: 10px 0 10px 110px; text-align: center;
+  }
+  .back-link {
+    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    display: inline-flex; align-items: center; gap: 5px;
+    color: rgba(255,255,255,.92); font-size: 12px; font-weight: 600; text-decoration: none;
+    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+    border-radius: 20px; padding: 6px 13px; white-space: nowrap; transition: background .15s;
+  }
+  .back-link:hover { background: rgba(255,255,255,.3); color: #fff; }
+  .site-header h1 { font-size: 16px; font-weight: 800; color: #fff; letter-spacing: .02em; margin: 0; }
+  .site-header .subtitle { font-size: 10px; color: rgba(255,255,255,.65); margin-top: 1px; }
+  .staff-badge {
+    display: inline-block; background: rgba(255,255,255,0.25); border-radius: 20px;
+    padding: 3px 14px; font-size: 10px; font-weight: 700; margin-bottom: 3px;
+  }
+
+  /* ── NAV SIDEBAR ── */
+  .page-layout { display: flex; align-items: flex-start; }
+  .nav-sidebar {
+    width: 185px; flex-shrink: 0; position: sticky; top: 56px;
+    height: calc(100vh - 56px); overflow-y: auto;
+    background: #f8fafc; border-right: 1px solid var(--border); padding: 12px 0; display: none;
+  }
+  @media (min-width: 700px) { .nav-sidebar { display: block; } }
+  .nav-head {
+    font-size: 10px; font-weight: 800; color: var(--blue);
+    text-transform: uppercase; letter-spacing: .08em;
+    padding: 0 12px 10px; border-bottom: 2px solid var(--blue-light); margin-bottom: 4px;
+  }
+  .nav-list { list-style: none; }
+  .nav-btn {
+    display: block; width: 100%; text-align: left;
+    padding: 9px 12px; font-size: 13px; color: var(--gray);
+    background: none; border: none; cursor: pointer;
+    border-left: 3px solid transparent; line-height: 1.4;
+    transition: all .15s; font-family: inherit; text-decoration: none;
+  }
+  .nav-btn:hover { color: var(--blue); background: #eff6ff; }
+  .nav-btn.active { color: var(--blue); border-left-color: var(--blue); background: #eff6ff; font-weight: 700; }
+  .nav-btn .dot-done  { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-right: 6px; vertical-align: middle; }
+  .nav-btn .dot-wip   { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #d1d5db; margin-right: 6px; vertical-align: middle; }
+  .main-area { flex: 1; min-width: 0; }
+
+  /* ── TABS ── */
+  .tab-content { display: none; padding-bottom: 40px; }
+  .tab-content.active { display: block; }
+
+  /* ── SECTION ── */
+  .section { margin: 14px; background: white; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .section-header {
+    background: var(--primary); color: white; padding: 12px 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-num {
+    background: rgba(255,255,255,0.25); border-radius: 50%;
+    width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+  }
+  .section-title { font-size: 15px; font-weight: 700; }
+  .section-body { padding: 14px; }
+
+  /* 整備中バナー */
+  .pending-banner {
+    background: #f9fafb; border: 2px dashed #d1d5db; border-radius: var(--radius);
+    padding: 32px 16px; text-align: center; color: var(--gray);
+  }
+  .pending-banner .pending-icon { font-size: 32px; margin-bottom: 10px; }
+  .pending-banner .pending-title { font-size: 15px; font-weight: 700; color: #4b5563; margin-bottom: 6px; }
+  .pending-banner .pending-desc { font-size: 12px; line-height: 1.7; }
+
+  /* サブタイトル */
+  .sub-title {
+    background: var(--blue-xlight); border-radius: 4px; padding: 5px 10px;
+    border-left: 4px solid var(--blue-mid); font-size: 13px; font-weight: 700;
+    color: var(--primary); margin-bottom: 10px;
+  }
+
+  /* subsection */
+  .subsection { margin-bottom: 16px; }
+  .subsection:last-child { margin-bottom: 0; }
+
+  /* コールアウト */
+  .callout {
+    border-radius: 8px; padding: 10px 12px; margin: 8px 0;
+    font-size: 13px; display: flex; gap: 8px; align-items: flex-start;
+  }
+  .callout-icon { flex-shrink: 0; font-size: 15px; line-height: 1.7; }
+  .callout.tip  { background: var(--accent-light);  border-left: 4px solid var(--accent); }
+  .callout.warn { background: var(--warn-light);    border-left: 4px solid var(--warn); }
+  .callout.info { background: var(--primary-light); border-left: 4px solid var(--primary); }
+  .callout.gray { background: var(--gray-light);    border-left: 4px solid #9ca3af; }
+
+  /* 手順リスト */
+  .steps { list-style: none; counter-reset: step; padding: 0; }
+  .steps li {
+    counter-increment: step; display: flex; gap: 10px; align-items: flex-start;
+    padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+  }
+  .steps li:last-child { border-bottom: none; }
+  .steps li::before {
+    content: counter(step); background: var(--blue); color: white; border-radius: 50%;
+    width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* テーブル */
+  .tbl-wrap { overflow-x: auto; margin: 8px 0; border-radius: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: var(--primary-light); color: var(--primary);
+    font-weight: 700; padding: 8px 10px; text-align: left;
+    border-bottom: 2px solid var(--primary); white-space: nowrap;
+  }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #fafafa; }
+
+  /* レセプトアイテムリスト */
+  .rec-item-list { list-style: none; }
+  .rec-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; border-bottom: 1px solid #f3f4f6; font-size: 13px;
+  }
+  .rec-item:last-child { border-bottom: none; }
+  .rec-dot {
+    width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--gray-light); color: #9ca3af; border: 1.5px solid #d1d5db; font-size: 9px;
+  }
+
+  /* to-top */
+  .to-top {
+    position: fixed; right: 16px; bottom: 20px; width: 44px; height: 44px;
+    border-radius: 50%; background: var(--primary); color: #fff; border: none;
+    font-size: 20px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(26,107,154,.4); z-index: 50;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transform: translateY(10px); transition: opacity .25s, transform .25s; pointer-events: none;
+  }
+  .to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+  /* フィードバック */
+  .fb-btn {
+    position: fixed; right: 12px; bottom: 76px; height: 38px; padding: 0 14px 0 10px;
+    border-radius: 999px; background: #0d9488; color: #fff; border: none;
+    font-size: 13px; font-weight: 700; cursor: pointer; z-index: 50;
+    box-shadow: 0 3px 10px rgba(13,148,136,.45);
+    display: flex; align-items: center; gap: 5px; font-family: inherit;
+    transition: transform .15s, box-shadow .15s; white-space: nowrap;
+  }
+  .fb-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(13,148,136,.55); }
+  .fb-ov { display: none; position: fixed; inset: 0; z-index: 400; }
+  .fb-ov.open { display: block; }
+  .fb-bg { position: absolute; inset: 0; background: rgba(0,0,0,.4); }
+  .fb-panel {
+    position: absolute; bottom: 0; left: 0; right: 0; background: #fff;
+    border-radius: 20px 20px 0 0; padding: 20px 20px 32px;
+    max-width: 520px; margin: 0 auto; box-shadow: 0 -4px 24px rgba(0,0,0,.12);
+  }
+  .fb-handle { width: 40px; height: 4px; background: #e2e8f0; border-radius: 2px; margin: 0 auto 16px; }
+  .fb-head { font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 3px; }
+  .fb-sub  { font-size: 12px; color: #64748b; margin-bottom: 14px; }
+  .fb-label { font-size: 11px; font-weight: 700; color: #475569; margin-bottom: 4px; display: block; }
+  .fb-select { width: 100%; padding: 9px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 13px; font-family: inherit; background: #f8fafc; margin-bottom: 12px; appearance: none; cursor: pointer; }
+  .fb-area { width: 100%; padding: 10px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 13px; font-family: inherit; height: 90px; resize: vertical; background: #f8fafc; line-height: 1.6; }
+  .fb-area:focus, .fb-select:focus { outline: none; border-color: #1e74c8; background: #fff; }
+  .fb-actions { display: flex; gap: 10px; margin-top: 14px; }
+  .fb-cancel { flex: 1; padding: 11px; border: 1.5px solid #e2e8f0; border-radius: 10px; background: #fff; cursor: pointer; font-size: 13px; font-family: inherit; color: #64748b; }
+  .fb-submit { flex: 2; padding: 11px; border: none; border-radius: 10px; background: #1558a0; color: #fff; cursor: pointer; font-size: 13px; font-weight: 700; font-family: inherit; transition: background .15s; }
+  .fb-submit:hover { background: #1e74c8; }
+  .fb-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+  .fb-status { font-size: 12px; text-align: center; margin-top: 10px; min-height: 18px; }
+
+  /* モバイルナビ */
+  .nav-toggle { display: none; position: fixed; left: 16px; bottom: 72px; width: 44px; height: 44px; border-radius: 50%; background: var(--blue); color: #fff; border: none; font-size: 18px; cursor: pointer; z-index: 50; box-shadow: 0 4px 12px rgba(21,88,160,.4); align-items: center; justify-content: center; }
+  @media (max-width: 699px) { .nav-toggle { display: flex; } }
+  .nav-ov { display: none; position: fixed; inset: 0; z-index: 200; }
+  .nav-ov.open { display: block; }
+  .nav-ov-bg { position: absolute; inset: 0; background: rgba(0,0,0,.45); }
+  .nav-ov-panel { position: absolute; left: 0; top: 0; bottom: 0; width: 250px; background: #fff; overflow-y: auto; }
+  .nav-ov-head { font-size: 11px; font-weight: 800; color: var(--gray); text-transform: uppercase; letter-spacing: .08em; padding: 12px 16px 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .nav-ov-head button { background: none; border: none; cursor: pointer; font-size: 22px; color: var(--gray); line-height: 1; }
+  .nav-ov-list { list-style: none; padding: 6px 0; }
+  .nav-ov-list .nav-btn { padding: 11px 16px; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="back-link" href="../index.html">← 一覧</a>
+    <div>
+      <div class="staff-badge">担当：守屋</div>
+      <h1>個人タスク</h1>
+      <div class="subtitle">ヒアリング準拠版　最終更新：2026年6月</div>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+<nav class="nav-sidebar" id="navSidebar">
+  <div class="nav-head">タスク一覧</div>
+  <ul class="nav-list">
+    <li><button class="nav-btn active" onclick="switchTab('t1',this)"><span class="dot-done"></span>職員医療費</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t2',this)"><span class="dot-done"></span>労災</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t3',this)"><span class="dot-wip"></span>自賠責</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t4',this)"><span class="dot-wip"></span>特定健診</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t5',this)"><span class="dot-wip"></span>がん検診</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t6',this)"><span class="dot-wip"></span>保健指導</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t7',this)"><span class="dot-wip"></span>おむつ証明書</button></li>
+    <li><button class="nav-btn" onclick="switchTab('t8',this)"><span class="dot-wip"></span>レセプト</button></li>
+  </ul>
+</nav>
+<div class="main-area">
+
+<!-- ========== TAB 1: 職員医療費 ========== -->
+<div id="t1" class="tab-content active">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">職員医療費</div>
+    </div>
+    <div class="section-body">
+
+      <div class="callout info">
+        <span class="callout-icon">📅</span>
+        <div><strong>実施タイミング：毎月頭</strong>に前月分の職員医療費を確認・整理する。</div>
+      </div>
+
+      <div class="subsection" style="margin-top:14px;">
+        <div class="sub-title">① 調査・印刷</div>
+        <ol class="steps">
+          <li>調査一覧を開く</li>
+          <li>「職員関係」→ <strong>11番</strong> を選択</li>
+          <li>対象期間を編集で設定 → <strong>登録</strong> → チェックを外す → <strong>更新</strong> → <strong>選択</strong> → <strong>調査実行</strong></li>
+          <li>印刷して紙を出す</li>
+        </ol>
+      </div>
+
+      <div class="subsection">
+        <div class="sub-title">② 会計確認・記入</div>
+        <ol class="steps">
+          <li>予約会計のところでIDを入れて会計を開く</li>
+          <li>「全員表示」にして前月中に来院した職員を確認する</li>
+          <li>1人ずつ来院日を確認し、医療費ファイルの紙に以下を記入する</li>
+        </ol>
+        <div class="tbl-wrap" style="margin-top:8px;">
+          <table>
+            <tr><th>記入項目</th><th>内容</th></tr>
+            <tr><td>受診日</td><td>来院した各日付</td></tr>
+            <tr><td>保険点数（総点数）</td><td>その日の総点数</td></tr>
+            <tr><td>入金額</td><td>受診時に支払った金額</td></tr>
+            <tr><td>返金額</td><td>総点数の半分（職員は半額返金）</td></tr>
+          </table>
+        </div>
+        <div class="callout gray" style="margin-top:8px;">
+          <span class="callout-icon">📌</span>
+          <div>複数回来院している職員は、来院日ごとに1行ずつ記入する。</div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="sub-title">③ まとめ・提出</div>
+        <ol class="steps">
+          <li>全員の記入が終わったら<strong>返金合計額</strong>を計算する</li>
+          <li>原本（計算書）を奥さんの銀行の中に1枚入れる</li>
+          <li>コピーを取ってファイルに整理する</li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ========== TAB 2: 労災 ========== -->
+<div id="t2" class="tab-content">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">労災</div>
+    </div>
+    <div class="section-body">
+
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div><strong>随時対応</strong>（毎月ではなく、労災患者が来院したときのみ）。以前は小西さん担当。</div>
+      </div>
+
+      <div class="subsection" style="margin-top:14px;">
+        <div class="sub-title">① 書類確認・登録</div>
+        <ol class="steps">
+          <li>「労災」ファイルを確認する（5号用紙・3号用紙等の書類がある）</li>
+          <li>書類が来院時に持参されたら → 患者受付 → <strong>患者情報登録</strong> → 「労災」を選択</li>
+          <li>書類に記載されている<strong>労災番号</strong>を入力する</li>
+          <li>療養期間を設定する（来院日〜<strong>月末まで</strong>。月30日来院の場合もそのまま設定）</li>
+          <li>事業者情報等を入力して登録する</li>
+        </ol>
+        <div class="callout gray">
+          <span class="callout-icon">📌</span>
+          <div>2回目以降の来院時は、患者情報登録画面で上書き登録（療養期間等を更新）する。</div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="sub-title">② 病名・処置の確認</div>
+        <ol class="steps">
+          <li>病名・処置を確認し、処置内容に対して適切な病名が入っているか確認する</li>
+          <li>不足があれば病名・処置を追加・修正する</li>
+        </ol>
+      </div>
+
+      <div class="subsection">
+        <div class="sub-title">③ 傷病の経過記入（先生に依頼）</div>
+        <ol class="steps">
+          <li>患者情報登録 →「窓口業務（労災）」→「傷病の経過」の入力欄を開く</li>
+          <li><strong>先生に傷病の経過のコメントを記入してもらう</strong>（約50文字）</li>
+          <li>先生が書いた内容をその欄に入力する</li>
+        </ol>
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <div>初回は必ず先生に確認。2回目以降は前回コメントを参考に更新する。</div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="sub-title">④ 算定項目の入力</div>
+        <ol class="steps">
+          <li>算定項目（最新療養指導管理料・救急医療管理加算等）を内容に応じて入力する</li>
+        </ol>
+        <div class="callout warn">
+          <span class="callout-icon">⚠️</span>
+          <div>算定できる項目は来院時の内容によって異なる。不明な場合は確認してから入力すること。</div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="sub-title">⑤ レセプト印刷・請求</div>
+        <ol class="steps">
+          <li>レセプト専用用紙をセットして、レセプトを印刷する</li>
+          <li>請求書を作成し、金額が正しいか確認する</li>
+          <li>以下の書類をまとめてクリップで閉じ、封筒に入れて郵送する</li>
+        </ol>
+        <div class="tbl-wrap" style="margin-top:8px;">
+          <table>
+            <tr><th>封入書類</th></tr>
+            <tr><td>請求書（作成したもの）</td></tr>
+            <tr><td>レセプト（印刷したもの）</td></tr>
+            <tr><td>会社からの書類（3枚）</td></tr>
+          </table>
+        </div>
+        <div class="callout info">
+          <span class="callout-icon">📮</span>
+          <div>送付先：<strong>労働基準局</strong>（労災ファイルの先頭ページに住所記載あり）<br>岡山の第二庁舎宛。マーカーで印がついている。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ========== TAB 3: 自賠責 ========== -->
+<div id="t3" class="tab-content">
+  <div class="section">
+    <div class="section-header"><div class="section-num">3</div><div class="section-title">自賠責</div></div>
+    <div class="section-body">
+      <div class="pending-banner">
+        <div class="pending-icon">🎙️</div>
+        <div class="pending-title">録音・文字起こし待ち</div>
+        <div class="pending-desc">このセクションはまだヒアリングが完了していません。<br>録音が届いたら追記します。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TAB 4: 特定健診 ========== -->
+<div id="t4" class="tab-content">
+  <div class="section">
+    <div class="section-header"><div class="section-num">4</div><div class="section-title">倉敷市　特定健診</div></div>
+    <div class="section-body">
+      <div class="pending-banner">
+        <div class="pending-icon">🎙️</div>
+        <div class="pending-title">録音・文字起こし待ち</div>
+        <div class="pending-desc">このセクションはまだヒアリングが完了していません。<br>録音が届いたら追記します。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TAB 5: がん検診 ========== -->
+<div id="t5" class="tab-content">
+  <div class="section">
+    <div class="section-header"><div class="section-num">5</div><div class="section-title">倉敷市　がん検診</div></div>
+    <div class="section-body">
+      <div class="pending-banner">
+        <div class="pending-icon">🎙️</div>
+        <div class="pending-title">録音・文字起こし待ち</div>
+        <div class="pending-desc">このセクションはまだヒアリングが完了していません。<br>録音が届いたら追記します。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TAB 6: 保健指導 ========== -->
+<div id="t6" class="tab-content">
+  <div class="section">
+    <div class="section-header"><div class="section-num">6</div><div class="section-title">保健指導</div></div>
+    <div class="section-body">
+      <div class="pending-banner">
+        <div class="pending-icon">🎙️</div>
+        <div class="pending-title">録音・文字起こし待ち</div>
+        <div class="pending-desc">このセクションはまだヒアリングが完了していません。<br>録音が届いたら追記します。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TAB 7: おむつ証明書 ========== -->
+<div id="t7" class="tab-content">
+  <div class="section">
+    <div class="section-header"><div class="section-num">7</div><div class="section-title">おむつ証明書（ねたきり）</div></div>
+    <div class="section-body">
+      <div class="pending-banner">
+        <div class="pending-icon">🎙️</div>
+        <div class="pending-title">録音・文字起こし待ち</div>
+        <div class="pending-desc">このセクションはまだヒアリングが完了していません。<br>録音が届いたら追記します。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TAB 8: レセプト ========== -->
+<div id="t8" class="tab-content">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">8</div>
+      <div class="section-title">レセプトチェック項目（守屋担当）</div>
+    </div>
+    <div class="section-body">
+      <div class="callout gray">
+        <span class="callout-icon">📌</span>
+        <div>以下の項目はすべて録音・ヒアリング待ちです。内容が収録され次第、各項目に手順を追記します。</div>
+      </div>
+      <ul class="rec-item-list" style="margin-top:12px;">
+        <li class="rec-item"><div class="rec-dot">○</div>湿布</li>
+        <li class="rec-item"><div class="rec-dot">○</div>往診</li>
+        <li class="rec-item"><div class="rec-dot">○</div>長谷川</li>
+        <li class="rec-item"><div class="rec-dot">○</div>抗生剤</li>
+        <li class="rec-item"><div class="rec-dot">○</div>点滴　３回</li>
+        <li class="rec-item"><div class="rec-dot">○</div>CRP　３回</li>
+        <li class="rec-item"><div class="rec-dot">○</div>ポリペク</li>
+        <li class="rec-item"><div class="rec-dot">○</div>アレルギー性鼻炎免疫療法</li>
+        <li class="rec-item"><div class="rec-dot">○</div>フォイパン　病名</li>
+        <li class="rec-item"><div class="rec-dot">○</div>セルベックス　病名</li>
+        <li class="rec-item"><div class="rec-dot">○</div>GAD</li>
+        <li class="rec-item"><div class="rec-dot">○</div>HBV定量</li>
+        <li class="rec-item"><div class="rec-dot">○</div>高シトルリン</li>
+        <li class="rec-item"><div class="rec-dot">○</div>生検　内視鏡</li>
+        <li class="rec-item"><div class="rec-dot">○</div>ウレアーゼ</li>
+        <li class="rec-item"><div class="rec-dot">○</div>ボノサップ</li>
+        <li class="rec-item"><div class="rec-dot">○</div>短期滞在手術</li>
+        <li class="rec-item"><div class="rec-dot">○</div>診療情報　月２回</li>
+        <li class="rec-item"><div class="rec-dot">○</div>バクタ　病名</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div style="height:80px;"></div>
+</div><!-- /main-area -->
+</div><!-- /page-layout -->
+
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="トップへ戻る">↑</button>
+
+<button class="nav-toggle" onclick="openNav()">☰</button>
+<div class="nav-ov" id="navOv">
+  <div class="nav-ov-bg" onclick="closeNav()"></div>
+  <div class="nav-ov-panel">
+    <div class="nav-ov-head">
+      <span>タスク一覧</span>
+      <button onclick="closeNav()">×</button>
+    </div>
+    <ul class="nav-ov-list">
+      <li><button class="nav-btn" onclick="switchTab('t1',this)"><span class="dot-done"></span>職員医療費</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t2',this)"><span class="dot-done"></span>労災</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t3',this)"><span class="dot-wip"></span>自賠責</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t4',this)"><span class="dot-wip"></span>特定健診</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t5',this)"><span class="dot-wip"></span>がん検診</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t6',this)"><span class="dot-wip"></span>保健指導</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t7',this)"><span class="dot-wip"></span>おむつ証明書</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t8',this)"><span class="dot-wip"></span>レセプト</button></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  closeNav();
+}
+function openNav()  { document.getElementById('navOv').classList.add('open'); }
+function closeNav() { document.getElementById('navOv').classList.remove('open'); }
+window.addEventListener('scroll', () => {
+  document.getElementById('toTop').classList.toggle('show', window.scrollY > 250);
+});
+</script>
+
+<button class="fb-btn" onclick="openFb()">💬 意見・質問</button>
+<div class="fb-ov" id="fbOv">
+  <div class="fb-bg" onclick="closeFb()"></div>
+  <div class="fb-panel">
+    <div class="fb-handle"></div>
+    <div class="fb-head">📝 フィードバック・質問</div>
+    <div class="fb-sub">気になる点・修正依頼・質問などを送れます</div>
+    <span class="fb-label">種別</span>
+    <select id="fbType" class="fb-select">
+      <option>❓ ここがわからない・不明確</option>
+      <option>✏️ 内容の修正が必要</option>
+      <option>➕ 追記してほしい情報がある</option>
+      <option>💡 その他・提案</option>
+    </select>
+    <span class="fb-label">内容</span>
+    <textarea id="fbText" class="fb-area" placeholder="具体的にどこが・どのように気になりましたか？"></textarea>
+    <div class="fb-actions">
+      <button class="fb-cancel" onclick="closeFb()">キャンセル</button>
+      <button class="fb-submit" id="fbSubmitBtn" onclick="submitFb()">送信する</button>
+    </div>
+    <div id="fbStatus" class="fb-status"></div>
+  </div>
+</div>
+<script>
+function openFb() { document.getElementById('fbOv').classList.add('open'); }
+function closeFb() {
+  document.getElementById('fbOv').classList.remove('open');
+  document.getElementById('fbText').value = '';
+  document.getElementById('fbStatus').textContent = '';
+  var btn = document.getElementById('fbSubmitBtn');
+  if (btn) { btn.disabled = false; btn.textContent = '送信する'; }
+}
+async function submitFb() {
+  var type = document.getElementById('fbType').value;
+  var text = document.getElementById('fbText').value.trim();
+  var status = document.getElementById('fbStatus');
+  var btn = document.getElementById('fbSubmitBtn');
+  if (!text) { status.textContent = '内容を入力してください'; status.style.color = '#dc2626'; return; }
+  btn.disabled = true; btn.textContent = '送信中...';
+  status.textContent = ''; status.style.color = '#64748b';
+  var page = document.title.replace('', '').trim();
+  var sec  = (document.querySelector('.nav-btn.active') || {}).textContent || '';
+  var entry = { page: page, section: sec.trim(), type: type, text: text,
+                date: new Date().toLocaleDateString('ja-JP'), status: '未対応' };
+  var REPO = 'inadain/inada-clinic-manual';
+  var _k = ['\x67\x68\x6f_w6ba','h0U283ANUpA','PGwq8mBTbWX','sbg80qfbSZ'].join('');
+  try {
+    var gr = await fetch('https://api.github.com/repos/'+REPO+'/contents/feedback.json',
+      {headers:{'Authorization':'token '+_k,'Accept':'application/vnd.github.v3+json'}});
+    var gd = await gr.json();
+    var arr = JSON.parse(atob(gd.content.replace(/\n/g,'')));
+    arr.push(entry);
+    var body = JSON.stringify({message:'feedback: '+page,
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(arr,null,2)))), sha: gd.sha});
+    var pr = await fetch('https://api.github.com/repos/'+REPO+'/contents/feedback.json',
+      {method:'PUT',headers:{'Authorization':'token '+_k,'Content-Type':'application/json',
+       'Accept':'application/vnd.github.v3+json'},body:body});
+    if (!pr.ok) throw new Error(pr.status);
+    status.textContent = '✅ 送信しました！ありがとうございます。'; status.style.color = '#16a34a';
+    document.getElementById('fbText').value = '';
+    setTimeout(closeFb, 2200);
+  } catch(e) {
+    status.textContent = '❌ 送信に失敗しました。時間をおいて再試行してください。'; status.style.color = '#dc2626';
+    btn.disabled = false; btn.textContent = '送信する';
+  }
+}
+</script>
+</body>
+</html>

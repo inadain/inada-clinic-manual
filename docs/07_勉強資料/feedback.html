@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="勉強資料 提案">
+<title>改善・作成リクエスト｜勉強資料</title>
+<style>
+:root{
+  --blue:#1558a0;--blue-m:#1e74c8;--blue-lt:#dbeafe;--blue-xl:#eff6ff;
+  --teal:#0d9488;--teal-lt:#f0fdfa;--teal-d:#0f766e;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --purple:#7c3aed;--purple-lt:#f5f3ff;
+  --brown:#92400e;--brown-lt:#fef9c3;
+  --gray:#64748b;--gray-lt:#f1f5f9;--gray-m:#e2e8f0;
+  --text:#0f172a;--sub:#475569;--bg:#f0f4f8;--white:#fff;
+  --r:12px;--r-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  font-size:15px;line-height:1.7;color:var(--text);background:var(--bg);
+  min-height:100vh}
+
+/* ── ヘッダー ── */
+.site-header{position:sticky;top:0;z-index:100;height:56px;
+  background:linear-gradient(135deg,#92400e,#d97706);
+  display:flex;align-items:center;padding:0 16px;gap:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.back-link{display:inline-flex;align-items:center;gap:5px;color:#fff;
+  background:rgba(255,255,255,.18);border-radius:20px;padding:5px 13px;
+  font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap}
+.back-link:hover{background:rgba(255,255,255,.28)}
+.hdr-center{flex:1;text-align:center}
+.hdr-badge{display:block;color:rgba(255,255,255,.8);font-size:10.5px;font-weight:700;letter-spacing:.04em}
+.hdr-title{color:#fff;font-size:15px;font-weight:800}
+
+/* ── ヒーロー ── */
+.hero{background:linear-gradient(135deg,#92400e,#d97706);
+  padding:22px 16px 28px;text-align:center;color:#fff}
+.hero h2{font-size:20px;font-weight:900;margin-bottom:6px}
+.hero p{font-size:13px;opacity:.85;line-height:1.6;max-width:480px;margin:0 auto}
+
+/* ── メイン ── */
+.main{max-width:1060px;margin:0 auto;padding:24px 20px 60px}
+
+/* ── タブ切り替え ── */
+.type-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.type-tab{display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:16px 10px;border-radius:var(--r);border:2px solid var(--gray-m);
+  background:var(--white);cursor:pointer;transition:all .15s;text-align:center;
+  user-select:none}
+.type-tab .tab-ic{font-size:28px;line-height:1}
+.type-tab .tab-label{font-size:13px;font-weight:800;color:var(--sub)}
+.type-tab .tab-sub{font-size:11px;color:var(--gray);line-height:1.4}
+.type-tab.active.new-req{border-color:var(--teal);background:var(--teal-lt)}
+.type-tab.active.new-req .tab-label{color:var(--teal-d)}
+.type-tab.active.fix-req{border-color:var(--purple);background:var(--purple-lt)}
+.type-tab.active.fix-req .tab-label{color:var(--purple)}
+.type-tab:hover{border-color:var(--gray);background:var(--gray-lt)}
+
+/* ── フォームパネル ── */
+.form-panel{display:none}
+.form-panel.active{display:block}
+.form-card{background:var(--white);border-radius:var(--r);
+  box-shadow:0 1px 6px rgba(0,0,0,.09);padding:22px 20px;margin-bottom:16px}
+.form-card-title{font-size:14px;font-weight:800;margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px solid var(--gray-m)}
+.form-card-title .ic{font-size:18px}
+.field{margin-bottom:16px}
+.field:last-child{margin-bottom:0}
+label{display:block;font-size:12.5px;font-weight:700;color:var(--sub);margin-bottom:5px}
+label .req{color:#dc2626;margin-left:2px;font-size:11px}
+input[type="text"],input[type="email"],select,textarea{
+  width:100%;padding:10px 12px;border:1.5px solid var(--gray-m);border-radius:var(--r-sm);
+  font-size:14px;font-family:inherit;color:var(--text);background:var(--white);
+  transition:border-color .15s;-webkit-appearance:none;appearance:none}
+input[type="text"]:focus,input[type="email"]:focus,select:focus,textarea:focus{
+  outline:none;border-color:var(--teal)}
+.fix-panel input:focus,.fix-panel select:focus,.fix-panel textarea:focus{
+  border-color:var(--purple)}
+textarea{resize:vertical;min-height:88px;line-height:1.65}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer}
+.hint{font-size:11.5px;color:var(--sub);margin-top:4px;line-height:1.5}
+
+/* ── 重要度 ── */
+.priority-group{display:flex;gap:8px;flex-wrap:wrap}
+.priority-btn{padding:6px 14px;border-radius:20px;border:1.5px solid var(--gray-m);
+  background:var(--white);font-size:12.5px;font-weight:700;color:var(--sub);
+  cursor:pointer;transition:all .15s}
+.priority-btn:hover{border-color:var(--gray)}
+.priority-btn.sel-low{border-color:var(--green);background:var(--green-lt);color:var(--green)}
+.priority-btn.sel-mid{border-color:var(--amber);background:var(--amber-lt);color:var(--amber)}
+.priority-btn.sel-high{border-color:#dc2626;background:#fef2f2;color:#dc2626}
+
+/* ── 送信ボタン ── */
+.btn-submit{width:100%;padding:14px;border:none;border-radius:var(--r);
+  font-size:15px;font-weight:800;color:#fff;cursor:pointer;
+  transition:opacity .15s,transform .1s;margin-top:8px;
+  display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-submit:active{transform:scale(.98)}
+.new-submit{background:linear-gradient(135deg,var(--teal-d),var(--teal))}
+.fix-submit{background:linear-gradient(135deg,#5b21b6,var(--purple))}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed}
+
+/* ── 送信後メッセージ ── */
+.sent-msg{display:none;background:var(--green-lt);border:1.5px solid #86efac;
+  border-radius:var(--r);padding:20px;text-align:center;margin-top:12px}
+.sent-msg .sent-ic{font-size:32px;margin-bottom:8px}
+.sent-msg h3{font-size:15px;font-weight:800;color:var(--green);margin-bottom:6px}
+.sent-msg p{font-size:13px;color:#15803d;line-height:1.65}
+
+/* ── 注意書き ── */
+.note-box{background:var(--blue-xl);border-left:3px solid var(--blue-m);
+  border-radius:var(--r-sm);padding:12px 14px;font-size:12.5px;color:var(--sub);
+  line-height:1.65;margin-top:16px}
+.note-box strong{color:var(--blue)}
+
+/* ── エラー ── */
+.err-msg{font-size:12px;color:#dc2626;margin-top:4px;display:none}
+.field.has-error input,.field.has-error select,.field.has-error textarea{border-color:#dc2626}
+.field.has-error .err-msg{display:block}
+
+@media(max-width:480px){
+  .type-tab .tab-sub{display:none}
+  .form-card{padding:16px 14px}
+}
+@media(min-width:860px){
+  .fb-pc-wrap{ display:grid; grid-template-columns:220px 1fr; gap:24px; align-items:start }
+  .fb-pc-wrap .type-tabs{ grid-template-columns:1fr; gap:10px; margin-bottom:0 }
+  .fb-pc-wrap .type-tab{ flex-direction:row; text-align:left; padding:14px 14px; gap:12px }
+  .fb-pc-wrap .type-tab .tab-ic{ font-size:22px }
+  .fb-pc-wrap .type-tab .tab-sub{ display:block }
+  .form-panel{ min-height:500px }
+  .note-box{ margin-top:0 }
+}
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="back-link">← 勉強資料</a>
+  <div class="hdr-center">
+    <span class="hdr-badge"></span>
+    <div class="hdr-title">改善・作成リクエスト</div>
+  </div>
+</header>
+
+<div class="hero">
+  <h2>📬 提案・リクエスト</h2>
+  <p>「こんな資料がほしい」「ここが間違っている」など<br>
+  気づいたことをどんどん送ってください</p>
+</div>
+
+<main class="main">
+
+<div class="fb-pc-wrap">
+  <!-- タブ -->
+  <div class="type-tabs">
+    <div class="type-tab new-req active" onclick="switchTab('new')">
+      <div class="tab-ic">✨</div>
+      <div class="tab-label">新しい資料を<br>作ってほしい</div>
+      <div class="tab-sub">テーマ・内容のリクエスト</div>
+    </div>
+    <div class="type-tab fix-req" onclick="switchTab('fix')">
+      <div class="tab-ic">✏️</div>
+      <div class="tab-label">内容を直して<br>ほしい</div>
+      <div class="tab-sub">誤り・改善・追記の提案</div>
+    </div>
+  </div>
+
+  <div class="fb-form-side">
+  <!-- ── 新規作成リクエスト ── -->
+  <div id="panel-new" class="form-panel new-panel active">
+    <div class="form-card">
+      <div class="form-card-title" style="color:var(--teal-d)">
+        <span class="ic">✨</span>新しい勉強資料 作成リクエスト
+      </div>
+
+      <div class="field" id="f-theme">
+        <label>テーマ・タイトル <span class="req">必須</span></label>
+        <input type="text" id="new-theme" placeholder="例）在宅医療の仕組みと当院の訪問診療について">
+        <div class="err-msg">テーマを入力してください</div>
+      </div>
+
+      <div class="field">
+        <label>どんな内容を知りたいですか？</label>
+        <textarea id="new-detail" placeholder="例）みなし訪問看護って何か、算定方法が知りたい。在宅療養指導管理料との違いが混乱するのでそこも含めてほしい。" rows="4"></textarea>
+      </div>
+
+      <div class="field">
+        <label>リクエストの背景・きっかけ</label>
+        <textarea id="new-reason" placeholder="例）患者さんから訪問看護の問い合わせがあったが説明できなかった。現場で頻繁に出てくる言葉だが理解が曖昧。" rows="3"></textarea>
+      </div>
+
+      <div class="field">
+        <label>優先度（急いで必要ですか？）</label>
+        <div class="priority-group" id="new-priority">
+          <button class="priority-btn" onclick="setPriority('new','low',this)">🟢 いつかでOK</button>
+          <button class="priority-btn" onclick="setPriority('new','mid',this)">🟡 なるべく早めに</button>
+          <button class="priority-btn" onclick="setPriority('new','high',this)">🔴 急いでほしい</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>お名前（任意）</label>
+        <input type="text" id="new-name" placeholder="例）吉田">
+        <div class="hint">記入すると回答時に連絡できます</div>
+      </div>
+    </div>
+
+    <button class="btn-submit new-submit" onclick="submitNew()">
+      <span>✉️</span> リクエストを送る
+    </button>
+
+    <div class="sent-msg" id="new-sent">
+      <div class="sent-ic">🎉</div>
+      <h3>リクエストを送りました！</h3>
+      <p>ありがとうございます。内容を確認して、できる限り対応します。<br>
+      反映まで少し時間をいただく場合があります。</p>
+    </div>
+  </div>
+
+  <!-- ── 修正・改善提案 ── -->
+  <div id="panel-fix" class="form-panel fix-panel">
+    <div class="form-card">
+      <div class="form-card-title" style="color:var(--purple)">
+        <span class="ic">✏️</span>既存資料への修正・改善提案
+      </div>
+
+      <div class="field" id="f-page">
+        <label>対象のページ <span class="req">必須</span></label>
+        <select id="fix-page">
+          <option value="">-- 選んでください --</option>
+          <optgroup label="基礎シリーズ">
+            <option>第1回：医療事務の仕事とは</option>
+            <option>第2回：医療保険制度の基礎</option>
+            <option>第3回：窓口負担金の計算</option>
+            <option>第4回：診療報酬点数の仕組み</option>
+            <option>第5回：公費負担医療</option>
+            <option>第6回：レセプトとは</option>
+            <option>第7回：レセプト点検の基礎</option>
+            <option>第8回：書類業務</option>
+          </optgroup>
+          <optgroup label="加算解説">
+            <option>当院の加算一覧（全96種類）</option>
+            <option>地域包括診療加算</option>
+          </optgroup>
+          <option value="other">その他・わからない</option>
+        </select>
+        <div class="err-msg">対象ページを選択してください</div>
+      </div>
+
+      <div class="field">
+        <label>該当する箇所</label>
+        <input type="text" id="fix-section" placeholder="例）第3節 ①の計算例 / 確認問題Q2 / サイドバーのリンク">
+        <div class="hint">セクション名・見出し・問題番号など、場所がわかるように</div>
+      </div>
+
+      <div class="field" id="f-current">
+        <label>現在の内容（どこがおかしい？） <span class="req">必須</span></label>
+        <textarea id="fix-current" placeholder="例）「初診料は292点」と書いてあるが → 正しくは291点では？&#10;例）確認問題の答えが間違っている気がする" rows="3"></textarea>
+        <div class="err-msg">現在の内容・問題点を入力してください</div>
+      </div>
+
+      <div class="field">
+        <label>こうしてほしい・こうなるといい（修正案）</label>
+        <textarea id="fix-suggest" placeholder="例）「初診料は291点」に修正してほしい&#10;例）もう少し図や例があるとわかりやすいと思う" rows="3"></textarea>
+      </div>
+
+      <div class="field">
+        <label>種類</label>
+        <div class="priority-group" id="fix-type">
+          <button class="priority-btn" onclick="setFixType('誤り・修正',this)">🔴 誤り・修正</button>
+          <button class="priority-btn" onclick="setFixType('内容の追加',this)">🟡 内容の追加</button>
+          <button class="priority-btn" onclick="setFixType('わかりにくい',this)">🔵 わかりにくい</button>
+          <button class="priority-btn" onclick="setFixType('リンクエラー',this)">⚪ リンクエラー</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>お名前（任意）</label>
+        <input type="text" id="fix-name" placeholder="例）守屋">
+      </div>
+    </div>
+
+    <button class="btn-submit fix-submit" onclick="submitFix()">
+      <span>✉️</span> 提案を送る
+    </button>
+
+    <div class="sent-msg" id="fix-sent">
+      <div class="sent-ic">✅</div>
+      <h3>提案を送りました！</h3>
+      <p>ありがとうございます。確認してできる限り早く対応します。<br>
+      誤りの修正は優先的に対応します。</p>
+    </div>
+  </div>
+  </div><!-- /fb-form-side -->
+</div><!-- /fb-pc-wrap -->
+
+  <div class="note-box">
+    <strong>📌 送信について</strong><br>
+    「送る」を押すとメールアプリが開きます。そのまま送信してください。<br>
+    送信せずに閉じた場合は届きません。
+  </div>
+
+</main>
+
+<script>
+const MAILTO = 't.inada1988@gmail.com';
+let newPriority = '';
+let fixType = '';
+
+function switchTab(type){
+  document.querySelectorAll('.type-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.form-panel').forEach(p=>p.classList.remove('active'));
+  if(type==='new'){
+    document.querySelector('.type-tab.new-req').classList.add('active');
+    document.getElementById('panel-new').classList.add('active');
+  } else {
+    document.querySelector('.type-tab.fix-req').classList.add('active');
+    document.getElementById('panel-fix').classList.add('active');
+  }
+}
+
+function setPriority(form,level,btn){
+  const group = document.getElementById(form+'-priority');
+  group.querySelectorAll('.priority-btn').forEach(b=>{
+    b.classList.remove('sel-low','sel-mid','sel-high');
+  });
+  btn.classList.add('sel-'+level);
+  newPriority = btn.textContent.trim();
+}
+
+function setFixType(val,btn){
+  const group = document.getElementById('fix-type');
+  group.querySelectorAll('.priority-btn').forEach(b=>{
+    b.classList.remove('sel-low','sel-mid','sel-high');
+  });
+  btn.classList.add('sel-mid');
+  fixType = val;
+}
+
+function validate(fieldId, inputId){
+  const field = document.getElementById(fieldId);
+  const input = document.getElementById(inputId);
+  const val = input.value.trim();
+  if(!val){
+    field.classList.add('has-error');
+    return false;
+  }
+  field.classList.remove('has-error');
+  return true;
+}
+
+function submitNew(){
+  const ok = validate('f-theme','new-theme');
+  if(!ok) return;
+
+  const theme   = document.getElementById('new-theme').value.trim();
+  const detail  = document.getElementById('new-detail').value.trim();
+  const reason  = document.getElementById('new-reason').value.trim();
+  const name    = document.getElementById('new-name').value.trim() || '（名前なし）';
+  const pri     = newPriority || '指定なし';
+
+  const subject = encodeURIComponent(`【勉強資料 作成リクエスト】${theme}`);
+  const body = encodeURIComponent(
+    `■ 新しい勉強資料 作成リクエスト\n` +
+    `送信者：${name}\n\n` +
+    `【テーマ】\n${theme}\n\n` +
+    `【知りたい内容】\n${detail || '（記載なし）'}\n\n` +
+    `【背景・きっかけ】\n${reason || '（記載なし）'}\n\n` +
+    `【優先度】\n${pri}`
+  );
+
+  window.location.href = `mailto:${MAILTO}?subject=${subject}&body=${body}`;
+
+  setTimeout(()=>{
+    document.getElementById('new-sent').style.display='block';
+    window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+  }, 800);
+}
+
+function submitFix(){
+  const ok1 = validate('f-page','fix-page');
+  const ok2 = validate('f-current','fix-current');
+  if(!ok1||!ok2) return;
+
+  const page    = document.getElementById('fix-page').value;
+  const section = document.getElementById('fix-section').value.trim();
+  const current = document.getElementById('fix-current').value.trim();
+  const suggest = document.getElementById('fix-suggest').value.trim();
+  const name    = document.getElementById('fix-name').value.trim() || '（名前なし）';
+  const ftype   = fixType || '未選択';
+
+  const subject = encodeURIComponent(`【勉強資料 修正提案】${page}${section?'　'+section:''}`);
+  const body = encodeURIComponent(
+    `■ 既存資料への修正・改善提案\n` +
+    `送信者：${name}\n\n` +
+    `【対象ページ】\n${page}\n\n` +
+    `【該当箇所】\n${section || '（記載なし）'}\n\n` +
+    `【現在の内容・問題点】\n${current}\n\n` +
+    `【修正案・改善案】\n${suggest || '（記載なし）'}\n\n` +
+    `【種類】\n${ftype}`
+  );
+
+  window.location.href = `mailto:${MAILTO}?subject=${subject}&body=${body}`;
+
+  setTimeout(()=>{
+    document.getElementById('fix-sent').style.display='block';
+    window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+  }, 800);
+}
+</script>
+</body>
+</html>

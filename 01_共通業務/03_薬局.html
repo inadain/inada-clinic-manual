@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>薬局</title>
+<style>
+:root {
+  --blue:        #1558a0;
+  --blue-mid:    #1e74c8;
+  --blue-light:  #dbeafe;
+  --blue-xlight: #eff6ff;
+  --teal:        #0d9488;
+  --teal-light:  #ccfbf1;
+  --amber:       #d97706;
+  --amber-light: #fef3c7;
+  --red:         #dc2626;
+  --red-light:   #fee2e2;
+  --green:       #16a34a;
+  --green-light: #dcfce7;
+  --purple:      #7c3aed;
+  --purple-light:#ede9fe;
+  --gray:        #64748b;
+  --gray-light:  #f1f5f9;
+  --border:      #e2e8f0;
+  --text:        #0f172a;
+  --bg:          #f0f4f8;
+  --white:       #ffffff;
+  --radius-sm:   6px;
+  --radius:      12px;
+  --shadow-sm:   0 1px 3px rgba(0,0,0,.08);
+  --shadow:      0 4px 12px rgba(0,0,0,.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-size: 15px; line-height: 1.75;
+  color: var(--text); background: var(--bg);
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #0f3d6e 0%, #1558a0 60%, #1e74c8 100%);
+  padding: 20px 20px 16px; text-align: center; position: relative; overflow: hidden;
+}
+.header::after {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.header-inner { position: relative; z-index: 1; }
+.header-tag {
+  display: inline-block;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+  color: #fff; font-size: 11px; font-weight: 700;
+  padding: 3px 12px; border-radius: 20px; letter-spacing: .08em; }
+.header h1 { color: #fff; font-size: 19px; font-weight: 800; letter-spacing: .03em; margin-bottom: 3px; }
+.header .sub { color: rgba(255,255,255,.7); font-size: 11px; }
+.back-link {
+  position: absolute; left: 14px; top: 14px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 5px;
+  color: rgba(255,255,255,.92); font-size: 12px; font-weight: 600; text-decoration: none;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+  border-radius: 20px; padding: 5px 12px; transition: background .15s;
+}
+.back-link:hover { background: rgba(255,255,255,.3); color: #fff; }
+
+/* ── TAB BAR ── */
+
+.tab-bar::-webkit-scrollbar { display: none; }
+
+
+
+
+/* ── TAB PANE ── */
+.tab-pane { display: none; padding: 16px 16px 60px; max-width: 960px; margin: 0 auto; }
+.tab-pane.active { display: block; }
+
+/* ── CARD ── */
+.card {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow-sm); margin-bottom: 14px; overflow: hidden;
+}
+.card-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 16px; background: var(--blue-xlight);
+  border-bottom: 1px solid var(--blue-light);
+}
+.card-head.teal  { background: var(--teal-light);   border-bottom-color: rgba(13,148,136,.2); }
+.card-head.amber { background: var(--amber-light);  border-bottom-color: rgba(217,119,6,.2); }
+.card-head.red   { background: var(--red-light);    border-bottom-color: rgba(220,38,38,.2); }
+.card-head.green { background: var(--green-light);  border-bottom-color: rgba(22,163,74,.2); }
+.card-head.purple{ background: var(--purple-light); border-bottom-color: rgba(124,58,237,.2); }
+.card-icon { font-size: 18px; }
+.card-title { font-size: 14px; font-weight: 700; }
+.card-body { padding: 14px 16px; }
+
+/* ── TIMELINE ── */
+.tl { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.tl-item {
+  display: flex; gap: 10px; position: relative; padding-bottom: 10px;
+}
+.tl-item:not(:last-child)::before {
+  content: ''; position: absolute; left: 13px; top: 26px; bottom: 0;
+  width: 2px; background: var(--border);
+}
+.tl-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--blue); color: #fff;
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; position: relative; z-index: 1;
+}
+.tl-num.teal   { background: var(--teal); }
+.tl-num.amber  { background: var(--amber); }
+.tl-num.green  { background: var(--green); }
+.tl-num.purple { background: var(--purple); }
+.tl-body { padding-top: 4px; flex: 1; font-size: 14px; }
+.tl-body strong { display: block; font-weight: 700; margin-bottom: 2px; }
+.tl-body .sub { font-size: 12px; color: var(--gray); margin-top: 2px; }
+
+/* ── NOTE ── */
+.note {
+  display: flex; gap: 10px; padding: 10px 14px;
+  border-radius: var(--radius-sm); margin: 8px 0; font-size: 13px;
+}
+.note.info   { background: var(--blue-xlight);   border-left: 3px solid var(--blue-mid); }
+.note.warn   { background: var(--amber-light);   border-left: 3px solid var(--amber); }
+.note.danger { background: var(--red-light);     border-left: 3px solid var(--red); }
+.note.ok     { background: var(--green-light);   border-left: 3px solid var(--green); }
+.note.purple { background: var(--purple-light);  border-left: 3px solid var(--purple); }
+.note-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+/* ── TABLE ── */
+.tbl-wrap { overflow-x: auto; margin: 8px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: var(--blue-xlight); color: var(--blue); font-weight: 700; padding: 8px 10px; text-align: left; border-bottom: 2px solid var(--blue-light); }
+td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+/* ── BADGE ── */
+.badge {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 20px; line-height: 1.5;
+}
+.badge.blue   { background: var(--blue-light);   color: var(--blue); }
+.badge.teal   { background: var(--teal-light);   color: var(--teal); }
+.badge.amber  { background: var(--amber-light);  color: var(--amber); }
+.badge.green  { background: var(--green-light);  color: var(--green); }
+.badge.red    { background: var(--red-light);    color: var(--red); }
+.badge.purple { background: var(--purple-light); color: var(--purple); }
+
+/* ── CHECKLIST ── */
+.chk { list-style: none; }
+.chk li { display: flex; gap: 8px; padding: 6px 0; font-size: 14px; border-bottom: 1px solid var(--border); }
+.chk li:last-child { border-bottom: none; }
+.chk li::before { content: '☐'; color: var(--blue); font-size: 15px; flex-shrink: 0; }
+
+/* ── POINT BOX ── */
+.point-box {
+  background: var(--blue-xlight); border: 1px solid var(--blue-light);
+  border-radius: var(--radius-sm); padding: 10px 14px;
+  font-size: 13px; margin: 8px 0;
+}
+.point-box strong { color: var(--blue); }
+
+/* ── FLOW STEP ── */
+.flow { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+.flow-step {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: var(--gray-light); border-radius: var(--radius-sm); padding: 10px 14px;
+  font-size: 13px; position: relative;
+}
+.flow-step::after {
+  content: '▼'; position: absolute; bottom: -14px; left: 20px;
+  font-size: 11px; color: var(--gray);
+}
+.flow-step:last-child::after { display: none; }
+.flow-num {
+  min-width: 22px; height: 22px; border-radius: 50%;
+  background: var(--blue); color: #fff;
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+
+/* ── 2-COL GRID ── */
+.col2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 8px 0; }
+@media (max-width: 500px) { .col2 { grid-template-columns: 1fr; } }
+.col2-card {
+  background: var(--gray-light); border-radius: var(--radius-sm);
+  padding: 12px; font-size: 13px;
+}
+.col2-card .label { font-size: 11px; font-weight: 700; color: var(--gray); margin-bottom: 4px; }
+
+@media (max-width: 600px) {
+  
+}
+
+/* ── PAGE LAYOUT (left sidebar + content) ── */
+.page-layout {
+  display: flex;
+  align-items: flex-start;
+}
+.toc-sidebar {
+  display: none;
+  width: 176px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  padding: 16px 0;
+}
+@media (min-width: 900px) { .toc-sidebar { display: block; } }
+.main-area { flex: 1; min-width: 0; }
+
+/* ── TOC SIDEBAR INNER ── */
+.toc-head {
+  font-size: 11px; font-weight: 800; color: var(--gray);
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: 0 12px 8px; border-bottom: 1px solid var(--border); margin-bottom: 4px;
+}
+.toc-list { list-style: none; }
+.toc-list li a {
+  display: block; padding: 5px 12px;
+  font-size: 12px; color: var(--gray); text-decoration: none;
+  border-left: 2px solid transparent; line-height: 1.4; transition: all .15s;
+}
+.toc-list li a:hover { color: var(--blue); background: var(--blue-xlight); }
+.toc-list li a.toc-cur { color: var(--blue); border-left-color: var(--blue); background: var(--blue-xlight); font-weight: 700; }
+
+/* ── TOC TOGGLE (mobile) ── */
+
+@media (max-width: 899px) {  }
+
+/* ── TOC OVERLAY (mobile) ── */
+
+
+
+
+
+
+
+
+
+
+
+/* ── BACK TO TOP ── */
+.to-top {
+  position: fixed; right: 16px; bottom: 20px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--blue); color: #fff; border: none;
+  font-size: 20px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(21,88,160,.4); z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .25s, transform .25s; pointer-events: none;
+}
+.to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+/* ── ACCORDION ── */
+.card-head {
+  cursor: pointer; user-select: none;
+}
+.card-head::after {
+  content: '›'; font-size: 20px; font-weight: 300; color: var(--gray);
+  margin-left: auto; line-height: 1; transition: transform .2s; flex-shrink: 0;
+}
+.card.open .card-head::after { transform: rotate(90deg); }
+.card-body { display: none; }
+.card.open .card-body { display: block; }
+
+
+
+/* ── HEADER LOGO ── */
+.header-logo-img {
+  height: 36px; width: auto; object-fit: contain;
+  filter: brightness(0) invert(1); opacity: .92;
+  }
+
+/* ════ UNIFIED HEADER ════ */
+.header, .site-header {
+  position: sticky !important; top: 0; z-index: 100;
+  padding: 0 16px !important;
+  min-height: 56px;
+  display: flex; align-items: center;
+  overflow: visible !important;
+}
+.header-inner {
+  position: relative;
+  display: flex; align-items: center;
+  width: 100%; max-width: 960px; margin: 0 auto;
+  padding: 10px 0 10px 110px; /* 左に back-link 分の余白 */
+  text-align: center;
+}
+/* back-link: 常に左端に固定 */
+.back-link {
+  position: absolute !important;
+  left: 0 !important; top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: inline-flex !important; align-items: center; gap: 5px;
+  color: rgba(255,255,255,.92) !important; font-size: 12px !important;
+  font-weight: 600; text-decoration: none;
+  background: rgba(255,255,255,.18) !important;
+  border: 1px solid rgba(255,255,255,.3) !important;
+  border-radius: 20px; padding: 6px 13px !important;
+  white-space: nowrap; transition: background .15s;
+  margin: 0 !important;
+}
+.back-link:hover { background: rgba(255,255,255,.3) !important; color: #fff !important; }
+/* ロゴ */
+.header-logo-img {
+  height: 30px !important; width: auto;
+  filter: brightness(0) invert(1); opacity: .9;
+  display: block; margin: 0 auto 4px;
+}
+/* タイトルをコンパクトに */
+.header h1, .site-header h1 {
+  font-size: 16px !important; font-weight: 800; color: #fff;
+  letter-spacing: .02em; margin: 0;
+}
+.header .sub, .site-header .subtitle {
+  font-size: 10px !important; color: rgba(255,255,255,.65); margin-top: 1px;
+}
+.header-tag {
+  font-size: 10px; margin-bottom: 2px;
+}
+/* 小幡ページ用 */
+.site-header .staff-badge { font-size: 10px; margin-bottom: 3px; }
+
+/* ════ NAV SIDEBAR ════ */
+.page-layout { display: flex; align-items: flex-start; }
+.nav-sidebar {
+  width: 185px; flex-shrink: 0;
+  position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto;
+  background: #f8fafc; border-right: 1px solid var(--border, #e2e8f0);
+  padding: 12px 0; display: none;
+}
+@media (min-width: 700px) { .nav-sidebar { display: block; } }
+.nav-head {
+  font-size: 10px; font-weight: 800; color: var(--gray, #64748b);
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: 0 12px 8px; border-bottom: 1px solid var(--border, #e2e8f0); margin-bottom: 4px;
+}
+.nav-list { list-style: none; }
+.nav-btn {
+  display: block; width: 100%; text-align: left;
+  padding: 9px 12px; font-size: 13px; color: var(--gray, #64748b);
+  background: none; border: none; cursor: pointer;
+  border-left: 3px solid transparent; line-height: 1.4;
+  transition: all .15s; font-family: inherit; text-decoration: none;
+}
+.nav-btn:hover { color: var(--blue, #1558a0); background: #eff6ff; }
+.nav-btn.active { color: var(--blue, #1558a0); border-left-color: var(--blue, #1558a0); background: #eff6ff; font-weight: 700; }
+.main-area { flex: 1; min-width: 0; }
+.nav-toggle {
+  display: none; position: fixed; left: 16px; bottom: 72px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--blue, #1558a0); color: #fff; border: none; font-size: 18px;
+  cursor: pointer; z-index: 50; box-shadow: 0 4px 12px rgba(21,88,160,.4);
+  align-items: center; justify-content: center;
+}
+@media (max-width: 699px) { .nav-toggle { display: flex; } }
+.nav-ov { display: none; position: fixed; inset: 0; z-index: 200; }
+.nav-ov.open { display: block; }
+.nav-ov-bg { position: absolute; inset: 0; background: rgba(0,0,0,.45); }
+.nav-ov-panel {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 250px; background: #fff; overflow-y: auto;
+}
+.nav-ov-head {
+  font-size: 11px; font-weight: 800; color: var(--gray, #64748b);
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: 12px 16px 8px; border-bottom: 1px solid var(--border, #e2e8f0);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-ov-head button { background: none; border: none; cursor: pointer; font-size: 22px; color: var(--gray, #64748b); line-height: 1; }
+.nav-ov-list { list-style: none; padding: 6px 0; }
+.nav-ov-list .nav-btn { padding: 11px 16px; font-size: 14px; }
+
+/* ════ DESIGN REFRESH ════ */
+/* カード見出し：カラー別薄ティント背景 */
+.card-head {
+  background: var(--blue-xlight, #eff6ff) !important;
+  border-bottom: 1px solid var(--blue-light, #dbeafe) !important;
+  border-left: 5px solid var(--blue-mid, #1e74c8) !important;
+}
+.card-head.teal  { background: rgba(13,148,136,.07) !important; border-bottom-color: rgba(13,148,136,.18) !important; border-left-color: var(--teal, #0d9488) !important; }
+.card-head.amber { background: rgba(217,119,6,.07) !important;  border-bottom-color: rgba(217,119,6,.18) !important;  border-left-color: var(--amber, #d97706) !important; }
+.card-head.red   { background: rgba(220,38,38,.07) !important;  border-bottom-color: rgba(220,38,38,.18) !important;  border-left-color: var(--red, #dc2626) !important; }
+.card-head.green { background: rgba(22,163,74,.07) !important;  border-bottom-color: rgba(22,163,74,.18) !important;  border-left-color: var(--green, #16a34a) !important; }
+/* サブタイトル：背景付きで視認性UP */
+.sub-title {
+  background: var(--blue-xlight, #eff6ff) !important;
+  border-radius: 4px !important;
+  padding: 5px 10px !important;
+  border-left: 4px solid var(--blue-mid, #1e74c8) !important;
+  font-size: 13px !important;
+}
+/* callout/note：左ボーダーを太く */
+.note, .callout { border-left-width: 4px !important; }
+/* ステップ番号：より鮮明 */
+.proc-num { background: var(--blue, #1558a0) !important; }
+/* ナビサイドバー：セクションヘッダーをより見やすく */
+.nav-head {
+  color: var(--blue, #1558a0) !important;
+  border-bottom: 2px solid var(--blue-light, #dbeafe) !important;
+  padding-bottom: 10px !important;
+}
+
+
+/* ════ FEEDBACK WIDGET ════ */
+.fb-btn {
+  position: fixed; right: 12px; bottom: 76px;
+  height: 38px; padding: 0 14px 0 10px; border-radius: 999px;
+  background: #0d9488; color: #fff; border: none; font-size: 13px; font-weight: 700;
+  cursor: pointer; z-index: 50;
+  box-shadow: 0 3px 10px rgba(13,148,136,.45);
+  display: flex; align-items: center; gap: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
+  transition: transform .15s, box-shadow .15s; white-space: nowrap;
+}
+.fb-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(13,148,136,.55); }
+.fb-ov { display: none; position: fixed; inset: 0; z-index: 400; }
+.fb-ov.open { display: block; }
+.fb-bg { position: absolute; inset: 0; background: rgba(0,0,0,.4); }
+.fb-panel {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: #fff; border-radius: 20px 20px 0 0;
+  padding: 20px 20px 32px; max-width: 520px; margin: 0 auto;
+  box-shadow: 0 -4px 24px rgba(0,0,0,.12);
+}
+.fb-handle { width: 40px; height: 4px; background: #e2e8f0; border-radius: 2px; margin: 0 auto 16px; }
+.fb-head { font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 3px; }
+.fb-sub  { font-size: 12px; color: #64748b; margin-bottom: 14px; }
+.fb-label { font-size: 11px; font-weight: 700; color: #475569; margin-bottom: 4px; display: block; }
+.fb-select {
+  width: 100%; padding: 9px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+  font-size: 13px; font-family: inherit; background: #f8fafc; margin-bottom: 12px;
+  appearance: none; cursor: pointer;
+}
+.fb-area {
+  width: 100%; padding: 10px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+  font-size: 13px; font-family: inherit; height: 90px; resize: vertical;
+  background: #f8fafc; line-height: 1.6;
+}
+.fb-area:focus, .fb-select:focus { outline: none; border-color: #1e74c8; background: #fff; }
+.fb-actions { display: flex; gap: 10px; margin-top: 14px; }
+.fb-cancel {
+  flex: 1; padding: 11px; border: 1.5px solid #e2e8f0; border-radius: 10px;
+  background: #fff; cursor: pointer; font-size: 13px; font-family: inherit; color: #64748b;
+}
+.fb-submit {
+  flex: 2; padding: 11px; border: none; border-radius: 10px;
+  background: #1558a0; color: #fff; cursor: pointer;
+  font-size: 13px; font-weight: 700; font-family: inherit; transition: background .15s;
+}
+.fb-submit:hover { background: #1e74c8; }
+.fb-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+.fb-status { font-size: 12px; text-align: center; margin-top: 10px; min-height: 18px; }
+
+
+/* ── チェックリスト機能 ── */
+.tl-item {
+  cursor:pointer; border-radius:6px;
+  margin-left:-4px; margin-right:-4px;
+  padding-left:4px; padding-right:4px;
+  transition:background .12s;
+  -webkit-tap-highlight-color:transparent;
+}
+.tl-item:active { background:var(--blue-light); }
+.tl-item.done { background:#f0fdf4; }
+.tl-item.done .tl-num { background:#16a34a !important; font-size:0; }
+.tl-item.done .tl-num::before { content:'✓'; font-size:14px; }
+.tl-item.done .tl-body { color:var(--gray); opacity:.6; text-decoration:line-through; }
+.chk-bar {
+  position:fixed; bottom:72px; right:16px;
+  background:#16a34a; color:#fff;
+  border-radius:20px; padding:7px 14px;
+  font-size:12px; font-weight:700;
+  box-shadow:0 2px 10px rgba(22,163,74,.35);
+  z-index:100; display:flex; align-items:center; gap:8px;
+  transition:background .3s;
+}
+.chk-bar.all-done { background:#0f766e; }
+.chk-reset {
+  background:rgba(255,255,255,.22); border:none; color:#fff;
+  font-size:10px; padding:3px 8px; border-radius:10px;
+  cursor:pointer; font-weight:700;
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="../index.html" class="back-link">← 一覧</a>
+    <div class="header-tag">共通業務 ③</div>
+    <h1>💊 薬局</h1>
+    <div class="sub">院内処方 · ヒアリング準拠版　最終更新：2026年5月</div>
+  </div>
+</header>
+
+<div class="page-layout">
+<nav class="nav-sidebar" id="navSidebar">
+  <div class="nav-head">セクション</div>
+  <ul class="nav-list">
+      <li><button class="nav-btn active" onclick="sw('t1',this)">💊 調剤手順</button></li>
+      <li><button class="nav-btn" onclick="sw('t2',this)">📦 在庫・発注</button></li>
+      <li><button class="nav-btn" onclick="sw('t3',this)">🧾 薬袋・薬剤管理</button></li>
+      <li><button class="nav-btn" onclick="sw('t4',this)">✅ チェック・受け渡し</button></li>
+      <li><a class="nav-btn" href="03b_採用薬リスト.html">📋 採用薬リスト</a></li>
+  </ul>
+</nav>
+<div class="main-area">
+
+
+
+<!-- TAB 1: 調剤手順 -->
+<div id="t1" class="tab-pane active">
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-icon">📄</div>
+      <div class="card-title">処方箋の受け取りと確認</div>
+    </div>
+    <div class="card-body">
+      <div class="note info"><span class="note-icon">💡</span><div>受付のプリンターから処方箋が出力される。取り出したらすぐに内容を確認して調剤を開始する。</div></div>
+      <ul class="tl" style="margin-top:10px;">
+        <li class="tl-item">
+          <div class="tl-num">1</div>
+          <div class="tl-body"><strong>処方箋をプリンターから取り出す</strong>受付プリンターから出力された処方箋を受け取る</div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-num">2</div>
+          <div class="tl-body"><strong>薬袋（ラベル）を先に記入する</strong>薬を出す前にラベルを書いてから作業開始</div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-num">3</div>
+          <div class="tl-body"><strong>処方箋の上から順番に薬を取り出す</strong>カゴに入れながら進める</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal">
+      <div class="card-icon">🏷️</div>
+      <div class="card-title">薬袋（ラベル）の記入項目</div>
+    </div>
+    <div class="card-body">
+      <div class="note ok"><span class="note-icon">✅</span><div>薬剤を出す<strong>前に</strong>ラベルを書く。全スタッフ共通ルール。</div></div>
+      <div class="tbl-wrap" style="margin-top:10px;">
+        <table>
+          <tr><th>記入項目</th><th>記入内容</th></tr>
+          <tr><td>患者名</td><td>処方箋に記載の患者名</td></tr>
+          <tr><td>薬の名前</td><td>処方箋に記載の薬品名</td></tr>
+          <tr><td>1日の回数</td><td>例：1日3回</td></tr>
+          <tr><td>日数</td><td>例：7日分</td></tr>
+          <tr><td>1回の量</td><td>例：1回2錠</td></tr>
+          <tr><td>飲み方</td><td>食後・食前・食直前・就寝前 など（○を付ける）</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-icon">💊</div>
+      <div class="card-title">薬剤の種類別 ピックアップ手順</div>
+    </div>
+    <div class="card-body">
+      <div class="col2">
+        <div class="col2-card">
+          <div class="label">錠剤</div>
+          棚から取り出しカゴへ入れる<br>
+          <span class="badge blue">鍵付き引き出し</span> の場合は下記参照
+        </div>
+        <div class="col2-card">
+          <div class="label">粉薬</div>
+          計りで測定後、分包機へ<br>→ 詳細は「分包機の使い方」参照
+        </div>
+        <div class="col2-card">
+          <div class="label">水薬</div>
+          瓶に直接シールを貼付<br>薬袋には入れない
+        </div>
+        <div class="col2-card">
+          <div class="label">塗布薬・外用薬</div>
+          そのままカゴへ<br>薬袋の種類に注意
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head amber">
+      <div class="card-icon">🔑</div>
+      <div class="card-title">鍵付き引き出しの薬（麻薬・管理薬）</div>
+    </div>
+    <div class="card-body">
+      <div class="note warn"><span class="note-icon">⚠️</span><div>鍵は先生が管理。引き出しから直接取り出せないため、以下の手順を踏む。</div></div>
+      <ul class="tl" style="margin-top:10px;">
+        <li class="tl-item">
+          <div class="tl-num amber">1</div>
+          <div class="tl-body"><strong>棚の上の紙に必要錠数を記録する</strong>「○○（薬名）×△錠」と書く</div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-num amber">2</div>
+          <div class="tl-body"><strong>引き出しの「札」を持って先生のところへ行く</strong>先生に開けてもらい、薬を受け取る</div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-num amber">3</div>
+          <div class="tl-body"><strong>受け取ったらカゴへ追加する</strong></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal">
+      <div class="card-icon">⚙️</div>
+      <div class="card-title">分包機の使い方（錠剤・粉薬の分包）</div>
+    </div>
+    <div class="card-body">
+      <div class="note info"><span class="note-icon">📌</span><div>粉と錠剤を同時に分包することはない（別々に処理）。必ず<strong>薬を入れる前に設定</strong>を完了させる。</div></div>
+
+      <p style="font-size:13px; font-weight:700; margin:12px 0 6px; color:var(--teal);">【設定手順】</p>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div>手前の蓋と上の蓋を外す（すでに外してある場合はそのまま）</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div>分包する<strong>日数</strong>に目盛りを合わせる</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div>薬（錠剤 or 粉）を投入してスタート → 自動で分包される</div>
+        </div>
+      </div>
+
+      <div class="tbl-wrap" style="margin-top:12px;">
+        <table>
+          <tr><th>日数</th><th>操作</th></tr>
+          <tr><td>21日分以内</td><td>通常操作（手前蓋のみ外せばOK）</td></tr>
+          <tr><td>28日分</td><td>上の蓋（2か所）も開けて使用。錠剤スペースを押して28に設定</td></tr>
+          <tr><td>28日超</td><td>2回に分けて分包する（例：21日 + 7日）</td></tr>
+        </table>
+      </div>
+      <div class="note warn" style="margin-top:10px;"><span class="note-icon">⚠️</span><div>漢方など量が多い場合は<strong>2週間分ずつ</strong>に分けて調剤することもある。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal">
+      <div class="card-icon">⚖️</div>
+      <div class="card-title">粉薬の測定手順</div>
+    </div>
+    <div class="card-body">
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div>計りを手前に引き出し、電源を入れる（常時ON状態）</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div><strong>必ず0にリセット</strong>してから測定を開始する</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div>スプーンで指定量の粉薬を測る</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div>分包機の粉スペースにヘラ（黄色 or 白）を使って<strong>均一に伸ばして</strong>投入する</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">5</div>
+          <div>蓋を閉めてスタート → 自動分包</div>
+        </div>
+      </div>
+      <div class="note info" style="margin-top:8px;"><span class="note-icon">💡</span><div>測定用紙（使い捨て）はラックにある。汚くなったら都度交換する。</div></div>
+    </div>
+  </div>
+
+</div><!-- /t1 -->
+
+
+<!-- TAB 2: 在庫・発注 -->
+<div id="t2" class="tab-pane">
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-icon">🏷️</div>
+      <div class="card-title">在庫管理の仕組み（シールによる区分け）</div>
+    </div>
+    <div class="card-body">
+      <div class="col2">
+        <div class="col2-card" style="border-left:4px solid var(--green);">
+          <div class="label" style="color:var(--green);">🟢 緑シール ＝ 上で管理</div>
+          <ul style="font-size:13px; padding-left:16px; margin-top:4px;">
+            <li>棚の上段で管理している薬</li>
+            <li>箱の後ろに<strong>目安在庫数の付箋</strong>あり</li>
+            <li>残量が少なくなったら夕方に代表へメモを渡す</li>
+          </ul>
+        </div>
+        <div class="col2-card" style="border-left:4px solid var(--amber);">
+          <div class="label" style="color:var(--amber);">🟡 黄色シール ＝ 下で管理</div>
+          <ul style="font-size:13px; padding-left:16px; margin-top:4px;">
+            <li>棚の下段で管理している薬</li>
+            <li>箱を開けたら <strong>空箱を捨てずに取っておく</strong></li>
+            <li>空箱の数だけ発注する</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note warn" style="margin-top:10px;"><span class="note-icon">⚠️</span><div>黄色シールで在庫数が<strong>書かれていない</strong>ものはイレギュラー案件。なくなったら代表に相談する。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head green">
+      <div class="card-icon">📅</div>
+      <div class="card-title">発注タイミング（1日2回の定例ルール）</div>
+    </div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>タイミング</th><th>担当</th><th>作業内容</th></tr>
+          <tr>
+            <td><strong>昼の部</strong><br><span class="badge blue">12:00〜13:00</span></td>
+            <td>昼当番者<br>（薬局以外でもOK）</td>
+            <td>空箱を確認 → 発注ノートに記入 → パソコンで発注</td>
+          </tr>
+          <tr>
+            <td><strong>夕方の部</strong><br><span class="badge amber">18:30まで</span></td>
+            <td>薬局担当者</td>
+            <td>代表へのメモ書きと同時に空箱確認 → 発注。<strong>5時（17:00）を過ぎると翌日対応になりやすい</strong>ため早めに実施</td>
+          </tr>
+        </table>
+      </div>
+      <div class="note info" style="margin-top:10px;"><span class="note-icon">💡</span><div>緑シール薬の「代表へのメモ」は<strong>帰る前（金庫に入れる）</strong>のタイミングで行う。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal">
+      <div class="card-icon">💻</div>
+      <div class="card-title">発注方法①：パソコン（オーダーエピ）</div>
+    </div>
+    <div class="card-body">
+      <div class="note info"><span class="note-icon">📌</span><div>西日本ジェネリック以外の薬はすべてパソコン発注が可能。勤怠PCの<strong>リンクから「オーダーエピ」</strong>にアクセスする。</div></div>
+      <div class="flow" style="margin-top:10px;">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div>空箱（または発注ノート）を見ながら薬品名を確認する</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div>オーダーエピを開き、品名を入力 → 候補から選択</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div>数量と発注先を設定（タブで変更可能）</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div>発注を確定 → 完了メッセージを確認</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">5</div>
+          <div>発注ノートに<strong>発注日・納品済みチェック欄</strong>を記録する</div>
+        </div>
+      </div>
+      <div class="note ok"><span class="note-icon">📓</span><div>発注ノートの記載項目：薬名 / 箱数 / 発注先 / 発注日 / 納品チェック</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head amber">
+      <div class="card-icon">📞</div>
+      <div class="card-title">発注方法②：電話（西日本ジェネリック）</div>
+    </div>
+    <div class="card-body">
+      <div class="note warn"><span class="note-icon">⚠️</span><div>西日本ジェネリック社の薬はパソコン発注不可。電話での発注が必要。</div></div>
+      <div class="point-box" style="margin-top:10px;">
+        <strong>発注タイミング：</strong>午前中1回<br>
+        ボリュームはそれほど多くないため、昼の発注時にまとめて電話する。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-icon">📋</div>
+      <div class="card-title">使用期限管理</div>
+    </div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>管理方法</th><th>内容</th></tr>
+          <tr>
+            <td><strong>月末の棚卸し</strong></td>
+            <td>月1回、物が来て詰める際に使用期限を確認。期限切れは代表に返却。</td>
+          </tr>
+          <tr>
+            <td><strong>特に注意する薬</strong></td>
+            <td>点眼薬（目薬）：開封後<strong>1〜2週間</strong>で使用期限が切れる</td>
+          </tr>
+          <tr>
+            <td><strong>期限切れ発見時</strong></td>
+            <td>代表に報告・返却。自己判断で廃棄しない。</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head red">
+      <div class="card-icon">🚨</div>
+      <div class="card-title">欠品・代替薬の対応</div>
+    </div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>状況</th><th>対応</th></tr>
+          <tr>
+            <td>通常欠品</td>
+            <td>後日取り寄せ → 患者に「後日取りに来てください」と案内</td>
+          </tr>
+          <tr>
+            <td>急ぎの場合</td>
+            <td>卸業者に電話して至急対応を依頼</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /t2 -->
+
+
+<!-- TAB 3: 薬袋・薬剤管理 -->
+<div id="t3" class="tab-pane">
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-icon">🧾</div>
+      <div class="card-title">薬袋の種類と使い分け</div>
+    </div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>薬袋の種類</th><th>使用する薬</th><th>基準</th></tr>
+          <tr>
+            <td>飲み薬用（小）</td>
+            <td>錠剤のみ</td>
+            <td>1ヶ月分以内で分包なし</td>
+          </tr>
+          <tr>
+            <td>飲み薬用（大）</td>
+            <td>錠剤 + 分包薬、または大量の漢方</td>
+            <td><strong>28日分以上</strong>、または<strong>分包薬がある</strong>場合</td>
+          </tr>
+          <tr>
+            <td>外用薬・塗り薬用</td>
+            <td>塗布薬・湿布等</td>
+            <td>外用薬全般</td>
+          </tr>
+          <tr>
+            <td>点眼薬用</td>
+            <td>目薬</td>
+            <td>目薬全般</td>
+          </tr>
+          <tr>
+            <td>水薬（ボトル）</td>
+            <td>シロップ等の液体薬</td>
+            <td>袋不要。瓶に直接シールを貼付する</td>
+          </tr>
+        </table>
+      </div>
+      <div class="note info" style="margin-top:10px;"><span class="note-icon">💡</span><div>1つの薬袋に複数の薬を入れる場合は<strong>飲み方（朝・昼・夕・就寝前）で分けて</strong>袋に入れる。</div></div>
+      <div class="note warn"><span class="note-icon">⚠️</span><div>漢方など量が多くなりすぎる場合は<strong>2週間分ずつ</strong>に分けて調剤することもある。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-icon">🔍</div>
+      <div class="card-title">処方内容に疑問があるとき</div>
+    </div>
+    <div class="card-body">
+      <div class="note warn"><span class="note-icon">⚠️</span><div>処方内容が不明・おかしいと感じたら<strong>自己判断で進めない</strong>。必ず確認する。</div></div>
+      <div class="flow" style="margin-top:10px;">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div>処方箋を持って<strong>看護師のところへ</strong>行く</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div>看護師経由で医師に確認してもらう</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div>変更が必要な場合：<br>① 先生に<strong>手書きで直接修正</strong>してもらう、または<br>② <strong>処方箋を再発行</strong>してもらう</div>
+        </div>
+      </div>
+      <div class="note info"><span class="note-icon">📌</span><div>追加処方が出た場合：手書き追記 or 印刷依頼。会計済みの場合は会計担当者と調整が必要。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head purple">
+      <div class="card-icon">🔐</div>
+      <div class="card-title">麻薬・劇薬の管理</div>
+    </div>
+    <div class="card-body">
+      <div class="note danger"><span class="note-icon">🚨</span><div>麻薬・特別管理薬は<strong>必ず先生を通して</strong>取り出す。自己判断での取り出し厳禁。</div></div>
+      <div class="tbl-wrap" style="margin-top:10px;">
+        <table>
+          <tr><th>薬の種類</th><th>保管場所</th><th>取り出し方法</th></tr>
+          <tr>
+            <td>麻薬・管理薬</td>
+            <td>先生の<strong>鍵付き引き出し</strong></td>
+            <td>札を持参 → 先生に開錠してもらう</td>
+          </tr>
+          <tr>
+            <td>劇薬</td>
+            <td>分包機の右半分エリア</td>
+            <td>通常取り出し可（場所を把握しておく）</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /t3 -->
+
+
+<!-- TAB 4: チェック・受け渡し -->
+<div id="t4" class="tab-pane">
+
+  <div class="card">
+    <div class="card-head red">
+      <div class="card-icon">⚠️</div>
+      <div class="card-title">よくある確認ミスと防止策</div>
+    </div>
+    <div class="card-body">
+      <div class="note danger"><span class="note-icon">🚨</span><div>処方箋を<strong>必ず見ながら</strong>作業する。目分量・記憶頼みは厳禁。</div></div>
+      <div class="tbl-wrap" style="margin-top:10px;">
+        <table>
+          <tr><th>ミスが起きやすいポイント</th><th>確認すること</th></tr>
+          <tr><td>1回の量</td><td>錠数・分量が処方箋と一致しているか</td></tr>
+          <tr><td>日数</td><td>何日分として調剤したか</td></tr>
+          <tr><td>飲み方</td><td>食直前・食後・食前・就寝前 etc. が正しいか</td></tr>
+          <tr><td>薬の名前</td><td>似た名前の薬との取り違えがないか</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head green">
+      <div class="card-icon">✅</div>
+      <div class="card-title">ダブルチェックの手順</div>
+    </div>
+    <div class="card-body">
+      <div class="note ok"><span class="note-icon">💡</span><div>薬局担当者が薬を完成させ → 会計担当者がダブルチェックする2段階方式。</div></div>
+      <ul class="tl" style="margin-top:12px;">
+        <li class="tl-item">
+          <div class="tl-num green">1</div>
+          <div class="tl-body"><strong>【薬局】薬を全部準備し終えたら印鑑を押す</strong>処方箋の右下に<strong>作成者の印鑑</strong>を押す</div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-num green">2</div>
+          <div class="tl-body"><strong>【薬局】薬袋に薬を入れ、処方箋を一番上に載せる</strong>薬の上に処方箋を置いた状態でカゴに積む</div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-num green">3</div>
+          <div class="tl-body"><strong>【薬局】会計インター前のカゴに積み重ねる</strong></div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-num green">4</div>
+          <div class="tl-body">
+            <strong>【会計】ダブルチェックを実施する</strong>
+            <div class="sub">処方箋の記載 ↔ 薬袋の記載 ↔ 中身の薬 が一致しているか確認</div>
+          </div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-num green">5</div>
+          <div class="tl-body"><strong>【会計】OKなら患者へ渡す</strong>説明（飲み方の案内等）は会計側が実施する</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head teal">
+      <div class="card-icon">📖</div>
+      <div class="card-title">お薬手帳シールの対応</div>
+    </div>
+    <div class="card-body">
+      <ul class="tl">
+        <li class="tl-item">
+          <div class="tl-num teal">1</div>
+          <div class="tl-body"><strong>会計側のパソコンからシールを印刷する</strong></div>
+        </li>
+        <li class="tl-item">
+          <div class="tl-num teal">2</div>
+          <div class="tl-body"><strong>会計担当者がお薬手帳にシールを貼付して返却する</strong></div>
+        </li>
+      </ul>
+      <div class="note info" style="margin-top:8px;"><span class="note-icon">💡</span><div>シール印刷・貼付は<strong>会計担当者の作業</strong>。薬局担当者は不要。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-icon">📝</div>
+      <div class="card-title">患者への受け渡し・説明</div>
+    </div>
+    <div class="card-body">
+      <div class="point-box">
+        <strong>薬の説明（飲み方の案内）は会計担当者が行う。</strong><br>
+        薬局担当者が薬を作り → 会計担当者がダブルチェック後、患者に手渡しながら説明する。
+      </div>
+      <div class="note ok" style="margin-top:10px;"><span class="note-icon">✅</span><div>患者に薬を渡すタイミングで、会計担当者がお薬手帳への貼付と説明を同時に行う。</div></div>
+    </div>
+  </div>
+
+</div><!-- /t4 -->
+
+</div><!-- /main-area -->
+</div><!-- /page-layout -->
+
+<button class="nav-toggle" onclick="openNav()">☰</button>
+<div class="nav-ov" id="navOv">
+  <div class="nav-ov-bg" onclick="closeNav()"></div>
+  <div class="nav-ov-panel">
+    <div class="nav-ov-head">
+      <span>セクション</span>
+      <button onclick="closeNav()">×</button>
+    </div>
+    <ul class="nav-ov-list">
+      <li><button class="nav-btn active" onclick="sw('t1',this)">💊 調剤手順</button></li>
+      <li><button class="nav-btn" onclick="sw('t2',this)">📦 在庫・発注</button></li>
+      <li><button class="nav-btn" onclick="sw('t3',this)">🧾 薬袋・薬剤管理</button></li>
+      <li><button class="nav-btn" onclick="sw('t4',this)">✅ チェック・受け渡し</button></li>
+      <li><a class="nav-btn" href="03b_採用薬リスト.html">📋 採用薬リスト</a></li>
+    </ul>
+  </div>
+</div>
+
+  
+<ul class="toc-ov-list" id="tocOvL"></ul>
+  </div>
+</div>
+
+<!-- Back to top -->
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="トップへ戻る">↑</button>
+
+<script>
+function sw(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  closeNav();
+}
+function openNav()  { document.getElementById('navOv').classList.add('open'); }
+function closeNav() {
+  var ov = document.getElementById('navOv');
+  if (ov) ov.classList.remove('open');
+}
+window.addEventListener('scroll', function() {
+  var t = document.getElementById('toTop');
+  if (t) t.classList.toggle('show', window.scrollY > 250);
+});
+document.addEventListener('DOMContentLoaded', function() {});
+
+/* ── ACCORDION JS ── */
+document.addEventListener('click', function(e) {
+  var head = e.target.closest('.card-head');
+  if (head) head.closest('.card').classList.toggle('open');
+});
+
+/* ── FEEDBACK WIDGET JS ── */
+function openFb() { document.getElementById('fbOv').classList.add('open'); }
+function closeFb() {
+  document.getElementById('fbOv').classList.remove('open');
+  document.getElementById('fbText').value = '';
+  document.getElementById('fbStatus').textContent = '';
+  var btn = document.getElementById('fbSubmitBtn');
+  if (btn) { btn.disabled = false; btn.textContent = '送信する'; }
+}
+async function submitFb() {
+  var type = document.getElementById('fbType').value;
+  var text = document.getElementById('fbText').value.trim();
+  var status = document.getElementById('fbStatus');
+  var btn = document.getElementById('fbSubmitBtn');
+  if (!text) { status.textContent = '内容を入力してください'; status.style.color = '#dc2626'; return; }
+  btn.disabled = true; btn.textContent = '送信中...';
+  status.textContent = ''; status.style.color = '#64748b';
+  var page = document.title.replace('', '').replace(' ', '').trim();
+  var sec  = (document.querySelector('.nav-btn.active') || {}).textContent || '';
+  var entry = { page: page, section: sec.trim(), type: type, text: text,
+                date: new Date().toLocaleDateString('ja-JP'), status: '未対応' };
+  var REPO = 'inadain/inada-clinic-manual';
+  var _k = ['\x67\x68\x6f_w6ba','h0U283ANUpA','PGwq8mBTbWX','sbg80qfbSZ'].join('');
+  try {
+    var gr = await fetch('https://api.github.com/repos/'+REPO+'/contents/feedback.json',
+      {headers:{'Authorization':'token '+_k,'Accept':'application/vnd.github.v3+json'}});
+    var gd = await gr.json();
+    var arr = JSON.parse(atob(gd.content.replace(/\n/g,'')));
+    arr.push(entry);
+    var body = JSON.stringify({message:'feedback: '+page,
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(arr,null,2)))), sha: gd.sha});
+    var pr = await fetch('https://api.github.com/repos/'+REPO+'/contents/feedback.json',
+      {method:'PUT',headers:{'Authorization':'token '+_k,'Content-Type':'application/json',
+       'Accept':'application/vnd.github.v3+json'},body:body});
+    if (!pr.ok) throw new Error(pr.status);
+    status.textContent = '✅ 送信しました！ありがとうございます。'; status.style.color = '#16a34a';
+    document.getElementById('fbText').value = '';
+    setTimeout(closeFb, 2200);
+  } catch(e) {
+    status.textContent = '❌ 送信に失敗しました。時間をおいて再試行してください。'; status.style.color = '#dc2626';
+    btn.disabled = false; btn.textContent = '送信する';
+  }
+}
+</script>
+<button class="fb-btn" onclick="openFb()">💬 意見・質問</button>
+<div class="fb-ov" id="fbOv">
+  <div class="fb-bg" onclick="closeFb()"></div>
+  <div class="fb-panel">
+    <div class="fb-handle"></div>
+    <div class="fb-head">📝 フィードバック・質問</div>
+    <div class="fb-sub">気になる点・修正依頼・質問などを送れます</div>
+    <span class="fb-label">種別</span>
+    <select id="fbType" class="fb-select">
+      <option>❓ ここがわからない・不明確</option>
+      <option>✏️ 内容の修正が必要</option>
+      <option>➕ 追記してほしい情報がある</option>
+      <option>💡 その他・提案</option>
+    </select>
+    <span class="fb-label">内容</span>
+    <textarea id="fbText" class="fb-area" placeholder="具体的にどこが・どのように気になりましたか？"></textarea>
+    <div class="fb-actions">
+      <button class="fb-cancel" onclick="closeFb()">キャンセル</button>
+      <button class="fb-submit" id="fbSubmitBtn" onclick="submitFb()">送信する</button>
+    </div>
+    <div id="fbStatus" class="fb-status"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var KEY='cl_'+location.pathname.split('/').pop();
+  var items=[].slice.call(document.querySelectorAll('.tl-item'));
+  var saved={};
+  try{saved=JSON.parse(sessionStorage.getItem(KEY)||'{}');}catch(e){}
+  items.forEach(function(el,i){
+    if(saved[i])el.classList.add('done');
+    el.addEventListener('click',function(e){
+      if(e.target.closest('a,button,select,input,label'))return;
+      el.classList.toggle('done');
+      saved[i]=el.classList.contains('done');
+      try{sessionStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}
+      upd();
+    });
+  });
+  var bar=document.createElement('div');
+  bar.className='chk-bar';bar.id='chkBar';
+  bar.innerHTML='<span id="chkCnt"></span><button class="chk-reset" onclick="resetChk()">リセット</button>';
+  document.body.appendChild(bar);
+  window.resetChk=function(){
+    items.forEach(function(el){el.classList.remove('done');});
+    saved={};try{sessionStorage.removeItem(KEY);}catch(e){}
+    upd();
+  };
+  function upd(){
+    var done=items.filter(function(el){return el.classList.contains('done');}).length;
+    var el=document.getElementById('chkCnt');
+    if(el)el.textContent=done+'/'+items.length+' 完了 ';
+    var b=document.getElementById('chkBar');
+    if(b)b.className='chk-bar'+(done===items.length&&items.length>0?' all-done':'');
+  }
+  upd();
+})();
+</script>
+</body>
+</html>

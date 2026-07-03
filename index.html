@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スタッフマニュアル</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1558a0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="マニュアル">
+<link rel="apple-touch-icon" href="assets/logo.png">
+<style>
+:root {
+  --blue:       #1558a0;
+  --blue-mid:   #1e74c8;
+  --blue-light: #dbeafe;
+  --blue-xl:    #eff6ff;
+  --teal:       #0d9488;
+  --teal-light: #ccfbf1;
+  --amber:      #d97706;
+  --amber-lt:   #fef3c7;
+  --green:      #16a34a;
+  --green-lt:   #dcfce7;
+  --gray:       #64748b;
+  --gray-lt:    #f1f5f9;
+  --gray-mid:   #e2e8f0;
+  --text:       #0f172a;
+  --text-sub:   #475569;
+  --bg:         #f0f4f8;
+  --white:      #ffffff;
+  --r:          12px;
+  --r-sm:       8px;
+  --sh:         0 1px 4px rgba(0,0,0,.08);
+  --sh-md:      0 4px 16px rgba(0,0,0,.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+       font-size: 15px; line-height: 1.6; color: var(--text); background: var(--bg); min-height: 100vh; }
+
+/* ════════════════════════════════════════
+   LOCK SCREEN
+═══════════════════════════════════════ */
+#lockScreen {
+  display: none;
+}
+#lockScreen.hidden { display: none; }
+
+.lock-card {
+  background: var(--white); border-radius: 20px;
+  padding: 36px 32px 32px; width: 100%; max-width: 340px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.35);
+  text-align: center; animation: fadeUp .4s ease;
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+
+.lock-icon {
+  width: 64px; height: 64px; border-radius: 16px;
+  background: var(--blue-light); display: flex; align-items: center;
+  justify-content: center; font-size: 30px; margin: 0 auto 16px;
+}
+.lock-title { font-size: 18px; font-weight: 800; color: var(--blue); }
+.lock-sub   { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+
+.lock-label {
+  font-size: 12px; font-weight: 700; color: var(--gray);
+  text-transform: uppercase; letter-spacing: .06em;
+  margin: 24px 0 10px;
+}
+
+/* 4桁ドット表示 */
+.pin-dots {
+  display: flex; gap: 12px; justify-content: center; margin-bottom: 20px;
+}
+.pin-dot {
+  width: 48px; height: 48px; border-radius: 12px;
+  border: 2px solid var(--gray-mid); background: var(--gray-lt);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 800; color: var(--blue);
+  transition: border-color .15s, background .15s;
+}
+.pin-dot.filled { border-color: var(--blue-mid); background: var(--blue-xl); }
+.pin-dot.active { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(30,116,200,.2); }
+
+/* 数字パッド */
+.numpad {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  margin-bottom: 8px;
+}
+.num-btn {
+  height: 52px; border-radius: var(--r-sm); border: 1.5px solid var(--gray-mid);
+  background: var(--white); font-size: 18px; font-weight: 700; color: var(--text);
+  cursor: pointer; transition: background .1s, transform .1s;
+  display: flex; align-items: center; justify-content: center; gap: 2px;
+}
+.num-btn:active { background: var(--blue-xl); transform: scale(.95); }
+.num-btn.del { font-size: 16px; color: var(--gray); }
+.num-btn.zero { grid-column: 2; }
+
+.lock-err {
+  font-size: 12.5px; font-weight: 600; color: var(--amber);
+  min-height: 20px; margin-top: 10px;
+}
+@keyframes shake {
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-8px)}
+  40%{transform:translateX(8px)}
+  60%{transform:translateX(-6px)}
+  80%{transform:translateX(6px)}
+}
+.lock-card.shake { animation: shake .4s ease; }
+
+/* ════════════════════════════════════════
+   MAIN LAYOUT
+═══════════════════════════════════════ */
+#mainContent { display: block; }
+
+/* ── Header ── */
+.site-header {
+  background: linear-gradient(135deg, #0c3260 0%, var(--blue) 55%, var(--blue-mid) 100%);
+  padding: 14px 20px; position: sticky; top: 0; z-index: 50;
+  box-shadow: 0 2px 10px rgba(15,61,110,.4);
+}
+.header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+.header-logo { font-size: 24px; }
+.header-text h1 { font-size: 15px; font-weight: 800; color: #fff; letter-spacing: .02em; }
+.header-text p  { font-size: 11px; color: rgba(255,255,255,.65); margin-top: 1px; }
+.header-lock { margin-left: auto; color: rgba(255,255,255,.7); font-size: 13px; display: flex; align-items: center; gap: 5px; }
+
+/* ── Hero ── */
+.hero {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%);
+  padding: 22px 20px 26px; text-align: center; color: #fff;
+}
+.hero h2 { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
+.hero p  { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.7; }
+.hero-stats { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+.hero-stat  {
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+  border-radius: 10px; padding: 8px 20px; text-align: center;
+}
+.hero-stat .n { font-size: 22px; font-weight: 900; }
+.hero-stat .l { font-size: 10.5px; opacity: .8; margin-top: 1px; }
+
+/* ── Main wrap ── */
+.main { max-width: 1200px; margin: 0 auto; padding: 20px 20px 60px; }
+
+/* ── Section head ── */
+.sec-head { display: flex; align-items: center; gap: 10px; margin: 24px 0 12px; }
+.sec-icon  { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.sec-icon.blue  { background: var(--blue-light); }
+.sec-icon.teal  { background: var(--teal-light); }
+.sec-icon.green { background: var(--green-lt); }
+.sec-head h2 { font-size: 14px; font-weight: 800; color: var(--blue); }
+.sec-head p  { font-size: 11px; color: var(--text-sub); margin-top: 1px; }
+
+/* ── Manual cards ── */
+.card-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+
+.manual-card {
+  background: var(--white); border-radius: var(--r);
+  box-shadow: var(--sh); overflow: hidden;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: row; align-items: stretch;
+  border: 1px solid var(--gray-mid);
+  border-left: 5px solid var(--gray-mid);
+  transition: box-shadow .15s, transform .15s;
+}
+.manual-card.done        { border-left-color: var(--green); }
+.manual-card.in-progress { border-left-color: var(--amber); }
+.manual-card.pending     { border-left-color: var(--gray-mid); pointer-events: none; opacity: .6; }
+.manual-card:not(.pending):hover { box-shadow: var(--sh-md); transform: translateX(2px); }
+
+.card-body { padding: 13px 16px; display: flex; align-items: center; gap: 14px; flex: 1; }
+.card-ic {
+  width: 38px; height: 38px; border-radius: 9px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.card-ic.blue  { background: var(--blue-light); }
+.card-ic.amber { background: var(--amber-lt); }
+.card-ic.teal  { background: var(--teal-light); }
+.card-ic.gray  { background: var(--gray-lt); }
+.card-ic.green { background: var(--green-lt); }
+
+.card-info { flex: 1; min-width: 0; }
+.card-no    { font-size: 10px; font-weight: 700; color: var(--text-sub); letter-spacing: .06em; text-transform: uppercase; }
+.card-title { font-size: 15px; font-weight: 800; margin-top: 1px; line-height: 1.3; }
+.card-desc  { font-size: 11.5px; color: var(--text-sub); margin-top: 3px; line-height: 1.4; }
+
+.card-foot {
+  padding: 13px 16px;
+  display: flex; flex-direction: column; align-items: flex-end; justify-content: center;
+  gap: 5px; flex-shrink: 0; min-width: 120px;
+}
+.badge {
+  font-size: 10.5px; font-weight: 700; border-radius: 999px; padding: 3px 9px; white-space: nowrap;
+}
+.badge.done        { background: var(--green-lt);  color: var(--green); }
+.badge.in-progress { background: var(--amber-lt);  color: var(--amber); }
+.badge.pending     { background: var(--gray-lt);   color: var(--gray); }
+
+
+/* ── Staff cards ── */
+.staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.staff-card {
+  background: var(--white); border-radius: var(--r); box-shadow: var(--sh);
+  text-decoration: none; color: inherit; overflow: hidden;
+  border: 1.5px solid var(--gray-mid);
+  transition: box-shadow .18s, transform .18s;
+}
+.staff-card.active:hover { box-shadow: var(--sh-md); transform: translateY(-2px); border-color: var(--teal); }
+.staff-card.pending      { pointer-events: none; opacity: .6; }
+.staff-top    { padding: 16px 12px 10px; text-align: center; }
+.staff-av     { width: 44px; height: 44px; border-radius: 50%; font-size: 22px; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+.staff-av.t   { background: var(--teal-light); }
+.staff-av.g   { background: var(--gray-lt); }
+.staff-name   { font-size: 13px; font-weight: 800; }
+.staff-role   { font-size: 10px; color: var(--text-sub); margin-top: 3px; line-height: 1.4; }
+.staff-foot   { border-top: 1px solid var(--gray-mid); padding: 6px 12px; text-align: center; }
+.staff-badge  { font-size: 10px; font-weight: 700; border-radius: 999px; padding: 2px 8px; display: inline-block; }
+.staff-badge.t { background: var(--teal-light); color: var(--teal); }
+.staff-badge.g { background: var(--gray-lt);    color: var(--gray); }
+
+/* ── 勉強資料 シリーズカード ── */
+.study-subsec { font-size: 12px; font-weight: 700; color: var(--text-sub); margin: 16px 0 8px; padding: 4px 0 4px 10px; border-left: 3px solid var(--amber); }
+.series-card { background: var(--white); border-radius: var(--r); box-shadow: var(--sh); overflow: hidden; border: 1px solid var(--gray-mid); margin-bottom: 4px; }
+.series-head { display: flex; align-items: flex-start; gap: 14px; padding: 16px; }
+.series-ep-list { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--gray-mid); }
+.ep-link { display: flex; align-items: center; gap: 10px; padding: 11px 14px; text-decoration: none; color: var(--text); font-size: 13px; border-bottom: 1px solid var(--gray-mid); border-right: 1px solid var(--gray-mid); transition: background .12s; }
+.ep-link:hover { background: #f0fdfa; }
+.ep-link:nth-child(even) { border-right: none; }
+.ep-link:nth-last-child(-n+2) { border-bottom: none; }
+.ep-num { width: 28px; height: 28px; border-radius: 50%; background: var(--teal); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; flex-shrink: 0; }
+.ep-text { flex: 1; min-width: 0; }
+.ep-n { font-size: 10.5px; color: var(--text-sub); font-weight: 600; }
+.ep-title { font-size: 12.5px; font-weight: 700; color: var(--text); line-height: 1.3; }
+.series-foot { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: var(--gray-lt); border-top: 1px solid var(--gray-mid); flex-wrap: wrap; gap: 6px; }
+.tab-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+.tab-chip { font-size: 10.5px; background: var(--white); color: var(--text-sub); border: 1px solid var(--gray-mid); border-radius: 10px; padding: 2px 8px; font-weight: 600; }
+
+/* ── Footer ── */
+.site-footer { text-align: center; padding: 20px; font-size: 11px; color: var(--text-sub); border-top: 1px solid var(--gray-mid); background: var(--white); }
+
+/* ── Responsive ── */
+@media (max-width: 500px) {
+  .card-grid  { grid-template-columns: 1fr; }
+  .staff-grid { grid-template-columns: repeat(3, 1fr); }
+  .hero-stats { gap: 8px; }
+  .hero-stat  { padding: 6px 14px; }
+}
+
+/* ── Password Change Panel ── */
+.pw-ov { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,.55); align-items: center; justify-content: center; padding: 20px; }
+.pw-ov.open { display: flex; }
+.pw-card { background: #fff; border-radius: 18px; padding: 28px 24px 20px; width: 100%; max-width: 300px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+.pw-head { text-align: center; margin-bottom: 4px; }
+.pw-head-label { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--gray); }
+.pw-head-title { font-size: 16px; font-weight: 800; color: var(--text); margin-top: 2px; }
+.pw-dots { display: flex; gap: 6px; justify-content: center; margin: 14px 0 4px; min-height: 18px; }
+.pw-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--gray-mid); transition: all .1s; }
+.pw-dot.filled { background: var(--blue); transform: scale(1.15); }
+.pw-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.pw-key { background: var(--gray-lt); border: none; border-radius: 10px; height: 46px; font-size: 19px; font-weight: 600; cursor: pointer; transition: background .1s; color: var(--text); }
+.pw-key:active, .pw-key:hover { background: var(--blue-light); color: var(--blue); }
+.pw-key.del { font-size: 15px; color: var(--gray); }
+.pw-key.cancel { font-size: 13px; color: var(--gray); font-weight: 400; }
+.pw-err { font-size: 12px; color: #dc2626; text-align: center; margin-top: 8px; min-height: 18px; }
+.pw-status { font-size: 14px; text-align: center; color: var(--text-sub); padding: 20px 0; }
+.pw-change-link { display: inline-block; font-size: 11px; color: var(--gray); cursor: pointer; opacity: .45; margin-left: 8px; }
+.pw-change-link:hover { opacity: .9; text-decoration: underline; }
+/* ── PC 2-column layout ── */
+.page-body { display: flex; flex-direction: column; gap: 0; }
+.sidebar-col { order: 0; }
+.content-col { order: 1; }
+
+@media(min-width:900px){
+  .page-body { flex-direction: row; align-items: flex-start; gap: 22px; }
+  .content-col { flex: 1; min-width: 0; order: 0; }
+  .sidebar-col {
+    width: 268px; flex-shrink: 0; order: 1;
+    position: sticky; top: 76px;
+    max-height: calc(100vh - 90px); overflow-y: auto;
+  }
+  .sidebar-col::-webkit-scrollbar { width: 4px; }
+  .sidebar-col::-webkit-scrollbar-thumb { background: var(--gray-mid); border-radius: 4px; }
+  .sidebar-col .sec-head { margin-top: 0; }
+  .card-grid { grid-template-columns: 1fr 1fr; }
+  .hero { padding: 30px 40px 36px; }
+  .hero h2 { font-size: 20px; }
+  .hero-stats { gap: 14px; }
+  .hero-stat { padding: 10px 22px; }
+  .hero-stat .n { font-size: 26px; }
+  .series-ep-list { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .ep-link:nth-child(even) { border-right: 1px solid var(--gray-mid); }
+  .ep-link:nth-child(4n) { border-right: none; }
+  .ep-link:nth-last-child(-n+4) { border-bottom: none; }
+  .ep-link:nth-last-child(-n+2) { border-bottom: 1px solid var(--gray-mid); }
+  .ep-link:last-child { border-bottom: none; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ LOCK SCREEN ═══════════════ -->
+<div id="lockScreen">
+  <div class="lock-card" id="lockCard">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-title"></div>
+    <div class="lock-sub">スタッフ専用マニュアル</div>
+
+    <div class="lock-label">暗証番号を入力</div>
+
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+
+    <div class="numpad">
+      <button class="num-btn" onclick="padInput('1')">1</button>
+      <button class="num-btn" onclick="padInput('2')">2</button>
+      <button class="num-btn" onclick="padInput('3')">3</button>
+      <button class="num-btn" onclick="padInput('4')">4</button>
+      <button class="num-btn" onclick="padInput('5')">5</button>
+      <button class="num-btn" onclick="padInput('6')">6</button>
+      <button class="num-btn" onclick="padInput('7')">7</button>
+      <button class="num-btn" onclick="padInput('8')">8</button>
+      <button class="num-btn" onclick="padInput('9')">9</button>
+      <button class="num-btn del" onclick="padDel()">⌫</button>
+      <button class="num-btn zero" onclick="padInput('0')">0</button>
+    </div>
+
+    <div class="lock-err" id="lockErr"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<div id="mainContent">
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#" onclick="history.back(); return false;" style="color:rgba(255,255,255,.8);font-size:12px;text-decoration:none;background:rgba(255,255,255,.15);padding:5px 12px;border-radius:20px;white-space:nowrap;flex-shrink:0">← 戻る</a>
+    <div class="header-logo">🏥</div>
+    <div class="header-text">
+      <h1>医療事務マニュアル</h1>
+      <p>スタッフ向け業務手順書ポータル</p>
+    </div>
+    <div class="header-lock">🔒 認証済み</div>
+  </div>
+</header>
+
+<div class="hero">
+  <h2>業務マニュアル 一覧</h2>
+  <p>ヒアリング録音 → 文字起こし → AI整理 で作成<br>随時更新中 · 不明点は担当者へ確認を</p>
+  <a href="print.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);color:#fff;text-decoration:none;font-size:13px;font-weight:700;padding:8px 18px;border-radius:20px;">🖨️ 印刷版（バインダー用）を開く</a>
+</div>
+
+<main class="main">
+<div class="page-body">
+
+
+<div class="content-col">
+  <!-- 共通業務 -->
+  <div class="sec-head">
+    <div class="sec-icon blue">🏥</div>
+    <div><h2>共通業務マニュアル</h2><p>全スタッフ対象 · 担当業務ごとに参照</p></div>
+  </div>
+
+  <div class="card-grid">
+
+    <a class="manual-card done" href="01_共通業務/01_医院業務（全般）.html">
+      <div class="card-body">
+        <div class="card-ic blue">🏥</div>
+        <div class="card-info">
+          <div class="card-no">共通業務 ①</div>
+          <div class="card-title">医院業務（全般）</div>
+          <div class="card-desc">開院準備・昼休憩・閉院・電話切替・スタッフ連携</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge done">整備中</span></div>
+    </a>
+
+    <a class="manual-card done" href="01_共通業務/02_受付.html">
+      <div class="card-body">
+        <div class="card-ic blue">🏷️</div>
+        <div class="card-info">
+          <div class="card-no">共通業務 ②</div>
+          <div class="card-title">受付</div>
+          <div class="card-desc">保険確認・公費・労災・発熱外来・書類対応</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge done">整備中</span></div>
+    </a>
+
+    <a class="manual-card done" href="01_共通業務/03_薬局.html">
+      <div class="card-body">
+        <div class="card-ic blue">💊</div>
+        <div class="card-info">
+          <div class="card-no">共通業務 ③</div>
+          <div class="card-title">薬局</div>
+          <div class="card-desc">調剤・在庫管理・ダブルチェック・採用薬リスト</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge done">整備中</span></div>
+    </a>
+
+    <a class="manual-card in-progress" href="01_共通業務/04_会計.html">
+      <div class="card-body">
+        <div class="card-ic amber">💴</div>
+        <div class="card-info">
+          <div class="card-no">共通業務 ④</div>
+          <div class="card-title">会計</div>
+          <div class="card-desc">会計フロー・レジ締め・月次集計</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge in-progress">整備中</span></div>
+    </a>
+
+    <a class="manual-card pending">
+      <div class="card-body">
+        <div class="card-ic gray">✏️</div>
+        <div class="card-info">
+          <div class="card-no">共通業務 ⑤</div>
+          <div class="card-title">シュライバー</div>
+          <div class="card-desc">診察補助業務</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge pending">未整備</span></div>
+    </a>
+
+    <a class="manual-card pending">
+      <div class="card-body">
+        <div class="card-ic gray">📊</div>
+        <div class="card-info">
+          <div class="card-no">共通業務 ⑥</div>
+          <div class="card-title">レセプト</div>
+          <div class="card-desc">月次レセプト点検・請求業務</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge pending">未整備</span></div>
+    </a>
+
+    <a class="manual-card in-progress" href="01_共通業務/08_レセプト整合表.html">
+      <div class="card-body">
+        <div class="card-ic amber">📋</div>
+        <div class="card-info">
+          <div class="card-no">共通業務 ⑧</div>
+          <div class="card-title">レセプト整合表</div>
+          <div class="card-desc">処方・検査と必要な病名の対応一覧</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge in-progress">整備中</span></div>
+    </a>
+
+    <a class="manual-card in-progress" href="01_共通業務/07_個人タスク.html">
+      <div class="card-body">
+        <div class="card-ic teal">👥</div>
+        <div class="card-info">
+          <div class="card-no">共通業務 ⑦</div>
+          <div class="card-title">個人タスク</div>
+          <div class="card-desc">各担当者の専門業務</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge in-progress">整備中</span></div>
+    </a>
+
+  </div>
+
+  <!-- 担当者別 -->
+  <div class="sec-head" style="margin-top:28px;">
+    <div class="sec-icon teal">👤</div>
+    <div><h2>担当者別マニュアル</h2><p>個人タスクページからもアクセス可</p></div>
+  </div>
+
+  <div class="staff-grid">
+    <a class="staff-card active" href="05_小幡/01_小幡_業務マニュアル.html">
+      <div class="staff-top">
+        <div class="staff-av t">👩‍💼</div>
+        <div class="staff-name">小幡</div>
+        <div class="staff-role">書類・レセプト<br>詳記担当</div>
+      </div>
+      <div class="staff-foot"><span class="staff-badge t">整備中</span></div>
+    </a>
+    <a class="staff-card active" href="02_吉田/01_吉田_業務マニュアル.html">
+      <div class="staff-top"><div class="staff-av t">👩</div><div class="staff-name">吉田</div><div class="staff-role">受付・書類<br>担当</div></div>
+      <div class="staff-foot"><span class="staff-badge t">整備中</span></div>
+    </a>
+    <a class="staff-card active" href="03_守屋/01_守屋_個人タスク.html">
+      <div class="staff-top"><div class="staff-av t">👩</div><div class="staff-name">守屋</div><div class="staff-role">レセプト詳記<br>各種健診担当</div></div>
+      <div class="staff-foot"><span class="staff-badge t">整備中</span></div>
+    </a>
+    <div class="staff-card pending">
+      <div class="staff-top"><div class="staff-av g">👩</div><div class="staff-name">松浦</div><div class="staff-role">未整備</div></div>
+      <div class="staff-foot"><span class="staff-badge g">未整備</span></div>
+    </div>
+    <a class="staff-card active" href="06_綾目/01_予防接種票_チェック・請求.html">
+      <div class="staff-top"><div class="staff-av t">👩</div><div class="staff-name">綾目</div><div class="staff-role">予防接種票<br>チェック・請求</div></div>
+      <div class="staff-foot"><span class="staff-badge t">整備中</span></div>
+    </a>
+  </div>
+
+
+  <!-- 院内規程・方針 -->
+  <div class="sec-head" style="margin-top:28px;">
+    <div class="sec-icon" style="background:#fee2e2;">📜</div>
+    <div><h2 style="color:#991b1b;">院内規程・方針</h2><p>クレーム対応・ハラスメント防止・個人情報保護など</p></div>
+  </div>
+
+  <div class="card-grid">
+
+    <a class="manual-card done" href="08_規程/01_クレーム対応・ハラスメント防止.html">
+      <div class="card-body">
+        <div class="card-ic" style="background:#fee2e2;color:#991b1b;">🛡️</div>
+        <div class="card-info">
+          <div class="card-no">規程 ①</div>
+          <div class="card-title">クレーム対応・ハラスメント防止マニュアル</div>
+          <div class="card-desc">患者・スタッフへのハラスメント対応・クレーム処理の手順と基準</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge done">整備中</span></div>
+    </a>
+
+    <div class="manual-card">
+      <div class="card-body">
+        <div class="card-ic" style="background:#fee2e2;color:#991b1b;">🔒</div>
+        <div class="card-info">
+          <div class="card-no">規程 ②</div>
+          <div class="card-title">個人情報保護方針</div>
+          <div class="card-desc">患者情報の取り扱い・管理・外部提供に関するルール</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge">未整備</span></div>
+    </div>
+
+    <a class="manual-card done" href="08_規程/02_BCP.html">
+      <div class="card-body">
+        <div class="card-ic" style="background:#fee2e2;color:#991b1b;">🚨</div>
+        <div class="card-info">
+          <div class="card-no">規程 ③</div>
+          <div class="card-title">事業継続計画（BCP）</div>
+          <div class="card-desc">自然災害・感染症・サイバー攻撃版 / 優先業務・推進体制・院外掲示・支援制度まで</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge done">整備済み</span></div>
+    </a>
+
+  </div>
+
+  <!-- 勉強資料 -->
+  <div class="sec-head" style="margin-top:28px;">
+    <div class="sec-icon" style="background:#fef9c3;">📚</div>
+    <div><h2 style="color:#92400e;">勉強資料</h2><p>制度・加算・医療制度の解説資料</p></div>
+  </div>
+
+  <!-- 基礎シリーズ -->
+  <div class="study-subsec">📖 医療事務 基礎シリーズ（全8回）</div>
+  <div class="series-card">
+    <div class="series-head">
+      <div class="card-ic teal" style="width:48px;height:48px;font-size:22px;flex-shrink:0">📖</div>
+      <div style="flex:1;min-width:0">
+        <div class="card-no">基礎シリーズ · 全8回</div>
+        <div class="card-title">医療事務（無床診療所）初学者向け</div>
+        <div style="font-size:12.5px;color:var(--text-sub);margin-top:4px;line-height:1.6">保険制度の基礎から点数計算・レセプトまで、確認問題付きで学べます</div>
+      </div>
+    </div>
+    <div class="series-ep-list">
+      <a class="ep-link" href="07_勉強資料/基礎シリーズ/01_医療事務の仕事とは.html">
+        <div class="ep-num">1</div>
+        <div class="ep-text"><div class="ep-n">第1回</div><div class="ep-title">医療事務の仕事とは</div></div>
+      </a>
+      <a class="ep-link" href="07_勉強資料/基礎シリーズ/02_医療保険制度の基礎.html">
+        <div class="ep-num">2</div>
+        <div class="ep-text"><div class="ep-n">第2回</div><div class="ep-title">医療保険制度の基礎</div></div>
+      </a>
+      <a class="ep-link" href="07_勉強資料/基礎シリーズ/03_窓口負担金の計算.html">
+        <div class="ep-num">3</div>
+        <div class="ep-text"><div class="ep-n">第3回</div><div class="ep-title">窓口負担金の計算</div></div>
+      </a>
+      <a class="ep-link" href="07_勉強資料/基礎シリーズ/04_診療報酬点数の仕組み.html">
+        <div class="ep-num">4</div>
+        <div class="ep-text"><div class="ep-n">第4回</div><div class="ep-title">診療報酬点数の仕組み</div></div>
+      </a>
+      <a class="ep-link" href="07_勉強資料/基礎シリーズ/05_公費負担医療.html">
+        <div class="ep-num">5</div>
+        <div class="ep-text"><div class="ep-n">第5回</div><div class="ep-title">公費負担医療</div></div>
+      </a>
+      <a class="ep-link" href="07_勉強資料/基礎シリーズ/06_レセプトとは.html">
+        <div class="ep-num">6</div>
+        <div class="ep-text"><div class="ep-n">第6回</div><div class="ep-title">レセプトとは</div></div>
+      </a>
+      <a class="ep-link" href="07_勉強資料/基礎シリーズ/07_レセプト点検の基礎.html">
+        <div class="ep-num">7</div>
+        <div class="ep-text"><div class="ep-n">第7回</div><div class="ep-title">レセプト点検の基礎</div></div>
+      </a>
+      <a class="ep-link" href="07_勉強資料/基礎シリーズ/08_書類業務.html">
+        <div class="ep-num">8</div>
+        <div class="ep-text"><div class="ep-n">第8回</div><div class="ep-title">書類業務</div></div>
+      </a>
+    </div>
+    <div class="series-foot">
+      <span class="badge in-progress">🔄 整備中</span>
+      <div class="tab-chips">
+        <span class="tab-chip">保険制度</span>
+        <span class="tab-chip">点数計算</span>
+        <span class="tab-chip">レセプト</span>
+        <span class="tab-chip">確認問題付き</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 健診業務マニュアル -->
+  <div class="study-subsec">🏥 健診業務マニュアル</div>
+  <div class="card-grid">
+    <a class="manual-card done" href="07_勉強資料/03_健診マニュアル.html">
+      <div class="card-body">
+        <div class="card-ic green">🏥</div>
+        <div class="card-info">
+          <div class="card-no">令和8年度版 · 公式資料準拠</div>
+          <div class="card-title">健診業務マニュアル</div>
+          <div class="card-desc">健診の種類・受診券の見方・受付手順・報告区分（A/B/C）・結果報告の提出・よくある誤り</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge done">公開中</span></div>
+    </a>
+  </div>
+
+  <!-- 加算の解説 -->
+  <div class="study-subsec">💹 加算の解説</div>
+  <div class="card-grid">
+    <a class="manual-card done" href="07_勉強資料/02_当院加算一覧_外部公開版.html">
+      <div class="card-body">
+        <div class="card-ic blue">💹</div>
+        <div class="card-info">
+          <div class="card-no">加算解説 · 医療事務学習</div>
+          <div class="card-title">加算リファレンス</div>
+          <div class="card-desc">外来診療で知っておくべき加算を解説。算定条件・実務ポイント・確認問題付き</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge done">公開中</span></div>
+    </a>
+    <a class="manual-card done" href="07_勉強資料/01_地域包括診療加算.html">
+      <div class="card-body">
+        <div class="card-ic amber">📋</div>
+        <div class="card-info">
+          <div class="card-no">加算解説 · 令和6年改定対応</div>
+          <div class="card-title">地域包括診療加算</div>
+          <div class="card-desc">制度概要・対象疾患・点数・算定要件・当院での方針を詳しく解説</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge done">公開中</span></div>
+    </a>
+  </div>
+
+  <!-- 2026年診療報酬改定 -->
+  <div class="study-subsec">📋 2026年 診療報酬改定</div>
+  <div class="card-grid">
+    <a class="manual-card done" href="07_勉強資料/2026年診療報酬改定/01_二次新点数検討会_まとめ.html">
+      <div class="card-body">
+        <div class="card-ic blue">📋</div>
+        <div class="card-info">
+          <div class="card-no">2026年6月改定 · 医療事務向け</div>
+          <div class="card-title">第二次新点数検討会 ポイントまとめ</div>
+          <div class="card-desc">検診と保険診療の同日算定・電子的診療情報連携加算・BCP・生活習慣病管理料など8項目を整理</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge done">公開中</span></div>
+    </a>
+  </div>
+
+  <!-- 保険医協会新聞まとめ -->
+  <div class="study-subsec">📰 保険医協会新聞まとめ</div>
+  <div class="card-grid">
+    <a class="manual-card done" href="07_勉強資料/04_保険医協会新聞まとめ.html">
+      <div class="card-body">
+        <div class="card-ic blue">📰</div>
+        <div class="card-info">
+          <div class="card-no">第1018〜1038号 · 2024年10月〜2025年8月</div>
+          <div class="card-title">保険医協会新聞まとめ</div>
+          <div class="card-desc">選定療養・マイナ保険証・医療DX加算・審査の一般的取扱い・個別指導対策など当院に関わる情報を21号分整理</div>
+        </div>
+      </div>
+      <div class="card-foot"><span class="badge done">公開中</span></div>
+    </a>
+  </div>
+
+</div><!-- /content-col -->
+</div><!-- /page-body -->
+</main>
+
+<footer class="site-footer">
+  <p>医療事務マニュアルポータル · スタッフ専用</p>
+  <p style="margin-top:4px;">最終更新: 2026年5月<span class="pw-change-link" onclick="openPwPanel()">🔑 PW変更</span></p>
+</footer>
+
+<!-- ═══════════════ パスワード変更パネル ═══════════════ -->
+<div id="pwOv" class="pw-ov">
+  <div class="pw-card">
+    <div class="pw-head">
+      <div class="pw-head-label" id="pwLabel">管理者認証</div>
+      <div class="pw-head-title" id="pwTitle">管理者パスワードを入力</div>
+    </div>
+    <div class="pw-dots" id="pwDots"></div>
+    <div id="pwPad" class="pw-pad">
+      <button class="pw-key" onclick="pwKey('1')">1</button>
+      <button class="pw-key" onclick="pwKey('2')">2</button>
+      <button class="pw-key" onclick="pwKey('3')">3</button>
+      <button class="pw-key" onclick="pwKey('4')">4</button>
+      <button class="pw-key" onclick="pwKey('5')">5</button>
+      <button class="pw-key" onclick="pwKey('6')">6</button>
+      <button class="pw-key" onclick="pwKey('7')">7</button>
+      <button class="pw-key" onclick="pwKey('8')">8</button>
+      <button class="pw-key" onclick="pwKey('9')">9</button>
+      <button class="pw-key cancel" onclick="closePwPanel()">✕</button>
+      <button class="pw-key" onclick="pwKey('0')">0</button>
+      <button class="pw-key del" onclick="pwDel()">⌫</button>
+    </div>
+    <!-- Step3: GitHubトークン入力 -->
+    <div id="pwTokenStep" style="display:none">
+      <p style="font-size:12px;color:var(--text-sub);margin-bottom:8px;line-height:1.5;">GitHubトークンを貼り付けてください<br><span style="font-size:11px;color:var(--gray);">（repo権限付きPersonal Access Token）</span></p>
+      <input id="pwTokenInput" type="password" placeholder="ghp_xxxxxxxxxx"
+        style="width:100%;border:1px solid var(--gray-mid);border-radius:8px;padding:9px 12px;font-size:13px;outline:none;font-family:monospace;">
+      <button onclick="pwTokenSubmit()"
+        style="width:100%;margin-top:8px;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px;font-size:14px;font-weight:700;cursor:pointer;">
+        更新する
+      </button>
+    </div>
+    <div id="pwStatus" class="pw-status" style="display:none"></div>
+    <div class="pw-err" id="pwErr"></div>
+  </div>
+</div>
+
+</div><!-- /mainContent -->
+
+<script>
+/* ════════════════════════════════════════
+   PASSWORD CONFIG
+   変更方法: python3 -c "import hashlib; print(hashlib.sha256(b'新4桁'.hexdigest())"
+   または change_password.py を実行
+═══════════════════════════════════════ */
+const PASS_HASH = "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0"; // 0000
+const AUTH_KEY  = "inada_auth";
+const AUTH_VAL  = "ok";
+
+/* ── 起動時チェック ── */
+(function() { unlock(); })(); // パスワード一時無効
+
+/* ── PIN入力状態 ── */
+let pin = "";
+
+function padInput(d) {
+  if (pin.length >= 4) return;
+  pin += d;
+  updateDots();
+  if (pin.length === 4) setTimeout(submitPin, 120);
+}
+
+function padDel() {
+  if (pin.length === 0) return;
+  pin = pin.slice(0, -1);
+  updateDots();
+  document.getElementById("lockErr").textContent = "";
+}
+
+function updateDots() {
+  for (let i = 0; i < 4; i++) {
+    const d = document.getElementById("d" + i);
+    if (i < pin.length) {
+      d.textContent = "●"; d.className = "pin-dot filled";
+    } else if (i === pin.length) {
+      d.textContent = ""; d.className = "pin-dot active";
+    } else {
+      d.textContent = ""; d.className = "pin-dot";
+    }
+  }
+}
+
+async function submitPin() {
+  const enc  = new TextEncoder().encode(pin);
+  const buf  = await crypto.subtle.digest("SHA-256", enc);
+  const hex  = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+
+  if (hex === PASS_HASH) {
+    sessionStorage.setItem(AUTH_KEY, AUTH_VAL);
+    document.getElementById("lockScreen").style.transition = "opacity .3s";
+    document.getElementById("lockScreen").style.opacity = "0";
+    setTimeout(() => {
+      document.getElementById("lockScreen").classList.add("hidden");
+      unlock();
+    }, 300);
+  } else {
+    const card = document.getElementById("lockCard");
+    card.classList.remove("shake");
+    void card.offsetWidth;
+    card.classList.add("shake");
+    document.getElementById("lockErr").textContent = "暗証番号が違います";
+    pin = "";
+    updateDots();
+  }
+}
+
+function unlock() {
+  document.getElementById("mainContent").classList.add("visible");
+}
+
+/* キーボード入力対応 */
+document.addEventListener("keydown", e => {
+  if (document.getElementById("lockScreen").classList.contains("hidden")) return;
+  if (e.key >= "0" && e.key <= "9") padInput(e.key);
+  if (e.key === "Backspace") padDel();
+});
+
+/* ════════════════════════════════════════
+   PASSWORD CHANGE PANEL
+═══════════════════════════════════════ */
+const ADMIN_HASH = "53e2aab4719be91464f9b47bd830dc6ed68c3102bd4b53acb34c80bd6202f46e"; // 06419008
+const GH_REPO   = "inadain/inada-clinic-manual";
+const GH_FILE   = "index.html";
+
+let pwStep = 0;   // 0=admin 1=newPin 2=confirm 3=token
+let pwBuf  = "";
+let pwNew  = "";
+const PW_LENGTHS = [8, 4, 4, 0];
+
+function openPwPanel() {
+  pwStep = 0; pwBuf = ""; pwNew = "";
+  renderPwStep();
+  document.getElementById("pwOv").classList.add("open");
+}
+function closePwPanel() {
+  document.getElementById("pwOv").classList.remove("open");
+  pwBuf = ""; pwNew = "";
+}
+
+function renderPwStep() {
+  const labels  = ["管理者認証", "パスワード変更", "確認入力"];
+  const titles  = ["管理者パスワードを入力", "新しい4桁を入力", "もう一度入力"];
+  document.getElementById("pwLabel").textContent        = labels[pwStep] || "";
+  document.getElementById("pwTitle").textContent        = titles[pwStep] || "";
+  document.getElementById("pwErr").textContent          = "";
+  document.getElementById("pwStatus").style.display     = "none";
+  document.getElementById("pwPad").style.display        = "grid";
+  document.getElementById("pwDots").style.display       = "flex";
+  document.getElementById("pwTokenStep").style.display  = "none";
+  renderPwDots();
+}
+
+function renderPwDots() {
+  const len  = PW_LENGTHS[pwStep] || 0;
+  const dots = document.getElementById("pwDots");
+  dots.innerHTML = Array.from({length: len}, (_, i) =>
+    `<div class="pw-dot${i < pwBuf.length ? " filled" : ""}"></div>`
+  ).join("");
+}
+
+function pwKey(d) {
+  const maxLen = PW_LENGTHS[pwStep];
+  if (pwBuf.length >= maxLen) return;
+  pwBuf += d;
+  renderPwDots();
+  if (pwBuf.length === maxLen) setTimeout(pwSubmit, 120);
+}
+
+function pwDel() {
+  if (!pwBuf.length) return;
+  pwBuf = pwBuf.slice(0, -1);
+  renderPwDots();
+  document.getElementById("pwErr").textContent = "";
+}
+
+async function pwHash(s) {
+  const enc = new TextEncoder().encode(s);
+  const buf = await crypto.subtle.digest("SHA-256", enc);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+}
+
+async function pwSubmit() {
+  if (pwStep === 0) {
+    const h = await pwHash(pwBuf);
+    if (h === ADMIN_HASH) {
+      pwStep = 1; pwBuf = ""; renderPwStep();
+    } else {
+      document.getElementById("pwErr").textContent = "管理者パスワードが違います";
+      pwBuf = ""; renderPwDots();
+    }
+  } else if (pwStep === 1) {
+    pwNew = pwBuf; pwStep = 2; pwBuf = ""; renderPwStep();
+  } else if (pwStep === 2) {
+    if (pwBuf !== pwNew) {
+      document.getElementById("pwErr").textContent = "入力が一致しません。最初からやり直してください";
+      pwStep = 1; pwBuf = ""; pwNew = ""; renderPwStep();
+    } else {
+      // Step3: トークン入力画面へ
+      pwStep = 3;
+      document.getElementById("pwPad").style.display        = "none";
+      document.getElementById("pwDots").style.display       = "none";
+      document.getElementById("pwLabel").textContent        = "GitHubトークン";
+      document.getElementById("pwTitle").textContent        = "トークンを貼り付け";
+      document.getElementById("pwErr").textContent          = "";
+      document.getElementById("pwTokenStep").style.display  = "block";
+      document.getElementById("pwTokenInput").value         = "";
+      setTimeout(() => document.getElementById("pwTokenInput").focus(), 50);
+    }
+  }
+}
+
+async function pwTokenSubmit() {
+  const token = document.getElementById("pwTokenInput").value.trim();
+  if (!token) { document.getElementById("pwErr").textContent = "トークンを入力してください"; return; }
+  await doChangePassword(pwNew, token);
+}
+
+async function doChangePassword(newPin, ghToken) {
+  const st  = document.getElementById("pwStatus");
+  document.getElementById("pwTokenStep").style.display = "none";
+  st.style.display = "block";
+  st.textContent = "🔄 GitHub を更新中...";
+
+  try {
+    const newHash = await pwHash(newPin);
+
+    // 現在のファイルSHAを取得
+    const apiBase = `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
+    const authHeader = { "Authorization": `token ${ghToken}`, "Accept": "application/vnd.github.v3+json" };
+
+    const meta = await fetch(apiBase, { headers: authHeader }).then(r => r.json());
+    if (!meta.sha) throw new Error(meta.message || "ファイル取得失敗");
+
+    // 現在のページソースを取得してハッシュ値を差し替え
+    const src = await fetch(window.location.href + "?nocache=" + Date.now()).then(r => r.text());
+    const newSrc = src.replace(
+      /const PASS_HASH = "[a-f0-9]{64}";/,
+      `const PASS_HASH = "${newHash}";`
+    );
+
+    // base64エンコード（UTF-8対応）
+    const bytes = new TextEncoder().encode(newSrc);
+    const binStr = Array.from(bytes).map(b => String.fromCodePoint(b)).join("");
+    const b64 = btoa(binStr);
+
+    const res = await fetch(apiBase, {
+      method: "PUT",
+      headers: { ...authHeader, "Content-Type": "application/json" },
+      body: JSON.stringify({ message: "update password", content: b64, sha: meta.sha })
+    });
+
+    if (res.ok) {
+      st.textContent = "✅ 変更完了！新しいパスワード: " + newPin;
+      sessionStorage.removeItem(AUTH_KEY);
+      setTimeout(() => { closePwPanel(); location.reload(); }, 2500);
+    } else {
+      const err = await res.json();
+      st.textContent = "❌ 失敗: " + (err.message || res.status);
+    }
+  } catch(e) {
+    st.textContent = "❌ エラー: " + e.message;
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>いなだ医院 医療事務マニュアル【印刷版】</title>
+<style>
+:root{
+  --blue:#1558a0;--blue-mid:#1e74c8;--blue-light:#dbeafe;--blue-xlight:#eff6ff;
+  --teal:#0d9488;--teal-light:#ccfbf1;
+  --amber:#d97706;--amber-light:#fef3c7;
+  --red:#dc2626;--red-light:#fee2e2;
+  --green:#16a34a;--green-light:#dcfce7;
+  --purple:#7c3aed;--purple-light:#ede9fe;
+  --gray:#64748b;--gray-light:#f1f5f9;--border:#e2e8f0;--text:#0f172a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+@page{size:A4;margin:14mm 12mm 14mm 15mm;}
+
+/* ── 基本 ── */
+body{font-family:"Hiragino Sans","Noto Sans JP",-apple-system,sans-serif;font-size:11px;line-height:1.65;color:var(--text);background:#fff;}
+
+/* ── ローディング ── */
+#loading{position:fixed;inset:0;background:var(--blue);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;z-index:9999;}
+#loading h1{font-size:20px;margin-bottom:14px;}
+#bar-wrap{width:280px;height:8px;background:rgba(255,255,255,.3);border-radius:4px;overflow:hidden;}
+#bar{height:100%;background:#fff;border-radius:4px;transition:width .3s;width:0%;}
+#loading-msg{margin-top:12px;font-size:12px;opacity:.8;min-height:16px;}
+
+/* ── 印刷コントロール ── */
+#print-ctrl{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--blue);color:#fff;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;font-size:13px;}
+#print-ctrl h2{font-size:14px;font-weight:700;}
+.btn-print{background:#fff;color:var(--blue);border:none;font-size:13px;font-weight:700;padding:8px 20px;border-radius:6px;cursor:pointer;}
+.btn-print:hover{background:#dbeafe;}
+#wrap{padding-top:52px;}
+
+/* ── 表紙 ── */
+.cover{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#0f3d6e 0%,#1558a0 50%,#1e74c8 100%);color:#fff;text-align:center;padding:30mm 20mm;page-break-after:always;}
+.cover .clinic{font-size:13px;opacity:.7;letter-spacing:.12em;margin-bottom:14px;}
+.cover h1{font-size:26px;font-weight:900;letter-spacing:.05em;margin-bottom:8px;}
+.cover .sub{font-size:12px;opacity:.65;margin-bottom:36px;}
+.cover-line{width:40px;height:3px;background:rgba(255,255,255,.5);border-radius:2px;margin:0 auto 36px;}
+.cover-meta{font-size:11px;opacity:.6;line-height:2;}
+
+/* ── 目次 ── */
+.toc-page{min-height:100vh;padding:16mm 10mm;page-break-after:always;}
+.toc-h{font-size:18px;font-weight:900;color:var(--blue);border-bottom:3px solid var(--blue);padding-bottom:8px;margin-bottom:20px;}
+.toc-cat{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin:14px 0 4px;border-left:3px solid var(--gray);padding-left:8px;}
+.toc-row{font-size:12px;line-height:2;display:flex;align-items:baseline;gap:4px;}
+.toc-row a{color:var(--blue);text-decoration:none;}
+.toc-row a:hover{text-decoration:underline;}
+
+/* ── チャプター ── */
+.chapter{page-break-before:always;padding-bottom:10mm;}
+.ch-header{background:linear-gradient(90deg,#1558a0,#1e74c8);color:#fff;padding:10px 14px;margin-bottom:14px;border-radius:6px;}
+.ch-tag{font-size:10px;background:rgba(255,255,255,.25);border-radius:12px;padding:2px 10px;display:inline-block;margin-bottom:4px;}
+.ch-title{font-size:15px;font-weight:800;}
+.ch-sub{font-size:10px;opacity:.7;margin-top:2px;}
+
+/* ── タブセクション区切り ── */
+.tab-sep{background:#334155;color:#fff;font-size:10px;font-weight:700;padding:5px 10px;border-radius:4px;margin:14px 0 8px;}
+
+/* ── カード ── */
+.card{border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden;break-inside:avoid;}
+.card-head{background:var(--blue-xlight);border-bottom:1px solid var(--blue-light);border-left:4px solid var(--blue-mid);padding:7px 12px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;}
+.card-head.teal {background:rgba(13,148,136,.07);border-bottom-color:rgba(13,148,136,.18);border-left-color:var(--teal);}
+.card-head.amber{background:rgba(217,119,6,.07); border-bottom-color:rgba(217,119,6,.18); border-left-color:var(--amber);}
+.card-head.red  {background:rgba(220,38,38,.07); border-bottom-color:rgba(220,38,38,.18); border-left-color:var(--red);}
+.card-head.green{background:rgba(22,163,74,.07); border-bottom-color:rgba(22,163,74,.18); border-left-color:var(--green);}
+.card-head.purple{background:rgba(124,58,237,.07);border-bottom-color:rgba(124,58,237,.18);border-left-color:var(--purple);}
+.card-icon{font-size:14px;}
+.card-title{font-size:12px;font-weight:700;}
+.card-body{padding:10px 12px;}
+/* アコーディオンの矢印を除去 */
+.card-head::after{display:none!important;}
+
+/* ── テーブル ── */
+.tbl-wrap{overflow:visible;margin:6px 0;}
+table{width:100%;border-collapse:collapse;font-size:11px;}
+th{background:var(--blue-xlight);color:var(--blue);font-weight:700;padding:5px 8px;text-align:left;border:1px solid var(--blue-light);}
+td{padding:5px 8px;border:1px solid var(--border);vertical-align:top;}
+
+/* ── NOTE ── */
+.note,.callout{display:flex;gap:8px;border-radius:4px;padding:7px 10px;margin:6px 0;font-size:11px;break-inside:avoid;border-left-width:3px!important;}
+.note.info,.note.gray{background:var(--blue-xlight);border-left:3px solid var(--blue-mid);}
+.note.tip,.note.ok  {background:var(--green-light);border-left:3px solid var(--green);}
+.note.warn          {background:var(--amber-light);border-left:3px solid var(--amber);}
+.note.danger        {background:var(--red-light);  border-left:3px solid var(--red);}
+.note.purple        {background:var(--purple-light);border-left:3px solid var(--purple);}
+.note-icon{flex-shrink:0;font-size:13px;}
+
+/* ── ステップリスト ── */
+.proc{list-style:none;display:flex;flex-direction:column;gap:4px;margin:6px 0;}
+.proc-item{display:flex;align-items:flex-start;gap:7px;background:var(--gray-light);border-radius:4px;padding:5px 8px;break-inside:avoid;}
+.proc-num{min-width:18px;height:18px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.proc-body{font-size:11px;flex:1;}
+
+/* ── タイムライン ── */
+.tl{list-style:none;display:flex;flex-direction:column;gap:0;}
+.tl-item{display:flex;gap:8px;position:relative;padding-bottom:7px;break-inside:avoid;}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:11px;top:22px;bottom:0;width:2px;background:var(--border);}
+.tl-num{width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1;}
+.tl-num.teal {background:var(--teal);}
+.tl-num.amber{background:var(--amber);}
+.tl-num.green{background:var(--green);}
+.tl-body{padding-top:3px;flex:1;font-size:11px;}
+.tl-body strong{display:block;font-weight:700;}
+.tl-body .sub{font-size:10px;color:var(--gray);}
+/* チェック済み状態をリセット */
+.tl-item.done{background:none!important;}
+.tl-item.done .tl-num{font-size:11px!important;}
+.tl-item.done .tl-num::before{display:none!important;}
+.tl-item.done .tl-body{text-decoration:none!important;opacity:1!important;color:var(--text)!important;}
+
+/* ── フロー ── */
+.flow{display:flex;flex-direction:column;gap:4px;margin:6px 0;}
+.flow-step{display:flex;align-items:flex-start;gap:8px;background:var(--gray-light);border-radius:4px;padding:5px 8px;font-size:11px;break-inside:avoid;position:relative;}
+.flow-step::after{display:none!important;}
+.flow-num{min-width:18px;height:18px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* ── チェックリスト ── */
+.chk{list-style:none;display:flex;flex-direction:column;gap:3px;margin:5px 0;}
+.chk li{display:flex;align-items:flex-start;gap:6px;font-size:11px;border-bottom:none!important;}
+.chk li::before{content:'□';color:var(--blue-mid);font-weight:700;flex-shrink:0;}
+
+/* ── バッジ ── */
+.badge{display:inline-block;border-radius:999px;font-size:10px;font-weight:700;padding:1px 6px;}
+.badge.ok   {background:var(--green-light);color:var(--green);}
+.badge.ng   {background:var(--red-light);  color:var(--red);}
+.badge.cond {background:var(--amber-light);color:var(--amber);}
+.badge.blue {background:var(--blue-light); color:var(--blue);}
+.badge.amber{background:var(--amber-light);color:var(--amber);}
+.badge.teal {background:var(--teal-light); color:var(--teal);}
+.badge.green{background:var(--green-light);color:var(--green);}
+.badge.red  {background:var(--red-light);  color:var(--red);}
+.badge.purple{background:var(--purple-light);color:var(--purple);}
+
+/* ── サブタイトル ── */
+.sub-title{background:var(--blue-xlight);border-radius:4px;padding:4px 8px;border-left:4px solid var(--blue-mid);font-size:11px;font-weight:700;color:var(--blue);margin:10px 0 5px;}
+
+/* ── ポイントカード ── */
+.point-card{background:linear-gradient(135deg,var(--blue-xlight) 0%,#fff 100%);border:1px solid var(--blue-light);border-radius:6px;padding:7px 10px;display:flex;align-items:flex-start;gap:8px;margin-bottom:5px;break-inside:avoid;}
+.point-num{background:var(--blue);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;flex-shrink:0;}
+.point-text{font-size:11px;font-weight:600;}
+.point-box{background:var(--blue-xlight);border:1px solid var(--blue-light);border-radius:4px;padding:6px 10px;font-size:11px;margin:5px 0;}
+
+/* ── フレーズボックス ── */
+.phrase-box{background:var(--gray-light);border-radius:4px;padding:6px 10px;margin:5px 0;}
+.phrase-label{font-size:10px;font-weight:700;color:var(--gray);margin-bottom:3px;}
+.phrase-text{font-size:11px;line-height:1.7;}
+
+/* ── 2カラム ── */
+.col2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0;}
+.col2-card{background:var(--gray-light);border-radius:4px;padding:8px;font-size:11px;}
+.col2-card .label{font-size:10px;font-weight:700;color:var(--gray);margin-bottom:3px;}
+
+/* ── 部署別ヘッド ── */
+.dept-head{font-size:11px;font-weight:700;color:var(--blue-mid);margin:10px 0 4px;padding-left:5px;border-left:3px solid var(--blue-mid);}
+
+/* ── 録音待ち ── */
+.pending-banner,.pending{background:var(--amber-light);border:2px dashed var(--amber);border-radius:8px;padding:14px;text-align:center;margin:10px 0;}
+.pending-banner h3,.pending h2{color:var(--amber);font-size:12px;margin-bottom:4px;}
+.pending-banner p,.pending p{font-size:11px;color:#92400e;}
+.flow-card{background:#fff;border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:8px;}
+.flow-card h3{font-size:11px;font-weight:700;color:var(--blue);margin-bottom:6px;border-left:3px solid var(--blue-mid);padding-left:7px;}
+.flow-card p{font-size:11px;color:var(--gray);}
+
+/* ── KBD ── */
+kbd{background:#334155;color:#f1f5f9;border-radius:3px;padding:1px 5px;font-size:10px;font-family:monospace;}
+
+/* ── HR ── */
+hr.div{border:none;border-top:1px solid var(--border);margin:10px 0;}
+
+/* ── 規程注記 ── */
+.kiyaku-note{background:var(--blue-xlight);border:1px solid var(--blue-light);border-radius:8px;padding:14px 18px;margin:12px 0;}
+.kiyaku-note h3{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:6px;}
+.kiyaku-note p{font-size:11px;color:var(--gray);line-height:1.8;}
+
+/* ── 印刷時に隠す ── */
+.nav-sidebar,.nav-ov,.nav-toggle,.fb-btn,.fb-ov,.to-top,.back-link,
+.nav-btn,.chk-bar,.chk-reset,.page-layout>.nav-sidebar{display:none!important;}
+
+/* ── タブペイン（全表示） ── */
+.tab-pane{display:block!important;}
+
+/* ── カードボディ（全表示） ── */
+.card-body{display:block!important;}
+
+/* ── タブペイン余白縮小 ── */
+.tab-pane{padding:0 0 8px!important;}
+
+/* ── ページレイアウト上書き ── */
+.page-layout{display:block!important;}
+.main-area{width:100%!important;}
+
+/* ── 印刷専用 ── */
+@media print{
+  #print-ctrl{display:none!important;}
+  #wrap{padding-top:0;}
+  .cover{min-height:297mm;}
+  .toc-page{min-height:297mm;}
+  body{font-size:10px;}
+  .card{break-inside:avoid;}
+  .tl-item{break-inside:avoid;}
+  .proc-item{break-inside:avoid;}
+  .flow-step{break-inside:avoid;}
+  .note{break-inside:avoid;}
+  .point-card{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<!-- ローディング -->
+<div id="loading">
+  <h1>📋 印刷データを読み込み中...</h1>
+  <div id="bar-wrap"><div id="bar"></div></div>
+  <div id="loading-msg">初期化中...</div>
+</div>
+
+<!-- 印刷コントロール -->
+<div id="print-ctrl" style="display:none;">
+  <div>
+    <div style="font-size:10px;opacity:.7;">いなだ医院 スタッフ専用資料</div>
+    <h2>医療事務マニュアル【印刷版】</h2>
+  </div>
+  <button class="btn-print" onclick="window.print()">🖨️ 印刷 / PDF保存</button>
+</div>
+
+<div id="wrap" style="display:none;">
+
+  <!-- 表紙 -->
+  <div class="cover">
+    <div class="clinic">いなだ医院 ／ INADA CLINIC</div>
+    <h1>医療事務マニュアル</h1>
+    <div class="sub">MEDICAL ADMINISTRATIVE MANUAL — スタッフ専用</div>
+    <div class="cover-line"></div>
+    <div class="cover-meta" id="cover-meta">読み込み中...</div>
+  </div>
+
+  <!-- 目次 -->
+  <div class="toc-page">
+    <div class="toc-h">目　次</div>
+    <div id="toc"></div>
+  </div>
+
+  <!-- チャプター -->
+  <div id="chapters"></div>
+
+  <!-- 院内規程 -->
+  <div class="chapter" id="ch-kiyaku">
+    <div class="ch-header">
+      <div class="ch-tag">院内規程・方針</div>
+      <div class="ch-title">院内規程・方針</div>
+      <div class="ch-sub">クレーム対応・ハラスメント防止</div>
+    </div>
+    <div class="kiyaku-note">
+      <h3>📄 クレーム対応・ハラスメント防止マニュアル</h3>
+      <p>このマニュアルはPDF形式で管理されています。<br>
+      デジタル版でご確認いただくか、PDFを別途印刷してこのページの後ろに綴じてください。<br><br>
+      <strong>アクセス：</strong> manual.inadaiin.com → 院内規程・方針 → クレーム対応・ハラスメント防止マニュアル<br>
+      <strong>策定：</strong> 2025年10月 ／ いなだ医院</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const PAGES = [
+  {id:'ch-general',   title:'医院業務（全般）',          tag:'共通業務 ①', sub:'全スタッフ共通',           path:'01_共通業務/01_医院業務（全般）.html'},
+  {id:'ch-uketsuke',  title:'受付',                      tag:'共通業務 ②', sub:'初診・再診・保険確認',       path:'01_共通業務/02_受付.html'},
+  {id:'ch-yakkyoku',  title:'薬局',                      tag:'共通業務 ③', sub:'調剤・在庫・受け渡し',       path:'01_共通業務/03_薬局.html'},
+  {id:'ch-kaikei',    title:'会計',                      tag:'共通業務 ④', sub:'会計フロー・レジ締め',       path:'01_共通業務/04_会計.html'},
+  {id:'ch-scribe',    title:'シュライバー',               tag:'共通業務 ⑤', sub:'診察補助（整備中）',         path:'01_共通業務/05_シュライバー.html'},
+  {id:'ch-receipt',   title:'レセプト',                  tag:'共通業務 ⑥', sub:'レセプト業務',              path:'01_共通業務/06_レセプト.html'},
+  {id:'ch-ptask',     title:'個人タスク',                tag:'共通業務 ⑦', sub:'個人タスク管理',            path:'01_共通業務/07_個人タスク.html'},
+  {id:'ch-erx-jimu',  title:'電子処方箋（医療事務）',    tag:'共通業務 ⑧', sub:'電子処方箋 操作手順',        path:'01_共通業務/09_電子処方箋（医療事務）.html'},
+  {id:'ch-erx-dr',    title:'電子処方箋（医師）',        tag:'共通業務 ⑨', sub:'電子処方箋 医師向け',        path:'01_共通業務/10_電子処方箋（医師）.html'},
+  {id:'ch-yoshida',   title:'吉田さん 業務マニュアル',   tag:'個人別',      sub:'吉田さん専用',              path:'02_吉田/01_吉田_業務マニュアル.html'},
+  {id:'ch-moriya',    title:'守屋さん 個人タスク',       tag:'個人別',      sub:'守屋さん専用',              path:'03_守屋/01_守屋_個人タスク.html'},
+  {id:'ch-obata',     title:'小幡さん 業務マニュアル',   tag:'個人別',      sub:'小幡さん専用',              path:'05_小幡/01_小幡_業務マニュアル.html'},
+  {id:'ch-ayame1',    title:'綾目さん 予防接種票チェック・請求', tag:'個人別', sub:'綾目さん専用',           path:'06_綾目/01_予防接種票_チェック・請求.html'},
+  {id:'ch-ayame2',    title:'綾目さん CPAP管理',         tag:'個人別',      sub:'綾目さん専用',              path:'06_綾目/CPAP管理_簡易手順書.html'},
+];
+
+async function fetchPage(path) {
+  try {
+    const r = await fetch(path);
+    if (!r.ok) throw new Error(r.status);
+    const html = await r.text();
+    return new DOMParser().parseFromString(html, 'text/html');
+  } catch(e) {
+    return null;
+  }
+}
+
+function extractContent(doc) {
+  if (!doc) return null;
+
+  const frag = document.createDocumentFragment();
+
+  // タブペイン方式
+  const panes = doc.querySelectorAll('.tab-pane');
+  if (panes.length > 0) {
+    const navBtns = doc.querySelectorAll('.nav-btn');
+    panes.forEach((pane, i) => {
+      const wrap = document.createElement('div');
+      // タブ名を区切りに表示
+      const btnText = navBtns[i] ? navBtns[i].textContent.trim() : '';
+      if (btnText) {
+        const sep = document.createElement('div');
+        sep.className = 'tab-sep';
+        sep.textContent = btnText;
+        wrap.appendChild(sep);
+      }
+      const content = pane.cloneNode(true);
+      // padding-bottom リセット
+      content.style.padding = '0 0 4px';
+      wrap.appendChild(content);
+      frag.appendChild(wrap);
+    });
+    return frag;
+  }
+
+  // .main div 方式（シュライバーなど）
+  const mainDiv = doc.querySelector('.main');
+  if (mainDiv) {
+    const c = mainDiv.cloneNode(true);
+    frag.appendChild(c);
+    return frag;
+  }
+
+  // フォールバック
+  const body = doc.body;
+  if (body) {
+    const div = document.createElement('div');
+    div.innerHTML = body.innerHTML;
+    ['header','.header','nav','.nav-sidebar','.fb-btn','.fb-ov','.to-top',
+     '.back-link','button','script','style'].forEach(sel => {
+      div.querySelectorAll(sel).forEach(el => el.remove());
+    });
+    frag.appendChild(div);
+    return frag;
+  }
+
+  return null;
+}
+
+function cleanNode(el) {
+  // ナビ・ボタン類を除去
+  const remove = [
+    '.nav-sidebar','.nav-ov','.nav-toggle','.fb-btn','.fb-ov',
+    '.to-top','.back-link','.chk-bar','.chk-reset',
+    'button.nav-btn','script'
+  ];
+  remove.forEach(sel => el.querySelectorAll && el.querySelectorAll(sel).forEach(e => e.remove()));
+
+  // タブペイン・カードボディを全表示
+  if (el.querySelectorAll) {
+    el.querySelectorAll('.tab-pane').forEach(p => { p.style.display = 'block'; });
+    el.querySelectorAll('.card-body').forEach(b => { b.style.display = 'block'; });
+    el.querySelectorAll('.card').forEach(c => c.classList.add('open'));
+
+    // iframe を除去（受付フロー等）
+    el.querySelectorAll('iframe').forEach(f => {
+      const note = document.createElement('div');
+      note.className = 'note info';
+      note.innerHTML = '<span class="note-icon">🔗</span><div>このコンテンツはデジタル版でご確認ください（' + (f.title || f.src || '') + '）</div>';
+      f.replaceWith(note);
+    });
+
+    // page-layout を解除
+    el.querySelectorAll('.page-layout').forEach(pl => pl.style.display = 'block');
+    el.querySelectorAll('.main-area').forEach(ma => ma.style.width = '100%');
+  }
+}
+
+async function build() {
+  const bar = document.getElementById('bar');
+  const msg = document.getElementById('loading-msg');
+  const chaptersEl = document.getElementById('chapters');
+  const tocEl = document.getElementById('toc');
+
+  const tocCats = {'共通業務':[], '個人別':[]};
+
+  for (let i = 0; i < PAGES.length; i++) {
+    const page = PAGES[i];
+    msg.textContent = page.title + ' を読み込み中...';
+    bar.style.width = (i / PAGES.length * 100) + '%';
+
+    const doc = await fetchPage(page.path);
+    const content = extractContent(doc);
+
+    // チャプター構築
+    const chapter = document.createElement('div');
+    chapter.className = 'chapter';
+    chapter.id = page.id;
+
+    const hdr = document.createElement('div');
+    hdr.className = 'ch-header';
+    hdr.innerHTML = `<div><div class="ch-tag">${page.tag}</div><div class="ch-title">${page.title}</div>${page.sub ? '<div class="ch-sub">'+page.sub+'</div>' : ''}</div>`;
+    chapter.appendChild(hdr);
+
+    if (content) {
+      cleanNode(content);
+      const cw = document.createElement('div');
+      cw.style.padding = '0 2px';
+      cw.appendChild(content);
+      chapter.appendChild(cw);
+    } else {
+      const err = document.createElement('div');
+      err.className = 'note warn';
+      err.innerHTML = '<span class="note-icon">⚠️</span><div>このセクションの読み込みに失敗しました。サイトにアクセスした状態で印刷してください。</div>';
+      chapter.appendChild(err);
+    }
+
+    chaptersEl.appendChild(chapter);
+
+    // TOC登録
+    const cat = page.tag.includes('個人別') ? '個人別' : '共通業務';
+    tocCats[cat].push({id: page.id, title: page.title, tag: page.tag});
+  }
+
+  // 院内規程をTOCに追加
+  tocCats['共通業務'].push({id:'ch-kiyaku', title:'院内規程・方針', tag:'院内規程'});
+
+  // 目次生成
+  let tocHtml = '';
+  for (const [cat, items] of Object.entries(tocCats)) {
+    if (!items.length) continue;
+    tocHtml += `<div class="toc-cat">${cat}</div>`;
+    items.forEach(item => {
+      tocHtml += `<div class="toc-row"><a href="#${item.id}">● ${item.title}</a></div>`;
+    });
+  }
+  tocEl.innerHTML = tocHtml;
+
+  // 表紙の日付
+  const now = new Date();
+  const y = now.getFullYear(), m = now.getMonth()+1, d = now.getDate();
+  document.getElementById('cover-meta').innerHTML =
+    `印刷日：${y}年${m}月${d}日<br>いなだ医院 スタッフ専用資料<br>※ 半年ごとに差し替え（改訂時に印刷日を確認）`;
+
+  bar.style.width = '100%';
+  msg.textContent = '完了';
+
+  // 表示切り替え
+  setTimeout(() => {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('print-ctrl').style.display = 'flex';
+    document.getElementById('wrap').style.display = 'block';
+  }, 400);
+}
+
+build();
+</script>
+</body>
+</html>

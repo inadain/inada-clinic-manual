@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マニュアルサイト アクセス案内</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  @page { size: A4 portrait; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    background: #1e3a5f;
+    color: #fff;
+    padding: 16mm 18mm 12mm;
+  }
+  .header-clinic { font-size: 11px; letter-spacing: .1em; opacity: .7; margin-bottom: 6px; }
+  .header-title { font-size: 24px; font-weight: 800; letter-spacing: .04em; margin-bottom: 4px; }
+  .header-sub { font-size: 12px; opacity: .7; }
+
+  .main {
+    flex: 1;
+    padding: 12mm 18mm 10mm;
+    display: flex;
+    flex-direction: column;
+    gap: 10mm;
+  }
+
+  .qr-row { display: flex; gap: 10mm; }
+
+  .qr-card {
+    flex: 1;
+    border: 1.5px solid #d1d5db;
+    border-radius: 12px;
+    padding: 8mm;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5mm;
+  }
+
+  .qr-card-title { font-size: 15px; font-weight: 800; color: #111827; text-align: center; }
+  .qr-card-sub { font-size: 11px; color: #6b7280; text-align: center; margin-top: -3mm; }
+
+  .qr-box {
+    display: block;
+    line-height: 0;
+  }
+
+  .qr-url {
+    font-size: 10px;
+    font-family: monospace;
+    color: #4b5563;
+    background: #f3f4f6;
+    border-radius: 6px;
+    padding: 5px 10px;
+    word-break: break-all;
+    width: 100%;
+    text-align: center;
+  }
+
+  .wifi-detail { font-size: 11px; color: #374151; line-height: 2; width: 100%; padding: 0 2mm; }
+  .wifi-detail dt { color: #9ca3af; font-size: 10px; font-weight: 700; letter-spacing: .06em; }
+  .wifi-detail dd { font-family: monospace; font-size: 13px; color: #111827; font-weight: 700; }
+
+  .steps {
+    background: #eff6ff;
+    border: 1.5px solid #bfdbfe;
+    border-radius: 10px;
+    padding: 6mm 8mm;
+  }
+  .steps-title { font-size: 13px; font-weight: 800; color: #1e40af; margin-bottom: 4mm; }
+  .step { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #1e3a5f; line-height: 1.6; margin-bottom: 3px; }
+  .step-num {
+    background: #1e3a5f; color: #fff; font-size: 10px; font-weight: 700;
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+
+  .notice {
+    border: 1.5px solid #fca5a5;
+    background: #fff5f5;
+    border-radius: 10px;
+    padding: 6mm 8mm;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .notice-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .notice-title { font-size: 14px; font-weight: 800; color: #991b1b; margin-bottom: 3px; }
+  .notice-text { font-size: 12px; color: #7f1d1d; line-height: 1.7; }
+
+  .footer {
+    border-top: 1px solid #e5e7eb;
+    padding: 5mm 18mm;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #9ca3af;
+  }
+
+  @media screen { body { box-shadow: 0 0 40px rgba(0,0,0,.15); margin: 20px auto; } }
+  @media print { body { margin: 0; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-clinic">いなだ医院</div>
+  <div class="header-title">院内医療事務マニュアル</div>
+  <div class="header-sub">スタッフ専用 ／ 院内WiFiに接続した端末で閲覧できます</div>
+</div>
+
+<div class="main">
+
+  <div class="qr-row">
+    <div class="qr-card">
+      <div class="qr-card-title">📋 マニュアルサイト</div>
+      <div class="qr-card-sub">QRを読み取って開く</div>
+      <div class="qr-box" id="qr-manual"></div>
+      <div class="qr-url">https://manual.inadaiin.com/</div>
+    </div>
+
+    <div class="qr-card">
+      <div class="qr-card-title">📶 院内WiFi接続</div>
+      <div class="qr-card-sub">QRを読み取ってWiFiに接続</div>
+      <div class="qr-box" id="qr-wifi"></div>
+      <dl class="wifi-detail">
+        <dt>SSID</dt>
+        <dd>Buffalo-G-6AB0</dd>
+
+      </dl>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="steps-title">📌 アクセス手順</div>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div>「院内WiFi接続」QRを読み取り、<strong>Buffalo-G-6AB0</strong> に接続する</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div>「マニュアルサイト」QRを読み取るとサイトが開く</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div>ブックマーク登録しておくと、次回から院内WiFi接続時にすぐ開ける</div>
+    </div>
+  </div>
+
+  <div class="notice">
+    <div class="notice-icon">🚫</div>
+    <div>
+      <div class="notice-title">院外からはアクセスできません</div>
+      <div class="notice-text">このサイトは院内WiFiに接続している端末からのみ閲覧できます。URLを外部に共有しないようにしてください。</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>いなだ医院 ／ スタッフ専用</span>
+  <span>manual.inadaiin.com</span>
+</div>
+
+<script>
+  new QRCode(document.getElementById("qr-manual"), {
+    text: "https://manual.inadaiin.com/",
+    width: 160, height: 160,
+    colorDark: "#1e3a5f", colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.M
+  });
+  new QRCode(document.getElementById("qr-wifi"), {
+    text: "WIFI:T:WPA;S:Buffalo-G-6AB0;P:scuunee5b7b3b;;",
+    width: 160, height: 160,
+    colorDark: "#1e3a5f", colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.M
+  });
+</script>
+</body>
+</html>

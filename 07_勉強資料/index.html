@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="勉強資料">
+<title>勉強資料一覧｜</title>
+<style>
+:root{
+  --blue:#1558a0;--blue-m:#1e74c8;--blue-lt:#dbeafe;--blue-xl:#eff6ff;
+  --teal:#0d9488;--teal-lt:#f0fdfa;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --purple:#7c3aed;--purple-lt:#f5f3ff;
+  --gray:#64748b;--gray-lt:#f1f5f9;--gray-m:#e2e8f0;
+  --text:#0f172a;--sub:#475569;--bg:#f0f4f8;--white:#fff;
+  --r:12px;--r-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  font-size:15px;line-height:1.7;color:var(--text);background:var(--bg)}
+
+.site-header{position:sticky;top:0;z-index:100;height:56px;
+  background:linear-gradient(135deg,#92400e,#d97706);
+  display:flex;align-items:center;padding:0 16px;gap:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.back-link{display:inline-flex;align-items:center;gap:5px;color:#fff;
+  background:rgba(255,255,255,.18);border-radius:20px;padding:5px 13px;
+  font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap}
+.back-link:hover{background:rgba(255,255,255,.28)}
+.hdr-center{flex:1;text-align:center}
+.hdr-badge{display:block;color:rgba(255,255,255,.8);font-size:10.5px;font-weight:700;letter-spacing:.04em}
+.hdr-title{color:#fff;font-size:15px;font-weight:800}
+
+.hero{background:linear-gradient(135deg,#92400e,#d97706);
+  padding:22px 16px 24px;text-align:center;color:#fff}
+.hero h2{font-size:20px;font-weight:900;margin-bottom:6px}
+.hero p{font-size:13px;opacity:.85;line-height:1.6}
+
+.main{max-width:1060px;margin:0 auto;padding:24px 20px 60px}
+
+/* ── カテゴリセクション ── */
+.sec-head{display:flex;align-items:center;gap:12px;margin:28px 0 14px;
+  padding-bottom:8px;border-bottom:2px solid var(--gray-m)}
+.sec-head:first-child{margin-top:0}
+.sec-icon{width:36px;height:36px;border-radius:var(--r-sm);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.sec-head h2{font-size:15px;font-weight:800;color:var(--text)}
+.sec-head p{font-size:12px;color:var(--sub)}
+
+/* ── カード ── */
+.card-grid{display:flex;flex-direction:column;gap:14px}
+.study-card{background:var(--white);border-radius:var(--r);
+  box-shadow:0 1px 6px rgba(0,0,0,.09);overflow:hidden;
+  text-decoration:none;color:var(--text);display:block;
+  transition:transform .15s,box-shadow .15s}
+.study-card:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.card-body{display:flex;align-items:flex-start;gap:14px;padding:16px}
+.card-ic{width:48px;height:48px;border-radius:var(--r-sm);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0}
+.card-ic.amber{background:var(--amber-lt);color:var(--amber)}
+.card-ic.purple{background:var(--purple-lt);color:var(--purple)}
+.card-ic.teal{background:var(--teal-lt);color:var(--teal)}
+.card-info{flex:1;min-width:0}
+.card-tag{font-size:10.5px;font-weight:700;color:var(--sub);letter-spacing:.03em;margin-bottom:3px}
+.card-title{font-size:15px;font-weight:800;margin-bottom:4px;line-height:1.3}
+.card-desc{font-size:12.5px;color:var(--sub);line-height:1.6}
+.card-foot{display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;background:var(--gray-lt);border-top:1px solid var(--gray-m)}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;
+  padding:3px 10px;border-radius:20px}
+.badge.done{background:#dcfce7;color:#15803d}
+.badge.progress{background:#fef9c3;color:#92400e}
+.tab-chips{display:flex;gap:5px;flex-wrap:wrap}
+.tab-chip{font-size:10.5px;background:var(--white);color:var(--sub);
+  border:1px solid var(--gray-m);border-radius:10px;padding:2px 8px;font-weight:600}
+
+/* ── 基礎シリーズ専用 ── */
+.series-card{background:var(--white);border-radius:var(--r);
+  box-shadow:0 1px 6px rgba(0,0,0,.09);overflow:hidden}
+.series-head{display:flex;align-items:flex-start;gap:14px;padding:16px}
+.series-ep-list{display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border-top:1px solid var(--gray-m)}
+.ep-link{display:flex;align-items:center;gap:10px;padding:11px 14px;
+  text-decoration:none;color:var(--text);font-size:13px;
+  border-bottom:1px solid var(--gray-m);border-right:1px solid var(--gray-m);
+  transition:background .12s}
+.ep-link:hover{background:var(--teal-lt)}
+.ep-link:nth-child(even){border-right:none}
+.ep-link:nth-last-child(-n+2){border-bottom:none}
+.ep-num{width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;flex-shrink:0}
+.ep-text{flex:1;min-width:0}
+.ep-n{font-size:10.5px;color:var(--sub);font-weight:600}
+.ep-title{font-size:12.5px;font-weight:700;color:var(--text);line-height:1.3}
+.series-foot{display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;background:var(--gray-lt);border-top:1px solid var(--gray-m)}
+
+@media(max-width:600px){
+  .series-ep-list{grid-template-columns:1fr}
+  .ep-link{border-right:none}
+  .ep-link:nth-child(odd){border-right:none}
+  .ep-link:last-child{border-bottom:none}
+  .ep-link:nth-last-child(-n+2){border-bottom:1px solid var(--gray-m)}
+  .ep-link:last-child{border-bottom:none}
+}
+@media(min-width:900px){
+  .card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px }
+  .series-ep-list{ grid-template-columns:1fr 1fr 1fr 1fr }
+  .ep-link:nth-child(even){ border-right:1px solid var(--gray-m) }
+  .ep-link:nth-child(4n){ border-right:none }
+  .ep-link:nth-last-child(-n+4){ border-bottom:none }
+  .ep-link:nth-last-child(-n+2){ border-bottom:1px solid var(--gray-m) }
+  .ep-link:last-child{ border-bottom:none }
+  .hero p{ font-size:14px }
+}
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../index.html" class="back-link">← 一覧</a>
+  <div class="hdr-center">
+    <span class="hdr-badge"></span>
+    <div class="hdr-title">勉強資料</div>
+  </div>
+</header>
+
+<div class="hero">
+  <h2>📚 勉強資料</h2>
+  <p>医療事務・制度・加算の解説資料<br>初学者向けにわかりやすく作成しています</p>
+</div>
+
+<main class="main">
+
+  <!-- 基礎シリーズ -->
+  <div class="sec-head">
+    <div class="sec-icon" style="background:var(--teal-lt)">📖</div>
+    <div>
+      <h2>医療事務 基礎シリーズ（全8回）</h2>
+      <p>無床診療所の医療事務を初学者向けに体系化</p>
+    </div>
+  </div>
+
+  <div class="series-card">
+    <div class="series-head">
+      <div class="card-ic teal" style="width:48px;height:48px;font-size:22px;flex-shrink:0">📖</div>
+      <div style="flex:1;min-width:0">
+        <div class="card-tag">基礎シリーズ · 全8回</div>
+        <div class="card-title">医療事務（無床診療所）初学者向け</div>
+        <div class="card-desc">保険制度の基礎から点数計算・レセプトまで、確認問題付きで学べます</div>
+      </div>
+    </div>
+    <div class="series-ep-list">
+      <a class="ep-link" href="基礎シリーズ/01_医療事務の仕事とは.html">
+        <div class="ep-num">1</div>
+        <div class="ep-text">
+          <div class="ep-n">第1回</div>
+          <div class="ep-title">医療事務の仕事とは</div>
+        </div>
+      </a>
+      <a class="ep-link" href="基礎シリーズ/02_医療保険制度の基礎.html">
+        <div class="ep-num">2</div>
+        <div class="ep-text">
+          <div class="ep-n">第2回</div>
+          <div class="ep-title">医療保険制度の基礎</div>
+        </div>
+      </a>
+      <a class="ep-link" href="基礎シリーズ/03_窓口負担金の計算.html">
+        <div class="ep-num">3</div>
+        <div class="ep-text">
+          <div class="ep-n">第3回</div>
+          <div class="ep-title">窓口負担金の計算</div>
+        </div>
+      </a>
+      <a class="ep-link" href="基礎シリーズ/04_診療報酬点数の仕組み.html">
+        <div class="ep-num">4</div>
+        <div class="ep-text">
+          <div class="ep-n">第4回</div>
+          <div class="ep-title">診療報酬点数の仕組み</div>
+        </div>
+      </a>
+      <a class="ep-link" href="基礎シリーズ/05_公費負担医療.html">
+        <div class="ep-num">5</div>
+        <div class="ep-text">
+          <div class="ep-n">第5回</div>
+          <div class="ep-title">公費負担医療</div>
+        </div>
+      </a>
+      <a class="ep-link" href="基礎シリーズ/06_レセプトとは.html">
+        <div class="ep-num">6</div>
+        <div class="ep-text">
+          <div class="ep-n">第6回</div>
+          <div class="ep-title">レセプトとは</div>
+        </div>
+      </a>
+      <a class="ep-link" href="基礎シリーズ/07_レセプト点検の基礎.html">
+        <div class="ep-num">7</div>
+        <div class="ep-text">
+          <div class="ep-n">第7回</div>
+          <div class="ep-title">レセプト点検の基礎</div>
+        </div>
+      </a>
+      <a class="ep-link" href="基礎シリーズ/08_書類業務.html">
+        <div class="ep-num">8</div>
+        <div class="ep-text">
+          <div class="ep-n">第8回</div>
+          <div class="ep-title">書類業務</div>
+        </div>
+      </a>
+    </div>
+    <div class="series-foot">
+      <span class="badge progress">🔄 整備中</span>
+      <div class="tab-chips">
+        <span class="tab-chip">保険制度</span>
+        <span class="tab-chip">点数計算</span>
+        <span class="tab-chip">レセプト</span>
+        <span class="tab-chip">確認問題付き</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 健診業務 -->
+  <div class="sec-head">
+    <div class="sec-icon" style="background:#dcfce7">🏥</div>
+    <div>
+      <h2>健診業務マニュアル</h2>
+      <p>倉敷市健康診査・がん検診の受付から結果報告まで</p>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <a class="study-card" href="03_健診マニュアル.html">
+      <div class="card-body">
+        <div class="card-ic" style="background:#dcfce7;color:#15803d;width:48px;height:48px;font-size:22px;flex-shrink:0">🏥</div>
+        <div class="card-info">
+          <div class="card-tag">令和8年度版 · 公式資料準拠</div>
+          <div class="card-title">健診業務マニュアル</div>
+          <div class="card-desc">健診の種類・対象者・受診券の見方・受付手順・報告区分（A/B/C）・結果報告の提出・よくある誤りまで網羅</div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <span class="badge done">✅ 公開中</span>
+        <div class="tab-chips">
+          <span class="tab-chip">受付手順</span>
+          <span class="tab-chip">クーポン</span>
+          <span class="tab-chip">報告区分</span>
+          <span class="tab-chip">チェックリスト</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- 加算資料 -->
+  <div class="sec-head">
+    <div class="sec-icon" style="background:var(--purple-lt)">💹</div>
+    <div>
+      <h2>加算の解説</h2>
+      <p>当院で算定している加算の詳細解説</p>
+    </div>
+  </div>
+
+  <div class="card-grid">
+
+    <a class="study-card" href="02_当院加算一覧_外部公開版.html">
+      <div class="card-body">
+        <div class="card-ic purple">💹</div>
+        <div class="card-info">
+          <div class="card-tag">加算解説 · 医療事務学習</div>
+          <div class="card-title">加算リファレンス</div>
+          <div class="card-desc">外来診療で知っておくべき加算を解説。主要加算の算定条件・実務ポイント・確認問題付き</div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <span class="badge done">✅ 公開中</span>
+        <div class="tab-chips">
+          <span class="tab-chip">外来管理</span>
+          <span class="tab-chip">地域包括</span>
+          <span class="tab-chip">在宅</span>
+          <span class="tab-chip">TOP10</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="study-card" href="01_地域包括診療加算.html">
+      <div class="card-body">
+        <div class="card-ic amber">📋</div>
+        <div class="card-info">
+          <div class="card-tag">加算解説 · 令和6年改定対応</div>
+          <div class="card-title">地域包括診療加算</div>
+          <div class="card-desc">制度概要・対象疾患・点数・算定要件・当院での方針を詳しく解説</div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <span class="badge done">✅ 公開中</span>
+        <div class="tab-chips">
+          <span class="tab-chip">初学者向け</span>
+          <span class="tab-chip">加算１</span>
+          <span class="tab-chip">認知症</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- 2026年診療報酬改定 -->
+  <div class="sec-head">
+    <div class="sec-icon" style="background:var(--blue-lt)">📋</div>
+    <div>
+      <h2>2026年 診療報酬改定</h2>
+      <p>2026年6月改定の要点・医療事務向けまとめ</p>
+    </div>
+  </div>
+
+  <div class="card-grid">
+
+    <a class="study-card" href="2026年診療報酬改定/01_二次新点数検討会_まとめ.html">
+      <div class="card-body">
+        <div class="card-ic" style="background:var(--blue-lt);color:var(--blue-m)">📋</div>
+        <div class="card-info">
+          <div class="card-tag">2026年6月改定 · 医療事務向け</div>
+          <div class="card-title">第二次新点数検討会 ポイントまとめ</div>
+          <div class="card-desc">検診と保険診療の同日算定・電子的診療情報連携加算・BCP・生活習慣病管理料・心不全管理料など8項目を整理</div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <span class="badge done">✅ 公開中</span>
+        <div class="tab-chips">
+          <span class="tab-chip">検診算定ルール</span>
+          <span class="tab-chip">BCP</span>
+          <span class="tab-chip">生活習慣病</span>
+          <span class="tab-chip">レセプト記載</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- 保険医協会新聞まとめ -->
+  <div class="sec-head">
+    <div class="sec-icon" style="background:var(--blue-lt)">📰</div>
+    <div>
+      <h2>保険医協会新聞まとめ</h2>
+      <p>岡山保険医新聞（2024-2025年）から無床診療所向け情報を抽出</p>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <a class="study-card" href="04_保険医協会新聞まとめ.html">
+      <div class="card-body">
+        <div class="card-ic" style="background:var(--blue-lt);color:var(--blue-m);width:48px;height:48px;font-size:22px;flex-shrink:0">📰</div>
+        <div class="card-info">
+          <div class="card-tag">第1018〜1038号 · 2024年10月〜2025年8月</div>
+          <div class="card-title">保険医協会新聞まとめ</div>
+          <div class="card-desc">選定療養・マイナ保険証・医療DX加算・審査の一般的取扱い・個別指導対策など当院に関わる診療報酬情報を21号分まとめて整理</div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <span class="badge done">✅ 公開中</span>
+        <div class="tab-chips">
+          <span class="tab-chip">選定療養</span>
+          <span class="tab-chip">DX加算</span>
+          <span class="tab-chip">審査取扱い</span>
+          <span class="tab-chip">個別指導</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- 提案・リクエスト -->
+  <div class="sec-head" style="margin-top:32px">
+    <div class="sec-icon" style="background:#fce7f3">📬</div>
+    <div>
+      <h2>改善・作成リクエスト</h2>
+      <p>「こんな資料がほしい」「ここが間違っている」を教えてください</p>
+    </div>
+  </div>
+
+  <a class="study-card" href="feedback.html" style="border-left:4px solid #db2777">
+    <div class="card-body">
+      <div class="card-ic" style="background:#fce7f3;color:#db2777;width:48px;height:48px;font-size:22px;flex-shrink:0">📬</div>
+      <div class="card-info">
+        <div class="card-tag">みんなの声を集めています</div>
+        <div class="card-title">改善・作成リクエストフォーム</div>
+        <div class="card-desc">「こんな勉強資料がほしい」「ここが間違っている」「もっとこうしてほしい」など、どんな意見でも歓迎です</div>
+      </div>
+    </div>
+    <div class="card-foot" style="background:#fce7f3">
+      <span class="badge" style="background:#fbcfe8;color:#9d174d">📩 フォームを開く</span>
+      <div class="tab-chips">
+        <span class="tab-chip">作成リクエスト</span>
+        <span class="tab-chip">修正・改善提案</span>
+      </div>
+    </div>
+  </a>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>健診業務マニュアル</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; background: #f5f7fa; color: #2d3748; line-height: 1.7; font-size: 15px; }
+  /* ナビ */
+  .nav { background: #1e3a5f; color: white; padding: 12px 20px; position: sticky; top: 0; z-index: 100; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .nav-title { font-weight: 700; font-size: 1rem; }
+  .nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.8rem; padding: 4px 10px; border-radius: 4px; }
+  .nav a:hover { background: rgba(255,255,255,0.15); }
+  .nav-back { border: 1px solid rgba(255,255,255,0.4) !important; color: #fff !important; font-size: 0.8rem !important; }
+  /* レイアウト */
+  .container { max-width: 920px; margin: 0 auto; padding: 28px 20px 60px; }
+  /* ヘッダー */
+  .page-header { background: linear-gradient(135deg, #1e3a5f, #2563eb); color: white; border-radius: 12px; padding: 28px 32px; margin-bottom: 32px; }
+  .page-header h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; }
+  .page-header .sub { font-size: 0.85rem; opacity: 0.8; }
+  /* セクション */
+  .section { margin-bottom: 36px; }
+  .section-title { font-size: 1.1rem; font-weight: 800; color: #1e3a5f; border-left: 5px solid #2563eb; padding-left: 12px; margin-bottom: 16px; }
+  /* カード */
+  .card { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 16px; overflow: hidden; }
+  .card-header { background: #eff6ff; border-left: 4px solid #2563eb; padding: 10px 18px; }
+  .card-header h3 { font-size: 0.95rem; font-weight: 700; color: #1e40af; }
+  .card-body { padding: 16px 20px; }
+  /* テーブル */
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  th { background: #1e3a5f; color: white; padding: 9px 12px; text-align: left; font-weight: 700; font-size: 0.82rem; }
+  td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  td strong { color: #1e3a5f; }
+  /* バッジ */
+  .badge { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-right: 4px; white-space: nowrap; }
+  .badge-blue { background: #dbeafe; color: #1e40af; }
+  .badge-green { background: #dcfce7; color: #15803d; }
+  .badge-orange { background: #ffedd5; color: #c2410c; }
+  .badge-pink { background: #fce7f3; color: #9d174d; }
+  .badge-gray { background: #f1f5f9; color: #475569; }
+  .badge-red { background: #fee2e2; color: #b91c1c; }
+  /* アラート */
+  .alert { border-radius: 8px; padding: 14px 18px; font-size: 0.88rem; margin: 12px 0; }
+  .alert-red { background: #fff5f5; border: 1px solid #fca5a5; }
+  .alert-yellow { background: #fefce8; border: 1px solid #fde68a; }
+  .alert-blue { background: #eff6ff; border: 1px solid #bfdbfe; }
+  .alert-green { background: #f0fdf4; border: 1px solid #86efac; }
+  .alert-title { font-weight: 700; margin-bottom: 6px; }
+  /* リスト */
+  ul.check { list-style: none; padding: 0; }
+  ul.check li { padding: 5px 0 5px 26px; position: relative; border-bottom: 1px solid #edf2f7; font-size: 0.9rem; }
+  ul.check li:last-child { border-bottom: none; }
+  ul.check li::before { content: "□"; position: absolute; left: 4px; color: #94a3b8; font-size: 1rem; }
+  ul.check li.done::before { content: "☑"; color: #16a34a; }
+  ul.bullet { padding-left: 20px; }
+  ul.bullet li { margin-bottom: 6px; font-size: 0.9rem; }
+  /* フロー */
+  .flow { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 12px 0; }
+  .flow-step { background: #1e3a5f; color: white; border-radius: 8px; padding: 7px 14px; font-size: 0.83rem; font-weight: 700; }
+  .flow-step.sub { background: #64748b; font-weight: 400; }
+  .flow-arrow { color: #94a3b8; font-size: 1.1rem; }
+  /* 強調 */
+  .highlight { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 16px; font-size: 0.88rem; margin: 12px 0; }
+  /* 連絡先 */
+  .contact-box { background: #1e3a5f; color: white; border-radius: 8px; padding: 14px 18px; font-size: 0.88rem; }
+  .contact-box a { color: #93c5fd; }
+  /* 目次 */
+  .toc { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 20px 24px; margin-bottom: 32px; }
+  .toc h2 { font-size: 0.95rem; font-weight: 700; color: #1e3a5f; margin-bottom: 12px; }
+  .toc ol { padding-left: 20px; }
+  .toc li { margin-bottom: 6px; }
+  .toc a { color: #2563eb; text-decoration: none; font-size: 0.9rem; }
+  .toc a:hover { text-decoration: underline; }
+  /* 区切り */
+  .divider { height: 1px; background: #e2e8f0; margin: 24px 0; }
+  /* 番号つき手順 */
+  .steps { counter-reset: step; padding: 0; list-style: none; }
+  .steps li { counter-increment: step; padding: 10px 10px 10px 46px; position: relative; border-bottom: 1px solid #edf2f7; font-size: 0.9rem; }
+  .steps li:last-child { border-bottom: none; }
+  .steps li::before { content: counter(step); position: absolute; left: 10px; top: 10px; background: #2563eb; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; }
+  strong { font-weight: 700; }
+  .note { font-size: 0.82rem; color: #64748b; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-back">← 一覧</a>
+  <span class="nav-title">健診業務マニュアル</span>
+  <a href="#overview">健診の種類</a>
+  <a href="#period">実施期間・対象者</a>
+  <a href="#coupon">クーポン</a>
+  <a href="#receipt">受診券の見方</a>
+  <a href="#checkin">受付手順</a>
+  <a href="#report-zone">報告区分</a>
+  <a href="#submit">結果報告</a>
+  <a href="#mistakes">よくある誤り</a>
+  <a href="#detail">各検診の詳細</a>
+  <a href="#contact">連絡先</a>
+</nav>
+
+<div class="container">
+
+  <div class="page-header">
+    <h1>倉敷市 健診業務マニュアル</h1>
+    <div class="sub">令和8年度版（2026年6月〜）　／　医療事務用</div>
+  </div>
+
+  <!-- 目次 -->
+  <div class="toc">
+    <h2>目次</h2>
+    <ol>
+      <li><a href="#overview">健診の種類と全体像</a></li>
+      <li><a href="#period">実施期間・対象者一覧</a></li>
+      <li><a href="#coupon">クーポン・節目無料対象者</a></li>
+      <li><a href="#receipt">受診券の見方</a></li>
+      <li><a href="#checkin">受付時の手順（チェックリスト）</a></li>
+      <li><a href="#report-zone">生活習慣病予防健診の報告区分（A/B/C）</a></li>
+      <li><a href="#submit">結果報告の提出</a></li>
+      <li><a href="#mistakes">よくある誤り・Q&amp;A</a></li>
+      <li><a href="#contact">問い合わせ先</a></li>
+      <li><a href="#detail">各がん検診・特殊検診の詳細</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. 全体像 -->
+  <div class="section" id="overview">
+    <div class="section-title">1. 健診の種類と全体像</div>
+
+    <div class="alert alert-blue">
+      <div class="alert-title">初めての方へ</div>
+      倉敷市の健診は大きく「<strong>生活習慣病予防健診</strong>」と「<strong>がん検診</strong>」に分かれます。受診者はすべて「けんしん受診券」を持参して来院します。受診券の内容を確認することが受付業務の基本です。
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>健診の種類一覧</h3></div>
+      <div class="card-body">
+        <table>
+          <tr>
+            <th>分類</th><th>健診名</th><th>対象</th><th>特記事項</th>
+          </tr>
+          <tr>
+            <td rowspan="4"><strong>生活習慣病<br>予防健診</strong></td>
+            <td>国保特定健診（区分A）</td>
+            <td>40〜74歳・倉敷市国保加入者</td>
+            <td>マイナ保険証確認必須</td>
+          </tr>
+          <tr>
+            <td>長寿健診（区分B）</td>
+            <td>76歳以上・後期高齢者医療被保険者</td>
+            <td>マイナ保険証確認必須</td>
+          </tr>
+          <tr>
+            <td>75歳健診</td>
+            <td>年度内に75歳になる者</td>
+            <td>誕生日前後で区分が変わる（後述）</td>
+          </tr>
+          <tr>
+            <td>その他（区分C）</td>
+            <td>40歳以上・生活保護受給者・無保険者</td>
+            <td>紙報告</td>
+          </tr>
+          <tr>
+            <td><strong>女性の<br>一般健診</strong></td>
+            <td>女性の一般健康診査</td>
+            <td>20〜39歳の市民（女性）</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td rowspan="7"><strong>がん検診</strong></td>
+            <td>胃がん検診（内視鏡）</td>
+            <td>50歳以上（2年に1回）</td>
+            <td>前年度未受診者のみ</td>
+          </tr>
+          <tr>
+            <td>大腸がん検診</td>
+            <td>40歳以上の市民</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>乳がん検診（マンモ・視触診）</td>
+            <td>40歳以上の市民（女性）</td>
+            <td>40歳はクーポン無料</td>
+          </tr>
+          <tr>
+            <td>子宮頸がん検診</td>
+            <td>20歳以上の市民（女性）</td>
+            <td>20歳はクーポン無料</td>
+          </tr>
+          <tr>
+            <td>肝炎ウイルス検診</td>
+            <td>40歳以上（過去に受診歴のない方）</td>
+            <td>節目年齢は無料</td>
+          </tr>
+          <tr>
+            <td>前立腺がん検診</td>
+            <td>50歳以上の市民（男性）</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>胸部レントゲン検診（肺がん・結核）</td>
+            <td>40歳以上の市民</td>
+            <td>受診券を回収する</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 実施期間・対象者 -->
+  <div class="section" id="period">
+    <div class="section-title">2. 実施期間・対象者</div>
+
+    <div class="card">
+      <div class="card-header"><h3>令和8年度 実施期間</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>健診の種類</th><th>実施期間</th></tr>
+          <tr><td>生活習慣病予防健診・がん検診（乳がん・子宮頸がん以外）</td><td><strong>令和8年6月1日 〜 令和9年1月31日</strong></td></tr>
+          <tr><td>乳がん検診・子宮頸がん検診</td><td><strong>令和8年6月1日 〜 令和9年3月31日</strong></td></tr>
+        </table>
+        <div class="highlight">
+          年齢の判定は「今年度（令和8年4月1日〜令和9年3月31日）に誕生日を迎えた時の年齢」です。<strong>誕生日前でも受診できます。</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>対象者早見表</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>年齢</th><th>性別</th><th>受診できる健診</th></tr>
+          <tr>
+            <td>20〜39歳</td>
+            <td>女性</td>
+            <td>
+              <span class="badge badge-pink">女性の一般健診</span>
+              <span class="badge badge-pink">子宮頸がん</span>
+              <span class="note">※20歳はクーポン無料（子宮頸がん）</span>
+            </td>
+          </tr>
+          <tr>
+            <td>40〜49歳</td>
+            <td>男性</td>
+            <td>
+              <span class="badge badge-blue">国保特定健診（国保加入者）</span>
+              <span class="badge badge-gray">大腸がん</span>
+              <span class="badge badge-gray">肝炎ウイルス（未受診者）</span>
+              <span class="badge badge-gray">胸部レントゲン</span>
+            </td>
+          </tr>
+          <tr>
+            <td>40〜49歳</td>
+            <td>女性</td>
+            <td>
+              <span class="badge badge-blue">国保特定健診（国保加入者）</span>
+              <span class="badge badge-gray">大腸がん</span>
+              <span class="badge badge-pink">乳がん</span>
+              <span class="badge badge-pink">子宮頸がん</span>
+              <span class="badge badge-gray">肝炎ウイルス（未受診者）</span>
+              <span class="badge badge-gray">胸部レントゲン</span>
+              <span class="note">※40歳女性は乳がんがクーポン無料、肝炎ウイルスは節目無料</span>
+            </td>
+          </tr>
+          <tr>
+            <td>50〜74歳</td>
+            <td>男性</td>
+            <td>
+              <span class="badge badge-blue">国保特定健診（国保加入者）</span>
+              <span class="badge badge-gray">胃がん（2年に1回）</span>
+              <span class="badge badge-gray">大腸がん</span>
+              <span class="badge badge-orange">前立腺がん</span>
+              <span class="badge badge-gray">肝炎ウイルス（未受診者）</span>
+              <span class="badge badge-gray">胸部レントゲン</span>
+            </td>
+          </tr>
+          <tr>
+            <td>50〜74歳</td>
+            <td>女性</td>
+            <td>
+              <span class="badge badge-blue">国保特定健診（国保加入者）</span>
+              <span class="badge badge-gray">胃がん（2年に1回）</span>
+              <span class="badge badge-gray">大腸がん</span>
+              <span class="badge badge-pink">乳がん</span>
+              <span class="badge badge-pink">子宮頸がん</span>
+              <span class="badge badge-gray">肝炎ウイルス（未受診者）</span>
+              <span class="badge badge-gray">胸部レントゲン</span>
+            </td>
+          </tr>
+          <tr>
+            <td>75歳（誕生日前）</td>
+            <td>男女</td>
+            <td><span class="badge badge-blue">国保特定健診（国保加入者）</span><span class="note">→誕生日以降は後期高齢者へ切替</span></td>
+          </tr>
+          <tr>
+            <td>76歳以上</td>
+            <td>男女</td>
+            <td>
+              <span class="badge badge-green">長寿健診（後期高齢者医療被保険者）</span>
+              <span class="badge badge-gray">各種がん検診</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="alert alert-yellow">
+      <div class="alert-title">胃がん検診の注意点</div>
+      「前年度に受診していない方が対象（2年に1回）」です。また、妊婦・妊娠疑い・内視鏡による経過観察中の方は対象外です。
+    </div>
+    <div class="alert alert-yellow" style="margin-top:8px">
+      <div class="alert-title">前立腺がん検診の注意点</div>
+      前立腺がん治療中・前立腺全摘手術を受けた方（経過観察中も含む）は受診不可です。
+    </div>
+  </div>
+
+  <!-- 3. クーポン -->
+  <div class="section" id="coupon">
+    <div class="section-title">3. クーポン・節目無料対象者</div>
+
+    <div class="card">
+      <div class="card-header"><h3>無料クーポン対象（令和8年度）</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>健診名</th><th>対象年齢</th><th>生年月日</th><th>受診券の表示</th></tr>
+          <tr>
+            <td>子宮頸がん検診</td>
+            <td>20歳女性</td>
+            <td>2005(H17)年4/2〜2006(H18)年4/1</td>
+            <td><span class="badge badge-green">クーポン無料</span></td>
+          </tr>
+          <tr>
+            <td>乳がん検診</td>
+            <td>40歳女性</td>
+            <td>1985(S60)年4/2〜1986(S61)年4/1</td>
+            <td><span class="badge badge-green">クーポン無料</span></td>
+          </tr>
+        </table>
+        <div class="alert alert-blue" style="margin-top:12px">
+          <strong>クーポン券を持参していない場合でも、受診券で確認の上、無料で実施してください。</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>肝炎ウイルス検診 節目無料対象（令和8年度）</h3></div>
+      <div class="card-body">
+        <p style="font-size:0.88rem; margin-bottom:12px">以下の年齢の方は肝炎ウイルス検診が無料です。受診券の肝炎ウイルス欄に「<strong>今回は無料</strong>」と印字されています。</p>
+        <table>
+          <tr><th>年齢（令和8年3月31日時点）</th><th>生年月日</th></tr>
+          <tr><td>40歳</td><td>1985(S60)年4/2〜1986(S61)年4/1</td></tr>
+          <tr><td>45歳</td><td>1980(S55)年4/2〜1981(S56)年4/1</td></tr>
+          <tr><td>50歳</td><td>1975(S50)年4/2〜1976(S51)年4/1</td></tr>
+          <tr><td>55歳</td><td>1970(S45)年4/2〜1971(S46)年4/1</td></tr>
+          <tr><td>60歳</td><td>1965(S40)年4/2〜1966(S41)年4/1</td></tr>
+          <tr><td>65歳</td><td>1960(S35)年4/2〜1961(S36)年4/1</td></tr>
+          <tr><td>70歳以上（5歳刻み）</td><td>1955(S30)年4/2以前</td></tr>
+        </table>
+        <div class="alert alert-yellow" style="margin-top:12px">
+          費用区分の記載は必ず「<strong>減免</strong>」で報告してください。「無料」と書いても減免扱いにしてください。
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>肝炎ウイルス検診の種別（受診券確認ポイント）</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>受診券の表示</th><th>受診できる内容</th></tr>
+          <tr><td>空白（印字なし）</td><td>B型・C型 <strong>両方</strong>受診可能</td></tr>
+          <tr><td>「B型」と印字</td><td>B型のみ（C型は過去受診済み）</td></tr>
+          <tr><td>「C型」と印字</td><td>C型のみ（B型は過去受診済み）</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 受診券の見方 -->
+  <div class="section" id="receipt">
+    <div class="section-title">4. 受診券の見方</div>
+
+    <div class="card">
+      <div class="card-header"><h3>受診券の各欄の意味</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>欄名</th><th>内容・確認ポイント</th></tr>
+          <tr>
+            <td>①検診者番号欄</td>
+            <td>10桁の番号。女性の一般健診・がん検診の検診票に転記する。<strong>転記後に必ず再確認。</strong></td>
+          </tr>
+          <tr>
+            <td>②費用区分欄（がん検診等）</td>
+            <td>「一般」「減免」「高齢」のいずれかが印字。<br>減免された受診券は、結果報告書の費用区分も「減免」で記入。</td>
+          </tr>
+          <tr>
+            <td>③料金欄</td>
+            <td>受診可能 → 自己負担額が数字で印字。<br><strong>受診不可 → 「＊＊＊＊＊＊」と表示（受診させない）。</strong></td>
+          </tr>
+          <tr>
+            <td>④受診欄</td>
+            <td>実施した健診部分に医療機関名または日付を記入（ゴム印可）し、<strong>受診者に受診券を返却する。</strong></td>
+          </tr>
+          <tr>
+            <td>⑤肝炎ウイルス検診欄</td>
+            <td>B型のみ・C型のみ・両方の確認に使う（前掲の表参照）。</td>
+          </tr>
+          <tr>
+            <td>⑥回収が必要な部分</td>
+            <td><strong>胸部レントゲン検診・生活習慣病予防健診</strong>を実施した場合は、それぞれの部分を切り取り回収する。</td>
+          </tr>
+          <tr>
+            <td>⑦受診券整理番号欄</td>
+            <td>11桁の番号。生活習慣病予防健診（A・B・C）の健診票に転記する。</td>
+          </tr>
+          <tr>
+            <td>⑧費用区分欄（生活習慣病予防健診）</td>
+            <td>「一般」「減免」「高齢」のいずれかが印字。</td>
+          </tr>
+          <tr>
+            <td>⑨報告区分欄</td>
+            <td>「A」「B」「C」「AC」のいずれかが印字。詳細は第6章参照。</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="alert alert-red">
+      <div class="alert-title">絶対に確認すること</div>
+      受診券の料金欄が「＊＊＊＊＊＊」の検診は対象外です。受診させないでください。また、<strong>今年度の受診券</strong>を必ず確認してください（昨年度のものは無効）。
+    </div>
+  </div>
+
+  <!-- 5. 受付手順 -->
+  <div class="section" id="checkin">
+    <div class="section-title">5. 受付時の手順（チェックリスト）</div>
+
+    <div class="card">
+      <div class="card-header"><h3>受付の流れ</h3></div>
+      <div class="card-body">
+        <div class="flow">
+          <div class="flow-step">受診券の提出を求める</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">今年度の受診券か確認</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">料金欄で受診可否・金額確認</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">保険資格確認（A/B）</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">自己負担金の徴収</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">健診票に番号転記・再確認</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>受付チェックリスト</h3></div>
+      <div class="card-body">
+        <ul class="check">
+          <li><strong>今年度のけんしん受診券</strong>を持参しているか確認した</li>
+          <li>料金欄が「＊＊＊＊＊＊」でないか確認した（対象外検診でないか）</li>
+          <li>国保特定健診（A）または長寿健診（B）の場合、<strong>マイナ保険証（資格確認書）</strong>で当日の保険資格を確認した</li>
+          <li>受診券の料金欄に記載の金額を<strong>自己負担金として徴収</strong>した（クーポン・節目無料は0円）</li>
+          <li>健診票の<strong>受診券整理番号または検診者番号を正確に転記</strong>し、転記後に再確認した</li>
+          <li>複写式健診票はボールペンで<strong>強く記入するよう</strong>受診者に促し、2・3枚目まで鮮明に写っているか確認した</li>
+          <li>夫婦や家族で来院した場合、<strong>番号の入れ替わりに特に注意</strong>した</li>
+          <li>生活習慣病予防健診・胸部レントゲン検診を実施した場合、受診券の<strong>該当部分を切り取り回収</strong>した</li>
+          <li>他の検診は受診券に<strong>医療機関名または日付を記入して返却</strong>した</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>減免・受診券再交付について</h3></div>
+      <div class="card-body">
+        <ul class="bullet">
+          <li>料金の減額を希望する場合は、受診日<strong>前</strong>に申請が必要です。受診後の減額対応はできません。</li>
+          <li>受診券を紛失した患者さんが来た場合：<strong>受診させないこと。</strong>まず受診券の再交付手続きを案内してください。</li>
+          <li>減免・再交付の申請先：最寄りの保健推進室または倉敷市電子申請サービス</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 報告区分 -->
+  <div class="section" id="report-zone">
+    <div class="section-title">6. 生活習慣病予防健診の報告区分（A/B/C）</div>
+
+    <div class="card">
+      <div class="card-header"><h3>報告区分の判定フロー</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>報告区分</th><th>対象者</th><th>健診票の色</th><th>報告先・方法</th></tr>
+          <tr>
+            <td><strong><span class="badge badge-blue">区分A</span></strong></td>
+            <td>40〜74歳の倉敷市<strong>国民健康保険加入者</strong><br>75歳年度内到達者で誕生日前（国保加入者）</td>
+            <td>白色（健A）</td>
+            <td>国保連へ電子報告</td>
+          </tr>
+          <tr>
+            <td><strong><span class="badge badge-green">区分B</span></strong></td>
+            <td><strong>76歳以上の後期高齢者医療被保険者</strong><br>（65〜74歳の障がい認定者含む）</td>
+            <td>黄色（健B）</td>
+            <td>国保連へ電子報告</td>
+          </tr>
+          <tr>
+            <td><strong><span class="badge badge-orange">区分C</span></strong></td>
+            <td>生活保護受給者・無保険者（40歳以上）<br>75歳到達者で誕生日以降の者<br>協会けんぽ等（国保以外）は倉敷市の対象外</td>
+            <td>白色（健A）または黄色（健B）</td>
+            <td>倉敷市へ紙報告</td>
+          </tr>
+        </table>
+        <div class="alert alert-yellow" style="margin-top:12px">
+          <strong>75歳になる方への注意：</strong>誕生日の前後で区分が変わります。受診日と誕生日を必ず確認してください。<br>
+          年度途中に医療保険が切り替わった場合、受診券の内容と合わない場合があります。必ず市に連絡してください。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. 結果報告 -->
+  <div class="section" id="submit">
+    <div class="section-title">7. 結果報告の提出</div>
+
+    <div class="card">
+      <div class="card-header"><h3>提出ルール</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>項目</th><th>内容</th></tr>
+          <tr><td>提出期限</td><td><strong>健診実施月の翌月10日</strong>（土日祝の場合は翌営業日）必着</td></tr>
+          <tr><td>提出先</td><td>最寄りの保健推進室（玉島保健推進室：086-522-8113）</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>提出書類一覧</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>健診名</th><th>市へ提出するもの</th></tr>
+          <tr>
+            <td>女性の一般健診・各種がん検診（胸部以外）</td>
+            <td>結果報告書 ＋ 健診票2枚目（倉敷市控）</td>
+          </tr>
+          <tr>
+            <td>胸部レントゲン検診</td>
+            <td>結果報告書 ＋ 検診票2枚目 ＋ <strong>受診券（胸部部分）</strong></td>
+          </tr>
+          <tr>
+            <td>生活習慣病予防健診（A・B）</td>
+            <td>結果報告書 ＋ <strong>受診券（健診部分）</strong>　※国保連への電子報告も別途必要</td>
+          </tr>
+          <tr>
+            <td>生活習慣病予防健診（C）</td>
+            <td>結果報告書 ＋ 受診券（C） ＋ <strong>健診票1枚目（医療機関控）のコピー</strong></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>結果通知について</h3></div>
+      <div class="card-body">
+        <ul class="bullet">
+          <li>結果通知は実施要領に基づき、<strong>時期を逸することなく速やかに</strong>行ってください。</li>
+          <li>郵送による結果通知を活用してください（郵送料は委託料に含まれています）。</li>
+          <li>要精密検査の場合は精密検査依頼書を同封して通知します。</li>
+          <li>肝炎ウイルス検診で陽性の場合：検診票3枚目（肝・様式1号③）を同封して通知します。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. よくある誤り -->
+  <div class="section" id="mistakes">
+    <div class="section-title">8. よくある誤り・Q&amp;A</div>
+
+    <div class="card">
+      <div class="card-header"><h3>過去に実際にあった誤り事例</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>誤り</th><th>正しい対応</th></tr>
+          <tr>
+            <td>昨年度のクーポン券を持参した市民に今年度の検診を無料で受診させた</td>
+            <td>必ず<strong>今年度の受診券</strong>で確認する。昨年度のクーポンは無効。</td>
+          </tr>
+          <tr>
+            <td>肝炎ウイルス検診の節目無料対象者から料金を徴収した</td>
+            <td>受診券の肝炎欄「今回は無料」の記載を確認する。費用区分は「減免」で報告。</td>
+          </tr>
+          <tr>
+            <td>受診券を持参していない市民を受診させた（→重複受診になった）</td>
+            <td>受診券なしでは受診させない。再交付の手続きを案内する。</td>
+          </tr>
+          <tr>
+            <td>夫婦の検診票に相手の検診者番号を記入してしまった（番号の入れ替わり）</td>
+            <td>番号転記後に必ず再確認。家族来院時は特に注意。</td>
+          </tr>
+          <tr>
+            <td>要精密検査の結果通知をせずに3か月以上が経過した</td>
+            <td>時期を逸せず速やかに郵送通知する。</td>
+          </tr>
+          <tr>
+            <td>クーポン・節目無料対象者の費用区分を「無料」と記載した</td>
+            <td>費用区分は「<strong>減免</strong>」で記載する。</td>
+          </tr>
+          <tr>
+            <td>複写が薄くて読めない健診票を提出した</td>
+            <td>記入後に2・3枚目まで確認。薄い場合は医療機関側で追記して判読可能にする。</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>Q&amp;A</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>Q</th><th>A</th></tr>
+          <tr>
+            <td>受診勧奨ハガキ（SMS）だけを持ってきた方は受診できますか？</td>
+            <td>できません。受診勧奨通知に受診券はついていません。<strong>健康づくり課けんしん係（086-434-9866）</strong>への連絡を案内してください。</td>
+          </tr>
+          <tr>
+            <td>受診券を紛失したとのことで受診を希望している場合は？</td>
+            <td>受診させないこと。再交付手続きを案内します。再交付申請は電子申請・電話でも可能です。</td>
+          </tr>
+          <tr>
+            <td>胃がん検診の患者さんで生検を実施した場合は？</td>
+            <td>胃がん疑いによる生検の場合は判定コード「02」・指示「要精密検査」とします。生検結果を精密検査結果通知書に記入して岡山県がん登録室へ送付。</td>
+          </tr>
+          <tr>
+            <td>大腸がん検診で「擬陽性」の場合は？</td>
+            <td>一つでも「陽性」または「擬陽性」なら指示を「要精密検査」としてください。</td>
+          </tr>
+          <tr>
+            <td>心電図で心房細動がみられた場合は？</td>
+            <td>電子報告の場合は心電図所見欄に「所見あり」を選択し「心房細動」と入力。受診者への指導と情報提供リーフレット配付が必要。</td>
+          </tr>
+          <tr>
+            <td>帳票が不足してしまったら？</td>
+            <td>事前連絡の上、最寄りの保健推進室または健康づくり課けんしん係に取りに来てください。</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. 連絡先 -->
+  <div class="section" id="contact">
+    <div class="section-title">9. 問い合わせ先</div>
+    <div class="contact-box">
+      <table style="color:white; font-size:0.88rem;">
+        <tr>
+          <th style="background:rgba(255,255,255,0.15); color:white; width:200px;">担当部署</th>
+          <th style="background:rgba(255,255,255,0.15); color:white;">電話番号</th>
+        </tr>
+        <tr>
+          <td>倉敷市保健所 健康づくり課 <strong>けんしん係</strong></td>
+          <td><strong>(086) 434-9866</strong></td>
+        </tr>
+        <tr>
+          <td>倉敷保健推進室</td>
+          <td>(086) 434-9822</td>
+        </tr>
+        <tr>
+          <td>水島保健推進室</td>
+          <td>(086) 446-1115</td>
+        </tr>
+        <tr>
+          <td>児島保健推進室</td>
+          <td>(086) 473-4371</td>
+        </tr>
+        <tr>
+          <td><strong>玉島保健推進室（当院の提出先）</strong></td>
+          <td><strong>(086) 522-8113</strong></td>
+        </tr>
+        <tr>
+          <td>真備保健推進室</td>
+          <td>(086) 698-5111</td>
+        </tr>
+        <tr>
+          <td>国民健康保険課（特定健診情報提供事業）</td>
+          <td>(086) 426-3283</td>
+        </tr>
+      </table>
+    </div>
+    <div class="alert alert-blue" style="margin-top:16px">
+      <strong>参考資料（原本）</strong>：「健康診査・がん検診等実施要領」「健康診査・がん検診等事務処理の手引き」（令和8年5月、倉敷市保健所発行）
+    </div>
+  </div>
+
+
+  <!-- 10. 各検診の詳細 -->
+  <div class="section" id="detail">
+    <div class="section-title">10. 各がん検診・特殊検診の詳細</div>
+
+    <!-- 胃がん -->
+    <div class="card">
+      <div class="card-header"><h3>胃がん検診（内視鏡 または 胃部X線）</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>項目</th><th>内容</th></tr>
+          <tr><td>対象者</td><td>50歳以上の市民（2年に1回）</td></tr>
+          <tr><td>受診不可</td><td>妊婦・妊娠疑い・内視鏡で経過観察中の方</td></tr>
+          <tr><td>検査項目</td><td>胃内視鏡検査 <strong>または</strong> 胃部エックス線検査（どちらか選択）</td></tr>
+        </table>
+        <div class="alert alert-yellow" style="margin-top:12px">
+          <div class="alert-title">受診前に患者さんへ必ず伝えること（前日〜当日）</div>
+          <ul class="bullet">
+            <li><strong>前日：</strong>夕食は消化の良いものにし、21時までに済ませる。以降は飲食しない（水・お茶・就寝前の薬はOK）</li>
+            <li><strong>当日：</strong>飲食禁止・タバコは控える</li>
+            <li><strong>常用薬：</strong>高血圧薬等は主治医に相談の上、3時間前までにコップ1杯の水で服用可</li>
+            <li><strong>糖尿病治療中の方：</strong>主治医の指示のもと、朝の内服薬・インスリン注射は控える（低血糖防止）</li>
+          </ul>
+        </div>
+        <div class="alert alert-blue" style="margin-top:8px">
+          <div class="alert-title">バリウム検査（胃X線）特有の注意点</div>
+          <ul class="bullet">
+            <li>検査後は下剤を服用し、水分をしっかり摂る</li>
+            <li>翌日夕方までにバリウムが出ない場合は医師へ相談</li>
+            <li>むせやすい方・高齢者は誤嚥リスクあり。必要に応じて事前相談を促す</li>
+          </ul>
+        </div>
+        <div class="alert alert-blue" style="margin-top:8px">
+          <div class="alert-title">胃内視鏡検査 特有の注意点</div>
+          <ul class="bullet">
+            <li>検査後の飲食・車の運転等は医療機関の指示に従う</li>
+            <li>生検（組織採取）を行った場合は検診対象外→医療保険適用で自己負担金が発生</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 大腸がん -->
+    <div class="card">
+      <div class="card-header"><h3>大腸がん検診（便潜血検査）</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>項目</th><th>内容</th></tr>
+          <tr><td>対象者</td><td>40歳以上の市民</td></tr>
+          <tr><td>検査項目</td><td>問診 ＋ 便潜血検査（免疫便潜血反応検査 <strong>2日法</strong>）</td></tr>
+          <tr><td>採便方法</td><td>受診者が自宅で2日間採便し、2回目採取当日に持参</td></tr>
+          <tr><td>保管方法</td><td>1回目の検体は冷蔵保存（冷蔵庫推奨）</td></tr>
+          <tr><td>判定結果</td><td>陰性 / 疑陽性 / 陽性 / 判定不能<br>疑陽性・陽性のいずれかが出たら <strong>「要精密検査」</strong></td></tr>
+        </table>
+        <div class="alert alert-red" style="margin-top:12px">
+          一つでも「陽性」または「疑陽性」なら、もう一方の結果に関わらず <strong>「要精密検査」</strong> としてください。
+        </div>
+      </div>
+    </div>
+
+    <!-- 乳がん -->
+    <div class="card">
+      <div class="card-header"><h3>乳がん検診（マンモグラフィ ＋ 視触診）</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>項目</th><th>内容</th></tr>
+          <tr><td>対象者</td><td>40歳以上の市民（女性）</td></tr>
+          <tr><td>受診不可</td><td>妊婦・妊娠疑い・乳房切除術・乳房再建術実施者・ペースメーカー装着者</td></tr>
+          <tr><td>検査項目</td><td>質問（問診）・視診・触診・<strong>マンモグラフィ（両側乳房）</strong></td></tr>
+          <tr><td>40歳代</td><td>内外斜位方向 ＋ 頭尾方向の <strong>2方向</strong>撮影（50歳以上は1方向でも可）</td></tr>
+          <tr><td>無料対象</td><td>40歳女性はクーポン無料（費用区分：減免）</td></tr>
+        </table>
+        <div class="highlight" style="margin-top:12px">
+          <strong>受付時の確認：</strong>マンモグラフィと視触診は別機関で実施する場合があります。視触診実施時は「マンモグラフィ受診済み」を受診券で確認してください。
+        </div>
+      </div>
+    </div>
+
+    <!-- 子宮頸がん -->
+    <div class="card">
+      <div class="card-header"><h3>子宮頸がん検診</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>項目</th><th>内容</th></tr>
+          <tr><td>対象者</td><td>20歳以上の市民（女性）</td></tr>
+          <tr><td>受診不可</td><td>子宮全摘手術を受けた方</td></tr>
+          <tr><td>検査項目</td><td>問診・視診・<strong>細胞診（液状検体法）</strong>・内診（双合診）</td></tr>
+          <tr><td>判定方法</td><td>ベセスダシステムで分類し、要精密検査の必要性を決定</td></tr>
+          <tr><td>無料対象</td><td>20歳女性はクーポン無料（費用区分：減免）</td></tr>
+        </table>
+        <div class="alert alert-yellow" style="margin-top:12px">
+          <div class="alert-title">子宮体がん疑いの患者さんへの注意</div>
+          問診で「最近6ヶ月以内に不正性器出血・月経異常・褐色帯下のいずれかの症状あり」が判明した場合は、子宮体がんの有症状者の可能性があります。多様な検査が実施できる医療機関への受診を勧奨してください。
+        </div>
+      </div>
+    </div>
+
+    <!-- 肝炎ウイルス -->
+    <div class="card">
+      <div class="card-header"><h3>肝炎ウイルス検診</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>項目</th><th>内容</th></tr>
+          <tr><td>対象者（A）</td><td>当該年度に <strong>40歳</strong>になる市民</td></tr>
+          <tr><td>対象者（B）</td><td>41歳以上の市民で <strong>過去に一度も受診したことがない</strong> 方</td></tr>
+          <tr><td>検査項目</td><td>問診 ＋ <strong>HBs抗原検査（B型）</strong> ＋ <strong>HCV抗体検査（C型）</strong></td></tr>
+          <tr><td>HCV追加検査</td><td>HCV抗体が中力価・低力価の場合は <strong>HCV核酸増幅検査</strong> を追加実施</td></tr>
+          <tr><td>重要</td><td>この検診は <strong>原則一生に1回のみ</strong>（同じ種類は2回目以降受診不可）</td></tr>
+        </table>
+        <div class="alert alert-blue" style="margin-top:12px">
+          <strong>受診券確認ポイント：</strong>「B型のみ」「C型のみ」の印字がある場合、過去に一方を受診済みです。印字がない場合はB型・C型両方を実施します。
+        </div>
+        <div class="alert alert-yellow" style="margin-top:8px">
+          <strong>陽性判定の場合：</strong>肝炎一次専門医療機関への受診を勧奨してください（速やかに）。
+        </div>
+      </div>
+    </div>
+
+    <!-- 前立腺がん -->
+    <div class="card">
+      <div class="card-header"><h3>前立腺がん検診（PSA検査）</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>項目</th><th>内容</th></tr>
+          <tr><td>対象者</td><td>50歳以上の市民（男性）</td></tr>
+          <tr><td>受診不可</td><td>前立腺がん治療中・前立腺全摘手術を受けた方（経過観察中も含む）</td></tr>
+          <tr><td>検査項目</td><td>問診 ＋ 採血による <strong>PSA（前立腺特異抗原）検査</strong></td></tr>
+        </table>
+        <div class="highlight" style="margin-top:12px">
+          <strong>PSA要精密検査の基準値（令和8年度）</strong>
+          <table style="margin-top:8px">
+            <tr><th>年齢（年度末）</th><th>基準値</th></tr>
+            <tr><td>50〜64歳</td><td>3.0 ng/ml <strong>以上</strong></td></tr>
+            <tr><td>65〜69歳</td><td>3.5 ng/ml <strong>以上</strong></td></tr>
+            <tr><td>70歳以上</td><td>4.0 ng/ml <strong>以上</strong></td></tr>
+          </table>
+        </div>
+        <div class="alert alert-yellow" style="margin-top:8px">
+          <strong>薬の影響に注意：</strong>男性型脱毛症の治療薬（フィナステリド等）や前立腺肥大症の治療薬を服用中の方はPSA値が低く検出される場合があります。泌尿器科専門医や主治医への相談を促してください。
+        </div>
+      </div>
+    </div>
+
+    <!-- 肺がん -->
+    <div class="card">
+      <div class="card-header"><h3>胸部レントゲン検診（肺がん・結核）</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>項目</th><th>内容</th></tr>
+          <tr><td>対象者</td><td>40歳以上の市民（妊婦・妊娠疑いは除く）</td></tr>
+          <tr><td>検査項目（全員）</td><td>質問（問診） ＋ <strong>胸部エックス線検査</strong></td></tr>
+          <tr><td>喀痰細胞診（追加）</td><td><strong>50歳以上</strong> かつ <strong>喫煙指数600以上</strong>（過去の喫煙者含む）の方に実施<br><span class="note">喫煙指数 ＝ 1日の喫煙本数 × 喫煙年数（加熱式タバコはカートリッジ本数で換算）</span></td></tr>
+          <tr><td>受診券の取扱い</td><td><strong>胸部レントゲン検診部分を回収（返却不要）</strong></td></tr>
+          <tr><td>血疾の訴えがある場合</td><td>検診ではなく有症状の疑いとして、専門医療機関への受診を案内</td></tr>
+        </table>
+        <div class="alert alert-red" style="margin-top:12px">
+          <strong>受診券は切り取って回収してください。</strong>他の検診（がん検診等）は受診券に日付を記入して返却しますが、胸部レントゲン検診のみ回収です。
+        </div>
+      </div>
+    </div>
+
+    <!-- 女性の一般健診 -->
+    <div class="card">
+      <div class="card-header"><h3>女性の一般健康診査</h3></div>
+      <div class="card-body">
+        <table>
+          <tr><th>項目</th><th>内容</th></tr>
+          <tr><td>対象者</td><td>20〜39歳の市民（女性）</td></tr>
+          <tr><td>検査項目</td><td>
+            問診・身体計測（身長・体重・BMI）・理学的検査・血圧測定・尿検査（尿糖・尿蛋白・尿潜血）<br>
+            血液検査：LDL・HDL・中性脂肪・赤血球数・血色素量（Hb）・ヘマトクリット
+          </td></tr>
+          <tr><td>注意点</td><td>国保特定健診・長寿健診の対象外となる年代の女性向け健診</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>保険医協会新聞まとめ｜勉強資料</title>
+<style>
+:root{
+  --blue:#1558a0;--blue-m:#1e74c8;--blue-lt:#dbeafe;--blue-xl:#eff6ff;
+  --teal:#0d9488;--teal-lt:#f0fdfa;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --purple:#7c3aed;--purple-lt:#f5f3ff;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --orange:#ea580c;--orange-lt:#fff7ed;
+  --sky:#0284c7;--sky-lt:#f0f9ff;
+  --gray:#64748b;--gray-lt:#f1f5f9;--gray-m:#e2e8f0;
+  --text:#0f172a;--sub:#475569;--bg:#f0f4f8;--white:#fff;
+  --r:12px;--r-sm:8px;
+  --sidebar:240px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  font-size:15px;line-height:1.7;color:var(--text);background:var(--bg)}
+
+/* ── Sidebar ── */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar);height:100vh;
+  background:linear-gradient(180deg,#1e3a5f 0%,#1558a0 100%);
+  overflow-y:auto;z-index:200;display:flex;flex-direction:column;
+  padding-bottom:24px}
+.sb-logo{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.12)}
+.sb-logo-link{display:flex;align-items:center;gap:8px;text-decoration:none}
+.sb-logo-icon{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.sb-logo-text{color:#fff;font-size:13px;font-weight:800;line-height:1.25}
+.sb-logo-sub{color:rgba(255,255,255,.6);font-size:10px;font-weight:600}
+.sb-section{padding:14px 0 0}
+.sb-section-label{padding:0 16px 6px;font-size:10px;font-weight:700;
+  color:rgba(255,255,255,.45);letter-spacing:.08em;text-transform:uppercase}
+.sb-link{display:flex;align-items:center;gap:8px;padding:8px 16px;
+  text-decoration:none;color:rgba(255,255,255,.75);font-size:12.5px;font-weight:600;
+  border-radius:0;transition:background .12s,color .12s;cursor:pointer;
+  border:none;background:none;width:100%;text-align:left}
+.sb-link:hover{background:rgba(255,255,255,.12);color:#fff}
+.sb-link.active{background:rgba(255,255,255,.18);color:#fff}
+.sb-link-icon{width:20px;text-align:center;font-size:14px;flex-shrink:0}
+
+/* ── Top bar (mobile) ── */
+.ep-bar{position:fixed;top:0;left:0;right:0;z-index:300;height:52px;
+  background:linear-gradient(135deg,#1558a0,#0d9488);
+  display:flex;align-items:center;padding:0 12px;gap:8px;
+  box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.menu-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.18);
+  border:none;color:#fff;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ep-bar-title{flex:1;color:#fff;font-size:14px;font-weight:800;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ep-bar-back{color:rgba(255,255,255,.85);font-size:12px;font-weight:600;
+  text-decoration:none;padding:6px 10px;border-radius:6px;
+  background:rgba(255,255,255,.15);flex-shrink:0;white-space:nowrap}
+.ep-bar-back:hover{background:rgba(255,255,255,.25)}
+
+/* ── Overlay ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:150;
+  opacity:0;pointer-events:none;transition:opacity .2s}
+.overlay.open{opacity:1;pointer-events:auto}
+
+/* ── Page body ── */
+.page-body{margin-left:var(--sidebar);display:block}
+.main-inner{padding:24px 24px 80px;max-width:900px}
+
+/* ── Hero ── */
+.hero{background:linear-gradient(135deg,#1558a0,#0d9488);
+  padding:28px 24px 24px;color:#fff}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.2);border-radius:20px;
+  padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.04em;margin-bottom:10px}
+.hero h1{font-size:22px;font-weight:900;margin-bottom:6px;line-height:1.3}
+.hero p{font-size:13px;opacity:.88;line-height:1.65}
+.hero-meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+.hero-chip{background:rgba(255,255,255,.18);border-radius:8px;
+  padding:5px 12px;font-size:11.5px;font-weight:700;color:#fff}
+
+/* ── Section ── */
+.section{margin-top:28px}
+.section-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  padding-bottom:8px;border-bottom:2px solid var(--gray-m)}
+.section-head h2{font-size:16px;font-weight:800;color:var(--text)}
+.section-icon{width:36px;height:36px;border-radius:var(--r-sm);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+
+/* ── Topic cards ── */
+.topic-card{background:var(--white);border-radius:var(--r);
+  box-shadow:0 1px 6px rgba(0,0,0,.08);margin-bottom:14px;overflow:hidden}
+.topic-head{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;
+  border-bottom:1px solid var(--gray-m);cursor:pointer;
+  transition:background .12s}
+.topic-head:hover{background:var(--gray-lt)}
+.topic-head-icon{width:40px;height:40px;border-radius:var(--r-sm);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0}
+.topic-head-text{flex:1;min-width:0}
+.topic-tag{font-size:10.5px;font-weight:700;color:var(--sub);margin-bottom:2px}
+.topic-title{font-size:14.5px;font-weight:800;color:var(--text);line-height:1.3}
+.topic-chevron{color:var(--sub);font-size:16px;transition:transform .2s;flex-shrink:0;padding-top:2px}
+.topic-card.open .topic-chevron{transform:rotate(90deg)}
+.topic-body{display:none;padding:16px;background:#fafbfc;border-top:1px solid var(--gray-m)}
+.topic-card.open .topic-body{display:block}
+
+/* ── Content styles ── */
+.info-table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+.info-table th{background:var(--blue-lt);color:var(--blue);font-weight:700;
+  padding:7px 10px;text-align:left;border:1px solid var(--gray-m)}
+.info-table td{padding:7px 10px;border:1px solid var(--gray-m);vertical-align:top;line-height:1.6}
+.info-table tr:nth-child(even) td{background:var(--gray-lt)}
+
+.alert{border-radius:var(--r-sm);padding:10px 14px;margin:10px 0;
+  font-size:13px;line-height:1.65;display:flex;gap:8px}
+.alert-icon{font-size:16px;flex-shrink:0;line-height:1.4}
+.alert.red{background:var(--red-lt);border-left:3px solid var(--red)}
+.alert.amber{background:var(--amber-lt);border-left:3px solid var(--amber)}
+.alert.green{background:var(--green-lt);border-left:3px solid var(--green)}
+.alert.blue{background:var(--blue-lt);border-left:3px solid var(--blue)}
+.alert.sky{background:var(--sky-lt);border-left:3px solid var(--sky)}
+
+.point-list{list-style:none;padding:0;margin:6px 0}
+.point-list li{display:flex;gap:8px;font-size:13px;padding:4px 0;line-height:1.6;
+  border-bottom:1px solid var(--gray-m)}
+.point-list li:last-child{border-bottom:none}
+.point-list li::before{content:"▶";color:var(--blue);font-size:11px;flex-shrink:0;padding-top:3px}
+.point-list.check li::before{content:"✓";color:var(--green);font-size:13px;padding-top:2px}
+.point-list.warn li::before{content:"⚠";color:var(--amber);font-size:12px;padding-top:2px}
+.point-list.x li::before{content:"✕";color:var(--red);font-size:13px;padding-top:2px}
+
+.code-box{background:#1e293b;color:#e2e8f0;border-radius:var(--r-sm);
+  padding:10px 14px;font-size:12px;font-family:monospace;line-height:1.8;
+  margin:8px 0;overflow-x:auto}
+
+.sub-head{font-size:13px;font-weight:800;color:var(--text);
+  margin:12px 0 6px;padding-left:10px;border-left:3px solid var(--blue)}
+
+.issue-badge{display:inline-flex;align-items:center;gap:4px;
+  background:var(--blue-lt);color:var(--blue);border-radius:20px;
+  font-size:10.5px;font-weight:700;padding:2px 10px;margin-bottom:8px}
+
+.sep{height:1px;background:var(--gray-m);margin:12px 0}
+
+.flex-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+.mini-card{background:var(--white);border:1px solid var(--gray-m);
+  border-radius:var(--r-sm);padding:10px 12px}
+.mini-card .label{font-size:10.5px;font-weight:700;color:var(--sub);margin-bottom:3px}
+.mini-card .value{font-size:13px;font-weight:800;color:var(--text)}
+
+/* ── TOC ── */
+.toc-box{background:var(--blue-xl);border:1px solid var(--blue-lt);
+  border-radius:var(--r);padding:14px 16px;margin-bottom:20px}
+.toc-box h3{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px}
+.toc-list{list-style:none;padding:0;margin:0;
+  display:grid;grid-template-columns:1fr 1fr;gap:2px 16px}
+.toc-list a{font-size:12.5px;color:var(--blue);text-decoration:none;
+  display:flex;align-items:center;gap:5px;padding:2px 0}
+.toc-list a:hover{text-decoration:underline}
+.toc-list a::before{content:"→";font-size:10px;flex-shrink:0}
+
+/* ── responsive ── */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);transition:transform .25s}
+  .sidebar.open{transform:translateX(0)}
+  .page-body{margin-left:0;padding-top:52px}
+  .ep-bar{display:flex}
+  .main-inner{padding:16px 14px 80px}
+  .hero{padding:20px 14px 18px}
+  .hero h1{font-size:18px}
+  .flex-2{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+@media(min-width:769px){
+  .ep-bar{display:none}
+  .overlay{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <a href="../index.html" class="sb-logo-link">
+      <div class="sb-logo-icon">📚</div>
+      <div>
+        <div class="sb-logo-text">勉強資料</div>
+        <div class="sb-logo-sub">保険医協会新聞まとめ</div>
+      </div>
+    </a>
+  </div>
+  <div class="sb-section" style="padding-top:10px;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:10px">
+    <a class="sb-link" href="index.html" style="color:#fff;font-weight:800">
+      <span class="sb-link-icon">←</span>勉強資料一覧へ戻る
+    </a>
+    <a class="sb-link" href="../index.html">
+      <span class="sb-link-icon">🏠</span>マニュアルトップ
+    </a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">目次</div>
+    <button class="sb-link active" onclick="jumpTo('s1')">
+      <span class="sb-link-icon">💊</span>長期収載品・選定療養
+    </button>
+    <button class="sb-link" onclick="jumpTo('s2')">
+      <span class="sb-link-icon">🪪</span>マイナ保険証・資格確認
+    </button>
+    <button class="sb-link" onclick="jumpTo('s3')">
+      <span class="sb-link-icon">📊</span>医療DX推進体制整備加算
+    </button>
+    <button class="sb-link" onclick="jumpTo('s4')">
+      <span class="sb-link-icon">🏥</span>外来感染対策向上加算
+    </button>
+    <button class="sb-link" onclick="jumpTo('s5')">
+      <span class="sb-link-icon">📋</span>生活習慣病管理料
+    </button>
+    <button class="sb-link" onclick="jumpTo('s6')">
+      <span class="sb-link-icon">💰</span>ベースアップ評価料
+    </button>
+    <button class="sb-link" onclick="jumpTo('s7')">
+      <span class="sb-link-icon">🏠</span>かかりつけ医機能報告
+    </button>
+    <button class="sb-link" onclick="jumpTo('s8')">
+      <span class="sb-link-icon">🔍</span>審査の一般的取扱い
+    </button>
+    <button class="sb-link" onclick="jumpTo('s9')">
+      <span class="sb-link-icon">📅</span>年末年始・休日加算
+    </button>
+    <button class="sb-link" onclick="jumpTo('s10')">
+      <span class="sb-link-icon">💴</span>補助金・支援事業
+    </button>
+    <button class="sb-link" onclick="jumpTo('s11')">
+      <span class="sb-link-icon">🔮</span>令和8年度改定情報
+    </button>
+    <button class="sb-link" onclick="jumpTo('s12')">
+      <span class="sb-link-icon">📌</span>個別指導・査定対策
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile top bar -->
+<div class="ep-bar">
+  <button class="menu-btn" id="menuBtn" onclick="toggleMenu()">☰</button>
+  <div class="ep-bar-title">保険医協会新聞まとめ</div>
+  <a href="index.html" class="ep-bar-back">← 一覧</a>
+</div>
+
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+<div class="page-body">
+<main class="main-inner">
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">📰 岡山保険医新聞</div>
+  <h1>保険医協会新聞 まとめ</h1>
+  <p>第1018〜1038号（2024年10月〜2025年8月）から、<br>当院（無床診療所・内科）に関わる診療報酬情報を抽出・整理しました</p>
+  <div class="hero-meta">
+    <span class="hero-chip">📅 対象期間：2024年10月〜2025年8月</span>
+    <span class="hero-chip">📋 全21号を収録</span>
+    <span class="hero-chip">🏥 無床診療所向け</span>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc-box" style="margin-top:20px">
+  <h3>📋 このページの内容</h3>
+  <ul class="toc-list">
+    <li><a href="#s1">長期収載品・選定療養</a></li>
+    <li><a href="#s2">マイナ保険証・資格確認</a></li>
+    <li><a href="#s3">医療DX推進体制整備加算</a></li>
+    <li><a href="#s4">外来感染対策向上加算</a></li>
+    <li><a href="#s5">生活習慣病管理料</a></li>
+    <li><a href="#s6">ベースアップ評価料</a></li>
+    <li><a href="#s7">かかりつけ医機能報告制度</a></li>
+    <li><a href="#s8">審査の一般的取扱い（支払基金）</a></li>
+    <li><a href="#s9">年末年始・休日加算</a></li>
+    <li><a href="#s10">補助金・支援事業</a></li>
+    <li><a href="#s11">令和8年度改定情報</a></li>
+    <li><a href="#s12">個別指導・査定対策</a></li>
+  </ul>
+</div>
+
+<!-- =================== S1 長期収載品 =================== -->
+<div class="section" id="s1">
+  <div class="section-head">
+    <div class="section-icon" style="background:var(--purple-lt)">💊</div>
+    <h2>長期収載品・選定療養</h2>
+  </div>
+
+  <div class="alert amber">
+    <span class="alert-icon">⚠️</span>
+    <div><strong>2024年10月1日施行</strong>（第1018号・第1019号）<br>
+    後発品のある先発医薬品（長期収載品）を患者希望で処方する場合、差額の1/4を「特別の料金」として患者から徴収する制度が始まりました。</div>
+  </div>
+
+  <div class="topic-card open">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--purple-lt);color:var(--purple)">📌</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1018号 · 2024年10月10日</div>
+        <div class="topic-title">選定療養の対象外となる場合</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-head">選定療養の対象外（従来の保険診療と同様）</div>
+      <ul class="point-list check">
+        <li>医師・歯科医師が「医療上の必要がある」と認めた場合（①〜④）</li>
+        <li>後発医薬品の在庫不足等で後発品の提供が困難な場合</li>
+        <li>入院患者への処方（退院時処方含む）</li>
+        <li><strong>外来患者（往診・訪問診療含む）への注射・検査・処置・手術に使用した場合</strong>（2024年9月25日に解釈変更）</li>
+      </ul>
+      <div class="alert green">
+        <span class="alert-icon">💡</span>
+        <div><strong>医療上必要と判断できる主な理由：</strong><br>
+        ①効能・効果に差異がある ②副作用・相互作用で先発品が必要 ③ガイドラインで推奨 ④剤形上の違い（一包化不可等）</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--purple-lt);color:var(--purple)">📝</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1018号 · 2024年10月10日</div>
+        <div class="topic-title">レセプト記載・処方箋記載方法</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-head">院内処方のレセプト記載（患者希望で選定療養とする場合）</div>
+      <ul class="point-list">
+        <li>薬品名の後に「（選）」を記載</li>
+        <li>選定療養に係る額を除いた薬価から算出した点数を記載</li>
+      </ul>
+      <div class="code-box">記載例：●●●錠（選）1錠　・660</div>
+      <div class="sub-head">院外処方の処方箋記載</div>
+      <ul class="point-list">
+        <li>「患者希望」欄に「✓」または「×」を医薬品ごとに記載</li>
+        <li>医療上の必要性がある場合は「変更不可（医療上必要）」欄にチェック</li>
+      </ul>
+      <div class="sub-head">保険適用とする場合のレセプト摘要欄コード</div>
+      <table class="info-table">
+        <tr><th>コード</th><th>理由</th></tr>
+        <tr><td>820101320</td><td>効能・効果に差異があるため</td></tr>
+        <tr><td>820101321</td><td>副作用・相互作用・治療効果に差異があったため</td></tr>
+        <tr><td>820101322</td><td>ガイドラインで後発品への切り替えが推奨されていないため</td></tr>
+        <tr><td>820101323</td><td>剤形上の違いにより先発品が必要なため</td></tr>
+        <tr><td>820101324</td><td>在庫状況等を踏まえ後発品の提供が困難なため</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--purple-lt);color:var(--purple)">🏪</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1018号 · 第1020号</div>
+        <div class="topic-title">院内掲示・ウェブサイト掲載義務</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <ul class="point-list">
+        <li>後発医薬品のある先発医薬品（ジスロマック錠250mg等）を処方する場合、院内掲示が必要</li>
+        <li>ウェブサイトへの掲載も義務付け（ホームページがある医療機関）</li>
+      </ul>
+      <div class="alert red">
+        <span class="alert-icon">⚠️</span>
+        <div><strong>経過措置は2025年5月31日で終了</strong><br>
+        ホームページがある医療機関は、2025年5月31日までに掲示事項をウェブサイトに掲載が必要です（院内掲示は経過措置なし・即時義務）</div>
+      </div>
+      <div class="sep"></div>
+      <div class="sub-head">医療費控除について（第1030号）</div>
+      <p style="font-size:13px">患者が長期収載品を希望して支払う「特別の料金」は、<strong>医療費控除の対象</strong>となります。マイナポータル連携の「医療費通知情報」にも反映されます。</p>
+    </div>
+  </div>
+</div>
+
+<!-- =================== S2 マイナ保険証 =================== -->
+<div class="section" id="s2">
+  <div class="section-head">
+    <div class="section-icon" style="background:var(--teal-lt)">🪪</div>
+    <h2>マイナ保険証・資格確認</h2>
+  </div>
+
+  <div class="alert amber">
+    <span class="alert-icon">📅</span>
+    <div><strong>重要な日付</strong>（第1019-1021号・第1036-1038号）<br>
+    2024年12月2日以降：紙の保険証廃止・資格確認書制度開始<br>
+    2025年12月1日：現行保険証の使用期限<br>
+    2025年7月末：後期高齢者の健康保険証が全て有効期限切れ</div>
+  </div>
+
+  <div class="topic-card open">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--teal-lt);color:var(--teal)">🪪</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1019号〜1021号 · 2024年10-11月</div>
+        <div class="topic-title">12月2日以降の資格確認方法</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-head">2024年12月2日以降の提示方法（優先順）</div>
+      <table class="info-table">
+        <tr><th>方法</th><th>内容</th></tr>
+        <tr><td>①マイナ保険証</td><td>カードリーダーにかざして電子資格確認</td></tr>
+        <tr><td>②資格確認書</td><td>マイナ保険証を持たない人に発行（有効期間4〜5年）</td></tr>
+        <tr><td>③現行保険証</td><td>2025年12月1日まで使用可</td></tr>
+      </table>
+      <div class="sub-head">オンライン資格確認ができなかった場合</div>
+      <ul class="point-list">
+        <li>再診：マイナポータル画面または資格情報のお知らせで確認可</li>
+        <li>初診：被保険者資格申立書＋口頭確認</li>
+        <li>レセプト請求：①現在の被保険者番号を入力 → ②過去の受診歴から確認 → ③不詳として「7」を必要桁数入力</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--teal-lt);color:var(--teal)">⏰</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1036号〜1038号 · 2025年7-8月</div>
+        <div class="topic-title">後期高齢者保険証の有効期限切れ（2025年7月末）</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="alert red">
+        <span class="alert-icon">🚨</span>
+        <div><strong>2025年7月末で後期高齢者の保険証は全て有効期限切れ</strong><br>
+        マイナ保険証の有無にかかわらず、全ての後期高齢者に「資格確認書」が送付されています</div>
+      </div>
+      <div class="sub-head">有効期限切れ保険証を持参した患者への対応</div>
+      <ul class="point-list">
+        <li>10割負担を求めず、オンライン資格確認システムで資格照会する</li>
+        <li>患者が電子資格確認を受ける（マイナンバーカード）か、資格確認書を持参している場合は通常通り</li>
+        <li>「資格情報のお知らせ」のみ持参した場合も、オンライン資格確認で補完可能</li>
+      </ul>
+      <div class="sep"></div>
+      <div class="sub-head">医療情報取得加算の点数変更（第1021号・2024年12月1日〜）</div>
+      <table class="info-table">
+        <tr><th>区分</th><th>点数</th><th>算定頻度</th><th>コード</th></tr>
+        <tr><td>医療情報取得加算（初診）</td><td>1点</td><td>月1回</td><td>111703270</td></tr>
+        <tr><td>医療情報取得加算（再診）</td><td>1点</td><td>3ヶ月1回</td><td>112708970</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--sub);margin-top:6px">※12月1日以前は初診3点（現行保険証）・1点（マイナ）など区分別でしたが、統一されました。</p>
+    </div>
+  </div>
+</div>
+
+<!-- =================== S3 医療DX =================== -->
+<div class="section" id="s3">
+  <div class="section-head">
+    <div class="section-icon" style="background:var(--blue-lt)">📊</div>
+    <h2>医療DX推進体制整備加算</h2>
+  </div>
+
+  <div class="alert blue">
+    <span class="alert-icon">ℹ️</span>
+    <div>初診時に算定。マイナ保険証利用率等の施設基準を満たす医療機関が対象。要件が段階的に変更されています。</div>
+  </div>
+
+  <div class="topic-card open">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--blue-lt);color:var(--blue)">📊</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1022〜1038号 · 継続更新</div>
+        <div class="topic-title">算定区分と点数の変遷</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-head">2024年10月〜2025年3月（旧制度）</div>
+      <table class="info-table">
+        <tr><th>区分</th><th>点数（医科）</th><th>マイナ保険証利用率（レセプト件数ベース）</th></tr>
+        <tr><td>加算1</td><td>11点</td><td>15%以上</td></tr>
+        <tr><td>加算2</td><td>〃</td><td>10%以上</td></tr>
+        <tr><td>加算3</td><td>〃</td><td>5%以上</td></tr>
+      </table>
+      <div class="sep"></div>
+      <div class="sub-head">2025年4月〜9月（新制度）</div>
+      <table class="info-table">
+        <tr><th>区分</th><th>点数（医科）</th><th>主な施設基準</th></tr>
+        <tr><td>加算1</td><td><strong>12点</strong></td><td>電子処方箋の発行体制、マイナ保険証利用率30%以上</td></tr>
+        <tr><td>加算2</td><td><strong>11点</strong></td><td>マイナ保険証利用率20%以上</td></tr>
+        <tr><td>加算3</td><td><strong>10点</strong></td><td>マイナ保険証利用率10%以上</td></tr>
+      </table>
+      <div class="alert amber">
+        <span class="alert-icon">⚠️</span>
+        <div><strong>2025年10月以降さらに要件変更予定</strong>（第1038号・2025年8月10日）<br>
+        厚生労働省が7月23日中医協に改正案提出。10月1日から新たな算定要件を設ける予定（詳細は近く通知）</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--blue-lt);color:var(--blue)">🏠</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1026号〜1029号 · 2025年2-3月</div>
+        <div class="topic-title">在宅医療DX情報活用加算（2025年4月新設）</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <ul class="point-list">
+        <li>在宅訪問時にマイナポータル等から取得した診療情報・薬剤情報を活用した場合に算定</li>
+        <li>電子処方箋導入済みの医療機関が算定する場合は<strong>届出直しが必要</strong>（2025年4月4日まで提出で4月1日に遡及算定可）</li>
+        <li>算定要件確認事項：①電子処方箋体制 ②マイナ保険証利用率要件 ③小児科は9月末まで特例あり</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- =================== S4 外来感染対策 =================== -->
+<div class="section" id="s4">
+  <div class="section-head">
+    <div class="section-icon" style="background:var(--green-lt)">🏥</div>
+    <h2>外来感染対策向上加算</h2>
+  </div>
+
+  <div class="topic-card open">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--green-lt);color:var(--green)">🔄</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1020号〜1022号 · 2024年11-12月</div>
+        <div class="topic-title">施設基準の再届出（経過措置終了：2024年12月31日）</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="alert red">
+        <span class="alert-icon">🚨</span>
+        <div><strong>2024年12月31日で経過措置終了</strong><br>
+        2024年3月31日以前に届出済みの医療機関が2025年1月1日以降も算定する場合、<strong>2024年12月31日までに中国四国厚生局へ再届出</strong>が必要でした。</div>
+      </div>
+      <div class="sub-head">2024年改定で追加された施設基準（主なもの）</div>
+      <ul class="point-list">
+        <li>感染症法38条2項に基づく<strong>第二種協定指定医療機関</strong>であること（医療措置協定の締結）</li>
+        <li>発熱患者等の受入体制（空間的・時間的分離による動線分け等）</li>
+        <li>マイナポータルの医療情報等に基づく健康管理相談への対応体制（加算1・2の場合）</li>
+      </ul>
+      <div class="alert amber">
+        <span class="alert-icon">⚠️</span>
+        <div>再届出をしていない場合、<strong>発熱患者等対応加算（20点）も算定不可</strong>になりますのでご注意ください。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== S5 生活習慣病管理料 =================== -->
+<div class="section" id="s5">
+  <div class="section-head">
+    <div class="section-icon" style="background:var(--amber-lt)">📋</div>
+    <h2>生活習慣病管理料</h2>
+  </div>
+
+  <div class="topic-card open">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--amber-lt);color:var(--amber)">🔁</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1020号 · 2024年11月10日</div>
+        <div class="topic-title">管理料（Ⅰ）⇔（Ⅱ）の移行ルール</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-head">（Ⅰ）から（Ⅱ）への移行</div>
+      <div class="alert amber">
+        <span class="alert-icon">⚠️</span>
+        <div>管理料（Ⅰ）を算定した月から<strong>6ヶ月以内</strong>は、管理料（Ⅱ）は算定できない</div>
+      </div>
+      <div class="code-box">例：6月に管理料（Ⅰ）を算定
+→ 7〜11月に（Ⅰ）を算定していなければ
+→ 12月より（Ⅱ）へ移行可能</div>
+      <div class="sep"></div>
+      <div class="sub-head">（Ⅱ）から（Ⅰ）への移行</div>
+      <ul class="point-list check">
+        <li>特に規定なし：管理料（Ⅱ）を算定した<strong>翌月から（Ⅰ）へ移行可能</strong></li>
+      </ul>
+      <div class="sep"></div>
+      <div class="sub-head">在宅療養指導管理料との関係</div>
+      <ul class="point-list check">
+        <li>生活習慣病管理料（Ⅱ）＋在宅持続陽圧呼吸療法指導管理料：<strong>併算定可能</strong></li>
+      </ul>
+      <ul class="point-list x">
+        <li>糖尿病を主病とする場合、在宅自己注射指導管理料とは<strong>併算定不可</strong></li>
+      </ul>
+      <div class="sep"></div>
+      <div class="sub-head">施設入所者への算定</div>
+      <table class="info-table">
+        <tr><th>施設</th><th>算定可否</th></tr>
+        <tr><td>認知症対応型グループホーム</td><td>✅ 算定可</td></tr>
+        <tr><td>特別養護老人ホーム（配置医師）</td><td>❌ 算定不可</td></tr>
+        <tr><td>特別養護老人ホーム（配置医師以外）</td><td>✅ 算定可</td></tr>
+      </table>
+      <div class="sep"></div>
+      <div class="sub-head">皮下グルコース用電極について（疑義解釈）</div>
+      <div class="alert red">
+        <span class="alert-icon">❌</span>
+        <div>生活習慣病管理料注3の加算（血糖自己測定に係るもの）の算定時、<strong>皮下グルコース用電極は別算定できません</strong>（その費用も加算点数に含まれます）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== S6 ベースアップ評価料 =================== -->
+<div class="section" id="s6">
+  <div class="section-head">
+    <div class="section-icon" style="background:var(--green-lt)">💰</div>
+    <h2>ベースアップ評価料</h2>
+  </div>
+
+  <div class="topic-card open">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--green-lt);color:var(--green)">📑</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1021号・第1033号 · 2024年11月〜2025年5月</div>
+        <div class="topic-title">賃金改善と報告書提出</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-head">賃金改善の時期（疑義解釈その14）</div>
+      <ul class="point-list">
+        <li>原則として<strong>算定開始月から賃金改善を実施</strong>する必要があります</li>
+        <li>算定する月には賃金改善を実施していることが必要</li>
+        <li>条例改正等のやむを得ない理由がある場合は、年度末までに遡及して賃金改善すればOK</li>
+        <li>令和6年4月以降に賃金改善を行った医療機関は、その改善分も実績として含めてよい</li>
+      </ul>
+      <div class="sep"></div>
+      <div class="sub-head">届出医療機関の報告義務（第1033号）</div>
+      <div class="alert amber">
+        <span class="alert-icon">📄</span>
+        <div><strong>令和7年3月31日までに届出済みの医療機関は以下の提出が必要</strong><br>
+        ①令和7年度賃金改善計画書<br>
+        ②令和6年度賃金改善実績報告書<br>
+        提出先：中国四国厚生局 特設ページ</div>
+      </div>
+      <div class="sep"></div>
+      <div class="sub-head">ウェブサイト掲載義務（第1031号）</div>
+      <div class="alert red">
+        <span class="alert-icon">🚨</span>
+        <div><strong>2025年5月31日で掲載義務の経過措置が終了</strong><br>
+        ベースアップ評価料の届出内容等を院内掲示・ウェブサイトに掲載が必要です（ホームページがある医療機関）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== S7 かかりつけ医機能 =================== -->
+<div class="section" id="s7">
+  <div class="section-head">
+    <div class="section-icon" style="background:var(--sky-lt)">🏠</div>
+    <h2>かかりつけ医機能報告制度</h2>
+  </div>
+
+  <div class="topic-card open">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--sky-lt);color:var(--sky)">📢</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1020号 · 2024年11月10日</div>
+        <div class="topic-title">2025年4月施行・報告対象医療機関と内容</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="alert blue">
+        <span class="alert-icon">ℹ️</span>
+        <div><strong>2025年4月施行</strong>（医療法改正）<br>
+        すべての病院・診療所（特定機能病院・歯科医療機関を除く）が都道府県知事に報告する必要があります</div>
+      </div>
+      <div class="sub-head">報告内容（主なもの）</div>
+      <div class="flex-2">
+        <div class="mini-card">
+          <div class="label">1号機能（必須報告）</div>
+          <div class="value" style="font-size:12px;font-weight:600">日常的な診療を総合的・継続的に行う機能の有無・内容</div>
+        </div>
+        <div class="mini-card">
+          <div class="label">2号機能（報告）</div>
+          <div class="value" style="font-size:12px;font-weight:600">①時間外診療 ②入退院支援 ③在宅医療 ④介護等連携</div>
+        </div>
+      </div>
+      <ul class="point-list">
+        <li>17の診療領域ごとの一次診療対応可否の報告</li>
+        <li>かかりつけ医機能に関する研修修了者の有無</li>
+        <li>健診・予防接種・地域活動（学校医・産業医等）の対応可否</li>
+        <li>報告内容は都道府県が確認・公表</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--sky-lt);color:var(--sky)">⚖️</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1023号 · 2024年12月25日</div>
+        <div class="topic-title">医師偏在対策と診療所への影響</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <p style="font-size:13px;line-height:1.7">財政制度等審議会（2024年11月）から、診療所の報酬単価の適正化・自由開業・自由標榜の見直し等が検討課題として示されています。<br>また、「重点医師偏在対策支援区域（仮称）」の設定や経済的インセンティブ（令和8年度から本格実施）が予定されています。</p>
+      <div class="alert amber">
+        <span class="alert-icon">⚠️</span>
+        <div>無床診療所への影響が予想される政策動向として引き続き注視が必要です</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== S8 審査の一般的取扱い =================== -->
+<div class="section" id="s8">
+  <div class="section-head">
+    <div class="section-icon" style="background:var(--purple-lt)">🔍</div>
+    <h2>審査の一般的取扱い（支払基金）</h2>
+  </div>
+
+  <div class="alert blue">
+    <span class="alert-icon">ℹ️</span>
+    <div>支払基金が公表している「審査の一般的な取扱い（医科）」から、当院で算定する可能性のある項目を抜粋しています。詳細は支払基金HPでご確認ください。</div>
+  </div>
+
+  <div class="topic-card open">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--purple-lt);color:var(--purple)">🔬</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1027号 · 2025年2月25日</div>
+        <div class="topic-title">内視鏡前の一般検査算定</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-head">内視鏡検査前の一般検査として原則認められるもの</div>
+      <ul class="point-list check">
+        <li>末梢血液一般検査</li>
+      </ul>
+      <div class="sub-head">内視鏡検査前に原則認められない検査</div>
+      <ul class="point-list x">
+        <li>フィブリノゲン半定量・定量</li>
+        <li>ABO血液型・Rh（D）血液型</li>
+        <li>CRP定性・CRP</li>
+        <li>心電図検査（12誘導）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--purple-lt);color:var(--purple)">🩸</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1032号 · 2025年5月10日</div>
+        <div class="topic-title">HbA1c・甲状腺検査の算定</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-head">HbA1cの算定間隔</div>
+      <div class="alert amber">
+        <span class="alert-icon">📌</span>
+        <div><strong>糖尿病疑い</strong>に対するHbA1cの算定間隔は、原則として<strong>3ヶ月に1回</strong></div>
+      </div>
+      <div class="sub-head">TSH・FT4・FT3の算定（甲状腺疾患）</div>
+      <p style="font-size:13px;margin-bottom:8px">原則として認められる場合（初診時または診断時）：</p>
+      <div class="flex-2">
+        <ul class="point-list check" style="font-size:12px">
+          <li>バセドウ病</li>
+          <li>慢性甲状腺炎・橋本病</li>
+          <li>亜急性甲状腺炎</li>
+          <li>無痛性甲状腺炎</li>
+          <li>急性化膿性甲状腺炎</li>
+        </ul>
+        <ul class="point-list check" style="font-size:12px">
+          <li>甲状腺癌（疑い・術後含む）</li>
+          <li>悪性甲状腺腫瘍（疑い・術後含む）</li>
+          <li>結節性甲状腺腫（初診・診断時）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--purple-lt);color:var(--purple)">🩻</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1037号 · 2025年7月25日</div>
+        <div class="topic-title">画像診断・外来栄養食事指導料の算定</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-head">単純撮影の一連算定（骨盤・股関節等）</div>
+      <ul class="point-list">
+        <li>右股関節痛→骨盤及び右股関節の写真診断：左右各々の算定は原則100分の100</li>
+        <li>腰椎圧迫骨折→腰椎及び骨盤：一連の取扱い</li>
+        <li>骨粗鬆症→胸椎と腰椎：一連の取扱い</li>
+      </ul>
+      <div class="sep"></div>
+      <div class="sub-head">外来栄養食事指導料</div>
+      <div class="alert red">
+        <span class="alert-icon">❌</span>
+        <div><strong>耐糖能異常</strong>に対するB001「9」外来栄養食事指導料・「10」入院栄養食事指導料・「11」集団栄養食事指導料の算定は、<strong>原則として認められない</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== S9 年末年始 =================== -->
+<div class="section" id="s9">
+  <div class="section-head">
+    <div class="section-icon" style="background:var(--orange-lt)">📅</div>
+    <h2>年末年始・休日加算</h2>
+  </div>
+
+  <div class="topic-card open">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--orange-lt);color:var(--orange)">🎍</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1022号 · 2024年12月10日</div>
+        <div class="topic-title">年末年始の診療報酬取り扱い</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-head">休日加算対象期間</div>
+      <div class="alert blue">
+        <span class="alert-icon">📅</span>
+        <div><strong>12月29日〜1月3日は休日加算の対象</strong><br>
+        12月28日（土）・1月4日（土）は通常の取り扱い</div>
+      </div>
+      <table class="info-table">
+        <tr><th>診療設定</th><th>取り扱い</th></tr>
+        <tr><td>休日を<strong>休診日</strong>に設定し、急患等を診察</td><td>休日加算を算定</td></tr>
+        <tr><td>休日を<strong>診療日</strong>に設定（標榜時間内）</td><td>休日加算は<strong>算定不可</strong></td></tr>
+        <tr><td>休日を診療日とし、標榜時間外に急患等</td><td>休日加算を算定可（診療応需体制を解いていれば）</td></tr>
+      </table>
+      <div class="alert green">
+        <span class="alert-icon">💡</span>
+        <div>夜間・早朝等加算の施設基準を満たす診療所は、標榜時間内は「夜間・早朝等加算」を算定できます</div>
+      </div>
+      <div class="sep"></div>
+      <div class="sub-head">年末年始の投薬（長期投与）</div>
+      <ul class="point-list check">
+        <li>年末年始等で受診困難な場合、1回14日制限がある投薬でも<strong>最大30日分まで</strong>処方可能</li>
+        <li>レセプト「摘要」欄および院外処方箋の「備考」欄に長期投与の理由を記載</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- =================== S10 補助金 =================== -->
+<div class="section" id="s10">
+  <div class="section-head">
+    <div class="section-icon" style="background:var(--green-lt)">💴</div>
+    <h2>補助金・支援事業</h2>
+  </div>
+
+  <div class="topic-card open">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--green-lt);color:var(--green)">💴</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1023号〜第1036号 · 2024年12月〜2025年7月</div>
+        <div class="topic-title">生産性向上・職場環境整備等支援事業（給付金）</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="alert green">
+        <span class="alert-icon">💰</span>
+        <div><strong>診療所（医科・歯科）：18万円/施設</strong><br>
+        病院・有床診療所：4万円/病床<br>
+        訪問看護ステーション：18万円/施設</div>
+      </div>
+      <div class="sub-head">対象要件</div>
+      <ul class="point-list">
+        <li><strong>ベースアップ評価料の算定機関</strong>が支給対象（令和7年3月31日までの届出が必要）</li>
+        <li>令和7年度事業として実施（岡山県）</li>
+        <li>2025年7月10日号で岡山県の要綱・申請書類が公表</li>
+      </ul>
+      <div class="sub-head">活用できる取り組み例（令和6年度から可）</div>
+      <ul class="point-list check">
+        <li>タブレット端末・離床センサー・インカム・WEB会議設備等の導入（ICT機器）</li>
+        <li>床ふきロボット・監視カメラ等の導入</li>
+        <li>医師事務作業補助者・看護補助者の新たな配置（人件費含む）</li>
+        <li>令和7年4月1日以降の取り組みも対象となる見込み</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- =================== S11 令和8年度改定 =================== -->
+<div class="section" id="s11">
+  <div class="section-head">
+    <div class="section-icon" style="background:var(--red-lt)">🔮</div>
+    <h2>令和8年度（2026年度）診療報酬改定情報</h2>
+  </div>
+
+  <div class="topic-card open">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--red-lt);color:var(--red)">📆</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1031号〜第1035号 · 2025年4-6月</div>
+        <div class="topic-title">改定スケジュールと骨太の方針2025</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-head">施行時期</div>
+      <div class="alert amber">
+        <span class="alert-icon">⚠️</span>
+        <div><strong>令和8年度改定の施行時期は「未定」</strong>（2025年4月時点）<br>
+        前回（令和6年度）同様6月施行の可能性が高い</div>
+      </div>
+      <div class="sub-head">骨太の方針2025（2025年6月13日閣議決定）から</div>
+      <ul class="point-list">
+        <li>「今日より明日はよくなる」と実感できる社会へ</li>
+        <li>米国関税措置への対応・賃上げを起点とした成長型経済の実現</li>
+        <li>医療・介護分野の効率化・DX推進が引き続き方向性</li>
+      </ul>
+      <div class="sub-head">財政制度審議会（2024年11月）の主な提言</div>
+      <table class="info-table">
+        <tr><th>テーマ</th><th>内容</th></tr>
+        <tr><td>医師偏在対策</td><td>診療所の報酬単価適正化・自由開業・自由標榜の見直し</td></tr>
+        <tr><td>薬剤費</td><td>OTC医薬品と同一成分の保険給付見直し・自己負担引き上げ</td></tr>
+        <tr><td>高齢者負担</td><td>能力に応じた負担（金融所得・資産の勘案）</td></tr>
+        <tr><td>入院時負担</td><td>食費・部屋代の見直し</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- =================== S12 個別指導 =================== -->
+<div class="section" id="s12">
+  <div class="section-head">
+    <div class="section-icon" style="background:var(--sky-lt)">📌</div>
+    <h2>個別指導・査定対策</h2>
+  </div>
+
+  <div class="topic-card open">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--sky-lt);color:var(--sky)">📋</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1036号 · 2025年7月10日</div>
+        <div class="topic-title">2025年度 個別指導・集団的個別指導の実施予定</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <table class="info-table">
+        <tr><th>種別</th><th>実施予定件数（医科）</th><th>実施予定時期</th></tr>
+        <tr><td>集団的個別指導</td><td>85件</td><td>2025年10月</td></tr>
+        <tr><td>個別指導</td><td>13件</td><td>詳細未公表</td></tr>
+      </table>
+      <div class="alert amber">
+        <span class="alert-icon">⚠️</span>
+        <div><strong>集団的個別指導の対象</strong>：前年の平均点数が一定基準以上の医療機関。2025年6月25日号で平均点数が掲載されました。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--sky-lt);color:var(--sky)">📃</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1025号 · 2025年1月25日</div>
+        <div class="topic-title">保険診療確認事項リスト（2024年版）</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <p style="font-size:13px;line-height:1.7">厚生労働省のホームページに「保険診療確認事項リスト」2024年版が掲載されました。<strong>誤りがおきやすく個別指導で指摘されやすい事項</strong>をまとめたものです。</p>
+      <ul class="point-list">
+        <li>不定期に改定されるため、最新版の確認を定期的に行うことが重要</li>
+        <li>厚生労働省HPで閲覧可能</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-head-icon" style="background:var(--sky-lt);color:var(--sky)">⚡</div>
+      <div class="topic-head-text">
+        <div class="topic-tag">第1025号 · 2025年1月</div>
+        <div class="topic-title">抗菌薬適正使用・PSA検査の留意点</div>
+      </div>
+      <div class="topic-chevron">›</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-head">PSA検査（前立腺特異抗原）の算定</div>
+      <ul class="point-list warn">
+        <li>前立腺癌の確断に向けて検査を行い結果が4.0ng/mL以上でない場合、原則として3回を限度として算定</li>
+        <li>前立腺癌疑いと確定した後は算定ルールが変わるため注意</li>
+      </ul>
+      <div class="sep"></div>
+      <div class="sub-head">抗菌薬の適正使用</div>
+      <ul class="point-list">
+        <li>抗菌薬を投与する場合、学会ガイドラインに沿った適正使用が求められます</li>
+        <li>診療内容の記録（培養検査結果・選択理由）を適切に残すことが重要</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div style="height:40px"></div>
+<div style="font-size:12px;color:var(--sub);text-align:center;padding:16px 0;border-top:1px solid var(--gray-m)">
+  出典：岡山保険医新聞 第1018〜1038号（2024年10月〜2025年8月）をもとにいなだ医院医療事務にて作成
+</div>
+
+</main>
+</div>
+
+<script>
+function toggleMenu(){
+  const sb=document.getElementById('sidebar');
+  const ov=document.getElementById('overlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('open');
+}
+function jumpTo(id){
+  const el=document.getElementById(id);
+  if(el){el.scrollIntoView({behavior:'smooth',block:'start'})}
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+function toggleTopic(btn){
+  const card=btn.closest('.topic-card');
+  card.classList.toggle('open');
+}
+// サイドバーのリンクアクティブ化（スクロール連動）
+const sections=['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11','s12'];
+const links=document.querySelectorAll('.sb-link');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&el.getBoundingClientRect().top<120)cur=id;
+  });
+  links.forEach(l=>{
+    l.classList.remove('active');
+    if(l.getAttribute('onclick')&&l.getAttribute('onclick').includes("jumpTo('"+cur+"')"))
+      l.classList.add('active');
+  });
+},{ passive:true });
+</script>
+</body>
+</html>

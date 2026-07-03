@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第2回 介護保険の基礎 | 当法人特有シリーズ</title>
+<style>
+:root{
+  --blue:#1558a0;--blue-m:#1e74c8;--blue-lt:#dbeafe;--blue-xl:#eff6ff;
+  --teal:#0d9488;--teal-lt:#f0fdfa;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --gray:#64748b;--gray-lt:#f1f5f9;--gray-m:#e2e8f0;
+  --text:#0f172a;--sub:#475569;--bg:#f0f4f8;--white:#fff;
+  --r:12px;--r-sm:8px;--sidebar:220px;--hdr:56px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;font-size:14px;color:var(--text);background:var(--bg);line-height:1.7;}
+
+/* ヘッダー */
+header{
+  position:sticky;top:0;z-index:100;
+  background:linear-gradient(135deg,#0d9488,#1558a0);
+  height:var(--hdr);display:flex;align-items:center;padding:0 20px;gap:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+header a.back{
+  color:#fff;text-decoration:none;font-size:13px;opacity:.85;
+  display:flex;align-items:center;gap:4px;white-space:nowrap;
+}
+header a.back:hover{opacity:1;}
+header .series-name{
+  color:#fff;font-size:15px;font-weight:700;
+  border-left:2px solid rgba(255,255,255,.4);padding-left:16px;
+}
+
+/* レイアウト */
+.layout{display:flex;min-height:calc(100vh - var(--hdr));}
+
+/* サイドバー */
+nav.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--white);border-right:1px solid var(--gray-m);
+  padding:20px 0;position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));
+  overflow-y:auto;
+}
+nav.sidebar .nav-label{
+  font-size:11px;font-weight:700;color:var(--gray);letter-spacing:.05em;
+  padding:0 16px 8px;text-transform:uppercase;
+}
+nav.sidebar ul{list-style:none;}
+nav.sidebar ul li a{
+  display:block;padding:9px 16px;font-size:13px;color:var(--sub);
+  text-decoration:none;border-left:3px solid transparent;
+  transition:all .15s;line-height:1.4;
+}
+nav.sidebar ul li a:hover{background:var(--blue-xl);color:var(--blue);}
+nav.sidebar ul li a.active{
+  background:var(--blue-xl);color:var(--blue);
+  border-left-color:var(--blue);font-weight:700;
+}
+nav.sidebar ul li .ep-num{font-size:11px;color:var(--gray);display:block;margin-bottom:1px;}
+
+/* メインコンテンツ */
+main{flex:1;padding:32px 24px;min-width:0;}
+.content-inner{max-width:700px;margin:0 auto;}
+
+/* ページヘッド */
+.page-head{margin-bottom:32px;}
+.page-head .series-badge{
+  display:inline-block;background:var(--teal);color:#fff;
+  font-size:11px;font-weight:700;border-radius:4px;padding:2px 10px;margin-bottom:10px;
+  letter-spacing:.03em;
+}
+.page-head h1{font-size:22px;font-weight:800;color:var(--text);line-height:1.3;}
+.page-head .meta{margin-top:8px;font-size:13px;color:var(--sub);}
+
+/* セクションブロック */
+.sec-block{margin-bottom:36px;scroll-margin-top:calc(var(--hdr) + 44px);}
+h2.sec-title{
+  font-size:18px;font-weight:800;color:var(--blue);
+  border-left:4px solid var(--blue);padding-left:12px;margin-bottom:16px;
+}
+.lead{font-size:14px;color:var(--sub);margin-bottom:16px;line-height:1.8;}
+
+/* カード */
+.card{
+  background:var(--white);border-radius:var(--r);
+  border:1px solid var(--gray-m);padding:16px 20px;margin-bottom:12px;
+}
+.card-title{font-size:14px;font-weight:800;margin-bottom:6px;color:var(--text);}
+.card p{font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:4px;}
+.card ul{padding-left:18px;margin-top:6px;}
+.card ul li{font-size:13px;color:var(--sub);line-height:1.7;}
+
+/* ポイントボックス・警告ボックス */
+.point-box{
+  background:var(--blue-xl);border-left:4px solid var(--blue);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;
+}
+.point-box p{font-size:13px;color:var(--text);line-height:1.7;}
+.warn-box{
+  background:var(--amber-lt);border-left:4px solid var(--amber);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;
+}
+.warn-box p{font-size:13px;color:#92400e;line-height:1.7;}
+
+/* 緑ボックス */
+.green-box{
+  background:var(--green-lt);border-left:4px solid var(--green);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;
+}
+.green-box p{font-size:13px;color:#14532d;line-height:1.7;}
+
+/* テーブル */
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
+th{background:var(--blue);color:#fff;padding:8px 12px;font-size:13px;text-align:left;}
+td{padding:8px 12px;border:1px solid var(--gray-m);}
+tr:nth-child(even) td{background:var(--gray-lt);}
+
+/* フロー */
+.flow{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin:16px 0;}
+.flow-step{
+  background:var(--blue);color:#fff;border-radius:6px;
+  padding:8px 14px;font-size:13px;font-weight:700;white-space:nowrap;
+}
+.flow-arrow{color:var(--blue);font-size:18px;font-weight:700;}
+
+/* 要介護度バッジ */
+.level-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:12px 0;}
+.level-item{
+  background:var(--white);border:1px solid var(--gray-m);border-radius:8px;
+  padding:10px 12px;
+}
+.level-item .level-name{font-size:13px;font-weight:800;color:var(--blue);}
+.level-item .level-desc{font-size:12px;color:var(--sub);margin-top:3px;line-height:1.5;}
+
+/* 書類一覧 */
+.doc-list{list-style:none;padding:0;}
+.doc-list li{
+  background:var(--white);border:1px solid var(--gray-m);border-radius:8px;
+  padding:12px 16px;margin-bottom:8px;
+}
+.doc-list li .doc-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.doc-list li .doc-desc{font-size:13px;color:var(--sub);line-height:1.6;}
+
+/* まとめリスト */
+.summary-list{list-style:none;padding:0;}
+.summary-list li{
+  padding:10px 14px 10px 40px;position:relative;
+  border-bottom:1px solid var(--gray-m);font-size:14px;line-height:1.7;
+}
+.summary-list li:last-child{border-bottom:none;}
+.summary-list li::before{
+  content:"✔";position:absolute;left:14px;top:10px;
+  color:var(--teal);font-weight:700;
+}
+
+/* 要確認スパン */
+.fill-in{
+  background:#fef9c3;border:1px dashed #d97706;
+  border-radius:4px;padding:1px 6px;font-size:.9em;color:#92400e;
+}
+
+/* ハンバーガー（スマホ用） */
+.ham-btn{
+  display:none;position:fixed;bottom:20px;right:20px;z-index:200;
+  background:var(--blue);color:#fff;border:none;border-radius:50%;
+  width:48px;height:48px;font-size:20px;cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.3);
+}
+.sidebar-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:150;
+}
+
+/* レスポンシブ */
+@media(max-width:640px){
+  nav.sidebar{
+    position:fixed;left:-240px;top:0;height:100vh;z-index:160;
+    width:240px;transition:left .25s;padding-top:calc(var(--hdr) + 12px);
+  }
+  nav.sidebar.open{left:0;}
+  .sidebar-overlay.open{display:block;}
+  .ham-btn{display:flex;align-items:center;justify-content:center;}
+  main{padding:20px 16px;}
+  h2.sec-title{font-size:16px;}
+  .page-head h1{font-size:18px;}
+  table{font-size:12px;}
+  th,td{padding:6px 8px;}
+  .flow{flex-direction:column;align-items:flex-start;}
+  .flow-arrow{transform:rotate(90deg);margin-left:10px;}
+  .level-grid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header>
+  <a class="back" href="../index.html">◀ 勉強資料 TOP</a>
+  <span class="series-name">当法人特有シリーズ</span>
+</header>
+
+<!-- サイドバーオーバーレイ -->
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- レイアウト -->
+<div class="layout">
+
+  <!-- サイドバー -->
+  <nav class="sidebar" id="sidebar">
+    <div class="nav-label">当法人特有シリーズ</div>
+    <ul>
+      <li>
+        <a href="01_当法人の事業所と役割.html">
+          <span class="ep-num">第1回</span>当法人の事業所と役割
+        </a>
+      </li>
+      <li>
+        <a href="02_介護保険の基礎.html" class="active">
+          <span class="ep-num">第2回</span>介護保険の基礎
+        </a>
+      </li>
+      <li>
+        <a href="03_訪問診療と往診の違い.html">
+          <span class="ep-num">第3回</span>訪問診療と往診の違い
+        </a>
+      </li>
+      <li>
+        <a href="04_訪問看護の仕組み.html">
+          <span class="ep-num">第4回</span>訪問看護の仕組み
+        </a>
+      </li>
+      <li>
+        <a href="05_医療と介護の連携実務.html">
+          <span class="ep-num">第5回</span>医療と介護の連携実務
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- メインコンテンツ -->
+  <main>
+    <div class="content-inner">
+
+      <!-- ページヘッド -->
+      <div class="page-head">
+        <div class="series-badge">当法人特有シリーズ</div>
+        <h1>第2回 介護保険の基礎</h1>
+        <div class="meta">医療保険との違いを理解し、日常業務での疑問を解消しよう</div>
+      </div>
+
+      <!-- セクション1 -->
+      <div class="sec-block" id="s1">
+        <h2 class="sec-title">1. 医療保険と介護保険の根本的な違い</h2>
+        <p class="lead">
+          医療事務スタッフが日々扱うのは主に医療保険ですが、当法人では介護保険を使うサービスも多数運営しています。2つの制度は「似て非なるもの」であり、混同すると対応ミスに繋がります。まずは根本的な違いを比較表で整理しましょう。
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>比較項目</th>
+              <th>医療保険</th>
+              <th>介護保険</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>目的</strong></td>
+              <td>病気・けがの治療・回復</td>
+              <td>要介護状態への生活支援・自立促進</td>
+            </tr>
+            <tr>
+              <td><strong>保険者（運営主体）</strong></td>
+              <td>健康保険組合・協会けんぽ・国保等</td>
+              <td>市区町村（保険者が全国に1800以上）</td>
+            </tr>
+            <tr>
+              <td><strong>保険証</strong></td>
+              <td>健康保険証（マイナ保険証含む）</td>
+              <td>介護保険被保険者証（水色の証書）</td>
+            </tr>
+            <tr>
+              <td><strong>利用開始のタイミング</strong></td>
+              <td>いつでも（受診すれば即時）</td>
+              <td>要介護認定を受けた後から</td>
+            </tr>
+            <tr>
+              <td><strong>自己負担割合</strong></td>
+              <td>1割〜3割（年齢・所得による）</td>
+              <td>1割〜3割（所得に応じて）</td>
+            </tr>
+            <tr>
+              <td><strong>給付の上限</strong></td>
+              <td>原則なし（必要な医療を給付）</td>
+              <td>要介護度別に「区分支給限度額」あり</td>
+            </tr>
+            <tr>
+              <td><strong>申請・手続き</strong></td>
+              <td>不要（保険証を提示するだけ）</td>
+              <td>市区町村への要介護認定申請が必要</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="point-box">
+          <p><strong>ポイント：</strong>介護保険は「市区町村が保険者」という点が重要です。同じ患者さんでも、引っ越しをすると介護保険証が変わります。また、サービスを使うには<strong>必ず事前に認定申請が必要</strong>で、認定されてから初めてサービスが使えます。</p>
+        </div>
+      </div>
+
+      <!-- セクション2 -->
+      <div class="sec-block" id="s2">
+        <h2 class="sec-title">2. 要介護認定の仕組み</h2>
+        <p class="lead">
+          介護保険のサービスを利用するためには、まず「要介護認定」を受けることが必須です。この認定を受けることで、どのレベルのサービスをどの程度利用できるかが決まります。
+        </p>
+
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">▌ 申請から認定までの流れ</p>
+        <div class="flow">
+          <div class="flow-step">① 本人・家族が市区町村へ申請</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">② 訪問調査（認定調査員が自宅訪問）</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">③ 主治医意見書の提出</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">④ 介護認定審査会での審査・判定</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">⑤ 認定結果の通知（被保険者証に記載）</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">⑥ ケアマネ選定・ケアプラン作成・サービス利用開始</div>
+        </div>
+
+        <div class="warn-box">
+          <p>⚠ <strong>主治医意見書について：</strong>市区町村から主治医（いなだ医院の医師）宛に意見書の作成依頼が届きます。医療事務が書くものではありませんが、依頼書の受け取りや患者さんへの確認など、窓口業務が発生することがあります。<span class="fill-in">【要確認：主治医意見書の受け取り・処理フロー】</span></p>
+        </div>
+
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin:16px 0 10px;">▌ 要介護度の区分</p>
+        <p class="lead">認定結果は以下の7区分に分かれます。数字が大きいほど介護が必要な状態です。非該当（自立）と判定された場合は介護保険サービスの利用ができません。</p>
+
+        <div class="level-grid">
+          <div class="level-item">
+            <div class="level-name">要支援1</div>
+            <div class="level-desc">日常生活はほぼ自立。一部に支援が必要。</div>
+          </div>
+          <div class="level-item">
+            <div class="level-name">要支援2</div>
+            <div class="level-desc">要支援1より少し介護が必要な状態。</div>
+          </div>
+          <div class="level-item">
+            <div class="level-name">要介護1</div>
+            <div class="level-desc">身の回りの一部に介護が必要。立ち上がりや歩行が不安定。</div>
+          </div>
+          <div class="level-item">
+            <div class="level-name">要介護2</div>
+            <div class="level-desc">歩行・立ち上がりが不安定。排泄・入浴に一部介護が必要。</div>
+          </div>
+          <div class="level-item">
+            <div class="level-name">要介護3</div>
+            <div class="level-desc">排泄・入浴・衣服の着脱等に全介助が必要。</div>
+          </div>
+          <div class="level-item">
+            <div class="level-name">要介護4</div>
+            <div class="level-desc">日常生活のほぼ全般に介助が必要。</div>
+          </div>
+          <div class="level-item">
+            <div class="level-name">要介護5</div>
+            <div class="level-desc">最重度。日常生活全般に介助が必要で、意思疎通も困難な場合あり。</div>
+          </div>
+        </div>
+
+        <div class="point-box">
+          <p><strong>区分支給限度額：</strong>要介護度が高いほど、使えるサービスの限度額（1か月あたりの上限）が大きくなります。限度額を超えてサービスを使う場合は超過分が全額自己負担になります。</p>
+        </div>
+      </div>
+
+      <!-- セクション3 -->
+      <div class="sec-block" id="s3">
+        <h2 class="sec-title">3. ケアマネジャーとは</h2>
+        <p class="lead">
+          介護サービスを利用するうえで中心的な役割を果たすのが「ケアマネジャー」です。医療事務スタッフが電話で連絡を取ることも多い相手なので、役割をしっかり理解しておきましょう。
+        </p>
+
+        <div class="card">
+          <div class="card-title">ケアマネジャー（介護支援専門員）とは</div>
+          <p>正式名称は<strong>介護支援専門員</strong>。介護保険法に基づく資格で、看護師・社会福祉士・介護福祉士などの有資格者が一定の実務経験を経て取得します。</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">主な役割</div>
+          <ul>
+            <li><strong>ケアプランの作成：</strong>利用者の状態・希望をアセスメントし、どのサービスをどの頻度で使うかを計画する</li>
+            <li><strong>サービス調整：</strong>訪問介護・デイサービス・訪問看護などの各事業所と連絡・調整を行う</li>
+            <li><strong>関係機関との連絡：</strong>主治医・病院・市区町村・家族との橋渡しをする</li>
+            <li><strong>給付管理：</strong>区分支給限度額の範囲内でサービスが収まるよう管理する</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">所属と当法人との関係</div>
+          <p>ケアマネジャーは「居宅介護支援事業所」に所属しています。当法人も居宅介護支援事業所を運営しているため、<strong>当法人のケアマネが担当している利用者</strong>が当法人の他のサービス（デイ・訪問看護等）や外来を利用するケースがあります。</p>
+          <p style="margin-top:6px;">また、他の事業所のケアマネが担当する患者さんが、いなだ医院を主治医として受診しているケースも多くあります。どちらのケアマネであっても、電話対応の基本的な流れは同じです。</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">医療事務がケアマネと関わる主な場面</div>
+          <ul>
+            <li>主治医意見書の作成依頼の電話を受ける</li>
+            <li>診療情報提供書（ケアマネ宛）の送付先・部数の確認</li>
+            <li>患者さんの受診状況をケアマネへ報告する際の確認（本人同意の有無）</li>
+            <li>担当ケアマネへの伝言・折り返し連絡</li>
+          </ul>
+          <p style="margin-top:8px;">ケアマネからの電話受付時に確認すること：<span class="fill-in">【要確認：ケアマネからの電話受付チェックシート・引き継ぎ先担当者】</span></p>
+        </div>
+      </div>
+
+      <!-- セクション4 -->
+      <div class="sec-block" id="s4">
+        <h2 class="sec-title">4. 医療保険と介護保険の「同時利用」</h2>
+        <p class="lead">
+          「患者さんが医療保険と介護保険の両方を持っているが、どちらで請求するのか？」という疑問は日常的に発生します。基本的な考え方を整理しておきましょう。
+        </p>
+
+        <div class="card">
+          <div class="card-title">原則：同一傷病に対して両方は使えない</div>
+          <p>同じ疾患・症状に対して医療保険と介護保険を二重に請求することは、原則として認められていません。どちらの保険を使うかは、サービスの種類・内容・提供者によって法令で決まっています。</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">外来診療は常に医療保険</div>
+          <p>いなだ医院の外来で診察・処方・検査を行う場合は、<strong>必ず医療保険で請求</strong>します。患者さんが要介護認定を受けていても、外来診療に介護保険を使うことはありません。</p>
+          <div class="green-box">
+            <p>✔ 受付で介護保険証を見せられた場合は「外来診療では医療保険証（健康保険証）を使います」と丁寧にお伝えし、健康保険証（またはマイナ保険証）を提示いただきましょう。</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">訪問看護は疾患によって医療保険が優先</div>
+          <p>訪問看護は通常は介護保険で提供されますが、以下のような場合は医療保険が適用されます。</p>
+          <ul>
+            <li>末期がん・難病など特定の疾患（厚生労働大臣が定めた疾病等）</li>
+            <li>急性増悪時で主治医から特別指示書が出ている期間</li>
+            <li>精神科訪問看護</li>
+          </ul>
+          <p style="margin-top:6px;">この判断は訪問看護事業所と主治医が行うものであり、医療事務が窓口で決定するものではありません。問い合わせがあれば担当部署へ引き継ぎましょう。</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">当院での介護保険関連の請求</div>
+          <p>当法人では一部のサービスで介護保険を使った請求が発生します。</p>
+          <p style="margin-top:6px;"><span class="fill-in">【要確認：当院で介護保険請求している行為の種類（例：居宅療養管理指導など）】</span></p>
+          <div class="warn-box">
+            <p>⚠ 医療保険と介護保険の同時請求が認められる例外ルールもあります。不明な場合は自己判断せず、必ず担当者に確認しましょう。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- セクション5 -->
+      <div class="sec-block" id="s5">
+        <h2 class="sec-title">5. 医療事務が介護保険に関わる主な書類</h2>
+        <p class="lead">
+          医療事務スタッフが直接作成するわけではありませんが、受け取り・確認・案内で関わることが多い書類を整理します。「何の書類で、なぜ必要なのか」を知っておくと、電話対応や書類引き継ぎがスムーズになります。
+        </p>
+
+        <ul class="doc-list">
+          <li>
+            <div class="doc-name">① 主治医意見書</div>
+            <div class="doc-desc">
+              介護保険の要介護認定申請に必要な書類。市区町村からの依頼で、主治医（当法人の医師）が作成します。患者さんの心身の状態・生活環境・サービスの必要性などを記載し、認定審査会の資料として使用されます。<br>
+              <strong>医療事務の関わり：</strong>市区町村・ケアマネから郵送または電話で依頼が来た場合の受付・引き継ぎ。<span class="fill-in">【要確認：依頼の受付方法・記録票の様式】</span>
+            </div>
+          </li>
+          <li>
+            <div class="doc-name">② 診療情報提供書（ケアマネジャー宛）</div>
+            <div class="doc-desc">
+              医師が患者さんの診療情報をケアマネジャーや他の医療機関へ提供するための書類（紹介状の一種）。ケアプラン作成に必要な医療情報を共有する目的で使われます。<br>
+              <strong>医療事務の関わり：</strong>ケアマネから「先生に情報提供書をお願いしたい」という依頼を受けた場合の受付。依頼内容・送付先・返送先を正確にメモして医師・看護師へ引き継ぎます。
+            </div>
+          </li>
+          <li>
+            <div class="doc-name">③ 居宅療養管理指導の指示書（訪問看護・訪問リハビリ等への指示）</div>
+            <div class="doc-desc">
+              訪問看護師や訪問リハビリスタッフが患者さんの自宅を訪問してケアを行う際、主治医が発行する指示書です。どのようなケアを、どの期間行うかを指示します（訪問看護指示書、訪問リハビリテーション指示書など）。<br>
+              <strong>医療事務の関わり：</strong>訪問看護事業所・訪問リハビリ事業所から指示書の依頼が来ることがあります。依頼の受け付けと医師への取り次ぎが主な業務です。<span class="fill-in">【要確認：訪問看護指示書の発行・管理フロー】</span>
+            </div>
+          </li>
+        </ul>
+
+        <div class="point-box">
+          <p><strong>書類対応の基本姿勢：</strong>書類の依頼を受けた際は「誰から・何の書類・患者名・期限・送付先」の5点を必ずメモし、担当者へ引き継ぎましょう。書類の作成は医師・看護師が行いますが、スムーズな引き継ぎが患者サービスの質を左右します。</p>
+        </div>
+      </div>
+
+      <!-- セクション6 -->
+      <div class="sec-block" id="s6">
+        <h2 class="sec-title">6. まとめ</h2>
+        <ul class="summary-list">
+          <li>医療保険と介護保険は目的・保険者・利用開始条件・給付上限が異なる別制度。外来診療は必ず医療保険で請求する。介護保険証を持参された患者さんには健康保険証の提示を求める。</li>
+          <li>介護保険サービスを使うには要介護認定が必要。認定には主治医意見書が必要で、当院の医師が作成する。依頼を受けた際は「依頼元・患者名・書類種別・期限・送付先」を確認して引き継ぐ。</li>
+          <li>ケアマネジャー（介護支援専門員）は介護サービス全体のコーディネーターで、書類依頼・情報照会の窓口として連絡が来ることが多い。対応の基本は「丁寧に受け取り・正確にメモして引き継ぐ」こと。</li>
+          <li>訪問看護など一部のサービスは疾患や状態によって医療保険と介護保険が切り替わる。不明な場合は自己判断せず担当者へ確認する。</li>
+        </ul>
+      </div>
+
+    </div><!-- /.content-inner -->
+  </main>
+</div><!-- /.layout -->
+
+<!-- ハンバーガーボタン（スマホ用） -->
+<button class="ham-btn" id="hamBtn" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>シュライバー</title>
+<style>
+:root{--blue:#1558a0;--blue-mid:#1e74c8;--blue-light:#dbeafe;--blue-xlight:#eff6ff;--amber:#d97706;--amber-light:#fef3c7;--gray:#64748b;--gray-light:#f1f5f9;--border:#e2e8f0;--text:#0f172a;--bg:#f0f4f8;--white:#ffffff;--radius:12px;--shadow-sm:0 1px 3px rgba(0,0,0,.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;font-size:15px;line-height:1.75;color:var(--text);background:var(--bg);}
+.header{background:linear-gradient(135deg,#0f3d6e 0%,#1558a0 60%,#1e74c8 100%);padding:20px 20px 16px;text-align:center;position:relative;overflow:hidden;}
+.header-inner{position:relative;z-index:1;}
+.header-tag{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;letter-spacing:.08em;margin-bottom:8px;}
+.header h1{color:#fff;font-size:19px;font-weight:800;letter-spacing:.03em;margin-bottom:3px;}
+.header .sub{color:rgba(255,255,255,.7);font-size:11px;}
+.back-link {
+  position: absolute; left: 14px; top: 14px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 5px;
+  color: rgba(255,255,255,.92); font-size: 12px; font-weight: 600; text-decoration: none;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+  border-radius: 20px; padding: 5px 12px; transition: background .15s;
+}
+.back-link:hover { background: rgba(255,255,255,.3); color: #fff; }
+.main{max-width:700px;margin:0 auto;padding:32px 16px 60px;}
+.pending{background:var(--amber-light);border:2px dashed var(--amber);border-radius:var(--radius);padding:32px 20px;text-align:center;margin-bottom:20px;}
+.pending .icon{font-size:48px;margin-bottom:12px;}
+.pending h2{color:var(--amber);font-size:1.1rem;margin-bottom:8px;}
+.pending p{font-size:13px;color:#92400e;line-height:1.7;}
+.flow-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:20px;margin-bottom:14px;}
+.flow-card h3{font-size:.9rem;font-weight:700;color:var(--blue);margin-bottom:10px;border-left:3px solid var(--blue-mid);padding-left:8px;}
+.flow-card p{font-size:13px;color:var(--gray);line-height:1.7;}
+
+/* ── ACCORDION ── */
+.card-head {
+  cursor: pointer; user-select: none;
+}
+.card-head::after {
+  content: '›'; font-size: 20px; font-weight: 300; color: var(--gray);
+  margin-left: auto; line-height: 1; transition: transform .2s; flex-shrink: 0;
+}
+.card.open .card-head::after { transform: rotate(90deg); }
+.card-body { display: none; }
+.card.open .card-body { display: block; }
+
+
+
+/* ── HEADER LOGO ── */
+.header-logo-img {
+  height: 36px; width: auto; object-fit: contain;
+  filter: brightness(0) invert(1); opacity: .92;
+  }
+
+/* ════ UNIFIED HEADER ════ */
+.header, .site-header {
+  position: sticky !important; top: 0; z-index: 100;
+  padding: 0 16px !important;
+  min-height: 56px;
+  display: flex; align-items: center;
+  overflow: visible !important;
+}
+.header-inner {
+  position: relative;
+  display: flex; align-items: center;
+  width: 100%; max-width: 960px; margin: 0 auto;
+  padding: 10px 0 10px 110px; /* 左に back-link 分の余白 */
+  text-align: center;
+}
+/* back-link: 常に左端に固定 */
+.back-link {
+  position: absolute !important;
+  left: 0 !important; top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: inline-flex !important; align-items: center; gap: 5px;
+  color: rgba(255,255,255,.92) !important; font-size: 12px !important;
+  font-weight: 600; text-decoration: none;
+  background: rgba(255,255,255,.18) !important;
+  border: 1px solid rgba(255,255,255,.3) !important;
+  border-radius: 20px; padding: 6px 13px !important;
+  white-space: nowrap; transition: background .15s;
+  margin: 0 !important;
+}
+.back-link:hover { background: rgba(255,255,255,.3) !important; color: #fff !important; }
+/* ロゴ */
+.header-logo-img {
+  height: 30px !important; width: auto;
+  filter: brightness(0) invert(1); opacity: .9;
+  display: block; margin: 0 auto 4px;
+}
+/* タイトルをコンパクトに */
+.header h1, .site-header h1 {
+  font-size: 16px !important; font-weight: 800; color: #fff;
+  letter-spacing: .02em; margin: 0;
+}
+.header .sub, .site-header .subtitle {
+  font-size: 10px !important; color: rgba(255,255,255,.65); margin-top: 1px;
+}
+.header-tag {
+  font-size: 10px; margin-bottom: 2px;
+}
+/* 小幡ページ用 */
+.site-header .staff-badge { font-size: 10px; margin-bottom: 3px; }
+
+/* ════ DESIGN REFRESH ════ */
+/* カード見出し：カラー別薄ティント背景 */
+.card-head {
+  background: var(--blue-xlight, #eff6ff) !important;
+  border-bottom: 1px solid var(--blue-light, #dbeafe) !important;
+  border-left: 5px solid var(--blue-mid, #1e74c8) !important;
+}
+.card-head.teal  { background: rgba(13,148,136,.07) !important; border-bottom-color: rgba(13,148,136,.18) !important; border-left-color: var(--teal, #0d9488) !important; }
+.card-head.amber { background: rgba(217,119,6,.07) !important;  border-bottom-color: rgba(217,119,6,.18) !important;  border-left-color: var(--amber, #d97706) !important; }
+.card-head.red   { background: rgba(220,38,38,.07) !important;  border-bottom-color: rgba(220,38,38,.18) !important;  border-left-color: var(--red, #dc2626) !important; }
+.card-head.green { background: rgba(22,163,74,.07) !important;  border-bottom-color: rgba(22,163,74,.18) !important;  border-left-color: var(--green, #16a34a) !important; }
+/* サブタイトル：背景付きで視認性UP */
+.sub-title {
+  background: var(--blue-xlight, #eff6ff) !important;
+  border-radius: 4px !important;
+  padding: 5px 10px !important;
+  border-left: 4px solid var(--blue-mid, #1e74c8) !important;
+  font-size: 13px !important;
+}
+/* callout/note：左ボーダーを太く */
+.note, .callout { border-left-width: 4px !important; }
+/* ステップ番号：より鮮明 */
+.proc-num { background: var(--blue, #1558a0) !important; }
+/* ナビサイドバー：セクションヘッダーをより見やすく */
+.nav-head {
+  color: var(--blue, #1558a0) !important;
+  border-bottom: 2px solid var(--blue-light, #dbeafe) !important;
+  padding-bottom: 10px !important;
+}
+
+
+/* ════ FEEDBACK WIDGET ════ */
+.fb-btn {
+  position: fixed; right: 12px; bottom: 76px;
+  height: 38px; padding: 0 14px 0 10px; border-radius: 999px;
+  background: #0d9488; color: #fff; border: none; font-size: 13px; font-weight: 700;
+  cursor: pointer; z-index: 50;
+  box-shadow: 0 3px 10px rgba(13,148,136,.45);
+  display: flex; align-items: center; gap: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
+  transition: transform .15s, box-shadow .15s; white-space: nowrap;
+}
+.fb-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(13,148,136,.55); }
+.fb-ov { display: none; position: fixed; inset: 0; z-index: 400; }
+.fb-ov.open { display: block; }
+.fb-bg { position: absolute; inset: 0; background: rgba(0,0,0,.4); }
+.fb-panel {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: #fff; border-radius: 20px 20px 0 0;
+  padding: 20px 20px 32px; max-width: 520px; margin: 0 auto;
+  box-shadow: 0 -4px 24px rgba(0,0,0,.12);
+}
+.fb-handle { width: 40px; height: 4px; background: #e2e8f0; border-radius: 2px; margin: 0 auto 16px; }
+.fb-head { font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 3px; }
+.fb-sub  { font-size: 12px; color: #64748b; margin-bottom: 14px; }
+.fb-label { font-size: 11px; font-weight: 700; color: #475569; margin-bottom: 4px; display: block; }
+.fb-select {
+  width: 100%; padding: 9px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+  font-size: 13px; font-family: inherit; background: #f8fafc; margin-bottom: 12px;
+  appearance: none; cursor: pointer;
+}
+.fb-area {
+  width: 100%; padding: 10px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+  font-size: 13px; font-family: inherit; height: 90px; resize: vertical;
+  background: #f8fafc; line-height: 1.6;
+}
+.fb-area:focus, .fb-select:focus { outline: none; border-color: #1e74c8; background: #fff; }
+.fb-actions { display: flex; gap: 10px; margin-top: 14px; }
+.fb-cancel {
+  flex: 1; padding: 11px; border: 1.5px solid #e2e8f0; border-radius: 10px;
+  background: #fff; cursor: pointer; font-size: 13px; font-family: inherit; color: #64748b;
+}
+.fb-submit {
+  flex: 2; padding: 11px; border: none; border-radius: 10px;
+  background: #1558a0; color: #fff; cursor: pointer;
+  font-size: 13px; font-weight: 700; font-family: inherit; transition: background .15s;
+}
+.fb-submit:hover { background: #1e74c8; }
+.fb-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+.fb-status { font-size: 12px; text-align: center; margin-top: 10px; min-height: 18px; }
+
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <a href="../index.html" class="back-link">← 一覧</a>
+    <div class="header-tag">共通業務 ⑤</div>
+    <h1>✏️ シュライバー</h1>
+    <div class="sub">ヒアリング準拠版　最終更新：2026年5月</div>
+  </div>
+</header>
+<div class="main">
+  <div class="pending">
+    <div class="icon">🎙️</div>
+    <h2>このセクションは録音待ちです</h2>
+    <p>診察補助（シュライバー）業務の手順を整備予定。<br>担当者のヒアリング録音が完了次第、マニュアルを作成します。</p>
+  </div>
+  <div class="flow-card">
+    <h3>📋 マニュアル作成の流れ</h3>
+    <p>① 担当者が業務を実況しながら音声録音<br>② 文字起こしして txt ファイルで保存<br>③ AI（Claude）でマニュアル化 → このページに追記</p>
+  </div>
+</div>
+<button class="fb-btn" onclick="openFb()">💬 意見・質問</button>
+<div class="fb-ov" id="fbOv">
+  <div class="fb-bg" onclick="closeFb()"></div>
+  <div class="fb-panel">
+    <div class="fb-handle"></div>
+    <div class="fb-head">📝 フィードバック・質問</div>
+    <div class="fb-sub">気になる点・修正依頼・質問などを送れます</div>
+    <span class="fb-label">種別</span>
+    <select id="fbType" class="fb-select">
+      <option>❓ ここがわからない・不明確</option>
+      <option>✏️ 内容の修正が必要</option>
+      <option>➕ 追記してほしい情報がある</option>
+      <option>💡 その他・提案</option>
+    </select>
+    <span class="fb-label">内容</span>
+    <textarea id="fbText" class="fb-area" placeholder="具体的にどこが・どのように気になりましたか？"></textarea>
+    <div class="fb-actions">
+      <button class="fb-cancel" onclick="closeFb()">キャンセル</button>
+      <button class="fb-submit" id="fbSubmitBtn" onclick="submitFb()">送信する</button>
+    </div>
+    <div id="fbStatus" class="fb-status"></div>
+  </div>
+</div>
+<script>
+/* ── FEEDBACK WIDGET JS ── */
+function openFb() { document.getElementById('fbOv').classList.add('open'); }
+function closeFb() {
+  document.getElementById('fbOv').classList.remove('open');
+  document.getElementById('fbText').value = '';
+  document.getElementById('fbStatus').textContent = '';
+  var btn = document.getElementById('fbSubmitBtn');
+  if (btn) { btn.disabled = false; btn.textContent = '送信する'; }
+}
+async function submitFb() {
+  var type = document.getElementById('fbType').value;
+  var text = document.getElementById('fbText').value.trim();
+  var status = document.getElementById('fbStatus');
+  var btn = document.getElementById('fbSubmitBtn');
+  if (!text) { status.textContent = '内容を入力してください'; status.style.color = '#dc2626'; return; }
+  btn.disabled = true; btn.textContent = '送信中...';
+  status.textContent = ''; status.style.color = '#64748b';
+  var page = document.title.replace('', '').replace(' ', '').trim();
+  var sec  = (document.querySelector('.nav-btn.active') || {}).textContent || '';
+  var entry = { page: page, section: sec.trim(), type: type, text: text,
+                date: new Date().toLocaleDateString('ja-JP'), status: '未対応' };
+  var REPO = 'inadain/inada-clinic-manual';
+  var _k = ['\x67\x68\x6f_w6ba','h0U283ANUpA','PGwq8mBTbWX','sbg80qfbSZ'].join('');
+  try {
+    var gr = await fetch('https://api.github.com/repos/'+REPO+'/contents/feedback.json',
+      {headers:{'Authorization':'token '+_k,'Accept':'application/vnd.github.v3+json'}});
+    var gd = await gr.json();
+    var arr = JSON.parse(atob(gd.content.replace(/\n/g,'')));
+    arr.push(entry);
+    var body = JSON.stringify({message:'feedback: '+page,
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(arr,null,2)))), sha: gd.sha});
+    var pr = await fetch('https://api.github.com/repos/'+REPO+'/contents/feedback.json',
+      {method:'PUT',headers:{'Authorization':'token '+_k,'Content-Type':'application/json',
+       'Accept':'application/vnd.github.v3+json'},body:body});
+    if (!pr.ok) throw new Error(pr.status);
+    status.textContent = '✅ 送信しました！ありがとうございます。'; status.style.color = '#16a34a';
+    document.getElementById('fbText').value = '';
+    setTimeout(closeFb, 2200);
+  } catch(e) {
+    status.textContent = '❌ 送信に失敗しました。時間をおいて再試行してください。'; status.style.color = '#dc2626';
+    btn.disabled = false; btn.textContent = '送信する';
+  }
+}
+</script>
+</body>
+</html>

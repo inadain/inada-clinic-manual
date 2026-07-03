@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>個人タスク</title>
+<style>
+:root {
+  --blue: #1558a0; --blue-mid: #1e74c8; --blue-light: #dbeafe; --blue-xlight: #eff6ff;
+  --teal: #0d9488; --teal-light: #ccfbf1;
+  --amber: #d97706; --amber-light: #fef3c7;
+  --green: #16a34a; --green-light: #dcfce7;
+  --gray: #64748b; --gray-light: #f1f5f9; --gray-mid: #e5e7eb;
+  --border: #e2e8f0; --text: #0f172a; --text-sub: #4b5563;
+  --bg: #f0f4f8; --white: #ffffff;
+  --radius-sm: 8px; --radius: 12px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08); --shadow: 0 4px 12px rgba(0,0,0,.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif; font-size: 15px; line-height: 1.75; color: var(--text); background: var(--bg); }
+.header { background: linear-gradient(135deg, #0f3d6e 0%, #1558a0 60%, #1e74c8 100%); padding: 20px 20px 16px; text-align: center; position: relative; overflow: hidden; }
+.header-inner { position: relative; z-index: 1; }
+.header-tag { display: inline-block; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 20px; letter-spacing: .08em; margin-bottom: 8px; }
+.header h1 { color: #fff; font-size: 19px; font-weight: 800; letter-spacing: .03em; margin-bottom: 3px; }
+.header .sub { color: rgba(255,255,255,.7); font-size: 11px; }
+.back-link { display: inline-flex; align-items: center; gap: 4px; color: rgba(255,255,255,.8); font-size: 12px; text-decoration: none; margin-bottom: 10px; }
+.main { max-width: 700px; margin: 0 auto; padding: 20px 16px 60px; }
+.info-box { background: var(--blue-xlight); border: 1px solid var(--blue-light); border-left: 4px solid var(--blue-mid); border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13px; color: var(--blue); margin-bottom: 20px; line-height: 1.7; }
+.sec-head { display: flex; align-items: center; gap: 10px; margin: 24px 0 12px; }
+.sec-head-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; background: var(--blue-light); flex-shrink: 0; }
+.sec-head h2 { font-size: 1rem; font-weight: 700; color: var(--blue); }
+.staff-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 14px; text-decoration: none; color: inherit; display: block; border: 1.5px solid transparent; transition: box-shadow .2s, transform .2s, border-color .2s; }
+.staff-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); border-color: var(--blue-light); }
+.staff-card.pending { pointer-events: none; opacity: .75; }
+.card-top { display: flex; align-items: center; gap: 14px; padding: 16px; }
+.avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+.avatar.active { background: var(--teal-light); }
+.avatar.pending-av { background: var(--gray-light); }
+.card-info { flex: 1; min-width: 0; }
+.card-name { font-size: 1rem; font-weight: 800; }
+.card-desc { font-size: .78rem; color: var(--text-sub); margin-top: 3px; line-height: 1.5; }
+.card-bottom { border-top: 1px solid var(--gray-mid); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+.status-badge { font-size: .72rem; font-weight: 700; border-radius: 999px; padding: 3px 10px; }
+.status-badge.active { background: var(--teal-light); color: var(--teal); }
+.status-badge.in-progress { background: var(--amber-light); color: var(--amber); }
+.status-badge.pending { background: var(--gray-light); color: var(--gray); }
+.task-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { font-size: .65rem; background: var(--blue-xlight); color: var(--blue-mid); border-radius: 999px; padding: 2px 7px; }
+.chip.gray { background: var(--gray-light); color: var(--gray); }
+.chip.done { background: var(--green-light); color: var(--green); }
+
+/* ── ACCORDION ── */
+.card-head {
+  cursor: pointer; user-select: none;
+}
+.card-head::after {
+  content: '›'; font-size: 20px; font-weight: 300; color: var(--gray);
+  margin-left: auto; line-height: 1; transition: transform .2s; flex-shrink: 0;
+}
+.card.open .card-head::after { transform: rotate(90deg); }
+.card-body { display: none; }
+.card.open .card-body { display: block; }
+
+
+
+/* ── HEADER LOGO ── */
+.header-logo-img {
+  height: 36px; width: auto; object-fit: contain;
+  filter: brightness(0) invert(1); opacity: .92;
+  }
+
+/* ════ UNIFIED HEADER ════ */
+.header, .site-header {
+  position: sticky !important; top: 0; z-index: 100;
+  padding: 0 16px !important;
+  min-height: 56px;
+  display: flex; align-items: center;
+  overflow: visible !important;
+}
+.header-inner {
+  position: relative;
+  display: flex; align-items: center;
+  width: 100%; max-width: 960px; margin: 0 auto;
+  padding: 10px 0 10px 110px; /* 左に back-link 分の余白 */
+  text-align: center;
+}
+/* back-link: 常に左端に固定 */
+.back-link {
+  position: absolute !important;
+  left: 0 !important; top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: inline-flex !important; align-items: center; gap: 5px;
+  color: rgba(255,255,255,.92) !important; font-size: 12px !important;
+  font-weight: 600; text-decoration: none;
+  background: rgba(255,255,255,.18) !important;
+  border: 1px solid rgba(255,255,255,.3) !important;
+  border-radius: 20px; padding: 6px 13px !important;
+  white-space: nowrap; transition: background .15s;
+  margin: 0 !important;
+}
+.back-link:hover { background: rgba(255,255,255,.3) !important; color: #fff !important; }
+/* ロゴ */
+.header-logo-img {
+  height: 30px !important; width: auto;
+  filter: brightness(0) invert(1); opacity: .9;
+  display: block; margin: 0 auto 4px;
+}
+/* タイトルをコンパクトに */
+.header h1, .site-header h1 {
+  font-size: 16px !important; font-weight: 800; color: #fff;
+  letter-spacing: .02em; margin: 0;
+}
+.header .sub, .site-header .subtitle {
+  font-size: 10px !important; color: rgba(255,255,255,.65); margin-top: 1px;
+}
+.header-tag {
+  font-size: 10px; margin-bottom: 2px;
+}
+/* 小幡ページ用 */
+.site-header .staff-badge { font-size: 10px; margin-bottom: 3px; }
+
+/* ════ DESIGN REFRESH ════ */
+/* カード見出し：カラー別薄ティント背景 */
+.card-head {
+  background: var(--blue-xlight, #eff6ff) !important;
+  border-bottom: 1px solid var(--blue-light, #dbeafe) !important;
+  border-left: 5px solid var(--blue-mid, #1e74c8) !important;
+}
+.card-head.teal  { background: rgba(13,148,136,.07) !important; border-bottom-color: rgba(13,148,136,.18) !important; border-left-color: var(--teal, #0d9488) !important; }
+.card-head.amber { background: rgba(217,119,6,.07) !important;  border-bottom-color: rgba(217,119,6,.18) !important;  border-left-color: var(--amber, #d97706) !important; }
+.card-head.red   { background: rgba(220,38,38,.07) !important;  border-bottom-color: rgba(220,38,38,.18) !important;  border-left-color: var(--red, #dc2626) !important; }
+.card-head.green { background: rgba(22,163,74,.07) !important;  border-bottom-color: rgba(22,163,74,.18) !important;  border-left-color: var(--green, #16a34a) !important; }
+/* サブタイトル：背景付きで視認性UP */
+.sub-title {
+  background: var(--blue-xlight, #eff6ff) !important;
+  border-radius: 4px !important;
+  padding: 5px 10px !important;
+  border-left: 4px solid var(--blue-mid, #1e74c8) !important;
+  font-size: 13px !important;
+}
+/* callout/note：左ボーダーを太く */
+.note, .callout { border-left-width: 4px !important; }
+/* ステップ番号：より鮮明 */
+.proc-num { background: var(--blue, #1558a0) !important; }
+/* ナビサイドバー：セクションヘッダーをより見やすく */
+.nav-head {
+  color: var(--blue, #1558a0) !important;
+  border-bottom: 2px solid var(--blue-light, #dbeafe) !important;
+  padding-bottom: 10px !important;
+}
+
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="../index.html" class="back-link">← 一覧</a>
+    <div class="header-tag">共通業務 ⑦</div>
+    <h1>👥 個人タスク</h1>
+    <div class="sub">各担当者の専門業務マニュアル一覧</div>
+  </div>
+</header>
+
+<div class="main">
+
+  <div class="info-box">
+    📌 担当業務は流動的です。現在の担当者を確認してから参照してください。<br>
+    録音済みの業務からマニュアルを順次整備中です。
+  </div>
+
+  <div class="sec-head">
+    <div class="sec-head-icon">📝</div>
+    <h2>担当者別マニュアル</h2>
+  </div>
+
+  <a class="staff-card" href="../05_小幡/01_小幡_業務マニュアル.html">
+    <div class="card-top">
+      <div class="avatar active">👩‍💼</div>
+      <div class="card-info">
+        <div class="card-name">小幡</div>
+        <div class="card-desc">主治医意見書・生活保護・メディケア・レセプト詳記など<br>書類・審査系の専門業務担当</div>
+      </div>
+    </div>
+    <div class="card-bottom">
+      <span class="status-badge in-progress">🔄 整備中</span>
+      <div class="task-chips">
+        <span class="chip done">主治医意見書</span>
+        <span class="chip done">生活保護</span>
+        <span class="chip done">メディケア</span>
+        <span class="chip gray">月次業務</span>
+        <span class="chip gray">レセプト詳記（続き）</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="staff-card" href="../02_吉田/01_吉田_業務マニュアル.html">
+    <div class="card-top">
+      <div class="avatar active">👩</div>
+      <div class="card-info">
+        <div class="card-name">吉田</div>
+        <div class="card-desc">感染サーベイランス・データ報告（ジャニス・オアシス・クラチュー）</div>
+      </div>
+    </div>
+    <div class="card-bottom">
+      <span class="status-badge in-progress">🔄 整備中</span>
+      <div class="task-chips">
+        <span class="chip done">感染サーベイランス</span>
+        <span class="chip done">ジャニス</span>
+        <span class="chip done">オアシス</span>
+        <span class="chip done">クラチュー報告</span>
+      </div>
+    </div>
+  </a>
+
+  <div class="staff-card pending">
+    <div class="card-top">
+      <div class="avatar pending-av">👩</div>
+      <div class="card-info">
+        <div class="card-name">守屋</div>
+        <div class="card-desc">担当業務のヒアリング録音待ち</div>
+      </div>
+    </div>
+    <div class="card-bottom">
+      <span class="status-badge pending">⬜ 録音待ち</span>
+      <div class="task-chips"><span class="chip gray">未収録</span></div>
+    </div>
+  </div>
+
+  <div class="staff-card pending">
+    <div class="card-top">
+      <div class="avatar pending-av">👩</div>
+      <div class="card-info">
+        <div class="card-name">松浦</div>
+        <div class="card-desc">担当業務のヒアリング録音待ち</div>
+      </div>
+    </div>
+    <div class="card-bottom">
+      <span class="status-badge pending">⬜ 録音待ち</span>
+      <div class="task-chips"><span class="chip gray">未収録</span></div>
+    </div>
+  </div>
+
+  <div class="staff-card pending">
+    <div class="card-top">
+      <div class="avatar pending-av">👩</div>
+      <div class="card-info">
+        <div class="card-name">綾目</div>
+        <div class="card-desc">担当業務のヒアリング録音待ち</div>
+      </div>
+    </div>
+    <div class="card-bottom">
+      <span class="status-badge pending">⬜ 録音待ち</span>
+      <div class="task-chips"><span class="chip gray">未収録</span></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

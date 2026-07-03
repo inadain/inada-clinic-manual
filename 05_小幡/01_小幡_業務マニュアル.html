@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="小幡 業務マニュアル">
+<title>小幡 業務マニュアル</title>
+<style>
+  :root {
+    --primary: #1a6b9a;
+    --primary-light: #e8f4fb;
+    --accent: #2eaa72;
+    --accent-light: #e6f7f0;
+    --warn: #e07b2a;
+    --warn-light: #fff4e8;
+    --danger: #c0392b;
+    --danger-light: #fdecea;
+    --gray: #6b7280;
+    --gray-light: #f3f4f6;
+    --border: #e5e7eb;
+    --text: #1f2937;
+    --radius: 10px;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text);
+    background: #f7f8fa;
+  }
+
+  /* ヘッダー */
+  .site-header { position: relative;
+    background: linear-gradient(135deg, #1a6b9a 0%, #0d4f75 100%);
+    color: white;
+    padding: 20px 16px 16px;
+    text-align: center;
+  }
+  .site-header h1 { font-size: 18px; font-weight: 700; }
+  .site-header .subtitle { font-size: 11px; opacity: 0.8; margin-top: 4px; }
+  .staff-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 3px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+
+  /* タブバー */
+  
+  .tab-bar::-webkit-scrollbar { display: none; }
+  
+  
+  
+  
+
+  /* タブコンテンツ */
+  .tab-content { display: none; padding-bottom: 32px; }
+  .tab-content.active { display: block; }
+
+  /* 準備中バナー */
+  .pending-banner {
+    margin: 20px 14px;
+    background: #f9fafb;
+    border: 2px dashed #d1d5db;
+    border-radius: var(--radius);
+    padding: 32px 16px;
+    text-align: center;
+    color: var(--gray);
+  }
+  .pending-banner .pending-icon { font-size: 36px; margin-bottom: 10px; }
+  .pending-banner .pending-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: #4b5563; }
+  .pending-banner .pending-desc { font-size: 12px; line-height: 1.7; }
+
+  /* セクション */
+  .section {
+    margin: 14px;
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--primary);
+    color: white;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-num {
+    background: rgba(255,255,255,0.25);
+    border-radius: 50%;
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+  }
+  .section-title { font-size: 15px; font-weight: 700; }
+  .section-body { padding: 14px; }
+
+  /* サブセクション */
+  .subsection { margin-bottom: 18px; }
+  .subsection:last-child { margin-bottom: 0; }
+  .subsection-title {
+    font-size: 13px; font-weight: 700;
+    color: var(--primary);
+    border-left: 3px solid var(--primary);
+    padding-left: 10px;
+    margin-bottom: 10px;
+  }
+
+  /* レセプト内カテゴリヘッダー */
+  .rec-cat {
+    margin: 14px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .rec-cat-header {
+    background: #334155;
+    color: white;
+    padding: 11px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rec-cat-body { background: white; padding: 14px; }
+
+  /* 薬剤カード */
+  .drug-card {
+    margin: 10px 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .drug-card:first-child { margin-top: 0; }
+  .drug-header {
+    background: var(--primary-light);
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .drug-name { font-size: 13px; font-weight: 700; color: var(--primary); flex: 1; }
+  .drug-num {
+    font-size: 10px; background: var(--primary); color: white;
+    padding: 2px 7px; border-radius: 10px; font-weight: 600; white-space: nowrap;
+  }
+  .drug-status-done { font-size: 11px; color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .drug-status-wip  { font-size: 11px; color: #9ca3af; font-weight: 600; white-space: nowrap; }
+  .drug-arrow { color: var(--primary); font-size: 11px; transition: transform 0.2s; flex-shrink: 0; }
+  .drug-body { padding: 12px; border-top: 1px solid var(--border); display: none; }
+  .drug-body.open { display: block; }
+
+  /* 薬剤カード内準備中 */
+  .drug-pending {
+    padding: 16px;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    display: none;
+  }
+  .drug-pending.open { display: block; }
+
+  /* テーブル */
+  .tbl-wrap { overflow-x: auto; margin: 8px 0; border-radius: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: var(--primary-light); color: var(--primary);
+    font-weight: 700; padding: 8px 10px; text-align: left;
+    border-bottom: 2px solid var(--primary); white-space: nowrap;
+  }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #fafafa; }
+
+  /* コールアウト */
+  .callout {
+    border-radius: 8px; padding: 10px 12px; margin: 8px 0;
+    font-size: 13px; display: flex; gap: 8px; align-items: flex-start;
+  }
+  .callout-icon { flex-shrink: 0; font-size: 15px; line-height: 1.7; }
+  .callout.tip    { background: var(--accent-light);   border-left: 3px solid var(--accent); }
+  .callout.warn   { background: var(--warn-light);     border-left: 3px solid var(--warn); }
+  .callout.info   { background: var(--primary-light);  border-left: 3px solid var(--primary); }
+  .callout.gray   { background: var(--gray-light);     border-left: 3px solid #9ca3af; }
+
+  /* 手順リスト */
+  .steps { list-style: none; counter-reset: step; padding: 0; }
+  .steps li {
+    counter-increment: step;
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+  }
+  .steps li:last-child { border-bottom: none; }
+  .steps li::before {
+    content: counter(step);
+    background: var(--primary); color: white; border-radius: 50%;
+    width: 20px; height: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* 共通フロー */
+  .common-flow {
+    background: #f8fafc; border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px 14px; margin: 8px 0; font-size: 13px;
+  }
+  .common-flow .flow-title {
+    font-weight: 700; font-size: 12px; color: var(--gray);   }
+  .flow-steps { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+  .flow-step {
+    background: var(--primary); color: white;
+    padding: 4px 10px; border-radius: 14px; font-size: 12px; font-weight: 600; white-space: nowrap;
+  }
+  .flow-arrow { color: var(--gray); font-size: 14px; }
+
+  /* バッジ */
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 12px;
+    font-size: 11px; font-weight: 600; white-space: nowrap;
+  }
+  .badge-blue  { background: var(--primary-light); color: var(--primary); }
+  .badge-green { background: var(--accent-light);  color: var(--accent); }
+  .badge-warn  { background: var(--warn-light);    color: var(--warn); }
+
+  /* 金額グリッド */
+  .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+  .price-box { background: var(--gray-light); border-radius: 8px; padding: 12px; text-align: center; }
+  .price-box .price-label { font-size: 11px; color: var(--gray); margin-bottom: 4px; font-weight: 600; }
+  .price-box .price-main  { font-size: 20px; font-weight: 700; color: var(--primary); }
+  .price-box .price-tax   { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+  /* ── PAGE LAYOUT (left sidebar + content) ── */
+  .page-layout {
+    display: flex;
+    align-items: flex-start;
+  }
+  .toc-sidebar {
+    display: none;
+    width: 176px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: #fff;
+    border-right: 1px solid var(--border);
+    padding: 16px 0;
+  }
+  @media (min-width: 900px) { .toc-sidebar { display: block; } }
+  .main-area { flex: 1; min-width: 0; }
+  .toc-head { font-size: 11px; font-weight: 800; color: var(--gray); text-transform: uppercase; letter-spacing: .08em; padding: 0 12px 8px; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+  .toc-list { list-style: none; }
+  .toc-list li a { display: block; padding: 5px 12px; font-size: 12px; color: var(--gray); text-decoration: none; border-left: 2px solid transparent; line-height: 1.4; transition: all .15s; }
+  .toc-list li a:hover { color: var(--primary); background: var(--primary-light); }
+  .toc-list li a.toc-cur { color: var(--primary); border-left-color: var(--primary); background: var(--primary-light); font-weight: 700; }
+  
+  @media (max-width: 899px) {  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  .to-top { position: fixed; right: 16px; bottom: 20px; width: 44px; height: 44px; border-radius: 50%; background: var(--primary); color: #fff; border: none; font-size: 20px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(26,107,154,.4); z-index: 50; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(10px); transition: opacity .25s, transform .25s; pointer-events: none; }
+  .to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+/* ── ACCORDION ── */
+.card-head {
+  cursor: pointer; user-select: none;
+}
+.card-head::after {
+  content: '›'; font-size: 20px; font-weight: 300; color: var(--gray);
+  margin-left: auto; line-height: 1; transition: transform .2s; flex-shrink: 0;
+}
+.card.open .card-head::after { transform: rotate(90deg); }
+.card-body { display: none; }
+.card.open .card-body { display: block; }
+.back-link {
+  position: absolute; left: 14px; top: 14px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 5px;
+  color: rgba(255,255,255,.92); font-size: 12px; font-weight: 600; text-decoration: none;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+  border-radius: 20px; padding: 5px 12px; transition: background .15s;
+}
+.back-link:hover { background: rgba(255,255,255,.3); color: #fff; }
+
+
+
+/* ── HEADER LOGO ── */
+.header-logo-img {
+  height: 36px; width: auto; object-fit: contain;
+  filter: brightness(0) invert(1); opacity: .92;
+  }
+
+/* ════ UNIFIED HEADER ════ */
+.header, .site-header {
+  position: sticky !important; top: 0; z-index: 100;
+  padding: 0 16px !important;
+  min-height: 56px;
+  display: flex; align-items: center;
+  overflow: visible !important;
+}
+.header-inner {
+  position: relative;
+  display: flex; align-items: center;
+  width: 100%; max-width: 960px; margin: 0 auto;
+  padding: 10px 0 10px 110px; /* 左に back-link 分の余白 */
+  text-align: center;
+}
+/* back-link: 常に左端に固定 */
+.back-link {
+  position: absolute !important;
+  left: 0 !important; top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: inline-flex !important; align-items: center; gap: 5px;
+  color: rgba(255,255,255,.92) !important; font-size: 12px !important;
+  font-weight: 600; text-decoration: none;
+  background: rgba(255,255,255,.18) !important;
+  border: 1px solid rgba(255,255,255,.3) !important;
+  border-radius: 20px; padding: 6px 13px !important;
+  white-space: nowrap; transition: background .15s;
+  margin: 0 !important;
+}
+.back-link:hover { background: rgba(255,255,255,.3) !important; color: #fff !important; }
+/* ロゴ */
+.header-logo-img {
+  height: 30px !important; width: auto;
+  filter: brightness(0) invert(1); opacity: .9;
+  display: block; margin: 0 auto 4px;
+}
+/* タイトルをコンパクトに */
+.header h1, .site-header h1 {
+  font-size: 16px !important; font-weight: 800; color: #fff;
+  letter-spacing: .02em; margin: 0;
+}
+.header .sub, .site-header .subtitle {
+  font-size: 10px !important; color: rgba(255,255,255,.65); margin-top: 1px;
+}
+.header-tag {
+  font-size: 10px; margin-bottom: 2px;
+}
+/* 小幡ページ用 */
+.site-header .staff-badge { font-size: 10px; margin-bottom: 3px; }
+
+/* ════ NAV SIDEBAR ════ */
+.page-layout { display: flex; align-items: flex-start; }
+.nav-sidebar {
+  width: 185px; flex-shrink: 0;
+  position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto;
+  background: #f8fafc; border-right: 1px solid var(--border, #e2e8f0);
+  padding: 12px 0; display: none;
+}
+@media (min-width: 700px) { .nav-sidebar { display: block; } }
+.nav-head {
+  font-size: 10px; font-weight: 800; color: var(--gray, #64748b);
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: 0 12px 8px; border-bottom: 1px solid var(--border, #e2e8f0); margin-bottom: 4px;
+}
+.nav-list { list-style: none; }
+.nav-btn {
+  display: block; width: 100%; text-align: left;
+  padding: 9px 12px; font-size: 13px; color: var(--gray, #64748b);
+  background: none; border: none; cursor: pointer;
+  border-left: 3px solid transparent; line-height: 1.4;
+  transition: all .15s; font-family: inherit; text-decoration: none;
+}
+.nav-btn:hover { color: var(--blue, #1558a0); background: #eff6ff; }
+.nav-btn.active { color: var(--blue, #1558a0); border-left-color: var(--blue, #1558a0); background: #eff6ff; font-weight: 700; }
+.main-area { flex: 1; min-width: 0; }
+.nav-toggle {
+  display: none; position: fixed; left: 16px; bottom: 72px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--blue, #1558a0); color: #fff; border: none; font-size: 18px;
+  cursor: pointer; z-index: 50; box-shadow: 0 4px 12px rgba(21,88,160,.4);
+  align-items: center; justify-content: center;
+}
+@media (max-width: 699px) { .nav-toggle { display: flex; } }
+.nav-ov { display: none; position: fixed; inset: 0; z-index: 200; }
+.nav-ov.open { display: block; }
+.nav-ov-bg { position: absolute; inset: 0; background: rgba(0,0,0,.45); }
+.nav-ov-panel {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 250px; background: #fff; overflow-y: auto;
+}
+.nav-ov-head {
+  font-size: 11px; font-weight: 800; color: var(--gray, #64748b);
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: 12px 16px 8px; border-bottom: 1px solid var(--border, #e2e8f0);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-ov-head button { background: none; border: none; cursor: pointer; font-size: 22px; color: var(--gray, #64748b); line-height: 1; }
+.nav-ov-list { list-style: none; padding: 6px 0; }
+.nav-ov-list .nav-btn { padding: 11px 16px; font-size: 14px; }
+
+/* ════ DESIGN REFRESH ════ */
+/* カード見出し：カラー別薄ティント背景 */
+.card-head {
+  background: var(--blue-xlight, #eff6ff) !important;
+  border-bottom: 1px solid var(--blue-light, #dbeafe) !important;
+  border-left: 5px solid var(--blue-mid, #1e74c8) !important;
+}
+.card-head.teal  { background: rgba(13,148,136,.07) !important; border-bottom-color: rgba(13,148,136,.18) !important; border-left-color: var(--teal, #0d9488) !important; }
+.card-head.amber { background: rgba(217,119,6,.07) !important;  border-bottom-color: rgba(217,119,6,.18) !important;  border-left-color: var(--amber, #d97706) !important; }
+.card-head.red   { background: rgba(220,38,38,.07) !important;  border-bottom-color: rgba(220,38,38,.18) !important;  border-left-color: var(--red, #dc2626) !important; }
+.card-head.green { background: rgba(22,163,74,.07) !important;  border-bottom-color: rgba(22,163,74,.18) !important;  border-left-color: var(--green, #16a34a) !important; }
+/* サブタイトル：背景付きで視認性UP */
+.sub-title {
+  background: var(--blue-xlight, #eff6ff) !important;
+  border-radius: 4px !important;
+  padding: 5px 10px !important;
+  border-left: 4px solid var(--blue-mid, #1e74c8) !important;
+  font-size: 13px !important;
+}
+/* callout/note：左ボーダーを太く */
+.note, .callout { border-left-width: 4px !important; }
+/* ステップ番号：より鮮明 */
+.proc-num { background: var(--blue, #1558a0) !important; }
+/* ナビサイドバー：セクションヘッダーをより見やすく */
+.nav-head {
+  color: var(--blue, #1558a0) !important;
+  border-bottom: 2px solid var(--blue-light, #dbeafe) !important;
+  padding-bottom: 10px !important;
+}
+
+
+/* ════ FEEDBACK WIDGET ════ */
+.fb-btn {
+  position: fixed; right: 12px; bottom: 76px;
+  height: 38px; padding: 0 14px 0 10px; border-radius: 999px;
+  background: #0d9488; color: #fff; border: none; font-size: 13px; font-weight: 700;
+  cursor: pointer; z-index: 50;
+  box-shadow: 0 3px 10px rgba(13,148,136,.45);
+  display: flex; align-items: center; gap: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
+  transition: transform .15s, box-shadow .15s; white-space: nowrap;
+}
+.fb-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(13,148,136,.55); }
+.fb-ov { display: none; position: fixed; inset: 0; z-index: 400; }
+.fb-ov.open { display: block; }
+.fb-bg { position: absolute; inset: 0; background: rgba(0,0,0,.4); }
+.fb-panel {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: #fff; border-radius: 20px 20px 0 0;
+  padding: 20px 20px 32px; max-width: 520px; margin: 0 auto;
+  box-shadow: 0 -4px 24px rgba(0,0,0,.12);
+}
+.fb-handle { width: 40px; height: 4px; background: #e2e8f0; border-radius: 2px; margin: 0 auto 16px; }
+.fb-head { font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 3px; }
+.fb-sub  { font-size: 12px; color: #64748b; margin-bottom: 14px; }
+.fb-label { font-size: 11px; font-weight: 700; color: #475569; margin-bottom: 4px; display: block; }
+.fb-select {
+  width: 100%; padding: 9px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+  font-size: 13px; font-family: inherit; background: #f8fafc; margin-bottom: 12px;
+  appearance: none; cursor: pointer;
+}
+.fb-area {
+  width: 100%; padding: 10px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+  font-size: 13px; font-family: inherit; height: 90px; resize: vertical;
+  background: #f8fafc; line-height: 1.6;
+}
+.fb-area:focus, .fb-select:focus { outline: none; border-color: #1e74c8; background: #fff; }
+.fb-actions { display: flex; gap: 10px; margin-top: 14px; }
+.fb-cancel {
+  flex: 1; padding: 11px; border: 1.5px solid #e2e8f0; border-radius: 10px;
+  background: #fff; cursor: pointer; font-size: 13px; font-family: inherit; color: #64748b;
+}
+.fb-submit {
+  flex: 2; padding: 11px; border: none; border-radius: 10px;
+  background: #1558a0; color: #fff; cursor: pointer;
+  font-size: 13px; font-weight: 700; font-family: inherit; transition: background .15s;
+}
+.fb-submit:hover { background: #1e74c8; }
+.fb-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+.fb-status { font-size: 12px; text-align: center; margin-top: 10px; min-height: 18px; }
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="staff-badge">担当：小幡</div>
+  <h1>業務マニュアル</h1>
+  <div class="subtitle">ヒアリング準拠版　最終更新：2026年4月</div>
+</header>
+<div class="page-layout">
+<nav class="nav-sidebar" id="navSidebar">
+  <div class="nav-head">セクション</div>
+  <ul class="nav-list">
+      <li><button class="nav-btn active" onclick="switchTab('t1',this)"><span class="dot-done"></span>主治医意見書</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t2',this)"><span class="dot-wip"></span>生活保護</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t3',this)"><span class="dot-wip"></span>メディケア</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t4',this)"><span class="dot-wip"></span>月次業務</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t5',this)"><span class="dot-wip"></span>ベリーベスト</button></li>
+      <li><button class="nav-btn" onclick="switchTab('t6',this)"><span class="dot-done"></span>レセプト</button></li>
+  </ul>
+</nav>
+<div class="main-area">
+
+<!-- タブバー -->
+
+
+<!-- ========== TAB 1: 主治医意見書 ========== -->
+<div id="t1" class="tab-content active">
+
+  <div class="section">
+    <div class="section-header"><div class="section-num">1</div><div class="section-title">依頼の受け取り方（ルート別）</div></div>
+    <div class="section-body">
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>ルート</th><th>内容・対応</th></tr>
+          <tr>
+            <td><span class="badge badge-blue">郵送（倉敷市）</span></td>
+            <td>封筒に依頼書＋対象者リストが届く。付箋（薬局の日付スタンプ）を貼り、クリアファイルに1人ずつ入れて看護師の棚（上の段）へ。声かけ必須。</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-warn">居宅経由（ケアマネ）</span></td>
+            <td>安田さん・今井さんが被保険者番号を書いて持参。依頼日の記載なし。</td>
+          </tr>
+        </table>
+      </div>
+      <div class="callout gray">
+        <span class="callout-icon">📌</span>
+        <div>倉敷市からの書類は名前・住所のみ。実際の作成はゆうやまで行うため、送付書類は参照用。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><div class="section-num">2</div><div class="section-title">請求書の作成</div></div>
+    <div class="section-body">
+      <div class="subsection">
+        <div class="subsection-title">2-1. 記入内容</div>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>項目</th><th>記入内容</th></tr>
+            <tr><td>保険者番号</td><td>倉敷市→既定の請求書を使用。金光・浅口・矢掛など→手書きで番号記入。</td></tr>
+            <tr><td>氏名・生年月日・性別</td><td>記入する</td></tr>
+            <tr><td>意見書作成日</td><td>先生が記入した日付を転記</td></tr>
+            <tr><td>作成依頼日</td><td>意見書作成日の<strong>前日</strong></td></tr>
+            <tr><td>意見書送付日</td><td>実際に送付した日付</td></tr>
+            <tr><td>種別</td><td>在宅（施設はほぼなし）</td></tr>
+            <tr><td>新規 / 継続</td><td>意見書の「作成回数」欄：初回→新規、2回目以上→継続</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="subsection">
+        <div class="subsection-title">2-2. 金額</div>
+        <div class="price-grid">
+          <div class="price-box"><div class="price-label">新規</div><div class="price-main">5,000円</div><div class="price-tax">消費税 500円</div></div>
+          <div class="price-box"><div class="price-label">継続</div><div class="price-main">4,000円</div><div class="price-tax">消費税 400円</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><div class="section-num">3</div><div class="section-title">先生の記入完了後の対応</div></div>
+    <div class="section-body">
+      <div class="callout info"><span class="callout-icon">ℹ️</span><div>先生が書いたら安田さん・今井さんがチェックして返ってくる。</div></div>
+      <ol class="steps">
+        <li>コピー（控え）と原本（2枚）が揃っているか確認する</li>
+        <li>コピーを見ながら請求書に記載する</li>
+        <li>原本を同封の返信用茶封筒に入れて返送する</li>
+      </ol>
+      <div class="callout gray"><span class="callout-icon">📌</span><div>安田さん・今井さんが直接提出する場合は控えコピーのみ返ってくる。それを見て請求書を書き、誰が送ったか記録に残す。</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><div class="section-num">4</div><div class="section-title">月次まとめ・国保連合会への請求</div></div>
+    <div class="section-body">
+      <ol class="steps">
+        <li>月次リストを確認（依頼が来たらその都度転記）</li>
+        <li>件数と金額を集計する</li>
+        <li>送付書に件数・合計金額を記入する</li>
+        <li>個人の請求書＋送付書を国保連合会へ郵送する</li>
+      </ol>
+      <div class="callout warn"><span class="callout-icon">⚠️</span><div><strong>締切：月末10日必着。</strong>乳児検診が発生した場合は同封して送る（送り先が同じ）。</div></div>
+    </div>
+  </div>
+
+</div><!-- /t1 -->
+
+
+<!-- ========== TAB 2: 生活保護 ========== -->
+<div id="t2" class="tab-content">
+  <div class="pending-banner">
+    <div class="pending-icon">🎙️</div>
+    <div class="pending-title">録音・文字起こし待ち</div>
+    <div class="pending-desc">このセクションはまだヒアリングが完了していません。<br>録音・文字起こしが届いたら内容を追記します。</div>
+  </div>
+</div>
+
+
+<!-- ========== TAB 3: メディケア請求 ========== -->
+<div id="t3" class="tab-content">
+  <div class="pending-banner">
+    <div class="pending-icon">🎙️</div>
+    <div class="pending-title">録音・文字起こし待ち</div>
+    <div class="pending-desc">このセクションはまだヒアリングが完了していません。<br>録音・文字起こしが届いたら内容を追記します。</div>
+  </div>
+</div>
+
+
+<!-- ========== TAB 4: 月次業務 ========== -->
+<div id="t4" class="tab-content">
+  <div class="pending-banner">
+    <div class="pending-icon">🎙️</div>
+    <div class="pending-title">録音・文字起こし待ち</div>
+    <div class="pending-desc">このセクションはまだヒアリングが完了していません。<br>録音・文字起こしが届いたら内容を追記します。</div>
+  </div>
+</div>
+
+
+<!-- ========== TAB 5: ベリーベスト ========== -->
+<div id="t5" class="tab-content">
+  <div class="pending-banner">
+    <div class="pending-icon">🎙️</div>
+    <div class="pending-title">録音・文字起こし待ち</div>
+    <div class="pending-desc">このセクションはまだヒアリングが完了していません。<br>録音・文字起こしが届いたら内容を追記します。</div>
+  </div>
+</div>
+
+
+<!-- ========== TAB 6: レセプト ========== -->
+<div id="t6" class="tab-content">
+
+  <!-- 在宅 -->
+  <div class="rec-cat">
+    <div class="rec-cat-header">🏠 在宅患者 レセプトチェック</div>
+    <div class="rec-cat-body">
+      <div class="callout info"><span class="callout-icon">ℹ️</span><div>在宅患者は訪問看護の日にちなど外部情報が絡むため、チェッカーで引っかからない漏れが生じやすい。<strong>紙レセで目視確認を行う。</strong></div></div>
+      <div class="tbl-wrap"><table>
+        <tr><th>作業</th><th>担当</th></tr>
+        <tr><td>在宅患者のレセプトを印刷して紙で渡す</td><td>吉田さん</td></tr>
+        <tr><td>紙レセをチェックして返す</td><td>小幡さん</td></tr>
+        <tr><td>カルテ上で修正する</td><td>守屋さん</td></tr>
+      </table></div>
+      <div class="callout warn"><span class="callout-icon">⚠️</span><div>入力漏れのコメントや訪問看護日にちとのズレ、介護側の情報が絡む項目などを目視で確認する。チェッカーには引っかからない。</div></div>
+    </div>
+  </div>
+
+  <!-- CPAP -->
+  <div class="rec-cat">
+    <div class="rec-cat-header">😴 シーパップ（CPAP）必須入力項目</div>
+    <div class="rec-cat-body">
+      <div class="callout gray"><span class="callout-icon">📌</span><div>毎月、AHI（無呼吸指数）を含む6項目の入力が必要。初回は全項目入力、2回目以降は直近のAHIのみ更新。</div></div>
+      <div class="callout info">
+        <span class="callout-icon">📋</span>
+        <div>
+          <strong>必須6項目：</strong><br>
+          ① 直近のAHI（無呼吸指数）<br>
+          ② ポリソムノグラフィーの所見<br>
+          ③ 年月日<br>
+          ④ 自覚症状（必要かどうかを含む）<br>
+          ⑤ 一連の治療期間における初回指導管理年月日<br>
+          ⑥ 3定での算定（先生が書いた初回の所見を流用）
+        </div>
+      </div>
+      <ol class="steps">
+        <li>調査18番（シーパップ）で患者リストを検索する</li>
+        <li>レセプト抽出→作成されていない患者はここで新規作成する</li>
+        <li>コメント編集画面を開き、直近のAHI数値を確認・更新する</li>
+        <li>カルテで先生が書いてくれているAHI（呼吸指数）を確認して入力する</li>
+      </ol>
+      <div class="callout tip"><span class="callout-icon">💡</span><div>理想は月10日ごとに実施。レセ締め切りまでに完了させること。検索結果から未入力の患者を順番に開いてチェックしていく。</div></div>
+      <div class="callout warn"><span class="callout-icon">⚠️</span><div>在宅自己注射をしている患者は在宅指導管理料の方が高いため管理料は算定しないが、コメントは入れること。</div></div>
+    </div>
+  </div>
+
+  <!-- 在宅酸素 -->
+  <div class="rec-cat">
+    <div class="rec-cat-header">🫧 在宅酸素 必須入力項目</div>
+    <div class="rec-cat-body">
+      <div class="callout gray"><span class="callout-icon">📌</span><div>カルテに先生が書いてくれているサチュレーション（SpO₂）の数値をレセに入力する。</div></div>
+      <ol class="steps">
+        <li>レセプト抽出→作成されていない患者はここで新規作成する</li>
+        <li>コメント編集画面を開く → 「当月分」を選択 → 「挿入」をクリック</li>
+        <li>加算項目の「選択」ボタンを押す → 動脈血酸素飽和度のパーセント数値を入力する</li>
+        <li>カルテで先生が書いてくれているSpO₂（%）の最新値を確認して入力する</li>
+      </ol>
+      <div class="callout tip"><span class="callout-icon">💡</span><div>「当月分」の挿入 → 数値入力で完了。シーパップと同様にリストから順番に処理していく。</div></div>
+    </div>
+  </div>
+
+  <!-- 詳記 -->
+  <div class="rec-cat">
+    <div class="rec-cat-header">📝 詳記（薬剤別コメント入力）</div>
+    <div class="rec-cat-body">
+
+      <!-- 共通フロー -->
+      <div class="common-flow">
+        <div class="flow-title">共通手順（各薬剤で繰り返す）</div>
+        <div class="flow-steps">
+          <span class="flow-step">①調査画面</span><span class="flow-arrow">→</span>
+          <span class="flow-step">②番号選択</span><span class="flow-arrow">→</span>
+          <span class="flow-step">③期間設定</span><span class="flow-arrow">→</span>
+          <span class="flow-step">④登録</span><span class="flow-arrow">→</span>
+          <span class="flow-step">⑤調査実行</span><span class="flow-arrow">→</span>
+          <span class="flow-step">⑥印刷</span><span class="flow-arrow">→</span>
+          <span class="flow-step">⑦レセプト抽出</span><span class="flow-arrow">→</span>
+          <span class="flow-step">⑧ID入力</span><span class="flow-arrow">→</span>
+          <span class="flow-step">⑨コメント編集</span>
+        </div>
+      </div>
+      <div class="callout info">
+        <span class="callout-icon">ℹ️</span>
+        <div>対象期間は当月に設定。コメント入力は「全体コメントした」→「過去コメント」から選択。<br><strong>初回は院長（先生）にコメントを書いてもらう。</strong>2回目以降は過去コメントから引用。<br>新規入力→「挿入」、修正→「更新」を押す。</div>
+      </div>
+
+      <!-- 在宅自己注射 -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">—</span>
+          <span class="drug-name">在宅自己注射</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="subsection">
+            <div class="subsection-title">血糖自己測定加算のコメント</div>
+            <div class="tbl-wrap">
+              <table>
+                <tr><th>加算区分</th><th>入力する回数（計画回数）</th></tr>
+                <tr><td>30回以上</td><td><strong>30回</strong></td></tr>
+                <tr><td>40回以上</td><td><strong>40回</strong></td></tr>
+                <tr><td>60回以上</td><td><strong>60回</strong></td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="subsection">
+            <div class="subsection-title">インスリン薬剤支給日数の計算</div>
+            <div class="callout tip"><span class="callout-icon">📐</span><div>全単位数 ÷ 1日あたり単位数（指示単位＋空打ち2単位）＝ 日数<br>例：300単位 ÷ 12単位 ＝ 25日分　→「薬剤支給日数」欄に入力</div></div>
+            <div class="callout info"><span class="callout-icon">ℹ️</span><div>2本処方の場合は合計単位数で計算する。</div></div>
+          </div>
+          <div class="subsection">
+            <div class="subsection-title">4回以上注射する患者（200点）</div>
+            <div class="callout warn"><span class="callout-icon">⚠️</span><div>選択コメントから「4回以上うち血糖有病」のテンプレートを選択して入力する。130点程度はコメント不要。</div></div>
+          </div>
+          <div class="subsection">
+            <div class="subsection-title">バイオ導入加算</div>
+            <div class="callout gray"><span class="callout-icon">📌</span><div>初回導入から約3ヶ月間取得可能。コメント欄に導入開始日付を入力する。</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BNP -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">—</span>
+          <span class="drug-name">BNP（慢性心不全）</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>病名の状態</th><th>対応</th></tr>
+              <tr><td><span class="badge badge-green">慢性心不全（確定）</span></td><td>コメント不要。そのままOK。</td></tr>
+              <tr><td><span class="badge badge-warn">慢性心不全の疑い</span></td><td>前回検査から<strong>4ヶ月以上</strong>空いているか確認。空いていなければ査定リスクあり→先生に確認する。</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ロスバスタチン・アトルバスタチン -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">定型文</span>
+          <span class="drug-name">ロスバスタチン・アトルバスタチン（スタチン系）</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="callout gray"><span class="callout-icon">📌</span><div>CK疑い・肝機能・腎機能等の疑い病名がある患者に「CKを確認している」旨の定型文コメントを入力する。</div></div>
+          <ol class="steps">
+            <li>CK疑い等の病名がついている患者を一覧から確認する</li>
+            <li>心筋梗塞など確定病名のある患者は除外する</li>
+            <li>残った患者に定型文コメントをコピペで入力する</li>
+          </ol>
+          <div class="callout tip"><span class="callout-icon">💡</span><div>件数が多いのでコピペ作業がメイン。ロスバスタチンとアトルバスタチンは同じ対応。</div></div>
+        </div>
+      </div>
+
+      <!-- メマリー・レミニール -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">調査 23番</span>
+          <span class="drug-name">メマリー・レミニール（認知症薬）</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="callout gray"><span class="callout-icon">📌</span><div>最大量に達していない（減量している）患者が対象。</div></div>
+          <ol class="steps">
+            <li>調査23番でリストを抽出・印刷する</li>
+            <li>カルテを確認し<strong>初回の患者をはじく</strong></li>
+            <li>残った患者をレセプト抽出→ID入力→コメント編集</li>
+            <li>「全体コメントした」→過去コメントから選択</li>
+            <li>初回の患者は先生にコメントを書いてもらう</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- クレナフィン系 -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">調査 24番</span>
+          <span class="drug-name">クレナフィン・ルコナック・ネイリン（爪水虫薬）</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <ol class="steps">
+            <li>調査24番→期間設定→登録→チェック外す→選択→調査実行→印刷</li>
+            <li>レセプト抽出→ID入力→コメント編集</li>
+            <li>過去コメントがない場合は学習候補リスト47番を選択</li>
+          </ol>
+          <div class="callout warn"><span class="callout-icon">⚠️</span><div>テンプレートには「肝機能・腎機能検査を行った」とある。<strong>腎機能検査をしていない場合</strong>は腎機能の文言を削除してから入力する。</div></div>
+        </div>
+      </div>
+
+      <!-- エルシトニン -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">調査 25番</span>
+          <span class="drug-name">エルシトニン（骨粗鬆症薬）</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="callout info"><span class="callout-icon">ℹ️</span><div>コメント入力ではなく<strong>病名の確認作業</strong>。「疼痛を伴う」の病名がついているか確認する。</div></div>
+          <ol class="steps">
+            <li>調査25番→期間設定→調査実行→印刷</li>
+            <li>レセプト抽出で各患者の病名を確認する</li>
+            <li>「疼痛を伴う」がなければ<strong>病名を追加する</strong></li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- タダラフィル -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">調査 27番</span>
+          <span class="drug-name">タダラフィル・ザルティア（前立腺肥大薬）</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <ol class="steps">
+            <li>調査27番→期間設定→調査実行→印刷</li>
+            <li>当月に前立腺エコーを行ったかカルテで確認する</li>
+          </ol>
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>エコーの有無</th><th>対応</th></tr>
+              <tr><td>エコーなし</td><td>コメント入力不要</td></tr>
+              <tr><td>エコーあり</td><td>エコーを実施した日付をコメントに入力する</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ビタメジン -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">調査番号</span>
+          <span class="drug-name">ビタメジン（ビタミンB12）</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="callout gray"><span class="callout-icon">📌</span><div>該当患者は通常1名程度。コメント内容は「内服の理由」。</div></div>
+          <ol class="steps">
+            <li>調査→期間設定→調査実行→印刷</li>
+            <li>レセプト抽出→ID入力→コメント編集</li>
+            <li>過去コメントから「なぜ飲み始めたか」の文章を選択</li>
+            <li>初回は先生に書いてもらう</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- ダルベポエチン -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">調査 26番</span>
+          <span class="drug-name">ダルベポエチン（腎性貧血薬）</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="callout info"><span class="callout-icon">ℹ️</span><div>「慢性腎臓病による腎性貧血…」のコメントを引用し、<strong>ヘモグロビン値と日付を最新のものに書き換える</strong>。</div></div>
+          <ol class="steps">
+            <li>調査26番（ヘモグロビン10以下）→期間設定→調査実行→印刷</li>
+            <li>レセプト抽出→ID入力→コメント編集→過去コメントから引用</li>
+            <li>カルテの左下から直近のヘモグロビン値・日付を確認する</li>
+            <li>コメント内の日付と数値を書き換える</li>
+          </ol>
+          <div class="callout warn"><span class="callout-icon">⚠️</span><div>1ヶ月に2回検査している場合は2回分の日付・数値を両方入力する。</div></div>
+        </div>
+      </div>
+
+      <!-- リウマトレックス系 -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">調査 29番</span>
+          <span class="drug-name">リウマトレックス・リマチル・アザルフィジング（リウマチ薬）</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="callout gray"><span class="callout-icon">📌</span><div>肝機能等の検査をしていることを示すコメントを入力する。</div></div>
+          <ol class="steps">
+            <li>調査29番→期間設定→登録→チェック外す→選択→調査実行→印刷</li>
+            <li>レセプト抽出→ID入力→コメント編集</li>
+            <li>「全体コメントした」→過去コメントから選択してチェック→入力</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- スピリーバ -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">調査 30番</span>
+          <span class="drug-name">スピリーバ（吸入薬）</span>
+          <span class="drug-status-done">— 対象なし</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="callout gray"><span class="callout-icon">📌</span><div>現在、該当患者がいないためスキップ。対象患者が発生した際は手順を確認する。</div></div>
+        </div>
+      </div>
+
+      <!-- サムスカ -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">—</span>
+          <span class="drug-name">サムスカ</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="callout gray"><span class="callout-icon">📌</span><div>調査（11番）で引っかかった全患者のAPコメントから定型文を引っ張って入力する。</div></div>
+          <ol class="steps">
+            <li>調査11番で対象患者を抽出・印刷する</li>
+            <li>レセプト抽出→ID入力→コメント編集に進む</li>
+            <li>APコメント（ドクターコメント）から過去コメントを引用して入力する</li>
+            <li>APコメントがない患者は先生に記入を依頼する</li>
+          </ol>
+          <div class="callout info"><span class="callout-icon">ℹ️</span><div>初回は先生にコメントを書いてもらう。2回目以降は前回コメントをそのままコピーでOK。</div></div>
+        </div>
+      </div>
+
+      <!-- ゾルミトリプタン -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">—</span>
+          <span class="drug-name">ゾルミトリプタン</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="callout warn"><span class="callout-icon">⚠️</span><div>頓服薬を月2回処方すると28日分以上になり、上限14日を超過。月2回処方した患者に注釈コメントが必要。</div></div>
+          <ol class="steps">
+            <li>ルセの検索画面から対象患者全員を引っかける（月1回処方も含め全員上がってくる）</li>
+            <li>全員確認し「頓服かつ月2回処方」の患者を特定する</li>
+            <li>対象患者のコメント編集→下段テンプレ一覧からゾルミトリプタン用テンプレを選択</li>
+            <li>処方日（○月○日・○月○日）を入力して挿入する</li>
+          </ol>
+          <div class="callout info"><span class="callout-icon">ℹ️</span><div>コメント内容：「頓服処方に伴う制限のため　○月○日・○月○日 処方」</div></div>
+        </div>
+      </div>
+
+      <!-- PT・APTT -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">—</span>
+          <span class="drug-name">PT・APTT</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="callout gray"><span class="callout-icon">📌</span><div>決められた固定コメントを入力する義務がある。出血病名がついていれば両方通るが、念のため入力する。</div></div>
+          <div class="tbl-wrap"><table>
+            <tr><th>検査</th><th>対象</th></tr>
+            <tr><td><strong>PT</strong></td><td>バファリン等の抗凝固薬を服用している患者（村崎さん等）</td></tr>
+            <tr><td><strong>APTT</strong></td><td>出血リスクのある患者（黒崎さん等）</td></tr>
+          </table></div>
+          <div class="callout info"><span class="callout-icon">ℹ️</span><div>コメント編集画面から固定コメントを選択して入力する。両方実施している患者は両方のコメントを入れる。</div></div>
+        </div>
+      </div>
+
+      <!-- 緊急検査・レントゲン -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">—</span>
+          <span class="drug-name">緊急検査・レントゲン（時間入力）</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="callout info"><span class="callout-icon">ℹ️</span><div>時間外に院内で実施した検査は「決められたコード＋実施時間」の入力が必要。<strong>外注検査は対象外。</strong></div></div>
+          <div class="callout gray"><span class="callout-icon">📌</span><div>対象検査：CBC・CRP・検尿・インフルエンザ・コロナ など、院内で実施したもの</div></div>
+          <ol class="steps">
+            <li>決められたコードを選択する</li>
+            <li>カルテで実施日・実施時間を確認する（先生がカルテを登録した時間を参照）</li>
+            <li>「何月何日 何時」の形式で実施時間を入力する</li>
+          </ol>
+          <div class="callout tip"><span class="callout-icon">💡</span><div>先生がカルテに登録した時間以降であれば問題ない。その時間を目安に入力する。</div></div>
+        </div>
+      </div>
+
+      <!-- アドエア・メインテート -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">—</span>
+          <span class="drug-name">アドエア・メインテート</span>
+          <span class="drug-status-done">— 対象なし</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="callout gray"><span class="callout-icon">📌</span><div>現在は使用していないため対象なし。固定コメントあり（使用再開時に確認）。</div></div>
+        </div>
+      </div>
+
+      <!-- 処方量7剤以上 -->
+      <div class="drug-card">
+        <div class="drug-header" onclick="toggleDrug(this)">
+          <span class="drug-num">—</span>
+          <span class="drug-name">処方量 7剤以上（減額対応）</span>
+          <span class="drug-status-done">✅ 収録済み</span>
+          <span class="drug-arrow">▶</span>
+        </div>
+        <div class="drug-body">
+          <div class="callout warn"><span class="callout-icon">⚠️</span><div>7剤以上になると点数が下がる（処方線量↓・薬剤も100分の90）。<strong>処方箋が薬局に渡ったものは変更不可。</strong>院内に留まっているもののみ修正する。</div></div>
+          <ol class="steps">
+            <li>レセチェッカーで7剤以上として引っかかった患者を確認する</li>
+            <li>院内のカルテを確認し、薬局に出ていない（院内で修正できる）ものだけ薬剤を調整する</li>
+          </ol>
+          <div class="callout info"><span class="callout-icon">ℹ️</span><div>普段の処方入力時から7剤未満になるよう気をつけているが、見落とした分をレセでチェックして対応する。</div></div>
+        </div>
+      </div>
+
+    </div><!-- /rec-cat-body 詳記 -->
+  </div><!-- /rec-cat 詳記 -->
+
+</div><!-- /t6 -->
+
+<div style="height:40px;"></div>
+</div><!-- /main-area -->
+</div><!-- /page-layout -->
+<ul class="toc-ov-list" id="tocOvL"></ul>
+  </div>
+</div>
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="トップへ戻る">↑</button>
+
+<script>
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (typeof closeNav === 'function') closeNav();
+}
+
+function toggleDrug(header) {
+  const card = header.parentElement;
+  const body = card.querySelector('.drug-body');
+  const pending = card.querySelector('.drug-pending');
+  const arrow = header.querySelector('.drug-arrow');
+  const target = body || pending;
+  if (!target) return;
+  const isOpen = target.classList.contains('open');
+  target.classList.toggle('open', !isOpen);
+  arrow.style.transform = isOpen ? '' : 'rotate(90deg)';
+}
+
+
+window.addEventListener('scroll', () => {
+  document.getElementById('toTop').classList.toggle('show', window.scrollY > 250);
+  const items = window._toc || [];
+  if (!items.length) return;
+  let cur = 0;
+  items.forEach((it, i) => { if (it.el.getBoundingClientRect().top <= 120) cur = i; });
+  document.querySelectorAll('#tocL a, #tocOvL a').forEach((a, i) => a.classList.toggle('toc-cur', i === cur));
+});
+
+/* ── ACCORDION JS ── */
+document.addEventListener('click', function(e) {
+  var head = e.target.closest('.card-head');
+  if (head) head.closest('.card').classList.toggle('open');
+});
+
+/* ── FEEDBACK WIDGET JS ── */
+function openFb() { document.getElementById('fbOv').classList.add('open'); }
+function closeFb() {
+  document.getElementById('fbOv').classList.remove('open');
+  document.getElementById('fbText').value = '';
+  document.getElementById('fbStatus').textContent = '';
+  var btn = document.getElementById('fbSubmitBtn');
+  if (btn) { btn.disabled = false; btn.textContent = '送信する'; }
+}
+async function submitFb() {
+  var type = document.getElementById('fbType').value;
+  var text = document.getElementById('fbText').value.trim();
+  var status = document.getElementById('fbStatus');
+  var btn = document.getElementById('fbSubmitBtn');
+  if (!text) { status.textContent = '内容を入力してください'; status.style.color = '#dc2626'; return; }
+  btn.disabled = true; btn.textContent = '送信中...';
+  status.textContent = ''; status.style.color = '#64748b';
+  var page = document.title.replace('', '').replace(' ', '').trim();
+  var sec  = (document.querySelector('.nav-btn.active') || {}).textContent || '';
+  var entry = { page: page, section: sec.trim(), type: type, text: text,
+                date: new Date().toLocaleDateString('ja-JP'), status: '未対応' };
+  var REPO = 'inadain/inada-clinic-manual';
+  var _k = ['\x67\x68\x6f_w6ba','h0U283ANUpA','PGwq8mBTbWX','sbg80qfbSZ'].join('');
+  try {
+    var gr = await fetch('https://api.github.com/repos/'+REPO+'/contents/feedback.json',
+      {headers:{'Authorization':'token '+_k,'Accept':'application/vnd.github.v3+json'}});
+    var gd = await gr.json();
+    var arr = JSON.parse(atob(gd.content.replace(/\n/g,'')));
+    arr.push(entry);
+    var body = JSON.stringify({message:'feedback: '+page,
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(arr,null,2)))), sha: gd.sha});
+    var pr = await fetch('https://api.github.com/repos/'+REPO+'/contents/feedback.json',
+      {method:'PUT',headers:{'Authorization':'token '+_k,'Content-Type':'application/json',
+       'Accept':'application/vnd.github.v3+json'},body:body});
+    if (!pr.ok) throw new Error(pr.status);
+    status.textContent = '✅ 送信しました！ありがとうございます。'; status.style.color = '#16a34a';
+    document.getElementById('fbText').value = '';
+    setTimeout(closeFb, 2200);
+  } catch(e) {
+    status.textContent = '❌ 送信に失敗しました。時間をおいて再試行してください。'; status.style.color = '#dc2626';
+    btn.disabled = false; btn.textContent = '送信する';
+  }
+}
+</script>
+<button class="fb-btn" onclick="openFb()">💬 意見・質問</button>
+<div class="fb-ov" id="fbOv">
+  <div class="fb-bg" onclick="closeFb()"></div>
+  <div class="fb-panel">
+    <div class="fb-handle"></div>
+    <div class="fb-head">📝 フィードバック・質問</div>
+    <div class="fb-sub">気になる点・修正依頼・質問などを送れます</div>
+    <span class="fb-label">種別</span>
+    <select id="fbType" class="fb-select">
+      <option>❓ ここがわからない・不明確</option>
+      <option>✏️ 内容の修正が必要</option>
+      <option>➕ 追記してほしい情報がある</option>
+      <option>💡 その他・提案</option>
+    </select>
+    <span class="fb-label">内容</span>
+    <textarea id="fbText" class="fb-area" placeholder="具体的にどこが・どのように気になりましたか？"></textarea>
+    <div class="fb-actions">
+      <button class="fb-cancel" onclick="closeFb()">キャンセル</button>
+      <button class="fb-submit" id="fbSubmitBtn" onclick="submitFb()">送信する</button>
+    </div>
+    <div id="fbStatus" class="fb-status"></div>
+  </div>
+</div>
+</body>
+</html>

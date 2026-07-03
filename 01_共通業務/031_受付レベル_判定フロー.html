@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>地域包括診療加算 受付レベル 判定フロー</title>
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  @page { size: A4; margin: 10mm; }
+  body { font-family:-apple-system,'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif; background:#e8edf3; display:flex; justify-content:center; padding:16px; }
+  .page { width:210mm; background:white; padding:8mm 9mm; }
+
+  .hdr { background:#1565c0; color:white; border-radius:6px; padding:7px 14px; margin-bottom:6px; }
+  .hdr h1 { font-size:11pt; font-weight:700; }
+  .hdr .sub { font-size:7.5pt; opacity:0.85; margin-top:2px; }
+  .hdr .note { font-size:7pt; opacity:0.75; margin-top:1px; }
+
+  .flow-wrap { display:flex; gap:8px; margin-bottom:6px; }
+
+  /* ステップカード */
+  .step-card { background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:7px; padding:7px 9px; }
+  .step-hd { font-size:8.5pt; font-weight:700; color:white; background:#1e40af; border-radius:4px; padding:4px 10px; margin-bottom:6px; text-align:center; }
+
+  /* チェック行 */
+  .ck { display:flex; align-items:center; gap:6px; padding:5px 8px; border-radius:5px; margin-bottom:4px; font-size:8pt; font-weight:700; }
+  .ck .box { width:14px; height:14px; border:2px solid currentColor; border-radius:3px; flex-shrink:0; }
+  .ck-g { background:#dcfce7; border:1.5px solid #16a34a; color:#166534; }
+  .ck-b { background:#dbeafe; border:1.5px solid #3b82f6; color:#1e3a8a; }
+  .ck-s { background:#f1f5f9; border:1px solid #94a3b8; color:#374151; }
+  .ck-note { font-size:7pt; font-weight:400; color:#4b5563; padding-left:20px; margin-top:1px; margin-bottom:3px; }
+
+  /* STEP2 テーブル */
+  .s2-table { width:100%; border-collapse:collapse; font-size:8pt; }
+  .s2-table th { background:#1e40af; color:white; padding:4px 7px; text-align:left; }
+  .s2-table td { padding:5px 7px; border:1px solid #bfdbfe; vertical-align:top; }
+  .s2-table tr:nth-child(odd)  td { background:#eff6ff; }
+  .s2-table tr:nth-child(even) td { background:#dbeafe; }
+  .s2-table .num { font-weight:700; color:#1e3a8a; text-align:center; width:5%; }
+  .s2-table .item { font-weight:700; color:#1e3a8a; width:18%; }
+  .s2-table .how  { width:40%; }
+  .s2-table .chk-cell { width:37%; }
+
+  .chk-row2 { display:flex; align-items:center; gap:5px; margin-bottom:3px; font-size:7.5pt; }
+  .chk-box2 { width:13px; height:13px; border:1.5px solid #3b82f6; border-radius:2px; flex-shrink:0; }
+
+  /* 矢印 */
+  .darr { text-align:center; font-size:14pt; color:#64748b; line-height:1; margin:3px 0; }
+
+  /* 引き継ぎ */
+  .handoff { background:#fef9c3; border:1.5px solid #d97706; border-radius:6px; padding:7px 10px; }
+  .handoff-hd { font-size:8.5pt; font-weight:700; color:#92400e; margin-bottom:5px; }
+  .handoff-row { display:flex; gap:6px; }
+  .handoff-item { flex:1; background:white; border:1px solid #fcd34d; border-radius:5px; padding:5px 7px; }
+  .handoff-item .label { font-size:7.5pt; font-weight:700; color:#92400e; margin-bottom:3px; }
+  .handoff-item .val { font-size:7.5pt; color:#1c1917; line-height:1.6; }
+
+  /* 慢性疾患 */
+  .dis-wrap { display:flex; gap:4px; }
+  .dis-card { flex:1; background:#dbeafe; border:1px solid #93c5fd; border-radius:5px; padding:4px 6px; text-align:center; }
+  .dis-card .name { font-size:7.5pt; font-weight:700; color:#1e3a8a; }
+  .dis-card .ex   { font-size:6.5pt; color:#374151; margin-top:2px; line-height:1.5; }
+
+  /* 注意事項 */
+  .note-box { background:#fff7ed; border:1px solid #fed7aa; border-radius:5px; padding:5px 9px; margin-top:5px; font-size:7.5pt; color:#9a3412; line-height:1.7; }
+  .note-box strong { font-size:7.5pt; }
+
+  @media print { body { background:white; padding:0; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hdr">
+    <h1>地域包括診療加算 ― 受付レベル 判定フロー</h1>
+    <div class="sub">受付スタッフ向け ／ 毎回の患者来院時に実施</div>
+    <div class="note">このシートで確認した内容をすべて診察室へ引き継ぐ。診察開始前に完了させること。</div>
+  </div>
+
+  <!-- STEP1 + STEP2 -->
+  <div class="flow-wrap">
+
+    <!-- STEP 1 -->
+    <div class="step-card" style="flex:1.1;">
+      <div class="step-hd">STEP 1　レセコンの加算タブを開いて確認する</div>
+
+      <div style="font-size:7.5pt; color:#475569; margin-bottom:6px; padding:3px 6px; background:#f1f5f9; border-radius:4px;">
+        レセコンの「加算・管理料」タブ → 当月算定状況を確認<br>
+        該当するものに <strong>チェックをつける（1つだけ選択）</strong>
+      </div>
+
+      <div class="ck ck-g">
+        <div class="box" style="border-color:#16a34a;"></div>
+        認知症加算 算定中
+      </div>
+      <div class="ck-note">38点を算定している患者</div>
+
+      <div class="ck ck-b">
+        <div class="box"></div>
+        慢性疾患加算 算定中
+      </div>
+      <div class="ck-note">28点を算定している患者</div>
+
+      <div class="ck ck-s">
+        <div class="box" style="border-color:#6b7280;"></div>
+        加算なし（新規・変更なし）
+      </div>
+      <div class="ck-note" style="margin-bottom:0;">これまで算定なし・新患・加算リセット後</div>
+    </div>
+
+    <!-- → -->
+    <div style="display:flex; align-items:center; font-size:18pt; color:#94a3b8; padding-top:10px;">→</div>
+
+    <!-- STEP 2 -->
+    <div class="step-card" style="flex:2;">
+      <div class="step-hd">STEP 2　必要項目を電子カルテ・問診票で確認してチェック</div>
+
+      <table class="s2-table">
+        <colgroup>
+          <col class="num">
+          <col class="item">
+          <col class="how">
+          <col class="chk-cell">
+        </colgroup>
+        <tr>
+          <th style="text-align:center;"></th>
+          <th>確認項目</th>
+          <th>確認方法・場所</th>
+          <th>チェック結果</th>
+        </tr>
+        <tr>
+          <td class="num">①</td>
+          <td class="item">認知症の病名</td>
+          <td class="how">電子カルテの傷病名欄を開いて確認</td>
+          <td class="chk-cell">
+            <div class="chk-row2"><div class="chk-box2"></div>あり（病名：　　　　　　　　　）</div>
+            <div class="chk-row2" style="margin-bottom:0;"><div class="chk-box2"></div>なし</div>
+          </td>
+        </tr>
+        <tr>
+          <td class="num">②</td>
+          <td class="item">慢性5疾患の病名</td>
+          <td class="how">傷病名欄 ／ 下表の病名と照合<br><span style="font-size:7pt; color:#374151;">高血圧・脂質異常・糖尿病・慢性心不全・CKD</span></td>
+          <td class="chk-cell">
+            <div class="chk-row2"><div class="chk-box2"></div>あり（　　種）― 病名：　　　　</div>
+            <div class="chk-row2" style="margin-bottom:0;"><div class="chk-box2"></div>なし</div>
+          </td>
+        </tr>
+        <tr>
+          <td class="num">③</td>
+          <td class="item">介護サービス利用</td>
+          <td class="how">問診票 or 本人・家族への口頭確認<br><span style="font-size:7pt; color:#374151;">要支援・要介護どちらも可。不明な場合は確認</span></td>
+          <td class="chk-cell">
+            <div class="chk-row2"><div class="chk-box2"></div>あり（要支援 ／ 要介護）</div>
+            <div class="chk-row2"><div class="chk-box2"></div>なし</div>
+            <div class="chk-row2" style="margin-bottom:0;"><div class="chk-box2"></div>不明（診察室で確認）</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- チェック項目の意味説明 -->
+  <div style="margin-top:5px; background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:6px 10px;">
+    <div style="font-size:7.5pt; font-weight:700; color:#1e3a8a; margin-bottom:4px;">確認項目の意味</div>
+    <div style="display:flex; gap:6px;">
+      <div style="flex:1; background:#eff6ff; border-radius:5px; padding:5px 7px; font-size:7.5pt; color:#1e3a8a; line-height:1.65;">
+        <strong>STEP1 の意味</strong><br>
+        現在の算定状況によって、診察室での判定ルートが変わる。<br>
+        認知症加算算定中なら即継続、それ以外は条件確認が必要。
+      </div>
+      <div style="flex:1; background:#eff6ff; border-radius:5px; padding:5px 7px; font-size:7.5pt; color:#1e3a8a; line-height:1.65;">
+        <strong>①認知症病名 の意味</strong><br>
+        認知症の診断がつくと38点（認知症加算）の算定条件の一つになる。<br>
+        カルテ上の病名の有無を確認するだけでよい。
+      </div>
+      <div style="flex:1; background:#eff6ff; border-radius:5px; padding:5px 7px; font-size:7.5pt; color:#1e3a8a; line-height:1.65;">
+        <strong>②慢性5疾患 の意味</strong><br>
+        28点（慢性疾患加算）の算定条件。何種類かによって判定が変わるため種数を確認する。
+      </div>
+      <div style="flex:1; background:#eff6ff; border-radius:5px; padding:5px 7px; font-size:7.5pt; color:#1e3a8a; line-height:1.65;">
+        <strong>③介護サービス の意味</strong><br>
+        介護認定があると多剤制限が免除されるなど、38点・28点の両方で算定要件を緩和できる。
+      </div>
+    </div>
+  </div>
+
+  <!-- 慢性5疾患 -->
+  <div style="margin-top:6px;">
+    <div style="font-size:8pt; font-weight:700; color:#1e40af; margin-bottom:4px; padding:2px 0;">
+      ▼ 慢性5疾患 ― カルテ病名の照合表（STEP2②の参考）
+    </div>
+    <div class="dis-wrap">
+      <div class="dis-card">
+        <div class="name">高血圧症</div>
+        <div class="ex">高血圧症<br>本態性高血圧症<br>高血圧</div>
+      </div>
+      <div class="dis-card">
+        <div class="name">脂質異常症</div>
+        <div class="ex">脂質異常症<br>高脂血症<br>高コレステロール血症</div>
+      </div>
+      <div class="dis-card">
+        <div class="name">糖尿病</div>
+        <div class="ex">2型糖尿病<br>糖尿病<br>インスリン非依存型</div>
+      </div>
+      <div class="dis-card">
+        <div class="name">慢性心不全</div>
+        <div class="ex">慢性心不全<br>うっ血性心不全<br>CHF</div>
+      </div>
+      <div class="dis-card">
+        <div class="name">慢性腎臓病</div>
+        <div class="ex">慢性腎臓病（CKD）<br>慢性腎不全<br>CKD</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 注意事項 -->
+  <div class="note-box">
+    <strong>受付スタッフへ</strong>　加算の最終判定は医師が行う。受付の役割は「情報を正確に確認すること」のみ。病名の判断・介護認定の不明は診察室へそのまま引き継いでよい。レセコンの算定状況は確認を慎重に（ルートが変わるため）。
+  </div>
+
+</div>
+</body>
+</html>

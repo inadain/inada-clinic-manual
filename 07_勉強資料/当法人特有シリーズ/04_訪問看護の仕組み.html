@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第4回 訪問看護の仕組み | 当法人特有シリーズ</title>
+<style>
+:root{
+  --blue:#1558a0;--blue-m:#1e74c8;--blue-lt:#dbeafe;--blue-xl:#eff6ff;
+  --teal:#0d9488;--teal-lt:#f0fdfa;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --gray:#64748b;--gray-lt:#f1f5f9;--gray-m:#e2e8f0;
+  --text:#0f172a;--sub:#475569;--bg:#f0f4f8;--white:#fff;
+  --r:12px;--r-sm:8px;--sidebar:220px;--hdr:56px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.7;}
+
+/* ヘッダー */
+header{
+  position:sticky;top:0;z-index:100;
+  height:var(--hdr);
+  background:linear-gradient(135deg,#0d9488,#1558a0);
+  display:flex;align-items:center;padding:0 20px;gap:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+.hdr-back{color:rgba(255,255,255,.85);text-decoration:none;font-size:13px;white-space:nowrap;display:flex;align-items:center;gap:4px;}
+.hdr-back:hover{color:#fff;}
+.hdr-sep{color:rgba(255,255,255,.4);font-size:14px;}
+.hdr-title{color:#fff;font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hdr-series{color:rgba(255,255,255,.7);font-size:12px;margin-left:auto;white-space:nowrap;}
+
+/* ハンバーガー（モバイル） */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px;margin-left:auto;}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;margin:5px 0;border-radius:2px;transition:.3s;}
+
+/* レイアウト */
+.layout{display:flex;min-height:calc(100vh - var(--hdr));}
+
+/* サイドバー */
+aside{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--white);border-right:1px solid var(--gray-m);
+  padding:20px 0;position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));overflow-y:auto;
+}
+.sidebar-series{font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.05em;padding:0 16px 8px;border-bottom:1px solid var(--gray-m);margin-bottom:8px;}
+.sidebar-nav a{
+  display:block;padding:8px 16px;font-size:13px;color:var(--sub);text-decoration:none;border-left:3px solid transparent;transition:.15s;
+}
+.sidebar-nav a:hover{background:var(--gray-lt);color:var(--blue);}
+.sidebar-nav a.active{background:var(--blue-xl);color:var(--blue);font-weight:700;border-left-color:var(--blue);}
+
+/* メインコンテンツ */
+main{flex:1;padding:28px 24px;min-width:0;}
+.content-inner{max-width:700px;margin:0 auto;}
+
+/* ページヘッダー */
+.page-hdr{margin-bottom:28px;}
+.page-tag{display:inline-block;background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:8px;letter-spacing:.05em;}
+.page-hdr h1{font-size:22px;font-weight:900;color:var(--text);line-height:1.3;margin-bottom:6px;}
+.page-desc{color:var(--sub);font-size:13px;}
+
+/* セクション */
+.sec-block{margin-bottom:32px;scroll-margin-top:calc(var(--hdr) + 44px);}
+h2.sec-title{font-size:18px;font-weight:800;color:var(--blue);border-left:4px solid var(--blue);padding-left:12px;margin-bottom:16px;}
+h3.sub-title{font-size:15px;font-weight:700;color:var(--text);margin:16px 0 10px;}
+
+/* カード・ボックス */
+.card{background:var(--white);border-radius:var(--r);border:1px solid var(--gray-m);padding:16px 20px;margin-bottom:12px;}
+.point-box{background:var(--blue-xl);border-left:4px solid var(--blue);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;}
+.warn-box{background:var(--amber-lt);border-left:4px solid var(--amber);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;}
+.green-box{background:var(--green-lt);border-left:4px solid var(--green);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;}
+.teal-box{background:var(--teal-lt);border-left:4px solid var(--teal);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;}
+
+/* テーブル */
+table{width:100%;border-collapse:collapse;margin:12px 0;}
+th{background:var(--blue);color:#fff;padding:8px 12px;font-size:13px;text-align:left;}
+td{padding:8px 12px;border:1px solid var(--gray-m);font-size:13px;vertical-align:top;}
+tr:nth-child(even) td{background:var(--gray-lt);}
+
+/* リスト */
+ul.content-list,ol.content-list{padding-left:20px;margin:8px 0;}
+ul.content-list li,ol.content-list li{margin-bottom:6px;font-size:14px;}
+
+/* 要確認 */
+.fill-in{
+  background:#fef9c3;border:1px dashed #d97706;border-radius:4px;
+  padding:1px 6px;font-size:0.9em;color:#92400e;
+}
+
+/* フロー図 */
+.flow{display:flex;flex-direction:column;gap:4px;margin:12px 0;}
+.flow-item{background:var(--gray-lt);border-radius:var(--r-sm);padding:10px 14px;font-size:13px;position:relative;}
+.flow-item.blue{background:var(--blue-xl);border:1px solid var(--blue-lt);}
+.flow-item.teal{background:var(--teal-lt);}
+.flow-arrow{text-align:center;color:var(--gray);font-size:18px;line-height:1;}
+
+/* タグ類 */
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:12px;margin-right:4px;}
+.badge-blue{background:var(--blue-lt);color:var(--blue);}
+.badge-green{background:var(--green-lt);color:var(--green);}
+
+/* まとめリスト */
+.summary-list{list-style:none;padding:0;}
+.summary-list li{padding:8px 12px 8px 32px;position:relative;border-bottom:1px solid var(--gray-m);font-size:14px;}
+.summary-list li:last-child{border-bottom:none;}
+.summary-list li::before{content:"✓";position:absolute;left:10px;color:var(--teal);font-weight:700;}
+
+/* モバイルオーバーレイ */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90;}
+
+@media(max-width:640px){
+  .hamburger{display:block;}
+  .hdr-series{display:none;}
+  aside{
+    position:fixed;top:var(--hdr);left:0;height:calc(100vh - var(--hdr));
+    z-index:95;transform:translateX(-100%);transition:.25s;
+  }
+  aside.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}
+  main{padding:16px 14px;}
+  .page-hdr h1{font-size:18px;}
+  h2.sec-title{font-size:16px;}
+  table{font-size:12px;}
+  th,td{padding:6px 8px;}
+  .flow{gap:2px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="../index.html" class="hdr-back">&#8592; 戻る</a>
+  <span class="hdr-sep">|</span>
+  <span class="hdr-title">第4回 訪問看護の仕組み</span>
+  <span class="hdr-series">当法人特有シリーズ</span>
+  <button class="hamburger" onclick="toggleSidebar()" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="sidebar-series">当法人特有シリーズ</div>
+    <nav class="sidebar-nav">
+      <a href="01_当法人の事業所と役割.html">第1回 当法人の事業所と役割</a>
+      <a href="02_介護保険の基礎.html">第2回 介護保険の基礎</a>
+      <a href="03_訪問診療と往診の違い.html">第3回 訪問診療と往診の違い</a>
+      <a href="04_訪問看護の仕組み.html" class="active">第4回 訪問看護の仕組み</a>
+      <a href="05_医療と介護の連携実務.html">第5回 医療と介護の連携実務</a>
+    </nav>
+  </aside>
+
+  <main>
+    <div class="content-inner">
+
+      <div class="page-hdr">
+        <div class="page-tag">当法人特有シリーズ 第4回</div>
+        <h1>訪問看護の仕組み</h1>
+        <p class="page-desc">当法人が運営する訪問看護ステーションの役割と、医療保険・介護保険の使い分け、医師が関わる指示書の仕組みを理解しましょう。</p>
+      </div>
+
+      <!-- セクション1 -->
+      <section class="sec-block" id="sec1">
+        <h2 class="sec-title">1. 訪問看護とは</h2>
+        <div class="card">
+          <p style="margin-bottom:12px;font-size:14px;"><strong>訪問看護</strong>とは、看護師や理学療法士（PT）・作業療法士（OT）・言語聴覚士（ST）などの専門職が、患者の自宅や入居施設に訪問して医療・リハビリ・療養上のケアを提供するサービスです。</p>
+          <h3 class="sub-title">提供できる主なサービス</h3>
+          <ul class="content-list">
+            <li><strong>バイタルサインの測定・健康状態の観察</strong>：体温・血圧・SpO2などの確認と異常の早期発見</li>
+            <li><strong>医療処置の実施</strong>：点滴管理、褥瘡処置、カテーテル管理、痰吸引など</li>
+            <li><strong>服薬管理・指導</strong>：在宅での服薬状況確認、家族への指導</li>
+            <li><strong>リハビリテーション</strong>：PT・OT・STによる機能訓練・嚥下訓練</li>
+            <li><strong>療養上の世話</strong>：清潔ケア、体位変換など（ただし身体介護は訪問介護の担当）</li>
+            <li><strong>精神科看護</strong>：精神疾患を有する患者の支援（精神科訪問看護）</li>
+            <li><strong>ターミナルケア・看取り支援</strong>：終末期の患者と家族への支援</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">訪問看護を利用するための前提条件</h3>
+          <div class="point-box">
+            <strong>重要：訪問看護は必ず医師の「訪問看護指示書」が必要です。</strong><br>
+            訪問看護ステーションは、医師の指示なしに独自判断で看護を提供することはできません。主治医（当院の医師）が患者の状態に基づいて指示書を作成し、訪問看護ステーションに交付することで、初めてサービスが開始されます。
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">当法人の訪問看護ステーション</h3>
+          <p style="font-size:14px;">当法人では訪問看護ステーションを運営しており、医院・介護事業所と連携しながら地域の在宅療養を支えています。医院の医師が指示書を出し、当法人の訪問看護ステーションが実際のケアを担うというワンチーム体制が強みです。</p>
+          <p style="margin-top:8px;font-size:13px;"><span class="fill-in">【要確認：訪問看護ステーションの名称・所在地・連絡先】</span></p>
+        </div>
+      </section>
+
+      <!-- セクション2 -->
+      <section class="sec-block" id="sec2">
+        <h2 class="sec-title">2. 医療保険と介護保険どちらで提供するか</h2>
+        <div class="card">
+          <p style="margin-bottom:12px;font-size:14px;">訪問看護は<strong>医療保険</strong>でも<strong>介護保険</strong>でも提供できますが、どちらを使うかは患者の状態・年齢・疾患によって決まります。原則は<strong>介護保険が優先</strong>ですが、特定の条件では医療保険が優先されます。</p>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>医療保険（訪問看護療養費）</th>
+                <th>介護保険（訪問看護費）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>優先順位</strong></td>
+                <td>特定条件に該当する場合に優先</td>
+                <td>原則こちらを使用</td>
+              </tr>
+              <tr>
+                <td><strong>主な対象</strong></td>
+                <td>40歳未満の方、特定疾患・精神疾患・末期がん等の患者</td>
+                <td>要介護認定を受けている65歳以上（特定疾病なら40歳以上も）</td>
+              </tr>
+              <tr>
+                <td><strong>指示書</strong></td>
+                <td>訪問看護指示書（医療保険用）</td>
+                <td>訪問看護指示書（介護保険用）</td>
+              </tr>
+              <tr>
+                <td><strong>限度額</strong></td>
+                <td>原則なし（回数・時間の制限あり）</td>
+                <td>介護保険の区分支給限度額の範囲内</td>
+              </tr>
+              <tr>
+                <td><strong>請求先</strong></td>
+                <td>健康保険組合等（医療保険者）</td>
+                <td>市区町村（介護保険）</td>
+              </tr>
+              <tr>
+                <td><strong>訪問回数</strong></td>
+                <td>週3日まで原則（例外あり）</td>
+                <td>限度額の範囲内で比較的自由</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">医療保険が優先される主な条件</h3>
+          <p style="margin-bottom:10px;font-size:14px;">厚生労働省が定める<strong>別表第7</strong>（特掲診療料施設基準）の疾患・状態に該当する場合は、要介護認定があっても医療保険の訪問看護が優先されます。</p>
+          <ul class="content-list">
+            <li>末期の悪性腫瘍（がん終末期）</li>
+            <li>多発性硬化症・重症筋無力症・スモン・ALS・脊髄小脳変性症・パーキンソン病関連疾患</li>
+            <li>プリオン病・亜急性硬化性全脳炎・ライソゾーム病・副腎白質ジストロフィー</li>
+            <li>脊髄性筋萎縮症・球脊髄性筋萎縮症・慢性炎症性脱髄性多発神経炎</li>
+            <li>後天性免疫不全症候群（AIDS）</li>
+            <li>頸髄損傷・人工呼吸器を使用している患者</li>
+          </ul>
+          <div class="teal-box">
+            <strong>別表第8（特別管理が必要な状態）</strong>も医療保険優先となります。例：週4日以上の訪問が必要な状態、特別な管理（在宅悪性腫瘍患者指導管理、在宅気管切開患者指導管理、褥瘡処置など）が必要な場合。
+          </div>
+          <p style="margin-top:8px;font-size:13px;color:var(--sub);">※判断に迷う場合は医師・訪問看護ステーション管理者に確認してください。</p>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">40歳未満の患者は医療保険のみ</h3>
+          <p style="font-size:14px;">介護保険は原則65歳以上（または特定疾病の40〜64歳）の方が対象です。<strong>40歳未満の患者は介護保険を使えないため、訪問看護は医療保険でのみ提供</strong>されます。</p>
+        </div>
+      </section>
+
+      <!-- セクション3 -->
+      <section class="sec-block" id="sec3">
+        <h2 class="sec-title">3. 訪問看護指示書の仕組み</h2>
+        <div class="card">
+          <p style="margin-bottom:12px;font-size:14px;">訪問看護を開始・継続するには、主治医（当院の医師）が<strong>訪問看護指示書</strong>を作成して訪問看護ステーションに交付します。これは法律で定められた手順であり、指示書なしでの訪問看護は認められません。</p>
+          <h3 class="sub-title">訪問看護指示書の基本情報</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>項目</th>
+                <th>内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>有効期間</strong></td>
+                <td>原則6か月以内（状態が安定している場合）</td>
+              </tr>
+              <tr>
+                <td><strong>作成者</strong></td>
+                <td>主治医（医師）</td>
+              </tr>
+              <tr>
+                <td><strong>記載内容</strong></td>
+                <td>病名・病状・投薬内容・処置内容・留意事項・緊急時の連絡先など</td>
+              </tr>
+              <tr>
+                <td><strong>交付先</strong></td>
+                <td>訪問看護ステーション（1部を交付、写しをカルテに保管）</td>
+              </tr>
+              <tr>
+                <td><strong>更新タイミング</strong></td>
+                <td>有効期限満了時・病状が大きく変化したとき</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">特別訪問看護指示書（急性増悪時の特例）</h3>
+          <p style="margin-bottom:10px;font-size:14px;">患者の病状が急性増悪し、週4日以上の集中的な訪問看護が必要になった場合に発行できる特例の指示書です。</p>
+          <table>
+            <thead>
+              <tr>
+                <th>項目</th>
+                <th>内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>発行回数</strong></td>
+                <td>月2回まで（気管カニューレ・真皮を超える褥瘡の場合は月2回）</td>
+              </tr>
+              <tr>
+                <td><strong>有効期間</strong></td>
+                <td>14日以内（1回の指示書で最長14日）</td>
+              </tr>
+              <tr>
+                <td><strong>目的</strong></td>
+                <td>急性増悪時に通常の週3回制限を超えて訪問看護を提供できるようにする</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="warn-box">
+            <strong>&#9888; 注意：</strong>特別訪問看護指示書は「急性増悪」が条件です。状態が安定している患者に便宜上発行することは認められません。医師が実際に状態を確認した上で判断する必要があります。
+          </div>
+          <p style="margin-top:8px;font-size:13px;"><span class="fill-in">【要確認：当院での指示書作成の運用（誰が作成・どこで受け付け・交付の流れ・写しの保管場所）】</span></p>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">指示書の流れ（フロー）</h3>
+          <div class="flow">
+            <div class="flow-item blue">① 患者が訪問看護の利用を希望（または医師・ケアマネが提案）</div>
+            <div class="flow-arrow">&#8595;</div>
+            <div class="flow-item">② 主治医（当院医師）が患者の状態を確認・アセスメント</div>
+            <div class="flow-arrow">&#8595;</div>
+            <div class="flow-item blue">③ 医師が訪問看護指示書を作成・署名</div>
+            <div class="flow-arrow">&#8595;</div>
+            <div class="flow-item">④ 訪問看護ステーションに指示書を交付（写しはカルテへ）</div>
+            <div class="flow-arrow">&#8595;</div>
+            <div class="flow-item blue">⑤ 訪問看護ステーションがサービス計画を立案・開始</div>
+            <div class="flow-arrow">&#8595;</div>
+            <div class="flow-item teal">⑥ 定期的な情報共有・指示書の更新（6か月ごと）</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- セクション4 -->
+      <section class="sec-block" id="sec4">
+        <h2 class="sec-title">4. 訪問看護の診療報酬（医療保険の場合）</h2>
+        <div class="card">
+          <p style="margin-bottom:12px;font-size:14px;">医療保険での訪問看護は<strong>「訪問看護療養費」</strong>として健康保険から支給されます。この費用は、訪問看護ステーションが直接保険者（健保組合・国保など）に請求します。医院への請求ではありません。</p>
+          <div class="point-box">
+            <strong>ポイント：</strong>医療保険の訪問看護療養費は「訪問看護ステーション」の収入です。当院（医院）のレセプトには基本的に含まれません。混同しないようにしましょう。
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">当院（医師側）で算定できる関連報酬</h3>
+          <p style="margin-bottom:10px;font-size:14px;">訪問看護ステーションへの費用は医院の収入ではありませんが、医師が行う<strong>指示書の作成・情報提供</strong>に関しては医院でも報酬を算定できます。</p>
+          <table>
+            <thead>
+              <tr>
+                <th>項目</th>
+                <th>点数（参考）</th>
+                <th>内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>訪問看護指示料</strong></td>
+                <td>300点</td>
+                <td>訪問看護指示書を交付したときに月1回算定</td>
+              </tr>
+              <tr>
+                <td><strong>特別訪問看護指示加算</strong></td>
+                <td>+100点</td>
+                <td>特別訪問看護指示書を交付した場合に加算</td>
+              </tr>
+              <tr>
+                <td><strong>精神科訪問看護指示料</strong></td>
+                <td>300点</td>
+                <td>精神科の患者に指示書を交付したとき</td>
+              </tr>
+              <tr>
+                <td><strong>訪問看護・指導体制充実加算</strong></td>
+                <td>150点</td>
+                <td>要件を満たす場合に加算</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:var(--sub);margin-top:4px;">※点数は参考値。最新の診療報酬を確認してください。</p>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">介護保険の訪問看護との費用の違い</h3>
+          <p style="font-size:14px;">介護保険での訪問看護（訪問看護費）は介護報酬として支給されます。これも訪問看護ステーションへの支払いです。介護保険の場合は区分支給限度額の範囲内で使うことになるため、ケアマネジャーと連携した調整が重要になります。</p>
+        </div>
+      </section>
+
+      <!-- セクション5 -->
+      <section class="sec-block" id="sec5">
+        <h2 class="sec-title">5. 医療事務スタッフに関係する実務</h2>
+        <div class="card">
+          <h3 class="sub-title">訪問看護指示書の発行記録の管理</h3>
+          <p style="margin-bottom:10px;font-size:14px;">医療事務スタッフが関わる主な業務は、指示書の管理と関連する診療報酬の請求です。</p>
+          <ul class="content-list">
+            <li>訪問看護指示書を発行したら<strong>発行日・交付先・有効期限</strong>を記録する</li>
+            <li>指示書の<strong>写しをカルテに綴じる</strong>（原本は訪問看護ステーションへ）</li>
+            <li>有効期限が近づいたら医師に<strong>更新の確認・アラート</strong>を入れる</li>
+            <li>特別訪問看護指示書は月の発行回数（原則月2回まで）を管理する</li>
+            <li>訪問看護指示料（300点）のレセプト計上漏れがないよう確認する</li>
+          </ul>
+          <p style="margin-top:8px;font-size:13px;"><span class="fill-in">【要確認：当院での訪問看護指示書の管理方法（台帳・カルテ記録・電子管理等）】</span></p>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">訪問看護ステーションとの書類やり取り</h3>
+          <p style="margin-bottom:10px;font-size:14px;">医院と訪問看護ステーションの間では、以下のような書類のやり取りが定期的に発生します。</p>
+          <table>
+            <thead>
+              <tr>
+                <th>書類名</th>
+                <th>方向</th>
+                <th>タイミング</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>訪問看護指示書</td>
+                <td>医院 → 訪問看護ST</td>
+                <td>サービス開始時・更新時</td>
+              </tr>
+              <tr>
+                <td>特別訪問看護指示書</td>
+                <td>医院 → 訪問看護ST</td>
+                <td>急性増悪時に随時</td>
+              </tr>
+              <tr>
+                <td>訪問看護報告書</td>
+                <td>訪問看護ST → 医院</td>
+                <td>月1回（月末〜翌月初）</td>
+              </tr>
+              <tr>
+                <td>訪問看護計画書</td>
+                <td>訪問看護ST → 医院（情報共有）</td>
+                <td>サービス開始時・見直し時</td>
+              </tr>
+              <tr>
+                <td>緊急連絡（電話・FAX等）</td>
+                <td>訪問看護ST ↔ 医院</td>
+                <td>患者の急変時・随時</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="teal-box">
+            <strong>訪問看護報告書について：</strong>訪問看護ステーションから送られてくる月次報告書は、患者の状態変化・実施内容が記載されています。医師が確認・サインをするケースもあるため、受け取り後は速やかに医師へ回してください。
+          </div>
+          <p style="margin-top:8px;font-size:13px;"><span class="fill-in">【要確認：訪問看護ステーションとの書類やり取りの担当者・受け取り窓口・保管場所】</span></p>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">連携における注意点</h3>
+          <ul class="content-list">
+            <li>訪問看護ステーションへの<strong>訪問看護療養費の請求には医院は関与しない</strong>（混同しない）</li>
+            <li>患者が当法人の訪問看護ステーションを利用していても、医院レセプトに訪問看護費用は入らない</li>
+            <li>医院で算定できる「訪問看護指示料」の請求漏れに注意する</li>
+            <li>患者の保険の種別（医療保険 or 介護保険）によって、指示書の様式が異なる場合があるため確認が必要</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- セクション6 まとめ -->
+      <section class="sec-block" id="sec6">
+        <h2 class="sec-title">6. まとめ</h2>
+        <div class="card">
+          <ul class="summary-list">
+            <li>訪問看護は看護師・PT・OT・STが患者の自宅や施設を訪問してケアを提供するサービス。</li>
+            <li>訪問看護を提供するには必ず医師が「訪問看護指示書」を作成・交付しなければならない。</li>
+            <li>原則は介護保険が優先だが、別表第7・8に該当する疾患・状態や40歳未満の患者は医療保険が優先される。</li>
+            <li>特別訪問看護指示書は急性増悪時に限り月2回まで発行でき、有効期間は14日以内。</li>
+            <li>訪問看護療養費は訪問看護ステーションが請求するもので、医院のレセプトには含まれない。</li>
+            <li>医院側で算定できるのは「訪問看護指示料（300点）」などの指示書関連報酬のみ。</li>
+            <li>訪問看護ステーションとの間では指示書・報告書・計画書など定期的な書類のやり取りが発生する。</li>
+          </ul>
+        </div>
+        <div class="green-box" style="margin-top:8px;">
+          <strong>次回予告：</strong>第5回「医療と介護の連携実務」では、当法人の各事業所がどのように連携しているか、実際の業務フロー・カンファレンス・情報共有の仕組みを学びます。
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+function toggleSidebar(){
+  var sb=document.getElementById('sidebar');
+  var ov=document.getElementById('overlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('open');
+}
+</script>
+</body>
+</html>

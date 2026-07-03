@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第3回 訪問診療と往診の違い | 当法人特有シリーズ</title>
+<style>
+:root{
+  --blue:#1558a0;--blue-m:#1e74c8;--blue-lt:#dbeafe;--blue-xl:#eff6ff;
+  --teal:#0d9488;--teal-lt:#f0fdfa;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --gray:#64748b;--gray-lt:#f1f5f9;--gray-m:#e2e8f0;
+  --text:#0f172a;--sub:#475569;--bg:#f0f4f8;--white:#fff;
+  --r:12px;--r-sm:8px;--sidebar:220px;--hdr:56px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.7;}
+
+/* ヘッダー */
+header{
+  position:sticky;top:0;z-index:100;
+  height:var(--hdr);
+  background:linear-gradient(135deg,#0d9488,#1558a0);
+  display:flex;align-items:center;padding:0 20px;gap:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+.hdr-back{color:rgba(255,255,255,.85);text-decoration:none;font-size:13px;white-space:nowrap;display:flex;align-items:center;gap:4px;}
+.hdr-back:hover{color:#fff;}
+.hdr-sep{color:rgba(255,255,255,.4);font-size:14px;}
+.hdr-title{color:#fff;font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hdr-series{color:rgba(255,255,255,.7);font-size:12px;margin-left:auto;white-space:nowrap;}
+
+/* ハンバーガー（モバイル） */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px;margin-left:auto;}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;margin:5px 0;border-radius:2px;transition:.3s;}
+
+/* レイアウト */
+.layout{display:flex;min-height:calc(100vh - var(--hdr));}
+
+/* サイドバー */
+aside{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--white);border-right:1px solid var(--gray-m);
+  padding:20px 0;position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));overflow-y:auto;
+}
+.sidebar-series{font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.05em;padding:0 16px 8px;border-bottom:1px solid var(--gray-m);margin-bottom:8px;}
+.sidebar-nav a{
+  display:block;padding:8px 16px;font-size:13px;color:var(--sub);text-decoration:none;border-left:3px solid transparent;transition:.15s;
+}
+.sidebar-nav a:hover{background:var(--gray-lt);color:var(--blue);}
+.sidebar-nav a.active{background:var(--blue-xl);color:var(--blue);font-weight:700;border-left-color:var(--blue);}
+
+/* メインコンテンツ */
+main{flex:1;padding:28px 24px;min-width:0;}
+.content-inner{max-width:700px;margin:0 auto;}
+
+/* ページヘッダー */
+.page-hdr{margin-bottom:28px;}
+.page-tag{display:inline-block;background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:8px;letter-spacing:.05em;}
+.page-hdr h1{font-size:22px;font-weight:900;color:var(--text);line-height:1.3;margin-bottom:6px;}
+.page-desc{color:var(--sub);font-size:13px;}
+
+/* セクション */
+.sec-block{margin-bottom:32px;scroll-margin-top:calc(var(--hdr) + 44px);}
+h2.sec-title{font-size:18px;font-weight:800;color:var(--blue);border-left:4px solid var(--blue);padding-left:12px;margin-bottom:16px;}
+h3.sub-title{font-size:15px;font-weight:700;color:var(--text);margin:16px 0 10px;}
+
+/* カード・ボックス */
+.card{background:var(--white);border-radius:var(--r);border:1px solid var(--gray-m);padding:16px 20px;margin-bottom:12px;}
+.point-box{background:var(--blue-xl);border-left:4px solid var(--blue);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;}
+.warn-box{background:var(--amber-lt);border-left:4px solid var(--amber);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;}
+.green-box{background:var(--green-lt);border-left:4px solid var(--green);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;}
+
+/* テーブル */
+table{width:100%;border-collapse:collapse;margin:12px 0;}
+th{background:var(--blue);color:#fff;padding:8px 12px;font-size:13px;text-align:left;}
+td{padding:8px 12px;border:1px solid var(--gray-m);font-size:13px;vertical-align:top;}
+tr:nth-child(even) td{background:var(--gray-lt);}
+
+/* リスト */
+ul.content-list,ol.content-list{padding-left:20px;margin:8px 0;}
+ul.content-list li,ol.content-list li{margin-bottom:6px;font-size:14px;}
+
+/* 要確認 */
+.fill-in{
+  background:#fef9c3;border:1px dashed #d97706;border-radius:4px;
+  padding:1px 6px;font-size:0.9em;color:#92400e;
+}
+
+/* タグ類 */
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:12px;margin-right:4px;}
+.badge-blue{background:var(--blue-lt);color:var(--blue);}
+.badge-amber{background:var(--amber-lt);color:var(--amber);}
+.badge-green{background:var(--green-lt);color:var(--green);}
+.badge-teal{background:var(--teal-lt);color:var(--teal);}
+
+/* まとめリスト */
+.summary-list{list-style:none;padding:0;}
+.summary-list li{padding:8px 12px 8px 32px;position:relative;border-bottom:1px solid var(--gray-m);font-size:14px;}
+.summary-list li:last-child{border-bottom:none;}
+.summary-list li::before{content:"✓";position:absolute;left:10px;color:var(--teal);font-weight:700;}
+
+/* モバイルオーバーレイ */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90;}
+
+@media(max-width:640px){
+  .hamburger{display:block;}
+  .hdr-series{display:none;}
+  aside{
+    position:fixed;top:var(--hdr);left:0;height:calc(100vh - var(--hdr));
+    z-index:95;transform:translateX(-100%);transition:.25s;
+  }
+  aside.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}
+  main{padding:16px 14px;}
+  .page-hdr h1{font-size:18px;}
+  h2.sec-title{font-size:16px;}
+  table{font-size:12px;}
+  th,td{padding:6px 8px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="../index.html" class="hdr-back">&#8592; 戻る</a>
+  <span class="hdr-sep">|</span>
+  <span class="hdr-title">第3回 訪問診療と往診の違い</span>
+  <span class="hdr-series">当法人特有シリーズ</span>
+  <button class="hamburger" onclick="toggleSidebar()" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="sidebar-series">当法人特有シリーズ</div>
+    <nav class="sidebar-nav">
+      <a href="01_当法人の事業所と役割.html">第1回 当法人の事業所と役割</a>
+      <a href="02_介護保険の基礎.html">第2回 介護保険の基礎</a>
+      <a href="03_訪問診療と往診の違い.html" class="active">第3回 訪問診療と往診の違い</a>
+      <a href="04_訪問看護の仕組み.html">第4回 訪問看護の仕組み</a>
+      <a href="05_医療と介護の連携実務.html">第5回 医療と介護の連携実務</a>
+    </nav>
+  </aside>
+
+  <main>
+    <div class="content-inner">
+
+      <div class="page-hdr">
+        <div class="page-tag">当法人特有シリーズ 第3回</div>
+        <h1>訪問診療と往診の違い</h1>
+        <p class="page-desc">混同しやすい2つの診療形態を正確に理解し、レセプト請求や日常業務に活かしましょう。</p>
+      </div>
+
+      <!-- セクション1 -->
+      <section class="sec-block" id="sec1">
+        <h2 class="sec-title">1. 2つの根本的な違い</h2>
+        <div class="card">
+          <p style="margin-bottom:10px;font-size:14px;">「訪問診療」と「往診」はどちらも医師が患者のもとへ出向く診療ですが、<strong>性質・目的・報酬体系が全く異なります</strong>。まずこの違いを正確に押さえておくことが、在宅医療業務の第一歩です。</p>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>訪問診療</th>
+                <th>往診</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>性質</strong></td>
+                <td>計画的・定期的</td>
+                <td>臨時・緊急</td>
+              </tr>
+              <tr>
+                <td><strong>訪問頻度</strong></td>
+                <td>原則月2回以上（計画による）</td>
+                <td>患者・家族の求めに応じてその都度</td>
+              </tr>
+              <tr>
+                <td><strong>事前計画</strong></td>
+                <td>在宅療養計画書が必要</td>
+                <td>不要（求めがあれば即対応）</td>
+              </tr>
+              <tr>
+                <td><strong>代表的な報酬</strong></td>
+                <td>在宅患者訪問診療料</td>
+                <td>往診料</td>
+              </tr>
+              <tr>
+                <td><strong>主な対象</strong></td>
+                <td>通院が困難な患者</td>
+                <td>急変・緊急対応が必要な患者</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warn-box">
+          <strong>&#9888; スタッフへの注意喚起</strong><br>
+          患者・ご家族が「先生に来てもらいました」と言う場合でも、定期的な計画訪問は「訪問診療」、急に呼んで来ていただいた場合は「往診」です。<br>
+          <strong>レセプト請求の誤りにつながるため、どちらの形態で診療が行われたかを必ず確認してください。</strong><br>
+          また1回の訪問で「訪問診療料」と「往診料」を同日に算定することは原則できません。
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">訪問診療が成立するための3条件</h3>
+          <ul class="content-list">
+            <li><strong>通院困難</strong>：疾病・傷病のために通院が困難であること</li>
+            <li><strong>在宅療養計画書</strong>：医師が作成し、患者・家族に説明・同意を得ていること</li>
+            <li><strong>定期性</strong>：計画に基づいて定期的に訪問すること（月2回以上が基本）</li>
+          </ul>
+          <p style="margin-top:8px;font-size:13px;color:var(--sub);">これら3条件が揃わない状態での訪問は、訪問診療料の算定ができず、往診料での請求となります。</p>
+        </div>
+      </section>
+
+      <!-- セクション2 -->
+      <section class="sec-block" id="sec2">
+        <h2 class="sec-title">2. 訪問診療の診療報酬</h2>
+        <div class="card">
+          <p style="margin-bottom:12px;font-size:14px;">訪問診療の報酬は「<strong>在宅患者訪問診療料</strong>」として算定します。患者の居住形態によって点数が大きく異なります。</p>
+          <table>
+            <thead>
+              <tr>
+                <th>区分</th>
+                <th>点数</th>
+                <th>対象</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>在宅患者訪問診療料（Ⅰ）<br><span style="font-size:12px;color:var(--sub);">同一建物居住者以外</span></td>
+                <td><strong>888点</strong></td>
+                <td>独居・同一建物に1人のみの患者</td>
+              </tr>
+              <tr>
+                <td>在宅患者訪問診療料（Ⅰ）<br><span style="font-size:12px;color:var(--sub);">同一建物居住者</span></td>
+                <td><strong>213点</strong></td>
+                <td>同一建物に複数の患者がいる場合</td>
+              </tr>
+              <tr>
+                <td>在宅患者訪問診療料（Ⅱ）</td>
+                <td><strong>884点</strong></td>
+                <td>他院の患者を訪問する場合（在宅医療専門の場合など）</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:var(--sub);margin-top:4px;">※点数は2024年度改定時の参考値。実際は最新の診療報酬を確認してください。</p>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">在宅管理料（月1回算定できる包括報酬）</h3>
+          <p style="margin-bottom:10px;font-size:14px;">訪問診療を行う患者については、以下の管理料を月1回算定できます。これは個々の訪問診療料に加えて算定できる重要な報酬です。</p>
+          <ul class="content-list">
+            <li><strong>在宅時医学総合管理料（在医総管）</strong>：在宅で療養する患者（自宅・グループホーム等）に算定</li>
+            <li><strong>施設入居時等医学総合管理料（施医総管）</strong>：特定施設・有料老人ホーム等の入居者に算定</li>
+          </ul>
+          <div class="point-box">
+            <strong>ポイント：</strong>在医総管・施医総管の点数は、在宅療養支援診療所（在支診）かどうか、訪問頻度、患者の状態（重症度）によって大きく変わります。月あたりの報酬の中核を担う部分です。
+          </div>
+          <p style="margin-top:8px;font-size:13px;"><span class="fill-in">【要確認：当院で算定している主な在宅管理料の種別】</span></p>
+        </div>
+      </section>
+
+      <!-- セクション3 -->
+      <section class="sec-block" id="sec3">
+        <h2 class="sec-title">3. 往診料</h2>
+        <div class="card">
+          <p style="margin-bottom:12px;font-size:14px;">患者・家族の求めに応じて緊急的に訪問した場合に算定します。時間帯・緊急度によって加算が異なります。</p>
+          <table>
+            <thead>
+              <tr>
+                <th>区分</th>
+                <th>点数</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>往診料（基本）</strong></td>
+                <td>720点</td>
+              </tr>
+              <tr>
+                <td>緊急往診加算（時間内）</td>
+                <td>+325点</td>
+              </tr>
+              <tr>
+                <td>緊急往診加算（時間外・休日・深夜）</td>
+                <td>+650点</td>
+              </tr>
+              <tr>
+                <td>時間外加算</td>
+                <td>+85点</td>
+              </tr>
+              <tr>
+                <td>深夜加算</td>
+                <td>+695点</td>
+              </tr>
+              <tr>
+                <td>休日加算</td>
+                <td>+250点</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:var(--sub);margin-top:4px;">※点数は参考値。在支診の届出状況によって算定できる加算が異なります。</p>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">往診の記録で必要なこと</h3>
+          <ul class="content-list">
+            <li>患者・家族から求めがあった日時の記録</li>
+            <li>医師が出発した時刻・到着した時刻</li>
+            <li>緊急往診加算を算定する場合は「緊急」の判断理由</li>
+            <li>訪問診療患者と往診患者の区別（カルテ・レセプト両方で明確に）</li>
+          </ul>
+          <p style="margin-top:8px;font-size:13px;"><span class="fill-in">【要確認：当院の往診対応時間帯・体制（担当医・連絡先・オンコール体制等）】</span></p>
+        </div>
+
+        <div class="warn-box">
+          <strong>&#9888; 「緊急」の定義に注意</strong><br>
+          緊急往診加算は「患者の病状が急変し、緊急に往診が必要な場合」に限られます。定期訪問の日程を急きょ変更した場合や、患者の都合で時間帯を変えただけの場合には算定できません。審査でも確認されるポイントです。
+        </div>
+      </section>
+
+      <!-- セクション4 -->
+      <section class="sec-block" id="sec4">
+        <h2 class="sec-title">4. 在宅療養支援診療所（在支診）とは</h2>
+        <div class="card">
+          <p style="margin-bottom:12px;font-size:14px;"><strong>在宅療養支援診療所（在支診）</strong>とは、24時間対応できる体制を整備し、地方厚生局に届け出た診療所のことです。在支診であることで算定できる診療報酬の点数が高くなります。</p>
+          <h3 class="sub-title">届出要件の主なポイント</h3>
+          <ul class="content-list">
+            <li><strong>24時間連絡体制</strong>：患者・家族が24時間いつでも連絡できる電話窓口を設置</li>
+            <li><strong>24時間往診体制</strong>：24時間365日、往診できる体制を確保（自院または連携先）</li>
+            <li><strong>24時間訪問看護体制</strong>：訪問看護ステーションと連携して24時間対応</li>
+            <li><strong>緊急入院できる病院との連携</strong>：緊急時に入院を依頼できる病院を確保</li>
+            <li><strong>看取り実績</strong>：過去1年間の看取り実績または15件以上の在宅での看取り</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">機能強化型在支診（さらに高い点数が算定可能）</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>区分</th>
+                <th>内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>機能強化型（単独型）</strong></td>
+                <td>1つの診療所だけで要件を満たす（常勤医師3名以上・看取り20件以上等）</td>
+              </tr>
+              <tr>
+                <td><strong>機能強化型（連携型）</strong></td>
+                <td>複数の診療所が連携して要件を満たす（連携内の常勤医師合計3名以上等）</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="point-box">
+            <strong>ポイント：</strong>在支診（特に機能強化型）であることで、在医総管・施医総管の点数が大幅に高くなります。月次の収益に直結するため、届出状況を正確に把握することが重要です。
+          </div>
+          <p style="margin-top:8px;font-size:13px;"><span class="fill-in">【要確認：当院の在支診の届出状況と種別（通常型・機能強化型単独・機能強化型連携）】</span></p>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">在支診による主な加算の違い（在医総管の例）</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>届出区分</th>
+                <th>月2回以上の訪問（重症）</th>
+                <th>月1回の訪問</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>機能強化型在支診（単独）</td>
+                <td>5,400点</td>
+                <td>2,760点</td>
+              </tr>
+              <tr>
+                <td>機能強化型在支診（連携）</td>
+                <td>4,600点</td>
+                <td>2,360点</td>
+              </tr>
+              <tr>
+                <td>在支診（通常型）</td>
+                <td>4,200点</td>
+                <td>2,100点</td>
+              </tr>
+              <tr>
+                <td>在支診以外</td>
+                <td>2,760点</td>
+                <td>1,440点</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:var(--sub);margin-top:4px;">※上記は概念的な数値例です。実際の点数は診療報酬改定ごとに変わります。</p>
+        </div>
+      </section>
+
+      <!-- セクション5 -->
+      <section class="sec-block" id="sec5">
+        <h2 class="sec-title">5. レセプト請求の実務ポイント</h2>
+        <div class="card">
+          <h3 class="sub-title">訪問診療レセプトの基本</h3>
+          <ul class="content-list">
+            <li>訪問診療は外来・入院とは別の<strong>「在宅」レセプト</strong>として請求します</li>
+            <li>訪問した<strong>日付ごとに</strong>訪問診療料を算定し、月に複数回の訪問があれば複数回算定します</li>
+            <li>在宅管理料（在医総管・施医総管）は<strong>月1回のみ</strong>算定します</li>
+            <li>診察費（初診料・再診料）は訪問診療料と同日に算定できません（包括されます）</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">同一建物居住者の人数確認</h3>
+          <p style="margin-bottom:8px;font-size:14px;">同じ日に同じ建物（マンション・施設など）の複数の患者を訪問する場合、点数が変わります。</p>
+          <div class="warn-box">
+            <strong>&#9888; 確認が必要なケース</strong><br>
+            同じ日に同じ建物で複数の患者を診療した場合 → 全員が「同一建物居住者（213点）」の扱いになります。<br>
+            <strong>その日の訪問患者数・建物の特定を必ずレセプト入力前に確認してください。</strong>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">在宅療養計画書の管理</h3>
+          <ul class="content-list">
+            <li>訪問診療料を算定するためには<strong>在宅療養計画書</strong>が必要です</li>
+            <li>患者・家族へ説明し、<strong>署名をもらってカルテに保存</strong>します</li>
+            <li>計画書は定期的に（おおむね6か月ごと）見直しが必要です</li>
+            <li>計画書がない状態で請求すると返戻・査定の原因になります</li>
+          </ul>
+          <p style="margin-top:8px;font-size:13px;"><span class="fill-in">【要確認：当院の訪問診療レセプト担当者・請求フロー（入力担当・確認者・提出スケジュール）】</span></p>
+        </div>
+
+        <div class="card">
+          <h3 class="sub-title">審査で見られやすいポイント</h3>
+          <ul class="content-list">
+            <li>通院困難の理由が診療録に記載されているか</li>
+            <li>在宅療養計画書が適切に作成・保存されているか</li>
+            <li>同一建物居住者の人数の計算が正確か</li>
+            <li>往診料と訪問診療料の区別が明確か</li>
+            <li>在支診の届出状況と算定している加算が一致しているか</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- セクション6 まとめ -->
+      <section class="sec-block" id="sec6">
+        <h2 class="sec-title">6. まとめ</h2>
+        <div class="card">
+          <ul class="summary-list">
+            <li><strong>訪問診療</strong>は計画的・定期的な在宅診療。在宅療養計画書が必須で、在宅患者訪問診療料を算定する。</li>
+            <li><strong>往診</strong>は患者・家族の求めに応じた臨時対応。事前計画は不要で、往診料を算定する。</li>
+            <li>同日に訪問診療料と往診料の両方を算定することは原則できない。</li>
+            <li>在宅管理料（在医総管・施医総管）は月1回算定できる包括報酬で、収益の中核を担う。</li>
+            <li>在宅療養支援診療所（在支診）の届出状況によって算定できる報酬の点数が大幅に変わる。</li>
+            <li>同一建物に複数の患者がいる場合、訪問診療料の点数区分が変わるため、必ず人数確認が必要。</li>
+            <li>在宅療養計画書・通院困難の理由はカルテに必ず記録し、審査に備える。</li>
+          </ul>
+        </div>
+        <div class="green-box" style="margin-top:8px;">
+          <strong>次回予告：</strong>第4回「訪問看護の仕組み」では、当法人の訪問看護ステーションの役割と、医療保険・介護保険の使い分け、医師が行う指示書の仕組みを学びます。
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+function toggleSidebar(){
+  var sb=document.getElementById('sidebar');
+  var ov=document.getElementById('overlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('open');
+}
+</script>
+</body>
+</html>

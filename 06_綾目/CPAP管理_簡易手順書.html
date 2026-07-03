@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPAP管理 簡易手順書</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    padding: 24px;
+    line-height: 1.7;
+  }
+  h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1a365d;
+    margin-bottom: 24px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #2b6cb0;
+  }
+  .section {
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .section-header {
+    padding: 12px 18px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .fukuda .section-header { background: #2b6cb0; }
+  .teijin .section-header { background: #276749; }
+  .philips .section-header { background: #744210; }
+
+  .section-body { padding: 16px 18px; }
+
+  .login-box {
+    background: #ebf8ff;
+    border: 1px solid #90cdf4;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.88rem;
+  }
+  .login-box .label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #2b6cb0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .login-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 3px 0;
+  }
+  .login-row span.key {
+    width: 60px;
+    font-size: 0.78rem;
+    color: #4a5568;
+    flex-shrink: 0;
+  }
+  .login-row code {
+    background: #fff;
+    border: 1px solid #bee3f8;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: #1a365d;
+    user-select: all;
+    cursor: pointer;
+  }
+  .url-link {
+    color: #2b6cb0;
+    text-decoration: none;
+    font-size: 0.83rem;
+  }
+  .url-link:hover { text-decoration: underline; }
+
+  .block-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 14px 0 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  ol.steps {
+    padding-left: 0;
+    list-style: none;
+    counter-reset: step;
+  }
+  ol.steps li {
+    counter-increment: step;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px dashed #edf2f7;
+    font-size: 0.9rem;
+  }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(step);
+    min-width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #2b6cb0;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .teijin ol.steps li::before { background: #276749; }
+  .philips ol.steps li::before { background: #744210; }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .tag-list { background: #ebf8ff; color: #2b6cb0; }
+  .tag-ind  { background: #f0fff4; color: #276749; }
+
+  .note-box {
+    background: #fffbeb;
+    border-left: 4px solid #f6ad55;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin-top: 14px;
+    font-size: 0.84rem;
+    color: #744210;
+  }
+  .note-box .note-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  ul.note-list {
+    padding-left: 16px;
+    margin-top: 4px;
+  }
+  ul.note-list li {
+    margin: 3px 0;
+    font-size: 0.84rem;
+  }
+
+  .badge {
+    display: inline-block;
+    background: #bee3f8;
+    color: #2c5282;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+  }
+
+  .excel .section-header { background: #276749; }
+
+  .flow-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #f7fafc;
+    border-radius: 8px;
+    padding: 10px 12px;
+    border-left: 4px solid #2b6cb0;
+  }
+  .flow-step.green { border-left-color: #276749; }
+  .flow-step.orange { border-left-color: #744210; }
+  .flow-num {
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #2b6cb0;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .flow-step.green .flow-num { background: #276749; }
+  .flow-step.orange .flow-num { background: #744210; }
+  .flow-body { font-size: 0.88rem; }
+  .flow-body strong { display: block; margin-bottom: 2px; }
+  .flow-body span { font-size: 0.8rem; color: #718096; }
+  .sheet-tag {
+    display: inline-block;
+    background: #e2e8f0;
+    color: #2d3748;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 4px;
+    margin: 0 3px;
+    font-family: monospace;
+  }
+  .arrow-row {
+    text-align: center;
+    color: #a0aec0;
+    font-size: 1rem;
+    margin: -4px 0;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #a0aec0;
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+
+<h1>CPAP管理 簡易手順書</h1>
+
+<!-- ========== フクダ電子 ========== -->
+<div class="section fukuda">
+  <div class="section-header">
+    <span>💙</span>フクダ電子（frens）
+  </div>
+  <div class="section-body">
+
+    <div class="login-box">
+      <div class="label">ログイン情報</div>
+      <div class="login-row">
+        <span class="key">URL</span>
+        <a class="url-link" href="https://fdauth.com/v1.0/signin" target="_blank">https://fdauth.com/v1.0/signin</a>
+      </div>
+      <div class="login-row">
+        <span class="key">ID</span>
+        <code>inada.clinic.t@gmail.com</code>
+      </div>
+      <div class="login-row">
+        <span class="key">PW</span>
+        <code>0OF0tcluRYP^U!&amp;%</code>
+      </div>
+    </div>
+
+    <div class="block-title">一覧出力 <span class="tag tag-list">サマリー</span></div>
+    <ol class="steps">
+      <li>リンクにアクセスしてログイン</li>
+      <li>右上の歯車アイコン → <strong>frensへ戻る</strong></li>
+      <li>メニューから <strong>CPAP</strong> を選択</li>
+      <li><strong>サマリー出力</strong> をクリック</li>
+      <li>期間を選択（1か月単位で指定）</li>
+    </ol>
+
+    <div class="block-title">個別出力 <span class="tag tag-ind">レポート</span></div>
+    <ol class="steps">
+      <li>リンクにアクセスしてログイン</li>
+      <li>右上の歯車アイコン → <strong>frensへ戻る</strong></li>
+      <li>メニューから <strong>CPAP</strong> を選択</li>
+      <li>患者No.の左の <strong>□</strong> をクリック → 全選択</li>
+      <li><strong>レポート出力</strong> をクリック</li>
+      <li><strong>サマリーレポート</strong> を選択 → 期間を指定して出力</li>
+    </ol>
+
+  </div>
+</div>
+
+<!-- ========== 帝人 ========== -->
+<div class="section teijin">
+  <div class="section-header">
+    <span>🟢</span>帝人
+  </div>
+  <div class="section-body">
+
+    <div class="badge">毎月2日以降に前月分が更新</div>
+
+    <div class="block-title">月次レポート確認手順</div>
+    <ol class="steps">
+      <li>毎月2日以降にログインして月次レポートを確認</li>
+      <li><strong>施設基準</strong> を確認（帝人からも入手可）</li>
+      <li>「<strong>使用日数（4時間以上）</strong>」の列を確認</li>
+      <li>（　）内の数値 ＝ 実績日数 → <strong>20日以上</strong>で今回の基準を満たす</li>
+      <li>「<strong>平均使用時間</strong>」を確認（使用日のみの平均・不使用日は含めない）<br>
+        <small style="color:#888;">※厚労省基準は不使用日を含む平均を要求</small></li>
+      <li>平均使用時間が <strong>1時間以上</strong>あればOK</li>
+    </ol>
+
+    <div class="note-box">
+      <div class="note-title">⚠ 算定チェックポイント</div>
+      <ul class="note-list">
+        <li>使用日数（4時間以上）の（　）内 → <strong>20日以上</strong> で基準クリア</li>
+        <li>平均使用時間 → <strong>1時間以上</strong> あればOK</li>
+        <li>施設基準は帝人から入手 or 自分で確認</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== フィリップス ========== -->
+<div class="section philips">
+  <div class="section-header">
+    <span>🟠</span>フィリップス
+  </div>
+  <div class="section-body">
+
+    <div class="note-box" style="border-color:#fc8181; background:#fff5f5; color:#742a2a;">
+      <div class="note-title">📱 専用アプリが必要</div>
+      新規のアプリケーションを導入・設定してから数値を確認する。<br>
+      （アプリ未導入のため、導入後に手順を追記予定）
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== Excel 計算シート ========== -->
+<div class="section excel">
+  <div class="section-header">
+    <span>📊</span>充実管理体制加算　計算シート（Excel）
+  </div>
+  <div class="section-body">
+
+    <div class="badge">ファイル名：_CPAP充実管理体制加算_計算シート.xlsx</div>
+
+    <div class="block-title">シート構成</div>
+    <div style="font-size:0.84rem; margin-bottom:12px; line-height:2;">
+      <span class="sheet-tag">施設基準届出計算</span> 左上：施設基準①〜⑤を自動計算　右：月次記録一覧（入力欄）<br>
+      <span class="sheet-tag">フクダ_1月目</span>
+      <span class="sheet-tag">フクダ_2月目</span>
+      <span class="sheet-tag">フクダ_3月目</span> frens CSVの貼り付け先（患者数・4h20d自動集計）<br>
+      <span class="sheet-tag">操作手順</span> 各シートの使い方
+    </div>
+
+    <div class="block-title">毎月の作業フロー</div>
+    <div class="flow-wrap">
+
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-body">
+          <strong>フクダ frens からCSVを取得</strong>
+          <span>frensにログイン → CPAP → サマリー出力 → 対象月を指定してダウンロード</span>
+        </div>
+      </div>
+      <div class="arrow-row">↓</div>
+
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-body">
+          <strong>CSVを <span class="sheet-tag">フクダ_X月目</span> シートに貼り付け</strong>
+          <span>行19以降を削除 → ダウンロードしたCSVを全コピー → A19に貼り付け<br>
+          貼り付けると「全患者数」「4h20d達成数」が自動カウントされる</span>
+        </div>
+      </div>
+      <div class="arrow-row">↓</div>
+
+      <div class="flow-step green">
+        <div class="flow-num" style="background:#276749;">3</div>
+        <div class="flow-body">
+          <strong>帝人 月次レポートを確認（毎月2日以降）</strong>
+          <span>使用日数（4時間以上）の（　）内 ≥ 20日 の患者数を数える</span>
+        </div>
+      </div>
+      <div class="arrow-row">↓</div>
+
+      <div class="flow-step orange">
+        <div class="flow-num" style="background:#744210;">4</div>
+        <div class="flow-body">
+          <strong>フィリップス 専用アプリから患者数・達成数を確認</strong>
+          <span>（アプリ導入後に詳細手順を追記予定）</span>
+        </div>
+      </div>
+      <div class="arrow-row">↓</div>
+
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <div class="flow-body">
+          <strong><span class="sheet-tag">施設基準届出計算</span> シートの右側「月次記録一覧」に1行追記</strong>
+          <span>年月・帝人（全患者数・4h20d達成数）・フィリップス・フクダの数値を入力</span>
+        </div>
+      </div>
+      <div class="arrow-row">↓</div>
+
+      <div class="flow-step">
+        <div class="flow-num">6</div>
+        <div class="flow-body">
+          <strong>左上の施設基準計算が自動更新される</strong>
+          <span>直近3か月（前々月・前月・当月）が自動取得され ①〜⑤ が再計算される<br>
+          ⑤が「◎ 該当」であれば充実管理体制加算の算定可</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="note-box">
+      <div class="note-title">📌 算定基準（充実管理体制加算）</div>
+      <ul class="note-list">
+        <li>③（4h以上20日以上の月数）÷ ②（延べ管理月数）× 100 ≥ <strong>40%</strong></li>
+        <li>直近3か月分を対象に集計する</li>
+        <li>達成率は <span class="sheet-tag">施設基準届出計算</span> シートの④欄に自動表示</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<footer>CPAP管理手順書 — 2026年6月作成</footer>
+
+</body>
+</html>

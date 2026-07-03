@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>地域包括診療加算 解説資料</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; background: #f0f4f8; color: #1a202c; }
+  .container { max-width: 1060px; margin: 0 auto; padding: 28px 24px 60px; }
+
+  header { background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); color: white; border-radius: 12px; padding: 20px 28px 24px; margin-bottom: 28px; }
+  .back-link { display: inline-block; color: rgba(255,255,255,.85); font-size: 0.85rem; text-decoration: none; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); border-radius: 20px; padding: 5px 14px; margin-bottom: 14px; transition: background .15s; }
+  .back-link:hover { background: rgba(255,255,255,.28); }
+  header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+  header .sub { font-size: 0.88rem; opacity: 0.85; }
+
+  /* セクション */
+  .section { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 22px; overflow: hidden; }
+  .section-header { padding: 14px 22px; display: flex; align-items: center; gap: 10px; }
+  .section-num { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; color: white; }
+  .section-title { font-size: 1.05rem; font-weight: 700; }
+  .section-body { padding: 18px 22px; }
+
+  /* 色テーマ */
+  .theme-blue   .section-header { background: #eff6ff; } .theme-blue   .section-num { background: #2563eb; } .theme-blue   .section-title { color: #1e40af; }
+  .theme-green  .section-header { background: #f0fdf4; } .theme-green  .section-num { background: #16a34a; } .theme-green  .section-title { color: #166534; }
+  .theme-orange .section-header { background: #fff7ed; } .theme-orange .section-num { background: #ea580c; } .theme-orange .section-title { color: #9a3412; }
+  .theme-purple .section-header { background: #faf5ff; } .theme-purple .section-num { background: #9333ea; } .theme-purple .section-title { color: #581c87; }
+  .theme-red    .section-header { background: #fff1f2; } .theme-red    .section-num { background: #e11d48; } .theme-red    .section-title { color: #9f1239; }
+
+  p { font-size: 0.92rem; line-height: 1.8; margin-bottom: 10px; }
+  p:last-child { margin-bottom: 0; }
+
+  /* 疾患タグ */
+  .disease-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .dtag { border-radius: 20px; padding: 5px 14px; font-size: 0.85rem; font-weight: 700; border: 1.5px solid; }
+  .dtag-base { background: #dbeafe; color: #1e40af; border-color: #93c5fd; }
+  .dtag-new  { background: #fef9c3; color: #92400e; border-color: #fbbf24; }
+  .dtag-label { font-size: 0.72rem; font-weight: 700; padding: 1px 6px; border-radius: 8px; background: #fbbf24; color: #78350f; vertical-align: middle; margin-left: 4px; }
+
+  /* 点数テーブル */
+  .score-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 12px 0; }
+  .score-table th { background: #1e3a5f; color: white; padding: 10px 14px; text-align: center; font-weight: 700; }
+  .score-table td { padding: 10px 14px; border: 1px solid #e2e8f0; text-align: center; vertical-align: middle; }
+  .score-table tr:nth-child(even) td { background: #f8fafc; }
+  .score-high { font-size: 1.1rem; font-weight: 700; color: #dc2626; }
+  .score-mid  { font-size: 1rem; font-weight: 700; color: #ea580c; }
+  .badge-new { display: inline-block; background: #fbbf24; color: #78350f; font-size: 0.7rem; font-weight: 700; padding: 1px 6px; border-radius: 8px; margin-left: 4px; }
+  .badge-point { display: inline-block; background: #dcfce7; color: #166534; font-size: 0.7rem; font-weight: 700; padding: 1px 6px; border-radius: 8px; margin-left: 4px; }
+
+  /* チェックリスト */
+  .check-list { list-style: none; padding: 0; }
+  .check-list li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; line-height: 1.7; }
+  .check-list li:last-child { border-bottom: none; }
+  .check-icon { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: white; margin-top: 2px; }
+  .ci-blue   { background: #2563eb; }
+  .ci-green  { background: #16a34a; }
+  .ci-orange { background: #ea580c; }
+
+  /* 比較表 */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0; }
+  .compare-card { border-radius: 10px; padding: 14px 16px; }
+  .cc-old { background: #f1f5f9; border: 1.5px solid #94a3b8; }
+  .cc-new { background: #fef9c3; border: 1.5px solid #f59e0b; }
+  .compare-card h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 8px; }
+  .compare-card ul { padding-left: 16px; font-size: 0.88rem; line-height: 1.8; }
+
+  /* 方針カード */
+  .policy-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0; }
+  .policy-card { border-radius: 10px; padding: 16px 18px; }
+  .pc-blue   { background: #eff6ff; border: 1.5px solid #3b82f6; }
+  .pc-red    { background: #fff1f2; border: 1.5px solid #f43f5e; }
+  .pc-green  { background: #f0fdf4; border: 1.5px solid #22c55e; }
+  .pc-purple { background: #faf5ff; border: 1.5px solid #a855f7; }
+  .policy-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 8px; }
+  .policy-card p  { font-size: 0.87rem; }
+
+  /* 強調ボックス */
+  .em-box { background: #1e3a5f; color: white; border-radius: 10px; padding: 16px 20px; margin-top: 14px; }
+  .em-box h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+  .em-box p  { font-size: 0.9rem; line-height: 1.8; opacity: 0.95; }
+  .em-box ul { padding-left: 18px; font-size: 0.9rem; line-height: 1.9; opacity: 0.95; }
+
+  strong { font-weight: 700; }
+
+  @media (max-width: 500px) {
+    .compare-grid  { grid-template-columns: 1fr; }
+    .policy-cards  { grid-template-columns: 1fr; }
+    .score-table th, .score-table td { padding: 8px 8px; font-size: 0.82rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <a class="back-link" href="index.html">← 勉強資料</a>
+    <h1>地域包括診療加算 ― 解説資料</h1>
+    <div class="sub">／ 初学者向け・制度概要・診療報酬・当院方針</div>
+  </header>
+
+  <!-- ① 制度の概要 -->
+  <div class="section theme-blue">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">地域包括診療加算とは何か</div>
+    </div>
+    <div class="section-body">
+      <p>
+        <strong>複数の慢性疾患（生活習慣病等）を持つ患者に対して、かかりつけ医として継続的・包括的に管理するための診療報酬加算</strong>です。
+        「地域の主治医」として患者を総合的に診る体制を整えることで、再診料に加えて算定できます。
+      </p>
+      <p>
+        単に診察するだけでなく、<strong>薬の一元管理・専門医連携・介護保険対応・24時間対応</strong>など「かかりつけ医機能」を満たすことが算定の条件となっています。
+        患者の同意を得ることも必須です。
+      </p>
+      <p style="background:#eff6ff; border:1.5px solid #93c5fd; border-radius:8px; padding:10px 14px; margin-top:4px;">
+        💡 <strong>ひとことで言うと</strong>：「この患者はうちが主治医として面倒をみます」と宣言し、その体制を整えることで算定できる加算です。
+      </p>
+    </div>
+  </div>
+
+  <!-- ② 対象疾患 -->
+  <div class="section theme-green">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">対象となる疾患（2つ以上を管理していること）</div>
+    </div>
+    <div class="section-body">
+      <p>以下の疾患のうち<strong>2つ以上</strong>を患者が持ち、当院が主治医として継続管理していることが条件です。</p>
+      <div class="disease-tags">
+        <div class="dtag dtag-base">高血圧症</div>
+        <div class="dtag dtag-base">脂質異常症</div>
+        <div class="dtag dtag-base">糖尿病</div>
+        <div class="dtag dtag-base">慢性心不全</div>
+        <div class="dtag dtag-new">認知症 <span class="dtag-label">注目</span></div>
+        <div class="dtag dtag-new">慢性腎臓病（CKD） <span class="dtag-label">2024年追加</span></div>
+      </div>
+      <p style="font-size:0.85rem; color:#64748b;">※ 黄色タグの疾患を含む場合、<strong>点数が高い区分（認知症）</strong>または<strong>新規追加（CKD）</strong>の対象となります。詳細は次のセクションを参照。</p>
+    </div>
+  </div>
+
+  <!-- ③ 診療報酬点数 -->
+  <div class="section theme-orange">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">診療報酬点数（令和6年度改定後）</div>
+    </div>
+    <div class="section-body">
+      <table class="score-table">
+        <thead>
+          <tr>
+            <th style="width:28%">区分</th>
+            <th style="width:20%">点数</th>
+            <th style="width:18%">収入（10円/点）</th>
+            <th>算定条件（要点）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:700;">地域包括診療加算１<br><span style="font-size:0.78rem; color:#dc2626; font-weight:700;">（認知症を管理）</span></td>
+            <td><span class="score-high">38点</span></td>
+            <td><span class="score-high">380円</span></td>
+            <td style="text-align:left;">対象疾患2つ以上＋認知症を含む管理<br>院内処方・在宅対応・24h対応等</td>
+          </tr>
+          <tr>
+            <td style="font-weight:700;">地域包括診療加算１<br><span style="font-size:0.78rem; color:#ea580c; font-weight:700;">（その他）</span></td>
+            <td><span class="score-mid">28点</span></td>
+            <td><span class="score-mid">280円</span></td>
+            <td style="text-align:left;">対象疾患2つ以上（認知症以外）<br>院内処方・在宅対応・24h対応等</td>
+          </tr>
+          <tr>
+            <td style="font-weight:700;">地域包括診療加算２<br><span style="font-size:0.78rem; font-weight:700;">（認知症を管理）</span></td>
+            <td>21点</td>
+            <td>210円</td>
+            <td style="text-align:left;">加算１より施設要件が緩め<br>認知症管理あり</td>
+          </tr>
+          <tr>
+            <td style="font-weight:700;">地域包括診療加算２<br><span style="font-size:0.78rem; font-weight:700;">（その他）</span></td>
+            <td>18点</td>
+            <td>180円</td>
+            <td style="text-align:left;">加算１より施設要件が緩め<br>認知症管理なし</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.84rem; color:#64748b; margin-top:8px;">
+        ※ 再診料（73点）に加えて算定。月1回のみ算定可。患者1人の受診1回につき1算定。<br>
+        ※ 当院は<strong>加算１</strong>を届出・算定。現在の主算定：稲田俊雄院長　月約554回。
+      </p>
+    </div>
+  </div>
+
+  <!-- ④ 算定要件 -->
+  <div class="section theme-purple">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">算定要件（かかりつけ医として満たすべき条件）</div>
+    </div>
+    <div class="section-body">
+      <ul class="check-list">
+        <li><div class="check-icon ci-blue">✓</div><div><strong>患者の同意</strong>　— 文書による説明・署名済みの同意書が必要。担当医師名で取得する（担当医が変わる場合は取り直しが必要）。</div></li>
+        <li><div class="check-icon ci-blue">✓</div><div><strong>担当医の設定</strong>　— 主治医として特定の医師を決め、継続的に診療する体制。</div></li>
+        <li><div class="check-icon ci-blue">✓</div><div><strong>院内処方</strong>　— 処方箋を自院で発行すること（院外処方のみでは不可）。</div></li>
+        <li><div class="check-icon ci-green">✓</div><div><strong>24時間対応</strong>　— 時間外・休日も患者からの連絡に対応できる体制（電話相談等）。</div></li>
+        <li><div class="check-icon ci-green">✓</div><div><strong>在宅医療・訪問診療</strong>　— 自院で提供、または在宅療養支援診療所との連携体制。</div></li>
+        <li><div class="check-icon ci-green">✓</div><div><strong>専門医・他院との連携</strong>　— 専門的診療が必要な場合の紹介・情報共有体制。</div></li>
+        <li><div class="check-icon ci-orange">✓</div><div><strong>介護保険対応</strong>　— ケアマネジャーとの連携や介護保険に関わる相談対応。</div></li>
+        <li><div class="check-icon ci-orange">✓</div><div><strong>他院処方薬の把握・管理</strong>　— お薬手帳等を通じて他院で処方されている薬も把握し管理。</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ⑤ 2024年改定の変更点 -->
+  <div class="section theme-red">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">令和6年（2024年）改定での変更点</div>
+    </div>
+    <div class="section-body">
+      <div class="compare-grid">
+        <div class="compare-card cc-old">
+          <h4 style="color:#475569;">改定前</h4>
+          <ul>
+            <li>対象疾患は高血圧・脂質異常・糖尿・心不全・認知症の5疾患</li>
+            <li>加算１（認知症）28点、（その他）28点<br>→ <strong>認知症の上乗せなし</strong></li>
+            <li>加算２（認知症）21点、（その他）18点</li>
+          </ul>
+        </div>
+        <div class="compare-card cc-new">
+          <h4 style="color:#92400e;">改定後（現行）</h4>
+          <ul>
+            <li><strong>慢性腎臓病（CKD）が対象疾患に追加</strong>　→ 計6疾患に</li>
+            <li>加算１（認知症）<strong>38点に引き上げ</strong>　+10点アップ</li>
+            <li>認知症管理の有無で点数が変わる仕組みに変更</li>
+            <li>CKDを管理する場合も加算対象に組み込み可能</li>
+          </ul>
+        </div>
+      </div>
+      <p style="font-size:0.85rem; background:#fff7ed; border:1px solid #fdba74; border-radius:8px; padding:10px 14px; margin-top:4px;">
+        <strong>ポイント：</strong> 認知症を管理対象に含めることで加算１なら <strong>28点 → 38点（+10点、+100円/回）</strong> にアップ。月500回算定なら差額は月<strong>5万円</strong>。
+      </p>
+    </div>
+  </div>
+
+  <!-- ⑥ 当院の方針 -->
+  <div class="section theme-blue">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div class="section-title">当院の今後の方針</div>
+    </div>
+    <div class="section-body">
+      <div class="policy-cards">
+        <div class="policy-card pc-red">
+          <h4 style="color:#9f1239;">① 地域包括１（認知症）の積極取得</h4>
+          <p>
+            認知症を管理対象に組み込んだ患者については<strong>加算１（認知症）38点</strong>を算定。（その他）28点と比べて<strong>1回あたり+100円</strong>となるため、算定件数の多い当院では収益インパクトが大きい。
+          </p>
+        </div>
+        <div class="policy-card pc-blue">
+          <h4 style="color:#1e40af;">② 認知症の病名追加で算定しやすくなった</h4>
+          <p>
+            2024年改定で<strong>認知症が対象疾患に追加</strong>されたことで、算定できる患者の幅が大きく広がった。高血圧・糖尿病など既存の疾患管理をしている患者に認知症の病名があれば、それだけで地域包括加算の対象になる。<br><br>
+            <strong>構図としては：認知症の病名を持つ患者 → 病名を加算管理に組み込む → 地域包括加算が算定できる（または28点→38点になる）</strong>という流れ。<br><br>
+            認知症は高齢患者に多く、すでに診ている患者の中に対象になり得る人が多数いる可能性がある。積極的にカルテを確認し、認知症の病名追加・管理への組み込みを検討する。
+          </p>
+        </div>
+        <div class="policy-card pc-green">
+          <h4 style="color:#166534;">④ 同意書の管理徹底</h4>
+          <p>
+            担当医師が変わる場合は同意書の取り直しが必要。患者ごとの同意書と担当医師の紐付けを医事担当者が定期的に確認する。
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

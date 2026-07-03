@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>いなだ医院 事業継続計画（BCP）</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;background:#f4f6f9;color:#1a1a1a;font-size:10pt;line-height:1.75}
+
+/* ── レイアウト ── */
+.wrap{display:flex;min-height:100vh}
+nav{width:220px;flex-shrink:0;background:#1a3a5a;color:#cde;position:sticky;top:0;height:100vh;overflow-y:auto;padding:16px 0}
+nav .nav-logo{padding:10px 16px 14px;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:8px}
+nav .nav-logo .title{font-size:10.5pt;font-weight:bold;color:#fff;line-height:1.4}
+nav .nav-logo .sub{font-size:8pt;color:#9bb;margin-top:2px}
+nav a{display:block;padding:5px 16px;font-size:8.5pt;color:#b0ccdf;text-decoration:none;line-height:1.5}
+nav a:hover{background:rgba(255,255,255,.1);color:#fff}
+nav .nav-sec{font-size:7.5pt;color:#6a8fa0;padding:10px 16px 2px;letter-spacing:.5px;text-transform:uppercase}
+main{flex:1;padding:24px 32px;max-width:900px}
+
+/* ── 共通 ── */
+h1{font-size:17pt;font-weight:bold;color:#1a3a5a;border-bottom:3px solid #2c6e9f;padding-bottom:10px;margin-bottom:6px}
+.meta{font-size:8.5pt;color:#888;margin-bottom:28px}
+h2{font-size:12.5pt;font-weight:bold;color:#fff;background:#2c5f8a;padding:7px 14px;border-radius:4px;margin:32px 0 14px;page-break-after:avoid}
+h3{font-size:10.5pt;font-weight:bold;color:#1a3a5a;border-left:4px solid #2c6e9f;padding-left:8px;margin:18px 0 8px}
+h4{font-size:9.5pt;font-weight:bold;color:#444;margin:12px 0 6px}
+p{margin-bottom:8px}
+ul,ol{margin:0 0 8px 20px}
+li{margin-bottom:3px}
+
+/* ── 表 ── */
+table{width:100%;border-collapse:collapse;font-size:9pt;margin-bottom:14px}
+th{background:#2c5f8a;color:#fff;padding:6px 8px;text-align:left;font-weight:bold}
+td{border:1px solid #c8d8e8;padding:5px 8px;vertical-align:top}
+tr:nth-child(even) td{background:#f5f8fc}
+.tbl-title{font-weight:bold;background:#dce8f5!important;color:#1a3a5a}
+.fill{background:#fffbe6!important;color:#666;font-style:italic}
+
+/* ── カラーボックス ── */
+.box{border-radius:6px;padding:12px 14px;margin-bottom:12px}
+.box-red{background:#fff0f0;border-left:4px solid #e57373}
+.box-blue{background:#f0f5ff;border-left:4px solid #5c8ac7}
+.box-green{background:#f0faf2;border-left:4px solid #4caf50}
+.box-orange{background:#fff8ee;border-left:4px solid #ff9800}
+.box-purple{background:#f9f0ff;border-left:4px solid #9c27b0}
+.box-gray{background:#f5f5f5;border-left:4px solid #9e9e9e}
+.box h4{margin-top:0}
+
+/* ── 優先度バッジ ── */
+.badge{display:inline-block;font-size:8pt;font-weight:bold;padding:2px 8px;border-radius:10px;margin-right:4px}
+.badge-high{background:#e53935;color:#fff}
+.badge-mid{background:#fb8c00;color:#fff}
+.badge-low{background:#757575;color:#fff}
+
+/* ── 告知テンプレート ── */
+.notice-box{border:3px solid #1a3a5a;border-radius:8px;padding:20px 24px;margin:12px 0;font-size:11pt;text-align:center;background:#fff}
+.notice-box .notice-title{font-size:16pt;font-weight:bold;color:#c62828;margin-bottom:10px}
+.notice-box .notice-body{font-size:10.5pt;color:#333;line-height:2;margin-bottom:10px}
+.notice-box .notice-date{font-size:9pt;color:#888}
+
+/* ── 様式 ── */
+.form-title{font-size:11pt;font-weight:bold;text-align:center;margin:12px 0 8px;color:#1a3a5a}
+.form-table td{min-height:24px;height:28px}
+.form-table td.blank{background:#fafcff}
+
+/* ── 印刷 ── */
+@media print{
+  nav{display:none!important}
+  .wrap{display:block}
+  main{padding:0;max-width:100%}
+  h2{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .notice-box{break-inside:avoid}
+  @page{margin:15mm 18mm;size:A4}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ナビゲーション -->
+<nav>
+  <div style="padding:8px 16px 10px;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:4px">
+    <a href="../index.html" style="display:inline-flex;align-items:center;gap:5px;color:rgba(255,255,255,.65);font-size:8pt;text-decoration:none;background:rgba(255,255,255,.12);padding:4px 10px;border-radius:12px;">← マニュアルトップ</a>
+  </div>
+  <div class="nav-logo">
+    <div class="title">いなだ医院</div>
+    <div class="sub">事業継続計画（BCP）</div>
+  </div>
+  <a href="#ch1">第1章　総則</a>
+  <a href="#ch2">第2章　推進体制</a>
+  <a href="#ch3">第3章　優先業務</a>
+  <a href="#ch4">第4章　自然災害版</a>
+  <a href="#ch5">第5章　感染症版</a>
+  <a href="#ch6">第6章　サイバー版</a>
+  <a href="#ch7">第7章　事前対策・連携</a>
+  <a href="#ch8">第8章　院外掲示</a>
+  <a href="#ch9">第9章　支援制度</a>
+  <a href="#ch10">第10章　教育・訓練</a>
+  <div class="nav-sec">添付様式</div>
+  <a href="#f1">様式1　被害状況報告書</a>
+  <a href="#f2">様式2　スタッフ安否確認</a>
+  <a href="#f3">様式3　業者連絡先リスト</a>
+  <a href="#f4">様式4　改定履歴</a>
+</nav>
+
+<!-- 本文 -->
+<main>
+
+<h1>いなだ医院　事業継続計画（BCP）</h1>
+<div class="meta">制定：2026年4月14日　最終改定：2026年6月　適用：医療法人いなだ医院　全職員</div>
+
+<!-- =============================== 第1章 =============================== -->
+<h2 id="ch1">第1章　総則</h2>
+
+<h3>1.1　目的</h3>
+<p>本計画は、大規模地震・水害などの自然災害、新興感染症のパンデミック、および電子カルテのダウン・サイバー攻撃などのシステム障害によって診療業務へ重大な影響が生じた際に、以下を達成するために定める。</p>
+<ul>
+  <li>患者および全スタッフ（医師2名・看護師12名・医療事務8名、計22名）の生命と安全を最優先に確保する</li>
+  <li>内科・小児科かかりつけ患者への投薬・処方、および訪問診療患者のケアを可能な限り継続する</li>
+  <li>地域の医療提供体制の崩壊を防ぎ、地域住民の生命と健康を守る</li>
+</ul>
+
+<h3>1.2　基本方針</h3>
+<div class="box box-blue">
+  <ul>
+    <li>人命に危険が及ぶ状況下では、<strong>避難を診療継続より優先</strong>する</li>
+    <li>診療の中断・縮小はあっても、完全停止からの<strong>最速復旧</strong>を目指す</li>
+    <li>玉島医師会・倉敷中央病院をはじめとする地域医療機関・自治体と密接に連携する</li>
+    <li>全職員が本BCPを理解し、<strong>年1回以上の訓練と定期見直し（BCM）</strong>を継続する</li>
+  </ul>
+</div>
+
+<h3>1.3　適用範囲</h3>
+<table>
+  <tr><th>区分</th><th>内容</th></tr>
+  <tr><td>対象事象</td><td>大規模地震（震度6弱以上）、水害（床上浸水・床下浸水）、大規模停電・通信障害、新型インフルエンザ等感染症の蔓延、電子カルテのダウン・ランサムウェア等サイバー攻撃</td></tr>
+  <tr><td>対象者</td><td>医療法人いなだ医院の全職員（常勤・非常勤含む）</td></tr>
+  <tr><td>施設</td><td>いなだ医院（鉄筋コンクリート造）</td></tr>
+</table>
+
+<h3>1.4　発動基準</h3>
+<table>
+  <tr><th>種別</th><th>発動の目安</th></tr>
+  <tr><td>自然災害版</td><td>震度6弱以上の地震発生時、または医院が浸水リスク区域に被害情報が出た時点</td></tr>
+  <tr><td>感染症版</td><td>国・県が「警戒宣言」または「緊急事態宣言」を発出した時点、または院内で感染クラスターが発生した時点</td></tr>
+  <tr><td>サイバーセキュリティ版</td><td>電子カルテが使用不能となった時点、またはサイバー攻撃の疑いが生じた時点</td></tr>
+</table>
+
+<!-- =============================== 第2章 =============================== -->
+<h2 id="ch2">第2章　推進体制（指揮・連絡系統）</h2>
+
+<h3>2.1　対策本部の設置</h3>
+<p>緊急事態発生時、院長を本部長とする「災害（緊急対策）本部」を設置する。本部は原則として<strong>院長室</strong>に置く。建物が使用不能な場合は<strong>駐車場</strong>を代替本部とする。</p>
+
+<h3>2.2　役割分担表</h3>
+<table>
+  <tr><th>役割</th><th>担当者</th><th>代行</th><th>主な任務</th></tr>
+  <tr><td><strong>本部長</strong></td><td>院長　稲田俊雄</td><td>稲田崇志 → 稲田智子 → 事務責任者</td><td>統括責任・休診判断・対外窓口</td></tr>
+  <tr><td><strong>医療部門長</strong></td><td>稲田崇志（医師）</td><td>稲田智子</td><td>トリアージ・優先診療・訪問診療患者の安否確認・転送手配</td></tr>
+  <tr><td><strong>看護部門</strong></td><td>看護師（当日先輩格）</td><td>次の看護師</td><td>患者誘導・PPE管理・バイタル管理・応急処置</td></tr>
+  <tr><td><strong>施設・情報部門</strong></td><td>医療事務（当日担当）</td><td>–</td><td>施設・機器の被害確認・ポータブル蓄電器起動・紙カルテ運用切替</td></tr>
+  <tr><td><strong>連絡・総務部門</strong></td><td>医療事務（当日担当）</td><td>–</td><td>スタッフ安否確認・シフト調整・玉島医師会への報告・家族連絡</td></tr>
+</table>
+
+<h3>2.3　連絡網と安否確認ルール</h3>
+<div class="box box-orange">
+  <h4>【スタッフへの指示】</h4>
+  <ol>
+    <li><strong>発災後まず身の安全を確保する</strong>（無理な出勤は厳禁）</li>
+    <li>本人・家族の安全確認後、速やかに「本人の無事」「出勤の可否・見込み時刻」を以下いずれかで報告する<br>
+      ① <strong>電話</strong>（院長または事務責任者の携帯へ）　② <strong>Google Workspace（グループチャット）</strong></li>
+    <li>参集基準：「自宅周辺および通勤経路の安全が確保できること」を絶対条件とする</li>
+    <li>連絡がとれないスタッフは、担当者が翌日まで繰り返し連絡を試みる</li>
+  </ol>
+</div>
+
+<!-- =============================== 第3章 =============================== -->
+<h2 id="ch3">第3章　被害想定と優先業務</h2>
+
+<h3>3.1　優先業務一覧</h3>
+<table>
+  <tr><th>優先度</th><th>業務内容</th><th>判断基準</th></tr>
+  <tr>
+    <td><span class="badge badge-high">高</span><br>可能な限り継続</td>
+    <td>
+      ・内科・胃腸内科の慢性疾患（高血圧・糖尿病等）かかりつけ患者への投薬・処方箋発行<br>
+      ・小児科の急性疾患・外傷への応急対応<br>
+      ・重症患者の倉敷中央病院等への転送・救急要請<br>
+      ・訪問診療患者の安否確認・緊急指示
+    </td>
+    <td>医師1名・事務1名で最低限実施可能</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-mid">中</span><br>状況に応じて継続</td>
+    <td>
+      ・新規の非予約患者・発熱患者の診察<br>
+      ・予約患者（慢性疾患以外）
+    </td>
+    <td>人員・施設に余裕がある場合のみ</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-low">低</span><br>緊急時は即時休止</td>
+    <td>
+      ・リハビリテーション全般（スタッフを優先度【高】へ配置転換）<br>
+      ・定期健康診断・予防接種（感染症パンデミック時は除く）<br>
+      ・内視鏡等の緊急性のない検査
+    </td>
+    <td>発災と同時に停止、復旧後に再開</td>
+  </tr>
+</table>
+
+<h3>3.2　最低限の診療継続に必要なリソース</h3>
+<table>
+  <tr><th>リソース</th><th>最低限必要な条件</th></tr>
+  <tr><td>人員</td><td>医師1名・看護師1名・医療事務1名（合計3名）</td></tr>
+  <tr><td>電源</td><td>電子カルテ稼働用電源（ポータブル蓄電器で代替可）</td></tr>
+  <tr><td>情報</td><td>患者名簿・お薬手帳・紙処方箋</td></tr>
+  <tr><td>通信</td><td>携帯電話1台以上（患者への連絡・医師会報告）</td></tr>
+</table>
+
+<!-- =============================== 第4章 =============================== -->
+<h2 id="ch4">第4章　自然災害版　初動対応</h2>
+
+<h3>4.1　大規模地震発生時</h3>
+<div class="box box-red">
+  <h4>①　発災直後（〜30分）</h4>
+  <ol>
+    <li>診察中の場合は机の下・患者を壁際に誘導し、揺れが収まるまで待機する</li>
+    <li>揺れ収束後、<strong>院内巡回</strong>（火災・ガス漏れ・構造損傷・患者負傷）を即座に確認する</li>
+    <li>火災・ガス漏れを確認した場合は<strong>119番通報→全員避難</strong>を最優先とする</li>
+    <li>院長（本部長）が「診療継続 / 休診」を宣言する</li>
+  </ol>
+  <h4>②　停電時の対応</h4>
+  <ol>
+    <li>備蓄ポータブル蓄電器を起動し、電子カルテ端末・最低限の照明の電源を確保する</li>
+    <li>電力会社（中国電力：0120-266-995）へ停電状況を報告する</li>
+  </ol>
+  <h4>③　継続可否の判断・告知</h4>
+  <ol>
+    <li>継続困難な場合は「休診」を決定し、入口ボードに掲示する（様式は第8章参照）</li>
+    <li>玉島医師会に被災・診療状況を報告する</li>
+    <li>訪問診療患者へ電話で方針を伝達する</li>
+  </ol>
+</div>
+
+<h3>4.2　水害発生時</h3>
+<div class="box box-blue">
+  <ol>
+    <li>洪水ハザードマップで医院周辺の浸水予測を確認し、行政の避難指示に従う</li>
+    <li>浸水前に電子カルテ・医療機器の<strong>高所移動</strong>を行い、電源を切断する</li>
+    <li>避難が必要な場合は院内患者を安全に避難誘導し、訪問診療患者へ連絡する</li>
+    <li>浸水後は<strong>電気系統の安全確認</strong>（専門業者による確認）が取れるまで電源を入れない</li>
+  </ol>
+</div>
+
+<h3>4.3　被害確認チェックリスト</h3>
+<p>発災後、各担当者が以下を確認し、対策本部に報告する（様式1を使用）。</p>
+<table>
+  <tr><th>確認項目</th><th>担当</th><th>確認内容</th></tr>
+  <tr><td>人員</td><td>連絡・総務部門</td><td>患者の負傷有無、スタッフの安否・出勤可否</td></tr>
+  <tr><td>建物・設備</td><td>施設・情報部門</td><td>壁・天井の亀裂、ドア開閉、ガス臭・煙・漏水</td></tr>
+  <tr><td>医療機器</td><td>看護部門</td><td>各医療機器の使用可否、損傷の有無</td></tr>
+  <tr><td>電気</td><td>施設・情報部門</td><td>停電の有無、ポータブル蓄電器の起動確認</td></tr>
+  <tr><td>ガス・水道</td><td>施設・情報部門</td><td>ガス漏れの有無（臭い確認）、給水状況</td></tr>
+  <tr><td>電子カルテ</td><td>施設・情報部門</td><td>サーバー・端末の起動状況、データ保全の確認</td></tr>
+  <tr><td>医薬品・備蓄</td><td>看護部門</td><td>損傷・散乱の有無、冷所保管薬品の状態</td></tr>
+</table>
+
+<h3>4.4　ライフライン別　代替措置</h3>
+<table>
+  <tr><th>種別</th><th>停止時の代替手段</th><th>連絡先</th></tr>
+  <tr><td><strong>電気</strong></td><td>ポータブル蓄電器で電子カルテ・照明を確保。長期停電時はガソリン発電機の借用を検討</td><td>中国電力：0120-266-995</td></tr>
+  <tr><td><strong>水道</strong></td><td>備蓄のペットボトル（22名×3日分）使用。入浴中止・清拭対応</td><td>倉敷市水道局：086-426-3111</td></tr>
+  <tr><td><strong>ガス</strong></td><td>カセットコンロ・電気ケトルで代替。ガス漏れ疑いは元栓を閉める</td><td>アストロ興産：086-444-5252</td></tr>
+  <tr><td><strong>固定電話</strong></td><td>携帯電話に切替（各担当者の携帯を使用）</td><td>–</td></tr>
+  <tr><td><strong>インターネット</strong></td><td>モバイルWi-Fiルーター・各自スマートフォンのテザリングで代替</td><td>–</td></tr>
+</table>
+
+<!-- =============================== 第5章 =============================== -->
+<h2 id="ch5">第5章　感染症版　初動対応</h2>
+
+<h3>5.1　発動基準</h3>
+<table>
+  <tr><th>状況</th><th>対応レベル</th></tr>
+  <tr><td>院内で感染症クラスター発生（スタッフ陽性者2名以上）</td><td><strong>レベル2：制限診療</strong>（優先度【低】を即停止）</td></tr>
+  <tr><td>国・県から「緊急事態宣言」発出</td><td><strong>レベル3：最低限診療</strong>（優先度【高】のみ継続）</td></tr>
+  <tr><td>出勤可能スタッフが通常の50%以下</td><td><strong>レベル3：最低限診療</strong>に移行</td></tr>
+</table>
+
+<h3>5.2　動線分離と感染対策</h3>
+<div class="box box-purple">
+  <ul>
+    <li>発熱外来と一般・小児科外来を<strong>空間的・時間的に完全分離</strong>する（午前/午後で使い分けるか別室使用）</li>
+    <li>全スタッフは適切な<strong>PPE（マスク・ガウン・手袋・フェイスシールド）</strong>を着用する</li>
+    <li>発熱患者は院内待機ではなく<strong>自家用車待機</strong>を原則とする</li>
+    <li>待合室の密度管理（座席間隔1m以上・人数制限）を行う</li>
+  </ul>
+</div>
+
+<h3>5.3　スタッフ管理</h3>
+<table>
+  <tr><th>状況</th><th>対応</th></tr>
+  <tr><td>スタッフが陽性確定</td><td>即日自宅療養。復帰基準は発症から10日間経過かつ症状消失後72時間以上</td></tr>
+  <tr><td>スタッフが濃厚接触者</td><td>原則待機（院長判断でPPE着用条件付き勤務可）。毎日抗原検査を実施</td></tr>
+  <tr><td>スタッフ不足（50%以下）</td><td>リハビリ等を即停止し、優先度【高】業務に集中。外部人材派遣・近隣医院への応援依頼を検討</td></tr>
+</table>
+
+<h3>5.4　診療体制の変更</h3>
+<ul>
+  <li>定期健康診断・予防接種（感染症対応のものを除く）は中止し、患者に連絡を入れる</li>
+  <li>慢性疾患患者への処方は<strong>電話診療・オンライン診療</strong>への切替を検討する</li>
+  <li>電話診療を実施する場合は、玉島医師会への連絡・所定の届出を行う</li>
+</ul>
+
+<!-- =============================== 第6章 =============================== -->
+<h2 id="ch6">第6章　サイバーセキュリティ版　初動対応</h2>
+
+<h3>6.1　電子カルテダウン時（紙運用への切替）</h3>
+<div class="box box-orange">
+  <h4>【切替手順】</h4>
+  <ol>
+    <li>電子カルテ端末が起動しない・操作できない場合、<strong>即座に紙カルテ運用</strong>に切り替える</li>
+    <li>「システムダウン時用キット」を取り出す（保管場所：<strong>院内倉庫</strong>）<br>
+      内容：紙カルテ用紙・手書き処方箋・問診票・会計伝票・患者名簿（直近3か月分）・印鑑</li>
+    <li>患者からの聞き取りと<strong>お薬手帳</strong>を最大限活用し、処方履歴を確認する</li>
+    <li>電子カルテ保守ベンダー（ユヤマ：<strong>0120-610-134</strong>）へ緊急連絡を行い、復旧見込みを確認する</li>
+    <li>復旧後、紙カルテの内容を電子カルテへ遡及入力する</li>
+  </ol>
+</div>
+
+<h3>6.2　ランサムウェア・サイバー攻撃疑い時</h3>
+<div class="box box-red">
+  <h4>【絶対にやること】</h4>
+  <ol>
+    <li>感染が疑われる端末を<strong>即座にネットワークから切断</strong>する（LANケーブルを抜く・Wi-Fiをオフ）</li>
+    <li>院内すべての端末のインターネット接続を遮断する（ルーターの電源をオフ）</li>
+    <li>ユヤマ緊急連絡先へ連絡し、バックアップからのリストアを依頼する</li>
+    <li>倉敷市保健所・岡山県医師会へ報告する</li>
+    <li><strong>身代金の要求には応じない</strong></li>
+  </ol>
+  <h4>【やってはいけないこと】</h4>
+  <ul>
+    <li>感染が疑われる端末でファイルを開いたり保存したりする</li>
+    <li>ウイルス対策ソフトを無効化する</li>
+    <li>独断でバックアップから復元を試みる</li>
+  </ul>
+</div>
+
+<h3>6.3　電子カルテ保守ベンダー連絡先</h3>
+<table>
+  <tr><th>区分</th><th>会社名</th><th>連絡先</th><th>対応時間</th></tr>
+  <tr><td>電子カルテ</td><td>ユヤマ</td><td>0120-610-134</td><td>24時間対応</td></tr>
+  <tr><td>サイバーインシデント</td><td>IPAサイバー相談</td><td>IPA：03-5978-7509</td><td>平日10〜12・13〜17時</td></tr>
+</table>
+
+<!-- =============================== 第7章 =============================== -->
+<h2 id="ch7">第7章　事前対策・備蓄・地域連携</h2>
+
+<h3>7.1　備蓄品リスト（半年ごとに点検）</h3>
+<table>
+  <tr><th>カテゴリ</th><th>品目</th><th>目安数量</th><th>保管場所</th><th>次回点検日</th></tr>
+  <tr><td rowspan="3">医療</td><td>マスク（サージカル・N95）</td><td>22名×30日分</td><td>院内倉庫</td><td>毎年5月</td></tr>
+  <tr><td>PPE（ガウン・手袋・フェイスシールド）</td><td>22名×7日分</td><td>院内倉庫</td><td>毎年5月</td></tr>
+  <tr><td>消毒液（手指用・環境用）</td><td>10ℓ以上</td><td>院内倉庫</td><td>毎年5月</td></tr>
+  <tr><td rowspan="3">インフラ</td><td>ポータブル蓄電器（常時フル充電）</td><td>1台以上</td><td>院内倉庫</td><td>毎年5月</td></tr>
+  <tr><td>懐中電灯・ランタン（電池込み）</td><td>各部屋1台</td><td>院内倉庫</td><td>毎年5月</td></tr>
+  <tr><td>カセットコンロ・ガスボンベ</td><td>5本以上</td><td>院内倉庫</td><td>毎年5月</td></tr>
+  <tr><td rowspan="3">情報・書類</td><td>紙カルテ用紙・手書き処方箋</td><td>200枚以上</td><td>院内倉庫</td><td>毎年5月</td></tr>
+  <tr><td>患者名簿（直近3か月分・紙）</td><td>1部</td><td>院内倉庫</td><td>毎年5月</td></tr>
+  <tr><td>連絡先リスト（様式3）</td><td>各自1部</td><td>各自保管</td><td>毎年5月</td></tr>
+  <tr><td rowspan="2">生活</td><td>飲料水・非常食</td><td>22名×3日分</td><td>院内倉庫</td><td>毎年5月</td></tr>
+  <tr><td>簡易トイレ・消臭剤</td><td>10回分以上</td><td>院内倉庫</td><td>毎年5月</td></tr>
+</table>
+
+<h3>7.2　地域連携先</h3>
+<table>
+  <tr><th>連携先</th><th>目的</th><th>連絡先</th></tr>
+  <tr><td>玉島医師会</td><td>被災状況・診療可否の報告、地域医療情報の共有</td><td>0865-22-1234</td></tr>
+  <tr><td>倉敷中央病院</td><td>重症患者・対応困難患者の転送先</td><td>086-422-0210</td></tr>
+  <tr><td>倉敷市保健所</td><td>感染症発生時の報告・支援要請</td><td>086-421-6900</td></tr>
+  <tr><td>倉敷市役所（玉島支所）</td><td>避難情報・罹災証明・支援物資</td><td>086-522-8118</td></tr>
+</table>
+
+<!-- =============================== 第8章 =============================== -->
+<h2 id="ch8">第8章　院外掲示テンプレート</h2>
+<p>以下のテンプレートをコピーし、日付・内容を記入して掲示する（院外入口・ホームページ・電話自動応答）。</p>
+
+<h3>8.1　休診告知（自然災害）</h3>
+<div class="notice-box">
+  <div class="notice-title">休　診　の　お　知　ら　せ</div>
+  <div class="notice-body">
+    　このたびの[地震・水害]の影響により、<br>
+    当院は当面の間、<strong>休診</strong>とさせていただきます。<br><br>
+    再開の目処が立ち次第、ご連絡いたします。<br>
+    慢性疾患でお薬が必要な方は、<br>
+    近隣の医療機関（倉敷中央病院等）へご相談ください。<br><br>
+    ご不便をおかけし、誠に申し訳ございません。
+  </div>
+  <div class="notice-date">●●年　●月　●日　　いなだ医院　院長　稲田俊雄</div>
+</div>
+
+<h3>8.2　制限診療告知</h3>
+<div class="notice-box">
+  <div class="notice-title">制限診療のお知らせ</div>
+  <div class="notice-body">
+    　[地震・感染症流行]の影響により、現在<strong>制限診療</strong>を行っております。<br><br>
+    【診療可能】慢性疾患（高血圧・糖尿病等）の処方、小児急性疾患<br>
+    【休止中】リハビリ・健康診断・内視鏡検査<br><br>
+    お手数ですがご来院前にお電話ください。
+  </div>
+  <div class="notice-date">●●年　●月　●日　　いなだ医院</div>
+</div>
+
+<h3>8.3　感染症対応告知</h3>
+<div class="notice-box">
+  <div class="notice-title">感染症対応中のご案内</div>
+  <div class="notice-body">
+    　現在、[新型インフルエンザ等]の流行に伴い、<br>
+    <strong>発熱外来を時間帯分離</strong>して実施しております。<br><br>
+    【発熱・感染症疑いの方】　午後　●時〜●時（正面入口ではなく●●入口よりお入りください）<br>
+    【一般診療の方】　　　　　午前　●時〜●時　通常通り<br><br>
+    必ずマスクを着用のうえご来院ください。
+  </div>
+  <div class="notice-date">●●年　●月　●日　　いなだ医院</div>
+</div>
+
+<!-- =============================== 第9章 =============================== -->
+<h2 id="ch9">第9章　復旧支援制度・補助金</h2>
+
+<h3>9.1　主な補助金・支援制度</h3>
+<table>
+  <tr><th>制度名</th><th>内容</th><th>問い合わせ先</th></tr>
+  <tr><td>医療施設等災害復旧費補助金</td><td>医療施設の復旧工事費の補助（国・県）</td><td>岡山県保健医療課</td></tr>
+  <tr><td>なりわい再建支援補助金（中小企業等特定施設等）</td><td>施設復旧費の最大3/4補助。BCP策定が要件の一つ</td><td>各都道府県窓口</td></tr>
+  <tr><td>福祉医療機構 災害復旧資金</td><td>低利融資（緊急特別融資）</td><td>福祉医療機構：03-3438-9958</td></tr>
+  <tr><td>日本政策金融公庫 災害復旧貸付</td><td>運転資金・設備資金の低利融資</td><td>倉敷支店：086-426-7711</td></tr>
+  <tr><td>罹災証明書</td><td>各種支援の申請に必要。被災写真（メジャー添え）を撮影しておく</td><td>倉敷市役所</td></tr>
+</table>
+<div class="box box-gray">
+  <strong>【重要】</strong> 被災後は建物・医療機器の被害状況をメジャーを添えて必ず写真撮影する。保険金・補助金申請の証拠となる。
+</div>
+
+<!-- =============================== 第10章 =============================== -->
+<h2 id="ch10">第10章　教育・訓練・BCM（継続改善）</h2>
+
+<h3>10.1　訓練計画</h3>
+<table>
+  <tr><th>時期</th><th>テーマ</th><th>内容</th></tr>
+  <tr><td>毎年4月（BCP改訂後）</td><td>BCP周知研修</td><td>全職員へのBCP内容の説明・配布・質疑応答（30分）</td></tr>
+  <tr><td>毎年6月</td><td>防災訓練</td><td>避難誘導・ポータブル蓄電器起動・安否確認連絡訓練</td></tr>
+  <tr><td>毎年6月</td><td>紙カルテ運用訓練</td><td>1時間電子カルテを使わず、紙カルテ・手書き処方で診療を回すシミュレーション</td></tr>
+  <tr><td>入職時</td><td>BCP概要説明</td><td>本計画の概要説明（医療安全管理研修に組み込む）</td></tr>
+</table>
+
+<h3>10.2　BCPの見直し基準</h3>
+<ul>
+  <li>年1回（毎年4月）定期改訂</li>
+  <li>スタッフの入退職・役割変更があった場合</li>
+  <li>電子カルテ・医療機器の更新があった場合</li>
+  <li>訓練で課題が生じた場合</li>
+  <li>実際に発動した場合（発動後の振り返りを文書化）</li>
+</ul>
+
+<!-- =============================== 様式1 =============================== -->
+<h2 id="f1" style="background:#5c6e7a">様式1　被害状況報告書兼　復旧予定表</h2>
+<p class="form-title">いなだ医院　被害状況報告書兼　復旧予定表</p>
+<p style="font-size:8.5pt;color:#888;margin-bottom:8px">記入日時：　　　　年　　月　　日　　　　時　　　記入者：</p>
+<table class="form-table">
+  <tr>
+    <th style="width:20%">場所・設備</th>
+    <th style="width:20%">被害状況</th>
+    <th style="width:20%">応急処置</th>
+    <th style="width:25%">復旧のための条件・課題</th>
+    <th style="width:15%">復旧予定日</th>
+  </tr>
+  <tr><td>建物（外壁・天井）</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>電気・電源</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>ガス</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>水道</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>電子カルテ</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>医療機器（富士フイルム）</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>医療機器（フクダ電子）</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>医薬品・備蓄</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>その他</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+</table>
+
+<!-- =============================== 様式2 =============================== -->
+<h2 id="f2" style="background:#5c6e7a">様式2　スタッフ安否確認リスト</h2>
+<p class="form-title">いなだ医院　スタッフ安否確認リスト</p>
+<p style="font-size:8.5pt;color:#888;margin-bottom:8px">確認日時：　　　　年　　月　　日　　　　時　　　確認者：</p>
+<table class="form-table" style="font-size:8.5pt">
+  <tr>
+    <th style="width:12%">職種</th>
+    <th style="width:12%">氏名</th>
+    <th style="width:12%">本人安否</th>
+    <th style="width:16%">自宅状況</th>
+    <th style="width:16%">家族状況</th>
+    <th style="width:16%">出勤可否</th>
+    <th style="width:16%">備考</th>
+  </tr>
+  <tr><td>院長・医師</td><td>稲田 俊雄</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>医師</td><td>稲田 崇志</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>医師</td><td>稲田 智子</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>正看護師</td><td>兼信 真理</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>正看護師</td><td>上池 都紀</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>正看護師</td><td>桂 詩子</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>正看護師</td><td>小田 悦子</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>正看護師</td><td>岡 友子</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>正看護師</td><td>山室 八千代</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>正看護師</td><td>芦内 薫</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>准看護師</td><td>中桐 芳江</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>准看護師</td><td>播元 恵美子</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>医療事務</td><td>小幡 理江</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>医療事務</td><td>吉田 裕子</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>医療事務</td><td>守屋 由紀子</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>医療事務</td><td>松浦 彰子</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>医療事務</td><td>小幡 和子</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td>医療事務</td><td>西山 珠恵</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+</table>
+<p style="font-size:8.5pt;margin-top:4px">本人安否：無事 / 負傷 / 不明　　自宅状況：問題なし / 床下浸水 / 床上浸水 / 半壊 / 全壊　　出勤可否：可（●時頃）/ 不可</p>
+
+<!-- =============================== 様式3 =============================== -->
+<h2 id="f3" style="background:#5c6e7a">様式3　業者・行政機関　連絡先リスト</h2>
+<p style="font-size:8.5pt;color:#888;margin-bottom:8px">※ このリストは印刷して医院内の見やすい場所に掲示しておく</p>
+<table>
+  <tr><th>区分</th><th>名称</th><th>電話番号</th><th>担当者・備考</th></tr>
+  <tr><td>電子カルテ</td><td>ユヤマ（保守サポート）</td><td>0120-610-134</td><td>24時間対応</td></tr>
+  <tr><td>電力</td><td>中国電力（停電連絡）</td><td>0120-266-995</td><td>24時間対応</td></tr>
+  <tr><td>ガス</td><td>アストロ興産</td><td>086-444-5252</td><td></td></tr>
+  <tr><td>水道</td><td>倉敷市水道局</td><td>086-426-3111</td><td></td></tr>
+  <tr><td>医師会</td><td>玉島医師会</td><td>0865-22-1234</td><td></td></tr>
+  <tr><td>連携病院</td><td>倉敷中央病院（代表）</td><td>086-422-0210</td><td>重症患者転送先</td></tr>
+  <tr><td>行政</td><td>倉敷市保健所</td><td>086-421-6900</td><td>感染症発生報告</td></tr>
+  <tr><td>行政</td><td>倉敷市役所（玉島支所）</td><td>086-522-8118</td><td>罹災証明・支援物資</td></tr>
+  <tr><td>医療機器</td><td>富士フイルム</td><td>086-222-3121</td><td></td></tr>
+  <tr><td>医療機器</td><td>フクダ電子</td><td>086-476-5544</td><td></td></tr>
+  <tr><td>サイバー相談</td><td>IPA（情報処理推進機構）</td><td>03-5978-7509</td><td>平日10〜17時</td></tr>
+</table>
+
+<!-- =============================== 様式4 =============================== -->
+<h2 id="f4" style="background:#5c6e7a">様式4　改定履歴</h2>
+<table>
+  <tr><th>版</th><th>改定日</th><th>改定内容</th><th>改定者</th></tr>
+  <tr><td>第1.0版</td><td>2026年4月14日</td><td>新規策定</td><td>稲田崇志</td></tr>
+  <tr><td>第1.1版</td><td>2026年6月22日</td><td>参考資料（医師会ひな形）を反映し全面改訂。様式・ライフライン代替措置・院外掲示テンプレート・支援制度を追加</td><td>稲田崇志</td></tr>
+  <tr><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  <tr><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+</table>
+
+</main>
+</div>
+</body>
+</html>
