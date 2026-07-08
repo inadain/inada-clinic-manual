@@ -480,15 +480,6 @@ tr:nth-child(even) td { background: #fafbfc; }
 <div id="t1" class="tab-pane active">
 
   <div class="card">
-    <div class="card-head" style="background:linear-gradient(90deg,#0f766e 0%,#0d9488 100%);"><div class="card-icon">📋</div><div class="card-title">帳票・参考資料</div></div>
-    <div class="card-body" style="display:flex;gap:10px;flex-wrap:wrap;">
-      <a href="../受付受診票.html" target="_blank" style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#f0fdf4;border:1.5px solid #16a34a;border-radius:8px;text-decoration:none;color:#166534;font-size:13px;font-weight:700;">
-        <span style="font-size:18px;">📄</span>受付受診票（印刷・記入用）
-      </a>
-    </div>
-  </div>
-
-  <div class="card">
     <div class="card-head"><div class="card-icon">📋</div><div class="card-title">受付レベル 判定フロー（地域包括診療加算）</div></div>
     <div class="card-body" style="padding:0;overflow:hidden;">
       <iframe src="031_受付レベル_判定フロー.html"
@@ -512,7 +503,7 @@ tr:nth-child(even) td { background: #fafbfc; }
         <li class="tl-item"><div class="tl-num">6</div><div class="tl-body">患者一覧から開き、オンライン資格確認を行う</div></li>
         <li class="tl-item"><div class="tl-num">7</div><div class="tl-body">血圧測定してもらう（紙を受付まで持参してもらう）</div></li>
         <li class="tl-item"><div class="tl-num">8</div><div class="tl-body">
-          <strong>定期受診の方のみ：受付票の「地域包括診療加算チェック」欄を記入する</strong>
+          <strong>定期受診の方のみ：カルテカラーを確認 → 受付票に記入する</strong>
           <div style="margin-top:6px;background:#eff6ff;border:1px solid #93c5fd;border-radius:6px;padding:8px 10px;font-size:13px;line-height:1.7;">
             <div style="font-weight:700;color:#1e3a8a;margin-bottom:4px;">STEP 1 ― レセコン「加算タブ」を開いて確認</div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
@@ -524,7 +515,7 @@ tr:nth-child(even) td { background: #fafbfc; }
             <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:12px;">
               <span style="color:#1e3a8a;font-weight:700;">① 認知症病名</span><span>電子カルテの傷病名欄を確認</span>
               <span style="color:#1e3a8a;font-weight:700;">② 慢性5疾患</span><span>高血圧・脂質異常・糖尿病・慢性心不全・CKD</span>
-              <span style="color:#1e3a8a;font-weight:700;">③ 介護サービス</span><span>問診票または本人申告</span>
+              <span style="color:#1e3a8a;font-weight:700;">③ 介護サービス</span><span>受付カウンターのプラカードを提示し指差しで確認（口頭確認不可）</span>
             </div>
             <div style="margin-top:6px;font-size:12px;color:#475569;font-weight:700;">→ STEP1（算定状況）＋STEP2（確認結果）を受付票に記入して次へ</div>
           </div>
@@ -578,6 +569,27 @@ tr:nth-child(even) td { background: #fafbfc; }
         <li class="tl-item"><div class="tl-num">2</div><div class="tl-body">取れる場合：名前を書いたカップを渡す<br><span style="font-size:12px;color:var(--gray)">「突き当たりの扉を開けて左手の小さい棚に置いてください」</span></div></li>
         <li class="tl-item"><div class="tl-num">3</div><div class="tl-body">血圧測定 → 以降は再診と同じ流れ</div></li>
       </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head" style="background:linear-gradient(90deg,#6d28d9,#9333ea);"><div class="card-icon">🎨</div><div class="card-title">カルテカラーによる担当医確認</div></div>
+    <div class="card-body">
+      <div class="note info"><span class="note-icon">ℹ️</span><div>電子カルテの患者一覧にカラーマーク（●）がついている場合、地域包括加算の担当医が確定しているため、加算チェックの前にまず色を確認する。</div></div>
+      <div style="display:flex;gap:10px;margin:10px 0;flex-wrap:wrap;">
+        <div style="flex:1;min-width:160px;background:#eaf4e5;border:2px solid #7a9a5a;border-radius:8px;padding:10px 12px;">
+          <div style="font-weight:700;font-size:14px;color:#4a7a2a;margin-bottom:4px;"><span style="font-size:18px;color:#6b8f4a;">●</span> くすみ黄緑</div>
+          <div style="font-size:13px;line-height:1.6;color:#1c1c1c;">地域包括加算取得済<br>担当：<strong>院長</strong><br>受診票「院長」に ✓<br>→ 「しばらくお待ちください」</div>
+        </div>
+        <div style="flex:1;min-width:160px;background:#f7ebf4;border:2px solid #9b6b8a;border-radius:8px;padding:10px 12px;">
+          <div style="font-weight:700;font-size:14px;color:#7a4a6a;margin-bottom:4px;"><span style="font-size:18px;color:#8b5a7a;">●</span> くすみ赤紫</div>
+          <div style="font-size:13px;line-height:1.6;color:#1c1c1c;">地域包括加算取得済<br>担当：<strong>崇志医師</strong><br>受診票「崇志医師」に ✓<br>→ 「しばらくお待ちください」</div>
+        </div>
+        <div style="flex:1;min-width:160px;background:#f1f5f9;border:2px solid #94a3b8;border-radius:8px;padding:10px 12px;">
+          <div style="font-weight:700;font-size:14px;color:#475569;margin-bottom:4px;">カラーマーク なし</div>
+          <div style="font-size:13px;line-height:1.6;color:#1c1c1c;">下記の STEP1・STEP2<br>（加算チェック）へ進む</div>
+        </div>
+      </div>
     </div>
   </div>
 
